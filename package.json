@@ -38,6 +38,8 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@auth/core": "^0.10.0",
+		"@auth/sveltekit": "^0.3.6",
 		"@vercel/postgres": "^0.3.1",
 		"vercel": "^31.0.1"
 	}
