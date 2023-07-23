@@ -1,5 +1,6 @@
 CREATE TABLE budget_accounts(
     id INT GENERATED ALWAYS AS IDENTITY,
+    user_id INT NOT NULL,
     name VARCHAR(255) NOT NULL UNIQUE,
    
     PRIMARY KEY(id)
@@ -7,6 +8,7 @@ CREATE TABLE budget_accounts(
 
 CREATE TABLE budget_expenses(
     id INT GENERATED ALWAYS AS IDENTITY,
+    user_id INT NOT NULL,
     name VARCHAR(255) NOT NULL,
     amount NUMERIC(10, 2) NOT NULL,
     frequency INT NOT NULL,
