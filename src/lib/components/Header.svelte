@@ -1,9 +1,6 @@
 <script>
 	import { signOut } from '@auth/sveltekit/client';
 	import { page } from '$app/stores';
-
-	const data = $page;
-	console.dir(data)
 </script>
 
 <header class="flex">
