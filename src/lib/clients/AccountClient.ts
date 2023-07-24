@@ -1,43 +1,57 @@
-import { Account } from "$lib/models/Account";
-import type { QueryResultRow } from "@vercel/postgres";
-import { DatabaseClient } from "$lib/clients/DatabaseClient";
+import { Account } from "$lib/models/Account"
+import type { QueryResultRow } from "@vercel/postgres"
+import { DatabaseClient } from "$lib/clients/DatabaseClient"
 
-export class AccountClient extends DatabaseClient {
+/**
+ * Client for querying accounts in the database.
+ */
+export class AccountClient extends DatabaseClient<Account> {
 
-    private tableName = "budget_accounts"
+    protected override getTableName(): string {
+        return 'budget_accounts'
+    }
 
-    private parse(row: QueryResultRow) {
+    protected override parse(row: QueryResultRow) {
         return new Account(row.id, row.name)
     }
 
-    protected serialize(row: QueryResultRow) {
-        return this.parse(row).serialize()
-    }
-
-    public async listAll() {
-        console.dir(`SELECT * FROM ${this.tableName} WHERE user_id == ${this.userId}`)
-        const result = await this.pool.query(`SELECT * FROM ${this.tableName} WHERE user_id = '${this.userId}'`);
-
-        return result.rows.map((row) => this.serialize(row));
-    }
-
+    /**
+     * Creates an account.
+     * 
+     * @param name name of the account
+     * @returns the newly created account
+     */
     public async create(name: string) {
-        const result = await this.pool.query(`
-            INSERT INTO ${this.tableName}(name,user_id) VALUES($1,$2) RETURNING *`,
-            [name, this.userId]
+        const result = await this.getPool().query(`
+            INSERT INTO ${this.getTableName()} 
+                (name, user_id) 
+            VALUES 
+                ($1, $2) 
+            RETURNING *`,
+            [name, this.getUserId()]
         )
 
         const row = result.rows[0]
         return this.parse(row)
     }
 
-    public async getById(id: number) {
-        const result = await this.pool.sql `SELECT * FROM ${this.tableName} WHERE id == ${id}`;
+    /**
+     * Update an account.
+     * 
+     * @param id the id of the account to update
+     * @param name the new name for the account
+     * @returns the updated account
+     */
+    public async update(id: number, name: string) {
+        const result = await this.getPool().query(`
+            UPDATE ${this.getTableName()} 
+            SET name = $1
+            WHERE id = $2
+            RETURNING *`,
+            [name, id]
+        )
 
-        if (result.rows.length == 0) {
-            return null
-        }
-
-        return result.rows.map((row) => this.parse(row))[0];
+        const row = result.rows[0]
+        return this.parse(row)
     }
 }
