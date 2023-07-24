@@ -6,15 +6,10 @@
 </script>
 
 <h1>Accounts</h1>
+<a href="accounts/0">New account</a>
 
 <ul>
 	{#each accounts as account (account.getId())}
-		<li>{account.getName()}</li>
+		<li>{account.getName()} <a href="accounts/{account.getId()}">Click me</a></li>
 	{/each}
 </ul>
-
-<form method="POST">
-    <label for="name">Name</label>
-    <input name="name" />
-    <button>Create account</button>
-</form>
