@@ -1,5 +1,6 @@
 import { POSTGRES_URL } from "$env/static/private"
 import type { DatabaseRecord } from "$lib/models/DatabaseRecord"
+import { QueryResult } from "$lib/models/QueryResult"
 import { createPool, type QueryResultRow } from "@vercel/postgres"
 
 /**
@@ -60,7 +61,13 @@ export abstract class DatabaseClient<T extends DatabaseRecord> {
      * @returns record with the given id
      */
     public async getById(id: number) {
-        const result = await this.pool.query(`SELECT * FROM ${this.getTableName()} WHERE id = ${id}`)
+        let result
+        try {
+            result = await this.pool.query(`SELECT * FROM ${this.getTableName()} WHERE id = ${id}`)
+        } catch (e) {
+            console.error(e)
+            return null
+        }
 
         if (result.rows.length == 0) {
             return null
@@ -76,8 +83,42 @@ export abstract class DatabaseClient<T extends DatabaseRecord> {
      * @returns all records for the current user
      */
     public async listAll() {
-        const result = await this.pool.query(`SELECT * FROM ${this.getTableName()} WHERE user_id = ${this.userId}`)
+        let result
+        try {
+            result = await this.pool.query(`
+                SELECT * 
+                FROM ${this.getTableName()} 
+                WHERE user_id = ${this.userId}
+                ORDER BY name
+            `)
+        } catch (e) {
+            console.error(e)
+            return []
+        }
 
         return result.rows.map((row) => this.parse(row))
+    }
+
+    /**
+     * Delete a record.
+     * 
+     * @param id id of the record to delete
+     */
+    public async delete(id: number) {
+        try {
+            await this.pool.query(`DELETE FROM ${this.getTableName()} WHERE id = ${id}`)
+        } catch (e) {
+            let error = 'Unknown error'
+            if (e instanceof Error) {
+                if (e.code == 23503) {
+                    error = "This record can not be deleted, as it is used by other records"
+                } else {
+                    error = e.message
+                }
+            }
+            return QueryResult.asErrorResult(error)
+        }
+
+        return QueryResult.asEmptySuccessResult()
     }
 }
