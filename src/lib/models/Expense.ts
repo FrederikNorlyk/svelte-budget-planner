@@ -9,7 +9,7 @@ export class Expense extends DatabaseRecord {
     private accountId: number
     private enabled: boolean
 
-    constructor(id: number, name: string, amount: number, frequency: number, tag: string, 
+    constructor(id: number, name: string, amount: number, frequency: number, tag: string,
         accountId: number, enabled: boolean) {
 
         super(id)
@@ -49,20 +49,25 @@ export class Expense extends DatabaseRecord {
     public serialize() {
         return JSON.stringify({
             id: this.getId(),
-            name: this.getName()
+            name: this.getName(),
+            amount: this.getAmount(),
+            frequency: this.getFrequency(),
+            tag: this.getTag(),
+            accountId: this.getAccountId(),
+            enabled: this.isEnabled()
         })
     }
 
     public static parse(json: string) {
         const parsed = JSON.parse(json)
-        
+
         return new Expense(
-            parsed.id, 
-            parsed.name, 
-            parsed.amount, 
-            parsed.frequency, 
-            parsed.tag, 
-            parsed.accountId, 
+            parsed.id,
+            parsed.name,
+            parsed.amount,
+            parsed.frequency,
+            parsed.tag,
+            parsed.accountId,
             parsed.enabled
         )
     }
