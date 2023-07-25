@@ -5,7 +5,6 @@
 
 <Header />
 
-<main>
+<main class="mx-5 mt-5">
 	<slot />
 </main>	
-

@@ -1,15 +1,22 @@
 <script lang="ts">
+	import Card from '$lib/components/Card.svelte';
 	import { Account } from '$lib/models/Account.js';
 
 	export let data;
-	const accounts = data.accounts.map((u) => Account.parse(u));
+	const accounts = data.accounts.map((a) => Account.parse(a));
+
+	function getTotalAmount(account: Account) {
+		return (
+			data.totalAmounts.find((row) => row.accountId === account.getId())?.totalAmount ?? 0
+		);
+	}
 </script>
 
-<h1>Accounts</h1>
-<a href="accounts/0">New account</a>
+<h1 class="text-xl dark:text-white">Accounts</h1>
+<a class="underline dark:text-white" href="accounts/0/edit">New account</a>
 
-<ul>
+<div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
 	{#each accounts as account (account.getId())}
-		<li>{account.getName()} <a href="accounts/{account.getId()}">Click me</a></li>
+		<Card {account} totalAmount={getTotalAmount(account)} />
 	{/each}
-</ul>
+</div>
