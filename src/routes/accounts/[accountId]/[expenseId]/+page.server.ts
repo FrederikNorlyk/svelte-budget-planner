@@ -26,6 +26,7 @@ export async function load(event) {
     return {
         session: session,
         expense: expense?.serialize(),
+        tags: await client.listAllTags()
     }
 }
 

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import FormButton from '$lib/components/FormButton.svelte';
 	import IconPencilSquare from '$lib/icons/IconPencilSquare.svelte';
 	import { Account } from '$lib/models/Account.js';
 	import { Expense } from '$lib/models/Expense.js';
@@ -45,7 +44,7 @@
 			}}>
 
 				<span>{name}</span>
-				<IconPencilSquare size={6} />
+				<IconPencilSquare cssClass="h-6 w-6" />
 
 		</button>
 	{/if}
@@ -64,5 +63,8 @@
 </div>
 
 <form class="mt-3 flex flex-col" method="post" action="?/delete">
-	<FormButton type="danger" text="Delete" />
+	{#if form?.error}
+		<p>{form.error}</p>
+	{/if}
+	<button class="btn variant-filled">Delete</button>
 </form>

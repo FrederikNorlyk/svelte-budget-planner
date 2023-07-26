@@ -1,11 +1,10 @@
 <script lang="ts">
 	import Icon from './Icon.svelte';
 
-	export let size: number;
 	export let cssClass: string | undefined;
 </script>
 
-<Icon {size} {cssClass}>
+<Icon {cssClass}>
 	<path
 		stroke-linecap="round"
 		stroke-linejoin="round"

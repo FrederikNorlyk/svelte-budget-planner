@@ -4,6 +4,7 @@
 
 	export let data;
 	const accounts = data.accounts.map((a) => Account.parse(a));
+	let isAddingAccount = false
 
 	function getTotalAmount(account: Account) {
 		return (
@@ -13,7 +14,7 @@
 </script>
 
 <h1 class="text-xl dark:text-white">Accounts</h1>
-<a class="underline dark:text-white" href="accounts/0/edit">New account</a>
+<button on:click={() => {isAddingAccount = true}} class="underline dark:text-white">New account</button>
 
 <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
 	{#each accounts as account (account.getId())}

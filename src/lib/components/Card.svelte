@@ -15,5 +15,5 @@ import type { Account } from '$lib/models/Account';
 		<h1 class="text-4xl">{totalAmount} kr,-</h1>
 	</div>
 
-	<IconArrowCircleRight size={8} cssClass="text-slate-300 group-hover:text-slate-400" />
+	<IconArrowCircleRight cssClass="h-8 w-8 text-slate-300 group-hover:text-slate-400" />
 </a>

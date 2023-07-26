@@ -4,7 +4,7 @@
 	export let checked: boolean;
 </script>
 
-<div class="flex flex-col dark:text-white">
-	<label for="{name}">{label}</label>
-	<input name="{name}" type="checkbox" {checked} />
-</div>
+<label class="flex items-center space-x-2">
+	<input {name} class="checkbox" type="checkbox" {checked} />
+	<p>{label}</p>
+</label>

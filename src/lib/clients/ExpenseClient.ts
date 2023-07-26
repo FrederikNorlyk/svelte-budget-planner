@@ -2,6 +2,7 @@ import type { QueryResultRow } from "@vercel/postgres";
 import { DatabaseClient } from "$lib/clients/DatabaseClient";
 import { Expense } from "$lib/models/Expense";
 import type { Account } from "$lib/models/Account";
+import { QueryResult } from "$lib/models/QueryResult";
 
 /**
  * Client for querying expenses in the database.
@@ -112,5 +113,28 @@ export class ExpenseClient extends DatabaseClient<Expense> {
         }
 
         return result.rows.map((row) => this.parse(row))
+    }
+
+    /**
+     * List all used tags.
+     * 
+     * @returns a unique list of used tags
+     */
+    public async listAllTags() {
+        let result
+        try {
+            result = await this.getPool().query(`
+                SELECT tag 
+                FROM ${this.getTableName()} 
+                WHERE user_id = ${this.getUserId()}
+                GROUP BY tag
+                ORDER BY tag
+            `)
+        } catch (e) {
+            console.error(e)
+            return []
+        }
+
+        return result.rows.map((row) => row.tag as string)
     }
 }

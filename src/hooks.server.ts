@@ -8,14 +8,10 @@ type HandleParams = Parameters<Handle>[0];
 
 async function authorization({ event, resolve }: HandleParams) {
   const session = await event.locals.getSession();
-  const isLoggedIn = session;
+  const isLoggedIn = !!session;
 
-  if (event.url.pathname.startsWith("/auth") && isLoggedIn) {
-    throw redirect(303, "/");
-  }
-
-  if (!event.url.pathname.startsWith("/auth") && !isLoggedIn) {
-    throw redirect(303, "/auth");
+  if (!isLoggedIn) {
+    throw redirect(303, "/auth/signin");
   }
 
   return resolve(event);

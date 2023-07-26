@@ -1,10 +1,44 @@
 <script>
-	import Header from '$lib/components/Header.svelte';
-	import '../app.css';
+	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
+	import '@skeletonlabs/skeleton/styles/skeleton.css';
+	import '../app.postcss';
+
+	import { page } from '$app/stores';
+	import { AppShell, AppBar, LightSwitch } from '@skeletonlabs/skeleton';
+	import { signOut } from '@auth/sveltekit/client';
+	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
+	import { storePopup } from '@skeletonlabs/skeleton';
+
+	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 </script>
 
-<Header />
+<AppShell>
+	<svelte:fragment slot="header">
+		<AppBar>
+			<svelte:fragment slot="lead">
+				<strong class="text-xl uppercase">Skeleton</strong>
+			</svelte:fragment>
+			<svelte:fragment slot="trail">
+				<a class="btn btn-sm variant-ghost-surface" href="/" rel="noreferrer"> Home </a>
+				<a class="btn btn-sm variant-ghost-surface" href="/accounts" rel="noreferrer"> Accounts </a>
 
-<main class="mx-5 mt-5">
-	<slot />
-</main>	
+				<button on:click={() => signOut()} class="btn btn-sm variant-ghost-surface">Sign out</button
+				>
+				<LightSwitch />
+				{#if $page.data.session?.user?.image}
+					<img
+						class="flex-none"
+						src={$page.data.session?.user?.image}
+						alt={$page.data.session?.user?.name}
+						width="64px"
+						height="64px"
+					/>
+				{/if}
+			</svelte:fragment>
+		</AppBar>
+	</svelte:fragment>
+
+	<div class="m-5 sm:m-16">
+		<slot />
+	</div>
+</AppShell>

@@ -4,7 +4,7 @@
 	export let value: any | undefined;
 </script>
 
-<div class="flex flex-col dark:text-white">
-	<label for="{name}">{label}</label>
-	<input name="{name}" value={value || ''} required={true} />
-</div>
+<label class="label">
+	<span>{label}</span>
+	<input {name} class="input bg-secondary-50" type="text" value={value ?? ''} />
+</label>

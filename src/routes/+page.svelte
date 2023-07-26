@@ -1,2 +1,1 @@
 <p>Main page</p>
-
