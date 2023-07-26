@@ -14,10 +14,11 @@
 		"preinstall": "npx only-allow pnpm"
 	},
 	"devDependencies": {
+		"@skeletonlabs/skeleton": "^1.10.0",
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/adapter-vercel": "^3.0.2",
 		"@sveltejs/kit": "^1.5.0",
-		"@tailwindcss/forms": "^0.5.3",
+		"@tailwindcss/forms": "^0.5.4",
 		"@typescript-eslint/eslint-plugin": "^5.60.0",
 		"@typescript-eslint/parser": "^5.60.0",
 		"autoprefixer": "^10.4.14",
@@ -40,6 +41,7 @@
 	"dependencies": {
 		"@auth/core": "^0.10.0",
 		"@auth/sveltekit": "^0.3.6",
+		"@floating-ui/dom": "^1.4.5",
 		"@vercel/postgres": "^0.3.1",
 		"vercel": "^31.0.1"
 	}

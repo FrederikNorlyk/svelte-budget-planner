@@ -4,6 +4,7 @@ Simple budget planning application, built using SvelteKit.
 ### Technologies
 - SvelteKit
 - Auth.Js (OAuth 2.0)
+- Skeleton UI
 - Tailwind CSS
 
 ### What can it do?
