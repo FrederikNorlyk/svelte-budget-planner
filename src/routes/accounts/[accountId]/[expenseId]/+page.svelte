@@ -1,18 +1,18 @@
 <script lang="ts">
-	import Checkbox from '$lib/components/Checkbox.svelte';
-	import SelectField from '$lib/components/SelectField.svelte';
 	import TextField from '$lib/components/TextField.svelte';
 	import { Expense } from '$lib/models/Expense.js';
-	import type { AutocompleteOption } from '@skeletonlabs/skeleton';
+	import { SlideToggle, type AutocompleteOption } from '@skeletonlabs/skeleton';
+	import AutoCompletingTextField from '$lib/components/AutoCompletingTextField.svelte';
+	import PaymentDatePicker from '$lib/components/PaymentDatePicker.svelte';
 
 	export let form;
 	export let data;
 	const expense = data.expense != null ? Expense.parse(data.expense) : null;
-
-	let tagOptions: AutocompleteOption[] = []
-	data.tags.forEach(tag => {
-		tagOptions.push({ label: tag, value: tag })
-	})
+	
+	let tagOptions: AutocompleteOption[] = [];
+	data.tags.forEach((tag) => {
+		tagOptions.push({ label: tag, value: tag });
+	});
 </script>
 
 {#if form?.error}
@@ -24,14 +24,24 @@
 		<TextField name="name" label="Name" value={expense?.getName()} />
 		<TextField name="amount" label="Amount" value={expense?.getAmount()} />
 		<TextField name="frequency" label="Frequency" value={expense?.getFrequency()} />
-		<SelectField name="tag" label="Tag" value={expense?.getTag()} options={tagOptions} />
-		<Checkbox name="isEnabled" label="Is enabled" checked={expense?.isEnabled() ?? true} />
 
-		<button class="btn variant-filled bg-primary-500">Save</button>
-		<a href="." class="btn variant-filled">Back</a>
+		<PaymentDatePicker dayOfMonth={1} />
 
-		{#if expense != null}
-			<button class="btn variant-filled" formaction="?/delete">Delete</button>
-		{/if}
+		<AutoCompletingTextField
+			name="tag"
+			label="Tag"
+			value={expense?.getTag()}
+			options={tagOptions}
+		/>
+
+		<SlideToggle name="isEnabled" active="bg-primary-500" checked={expense?.isEnabled() ?? true}>Is enabled</SlideToggle>
+
+		<div class="flex">
+			<button class="btn variant-filled basis-1/4 bg-primary-500">Save</button>
+
+			{#if expense != null}
+				<button class="btn variant-filled basis-1/4" formaction="?/delete">Delete expense</button>
+			{/if}
+		</div>
 	</form>
 </div>

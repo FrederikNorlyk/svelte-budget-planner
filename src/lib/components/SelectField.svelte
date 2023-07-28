@@ -1,39 +1,19 @@
-<script lang="ts">
-	import type { AutocompleteOption } from '@skeletonlabs/skeleton';
-	import { Autocomplete, popup } from '@skeletonlabs/skeleton';
+<script lang="ts" generics="T extends Object">
+	import type { SelectOption } from "./types/SelectOption";
 
-	export let name: string;
-	export let label: string;
-	export let value: string | undefined;
-	export let options: AutocompleteOption[];
+    export let name: string
+    export let label: string
+    export let value: T | undefined = undefined
+    export let required: boolean | undefined = undefined
+    export let options: SelectOption<T>[]
 </script>
 
 <label class="label">
 	<span>{label}</span>
-	<input
-		class="autocomplete input bg-secondary-50"
-		type="search"
-		{name}
-		bind:value
-        autocomplete="off"
-		use:popup={{
-			event: 'focus-click',
-			target: 'popupAutocomplete',
-			placement: 'bottom'
-		}}
-	/>
+    
+	<select {name} class="input bg-secondary-50" size="1" value={value} {required}>
+        {#each options as option (option.value)}
+            <option value={option.value}>{option.text}</option>
+        {/each}
+    </select>
 </label>
-
-<div
-	data-popup="popupAutocomplete"
-	class="card max-h-48 w-full max-w-sm overflow-y-auto p-2 py-3"
-	tabindex="-1"
->
-	<Autocomplete
-		bind:input={value}
-		{options}
-		on:selection={(e) => {
-			value = e.detail.label;
-		}}
-	/>
-</div>
