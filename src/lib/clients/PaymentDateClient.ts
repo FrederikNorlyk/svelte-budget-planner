@@ -1,0 +1,73 @@
+import type { QueryResultRow } from "@vercel/postgres";
+import { DatabaseClient } from "$lib/clients/DatabaseClient";
+import { PaymentDate } from "$lib/models/PaymentDate";
+import type { Expense } from "$lib/models/Expense";
+
+/**
+ * Client for querying payment dates in the database.
+ */
+export class PaymentDateClient extends DatabaseClient<PaymentDate> {
+
+    public static TABLE_NAME = 'budget_payment_dates'
+
+    protected override getTableName(): string {
+        return PaymentDateClient.TABLE_NAME
+    }
+
+    protected override parse(row: QueryResultRow) {
+        return new PaymentDate(row.id, row.expense_id, row.day_of_month, row.month)
+    }
+
+    /**
+     * Create a new payment date.
+     * 
+     * @param paymentDate the payment date to create
+     * @returns the newly created payment date
+     */
+    public async create(paymentDate: PaymentDate) {
+        let result
+
+        try {
+            result = await this.getPool().query(`
+                INSERT INTO ${this.getTableName()} 
+                    (expense_id, day_of_month, month) 
+                VALUES 
+                    ($1, $2, $3) 
+                RETURNING *`,
+                [
+                    paymentDate.getExpenseId(),
+                    paymentDate.getDayOfMonth(),
+                    paymentDate.getMonth()
+                ]
+            )
+        } catch (e) {
+            console.error(e)
+            return null
+        }
+
+        const row = result.rows[0]
+        return this.parse(row)
+    }
+
+    /**
+    * List all payment dates belonging to the given expense.
+    * 
+    * @returns all payment dates for the given expense
+    */
+    public async listBelongingTo(expense: Expense) {
+        let result
+        try {
+            result = await this.getPool().query(`
+                SELECT * 
+                FROM ${this.getTableName()} 
+                WHERE expense_id = ${expense.getId()}
+                ORDER BY month
+            `)
+        } catch (e) {
+            console.error(e)
+            return []
+        }
+
+        return result.rows.map((row) => this.parse(row))
+    }
+}

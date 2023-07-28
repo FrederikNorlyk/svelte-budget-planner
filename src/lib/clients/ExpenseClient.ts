@@ -2,7 +2,6 @@ import type { QueryResultRow } from "@vercel/postgres";
 import { DatabaseClient } from "$lib/clients/DatabaseClient";
 import { Expense } from "$lib/models/Expense";
 import type { Account } from "$lib/models/Account";
-import { QueryResult } from "$lib/models/QueryResult";
 
 /**
  * Client for querying expenses in the database.
