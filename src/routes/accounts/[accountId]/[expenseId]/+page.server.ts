@@ -1,5 +1,7 @@
 import { ExpenseClient } from '$lib/clients/ExpenseClient'
+import { PaymentDateClient } from '$lib/clients/PaymentDateClient.js';
 import { Expense } from '$lib/models/Expense.js';
+import type { PaymentDate } from '$lib/models/PaymentDate.js';
 import { redirect } from '@sveltejs/kit';
 
 export async function load(event) {
@@ -9,24 +11,31 @@ export async function load(event) {
         throw redirect(303, "/");
     }
 
-    const client = new ExpenseClient(session.user.id)
+    const expenseClient = new ExpenseClient(session.user.id)
     const id = +event.params.expenseId
 
     let expense
     if (id == 0) {
         expense = null
     } else {
-        expense = await client.getById(id)
+        expense = await expenseClient.getById(id)
 
         if (expense == null) {
             throw redirect(303, "/accounts/" + event.params.accountId)
         }
     }
 
+    const paymentDateClient = new PaymentDateClient(session.user.id)
+    let paymentDates: PaymentDate[] = []
+    if (expense != null) {
+        paymentDates = await paymentDateClient.listBelongingTo(expense);
+    }
+
     return {
         session: session,
         expense: expense?.serialize(),
-        tags: await client.listAllTags()
+        tags: await expenseClient.listAllTags(),
+        paymentDates: paymentDates.map((d) => d.serialize())
     }
 }
 

@@ -4,11 +4,13 @@
 	import { SlideToggle, type AutocompleteOption } from '@skeletonlabs/skeleton';
 	import AutoCompletingTextField from '$lib/components/AutoCompletingTextField.svelte';
 	import PaymentDatePicker from '$lib/components/PaymentDatePicker.svelte';
+	import { PaymentDate } from '$lib/models/PaymentDate.js';
 
 	export let form;
 	export let data;
 	const expense = data.expense != null ? Expense.parse(data.expense) : null;
-	
+	const paymentDates = data.paymentDates.map((d) => PaymentDate.parse(d))
+
 	let tagOptions: AutocompleteOption[] = [];
 	data.tags.forEach((tag) => {
 		tagOptions.push({ label: tag, value: tag });
@@ -25,7 +27,7 @@
 		<TextField name="amount" label="Amount" value={expense?.getAmount()} />
 		<TextField name="frequency" label="Frequency" value={expense?.getFrequency()} />
 
-		<PaymentDatePicker dayOfMonth={1} />
+		<PaymentDatePicker {paymentDates} />
 
 		<AutoCompletingTextField
 			name="tag"
