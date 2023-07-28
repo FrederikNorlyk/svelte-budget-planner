@@ -4,7 +4,7 @@
 	import '../app.postcss';
 
 	import { page } from '$app/stores';
-	import { AppShell, AppBar, LightSwitch } from '@skeletonlabs/skeleton';
+	import { AppShell, AppBar, LightSwitch, Avatar } from '@skeletonlabs/skeleton';
 	import { signOut } from '@auth/sveltekit/client';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
@@ -14,7 +14,7 @@
 
 <AppShell>
 	<svelte:fragment slot="header">
-		<AppBar>
+		<AppBar shadow="shadow-md">
 			<svelte:fragment slot="lead">
 				<strong class="text-xl uppercase">Skeleton</strong>
 			</svelte:fragment>
@@ -26,13 +26,7 @@
 				>
 				<LightSwitch />
 				{#if $page.data.session?.user?.image}
-					<img
-						class="flex-none"
-						src={$page.data.session?.user?.image}
-						alt={$page.data.session?.user?.name}
-						width="64px"
-						height="64px"
-					/>
+					<Avatar src={$page.data.session.user.image} width="w-12" rounded="rounded-full" />
 				{/if}
 			</svelte:fragment>
 		</AppBar>

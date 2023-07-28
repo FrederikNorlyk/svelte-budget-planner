@@ -7,7 +7,7 @@ import type { Account } from '$lib/models/Account';
 </script>
 
 <a
-	class="group flex rounded-md border bg-white p-10 hover:border-slate-300"
+	class="card group flex rounded-md bg-white p-10"
 	href="/accounts/{account.getId()}"
 >
 	<div class="grow">
