@@ -34,4 +34,5 @@ CREATE TABLE budget_payment_dates(
     CONSTRAINT fk_expense
         FOREIGN KEY(expense_id) 
             REFERENCES budget_expenses(id)
+                ON DELETE CASCADE
 );

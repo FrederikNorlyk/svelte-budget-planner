@@ -5,6 +5,7 @@
 	export let name: string;
 	export let label: string;
 	export let value: string | undefined;
+	export let required = false
 	export let options: AutocompleteOption[];
 </script>
 
@@ -15,6 +16,7 @@
 		type="search"
 		{name}
 		bind:value
+		{required}
         autocomplete="off"
 		use:popup={{
 			event: 'focus-click',
