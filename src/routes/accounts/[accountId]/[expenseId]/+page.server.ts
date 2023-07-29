@@ -87,7 +87,7 @@ export const actions = {
             const month = +months[i];
 
             const paymentDate = new PaymentDate(0, newExpense.getId(), dayOfMonth, month)
-            paymentDateClient.create(paymentDate)
+            await paymentDateClient.create(paymentDate)
         }
 
         throw redirect(303, "/accounts/" + params.accountId)

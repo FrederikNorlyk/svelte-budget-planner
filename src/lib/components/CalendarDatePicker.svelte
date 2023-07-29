@@ -2,10 +2,12 @@
 	import SelectField from '$lib/components/SelectField.svelte';
 	import type { SelectOption } from '$lib/components/types/SelectOption';
 	import IconXMark from '$lib/icons/IconXMark.svelte';
+	import type { PaymentDate } from '$lib/models/PaymentDate';
 
-	export let dayOfMonth: number;
-	export let month: number | undefined = undefined;
-	export let canDelete: boolean
+	export let paymentDate: PaymentDate;
+	export let canDelete: boolean;
+	export let onInputRemoved: (paymentDate: PaymentDate) => void;
+	let self: HTMLDivElement;
 
 	const daysOfMonth: SelectOption<Number>[] = [];
 	for (let i = 1; i <= 31; i++) {
@@ -65,12 +67,17 @@
 			text: 'December'
 		}
 	];
+
+	function removeSelf() {
+		self.parentNode?.removeChild(self);
+		onInputRemoved(paymentDate);
+	}
 </script>
 
-<div class="flex space-x-3">
+<div bind:this={self} class="flex space-x-3">
 	<span class="grow">
 		<SelectField
-			value={dayOfMonth}
+			value={paymentDate.getDayOfMonth()}
 			name="dayOfMonth"
 			label="Day"
 			required={true}
@@ -78,11 +85,17 @@
 		/>
 	</span>
 	<span class="grow">
-		<SelectField value={month} name="month" label="Month" required={true} options={months} />
+		<SelectField
+			value={paymentDate.getMonth()}
+			name="month"
+			label="Month"
+			required={true}
+			options={months}
+		/>
 	</span>
 	{#if canDelete}
 		<div>
-			<button type="button" class="btn-icon variant-filled mt-6 bg-error-600">
+			<button on:click={removeSelf} type="button" class="btn-icon variant-filled mt-6 bg-error-600">
 				<IconXMark cssClass="w-8 h-8" />
 			</button>
 		</div>
