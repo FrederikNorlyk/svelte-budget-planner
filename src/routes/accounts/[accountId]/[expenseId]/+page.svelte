@@ -65,6 +65,7 @@
 	<div class="card space-y-2 bg-white p-4">
 		<PaymentDatePicker {paymentDates} />
 	</div>
+	
 	<div class="flex space-x-2 p-4">
 		<button class="btn variant-filled basis-1/4 bg-primary-500">Save</button>
 

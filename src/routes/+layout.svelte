@@ -19,7 +19,7 @@
 	<svelte:fragment slot="header">
 		<AppBar shadow="shadow-md">
 			<svelte:fragment slot="lead">
-				<strong class="text-xl uppercase">Skeleton</strong>
+				<strong class="ml-5 text-xl sm:ml-16">Budget planner</strong>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<a class="btn btn-sm variant-ghost-surface" href="/" rel="noreferrer"> Home </a>
