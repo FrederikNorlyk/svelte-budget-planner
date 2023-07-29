@@ -6,15 +6,15 @@
 	import PaymentDatePicker from '$lib/components/PaymentDatePicker.svelte';
 	import { PaymentDate } from '$lib/models/PaymentDate.js';
 
-	export let form;
-	export let data;
-	const expense = data.expense != null ? Expense.parse(data.expense) : null;
+	export let form
+	export let data
+	const expense = data.expense != null ? Expense.parse(data.expense) : null
 	const paymentDates = data.paymentDates.map((d) => PaymentDate.parse(d))
 
 	let tagOptions: AutocompleteOption[] = [];
 	data.tags.forEach((tag) => {
 		tagOptions.push({ label: tag, value: tag });
-	});
+	})
 </script>
 
 {#if form?.error}

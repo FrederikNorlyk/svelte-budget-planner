@@ -54,7 +54,7 @@ export class PaymentDateClient extends DatabaseClient<PaymentDate> {
     * 
     * @returns all payment dates for the given expense
     */
-    public async listBelongingTo(expense: Expense) {
+    public async listAllBelongingTo(expense: Expense) {
         let result
         try {
             result = await this.getPool().query(`
@@ -69,5 +69,21 @@ export class PaymentDateClient extends DatabaseClient<PaymentDate> {
         }
 
         return result.rows.map((row) => this.parse(row))
+    }
+
+    /**
+     * Delete all payment dates belonging to the given expense
+     * 
+     * @param expense the expense to remove payment dates for
+     */
+    public async deleteAllBelongingTo(expense: Expense) {
+        try {
+            await this.getPool().query(`
+                DELETE FROM ${this.getTableName()} 
+                WHERE expense_id = ${expense.getId()}
+            `)
+        } catch (e) {
+            console.log(e)
+        }
     }
 }

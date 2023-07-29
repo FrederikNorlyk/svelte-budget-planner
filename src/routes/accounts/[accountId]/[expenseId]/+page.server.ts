@@ -1,7 +1,7 @@
 import { ExpenseClient } from '$lib/clients/ExpenseClient'
 import { PaymentDateClient } from '$lib/clients/PaymentDateClient.js';
 import { Expense } from '$lib/models/Expense.js';
-import type { PaymentDate } from '$lib/models/PaymentDate.js';
+import { PaymentDate } from '$lib/models/PaymentDate.js';
 import { redirect } from '@sveltejs/kit';
 
 export async function load(event) {
@@ -28,7 +28,7 @@ export async function load(event) {
     const paymentDateClient = new PaymentDateClient(session.user.id)
     let paymentDates: PaymentDate[] = []
     if (expense != null) {
-        paymentDates = await paymentDateClient.listBelongingTo(expense);
+        paymentDates = await paymentDateClient.listAllBelongingTo(expense);
     }
 
     return {
@@ -47,11 +47,15 @@ export const actions = {
         const frequency = +(data.get('frequency')?.toString() || '')
         const tag = data.get('tag')?.toString()
         const isEnabled = !!data.get('isEnabled')
-        
-        if (name == null || amount == 0 || frequency < 1 || frequency > 12 || tag == null) {
+        const daysOfMonth = data.getAll('dayOfMonth')
+        const months = data.getAll('month')
+
+        if (name == null || amount == 0 || frequency < 1 || frequency > 12 || tag == null || daysOfMonth.length == 0 
+            || months.length == 0) {
+
             return { error: 'Invalid data' }
         }
-        
+
         const id = +params.expenseId
         const accountId = +params.accountId
 
@@ -61,13 +65,29 @@ export const actions = {
             throw redirect(303, "/")
         }
 
-        const client = new ExpenseClient(session.user.id)
+        const expenseClient = new ExpenseClient(session.user.id)
         const expense = new Expense(id, name, amount, frequency, tag, accountId, isEnabled)
 
+        let newExpense
         if (id == 0) {
-            client.create(expense)
+            newExpense = await expenseClient.create(expense)
         } else {
-            client.update(expense)
+            newExpense = await expenseClient.update(expense)
+        }
+        
+        if (newExpense == null) {
+            return { error: 'Could not create expense'}
+        }
+
+        const paymentDateClient = new PaymentDateClient(session.user.id)
+        paymentDateClient.deleteAllBelongingTo(expense)
+
+        for (let i = 0; i < daysOfMonth.length; i++) {
+            const dayOfMonth = +daysOfMonth[i];
+            const month = +months[i];
+
+            const paymentDate = new PaymentDate(0, newExpense.getId(), dayOfMonth, month)
+            paymentDateClient.create(paymentDate)
         }
 
         throw redirect(303, "/accounts/" + params.accountId)

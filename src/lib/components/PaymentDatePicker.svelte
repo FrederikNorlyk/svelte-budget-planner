@@ -7,6 +7,7 @@
 
 {#if paymentDates.length == 0}
 	<CalendarDatePicker dayOfMonth={1} canDelete={false} />
+	<CalendarDatePicker dayOfMonth={2} canDelete={false} />
 {:else}
 	{#each paymentDates as paymentDate (paymentDate.getId())}
 		<CalendarDatePicker dayOfMonth={paymentDate.getDayOfMonth()} month={paymentDate.getMonth()} canDelete={true} />

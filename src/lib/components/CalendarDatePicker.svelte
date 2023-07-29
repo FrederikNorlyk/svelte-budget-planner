@@ -71,14 +71,14 @@
 	<span class="grow">
 		<SelectField
 			value={dayOfMonth}
-			name="dayOfMonth[]"
+			name="dayOfMonth"
 			label="Day"
 			required={true}
 			options={daysOfMonth}
 		/>
 	</span>
 	<span class="grow">
-		<SelectField value={month} name="month[]" label="Month" required={true} options={months} />
+		<SelectField value={month} name="month" label="Month" required={true} options={months} />
 	</span>
 	{#if canDelete}
 		<div>
