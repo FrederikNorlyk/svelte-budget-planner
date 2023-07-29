@@ -4,13 +4,15 @@
 	import '../app.postcss';
 
 	import { page } from '$app/stores';
-	import { AppShell, AppBar, LightSwitch, Avatar } from '@skeletonlabs/skeleton';
+	import { AppShell, AppBar, LightSwitch, Avatar, Toast } from '@skeletonlabs/skeleton';
 	import { signOut } from '@auth/sveltekit/client';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 </script>
+
+<Toast />
 
 <AppShell>
 	<svelte:fragment slot="header">

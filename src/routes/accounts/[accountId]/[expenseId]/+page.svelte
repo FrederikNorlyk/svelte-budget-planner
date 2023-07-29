@@ -5,6 +5,7 @@
 	import AutoCompletingTextField from '$lib/components/AutoCompletingTextField.svelte';
 	import PaymentDatePicker from '$lib/components/PaymentDatePicker.svelte';
 	import { PaymentDate } from '$lib/models/PaymentDate.js';
+	import { toastStore } from '@skeletonlabs/skeleton';
 
 	export let form;
 	export let data;
@@ -15,11 +16,14 @@
 	data.tags.forEach((tag) => {
 		tagOptions.push({ label: tag, value: tag });
 	});
-</script>
 
-{#if form?.error}
-	<p class="bg-red-200">Error: {form.error}</p>
-{/if}
+	if (form?.error) {
+		toastStore.trigger({
+			message: form.error,
+			background: 'variant-filled-error',
+		});
+	}
+</script>
 
 <form class="card space-y-2 bg-white p-4" method="post" action="?/save">
 	<TextField name="name" label="Name" required={true} value={expense?.getName()} />
