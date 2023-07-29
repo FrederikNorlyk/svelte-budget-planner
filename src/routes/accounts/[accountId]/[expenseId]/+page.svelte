@@ -1,11 +1,17 @@
 <script lang="ts">
 	import TextField from '$lib/components/TextField.svelte';
 	import { Expense } from '$lib/models/Expense.js';
-	import { SlideToggle, type AutocompleteOption } from '@skeletonlabs/skeleton';
+	import {
+		SlideToggle,
+		type AutocompleteOption,
+		type ModalComponent,
+		type ModalSettings
+	} from '@skeletonlabs/skeleton';
 	import AutoCompletingTextField from '$lib/components/AutoCompletingTextField.svelte';
 	import PaymentDatePicker from '$lib/components/PaymentDatePicker.svelte';
 	import { PaymentDate } from '$lib/models/PaymentDate.js';
-	import { toastStore } from '@skeletonlabs/skeleton';
+	import { toastStore, modalStore } from '@skeletonlabs/skeleton';
+	import DeleteModal from '$lib/components/DeleteModal.svelte';
 
 	export let form;
 	export let data;
@@ -20,8 +26,20 @@
 	if (form?.error) {
 		toastStore.trigger({
 			message: form.error,
-			background: 'variant-filled-error',
+			background: 'variant-filled-error'
 		});
+	}
+
+	function showDeleteModal(): void {
+		const component: ModalComponent = { ref: DeleteModal };
+		const modal: ModalSettings = {
+			type: 'component',
+			component: component,
+			title: 'Delete expense',
+			body: `You are about to delete an expense.`,
+			buttonTextSubmit: 'Delete expense'
+		};
+		modalStore.trigger(modal);
 	}
 </script>
 
@@ -32,7 +50,13 @@
 
 	<PaymentDatePicker {paymentDates} />
 
-	<AutoCompletingTextField name="tag" label="Tag" required={true} value={expense?.getTag()} options={tagOptions} />
+	<AutoCompletingTextField
+		name="tag"
+		label="Tag"
+		required={true}
+		value={expense?.getTag()}
+		options={tagOptions}
+	/>
 
 	<SlideToggle name="isEnabled" active="bg-primary-500" checked={expense?.isEnabled() ?? true}
 		>Is enabled</SlideToggle
@@ -42,7 +66,11 @@
 		<button class="btn variant-filled basis-1/4 bg-primary-500">Save</button>
 
 		{#if expense != null}
-			<button formnovalidate={true} class="btn variant-filled basis-1/4" formaction="?/delete">Delete expense</button>
+			<button
+				formnovalidate={true}
+				class="btn variant-filled basis-1/4"
+				on:click|preventDefault={showDeleteModal}>Delete</button
+			>
 		{/if}
 	</div>
 </form>
