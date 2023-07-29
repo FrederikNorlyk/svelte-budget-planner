@@ -2,13 +2,14 @@ import type { QueryResultRow } from "@vercel/postgres";
 import { DatabaseClient } from "$lib/clients/DatabaseClient";
 import { Expense } from "$lib/models/Expense";
 import type { Account } from "$lib/models/Account";
+import { DB_TABLE_PREFIX } from "$env/static/private"
 
 /**
  * Client for querying expenses in the database.
  */
 export class ExpenseClient extends DatabaseClient<Expense> {
 
-    public static TABLE_NAME = 'budget_expenses'
+    public static TABLE_NAME = DB_TABLE_PREFIX + 'expenses'
 
     protected override getTableName(): string {
         return ExpenseClient.TABLE_NAME

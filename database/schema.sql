@@ -1,4 +1,4 @@
-CREATE TABLE budget_accounts(
+CREATE TABLE accounts(
     id INT GENERATED ALWAYS AS IDENTITY,
     user_id INT NOT NULL,
     name VARCHAR(255) NOT NULL UNIQUE,
@@ -6,7 +6,7 @@ CREATE TABLE budget_accounts(
     PRIMARY KEY(id)
 );
 
-CREATE TABLE budget_expenses(
+CREATE TABLE expenses(
     id INT GENERATED ALWAYS AS IDENTITY,
     user_id INT NOT NULL,
     name VARCHAR(255) NOT NULL,
@@ -20,10 +20,10 @@ CREATE TABLE budget_expenses(
     
     CONSTRAINT fk_account
         FOREIGN KEY(account_id) 
-            REFERENCES budget_accounts(id)
+            REFERENCES accounts(id)
 );
 
-CREATE TABLE budget_payment_dates(
+CREATE TABLE payment_dates(
     id INT GENERATED ALWAYS AS IDENTITY,
     expense_id INT NOT NULL,
     day_of_month INT NOT NULL,
@@ -33,6 +33,6 @@ CREATE TABLE budget_payment_dates(
 
     CONSTRAINT fk_expense
         FOREIGN KEY(expense_id) 
-            REFERENCES budget_expenses(id)
+            REFERENCES expenses(id)
                 ON DELETE CASCADE
 );

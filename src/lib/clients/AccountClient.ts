@@ -2,6 +2,7 @@ import { Account } from "$lib/models/Account"
 import type { QueryResultRow } from "@vercel/postgres"
 import { DatabaseClient } from "$lib/clients/DatabaseClient"
 import { ExpenseClient } from "./ExpenseClient"
+import { DB_TABLE_PREFIX } from "$env/static/private"
 
 interface TotalAmountResult {
     accountId: number,
@@ -13,7 +14,7 @@ interface TotalAmountResult {
  */
 export class AccountClient extends DatabaseClient<Account> {
 
-    public static TABLE_NAME = 'budget_accounts'
+    public static TABLE_NAME = DB_TABLE_PREFIX + 'accounts'
 
     protected override getTableName(): string {
         return AccountClient.TABLE_NAME
@@ -39,7 +40,7 @@ export class AccountClient extends DatabaseClient<Account> {
                     ($1, $2) 
                 RETURNING *`,
                 [
-                    name, 
+                    name,
                     this.getUserId()
                 ]
             )

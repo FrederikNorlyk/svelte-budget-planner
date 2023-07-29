@@ -2,13 +2,14 @@ import type { QueryResultRow } from "@vercel/postgres";
 import { DatabaseClient } from "$lib/clients/DatabaseClient";
 import { PaymentDate } from "$lib/models/PaymentDate";
 import type { Expense } from "$lib/models/Expense";
+import { DB_TABLE_PREFIX } from "$env/static/private"
 
 /**
  * Client for querying payment dates in the database.
  */
 export class PaymentDateClient extends DatabaseClient<PaymentDate> {
 
-    public static TABLE_NAME = 'budget_payment_dates'
+    public static TABLE_NAME = DB_TABLE_PREFIX + 'payment_dates'
 
     protected override getTableName(): string {
         return PaymentDateClient.TABLE_NAME
