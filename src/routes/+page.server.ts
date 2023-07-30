@@ -1,8 +1,6 @@
+import { redirect } from "@sveltejs/kit"
 import type { PageServerLoad } from "./$types"
 
 export const load: PageServerLoad = async (event) => {
-
-    return {
-        session: await event.locals.getSession()
-    }
+    throw redirect(303, '/accounts')
 }
