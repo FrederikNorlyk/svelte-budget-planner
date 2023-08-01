@@ -25,6 +25,7 @@ CREATE TABLE expenses(
 
 CREATE TABLE payment_dates(
     id INT GENERATED ALWAYS AS IDENTITY,
+    user_id INT NOT NULL,
     expense_id INT NOT NULL,
     day_of_month INT NOT NULL,
     month INT NOT NULL,
