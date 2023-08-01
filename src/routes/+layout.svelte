@@ -2,8 +2,12 @@
 	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
 	import '@skeletonlabs/skeleton/styles/skeleton.css';
 	import '../app.postcss';
-
+	import { i18n, locale, locales } from "$lib/localization/i18n";
 	import { page } from '$app/stores';
+	import { signOut } from '@auth/sveltekit/client';
+	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
+	import { storePopup } from '@skeletonlabs/skeleton';
+
 	import {
 		AppShell,
 		AppBar,
@@ -14,9 +18,6 @@
 		type PopupSettings,
 		popup
 	} from '@skeletonlabs/skeleton';
-	import { signOut } from '@auth/sveltekit/client';
-	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
-	import { storePopup } from '@skeletonlabs/skeleton';
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
@@ -51,19 +52,33 @@
 				<a
 					class="btn btn-sm variant-ghost-surface hidden sm:block"
 					href="/accounts"
-					rel="noreferrer">Home</a
+					rel="noreferrer">{$i18n('accounts.title')}</a
+				>
+				<a class="btn btn-sm variant-ghost-surface hidden sm:block" href="/amounts" rel="noreferrer"
+					>{$i18n('currentAmount.title')}</a
 				>
 
 				<LightSwitch />
 
-				<button use:popup={userMenuPopup}>
+				<select bind:value={$locale}>
+					{#each locales as l}
+						<option value={l}>{l}</option>
+					{/each}
+				</select>
+
+				<button use:popup={userMenuPopup} aria-label="User menu button">
 					<Avatar src={getProfilePicture()} width="w-12" rounded="rounded-full" />
 				</button>
 
 				<div data-popup="userMenuPopup">
 					<div class="borderborder-gray-400 card mr-3 mt-3 w-40 space-y-2 p-4 shadow-xl">
-						<a class="btn variant-ghost w-full sm:hidden" href="/accounts" rel="noreferrer">Home</a>
-						<button on:click={() => signOut()} class="btn variant-ghost w-full">Sign out</button>
+						<a class="btn variant-ghost w-full sm:hidden" href="/accounts" rel="noreferrer"
+							>{$i18n('accounts.title')}</a
+						>
+						<a class="btn variant-ghost w-full sm:hidden" href="/amounts" rel="noreferrer"
+							>{$i18n('currentAmount.title')}</a
+						>
+						<button on:click={() => signOut()} class="btn variant-ghost w-full">{$i18n('signOut')}</button>
 					</div>
 				</div>
 			</svelte:fragment>
