@@ -80,17 +80,18 @@ export abstract class DatabaseClient<T extends DatabaseRecord> {
     /**
      * List all records for the current user.
      * 
+     * @param orderBy the column to sort the columns by
      * @returns all records for the current user
      */
-    public async listAll() {
+    public async listAll(orderBy: string) {
         let result
         try {
             result = await this.pool.query(`
                 SELECT * 
                 FROM ${this.getTableName()} 
                 WHERE user_id = ${this.userId}
-                ORDER BY name
-            `)
+                ORDER BY $1
+            `, [orderBy])
         } catch (e) {
             console.error(e)
             return []

@@ -31,11 +31,12 @@ export class PaymentDateClient extends DatabaseClient<PaymentDate> {
         try {
             result = await this.getPool().query(`
                 INSERT INTO ${this.getTableName()} 
-                    (expense_id, day_of_month, month) 
+                    (user_id, expense_id, day_of_month, month) 
                 VALUES 
-                    ($1, $2, $3) 
+                    ($1, $2, $3, $4) 
                 RETURNING *`,
                 [
+                    this.getUserId(),
                     paymentDate.getExpenseId(),
                     paymentDate.getDayOfMonth(),
                     paymentDate.getMonth()

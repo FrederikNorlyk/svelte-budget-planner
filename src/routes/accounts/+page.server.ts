@@ -11,7 +11,7 @@ export const load: PageServerLoad = async (event) => {
     }
 
     const accountClient = new AccountClient(session.user.id)
-    const accounts = await accountClient.listAll()
+    const accounts = await accountClient.listAll('name')
     
     return {
         session: session,

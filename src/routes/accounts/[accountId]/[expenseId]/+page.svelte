@@ -12,6 +12,10 @@
 	import { PaymentDate } from '$lib/models/PaymentDate.js';
 	import { toastStore, modalStore } from '@skeletonlabs/skeleton';
 	import DeleteModal from '$lib/components/DeleteModal.svelte';
+	import SelectField from '$lib/components/SelectField.svelte';
+	import type { SelectOption } from '$lib/components/types/SelectOption';
+	import { i18n } from '$lib/localization/i18n';
+	import frequencyToLocalizationKey from '$lib/models/Frequency';
 
 	export let form;
 	export let data;
@@ -21,6 +25,16 @@
 	let tagOptions: AutocompleteOption[] = [];
 	data.tags.forEach((tag) => {
 		tagOptions.push({ label: tag, value: tag });
+	});
+
+	let frequencyOptions: SelectOption<Number>[] = []
+	const frequencies = [12, 6, 4, 1]
+
+	frequencies.forEach((frequency) => {
+		frequencyOptions.push({
+			value: frequency,
+			text: $i18n(frequencyToLocalizationKey(frequency))
+		})
 	});
 
 	if (form?.error) {
@@ -47,7 +61,14 @@
 	<div class="card space-y-2 bg-white p-4">
 		<TextField name="name" label="Name" required={true} value={expense?.getName()} />
 		<TextField name="amount" label="Amount" required={true} value={expense?.getAmount()} />
-		<TextField name="frequency" label="Frequency" required={true} value={expense?.getFrequency()} />
+
+		<SelectField
+			name="frequency"
+			label="Frequency"
+			required={true}
+			value={expense?.getFrequencyNumber()}
+			options={frequencyOptions}
+		/>
 
 		<AutoCompletingTextField
 			name="tag"
@@ -65,7 +86,7 @@
 	<div class="card space-y-2 bg-white p-4">
 		<PaymentDatePicker {paymentDates} />
 	</div>
-	
+
 	<div class="flex space-x-2 p-4">
 		<button class="btn variant-filled basis-1/4 bg-primary-500">Save</button>
 

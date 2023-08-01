@@ -3,13 +3,13 @@
 	import type { SelectOption } from '$lib/components/types/SelectOption';
 	import IconXMark from '$lib/icons/IconXMark.svelte';
 	import type { PaymentDate } from '$lib/models/PaymentDate';
+	import { DateUtil } from '$lib/util/DateUtil';
 
-	export let paymentDate: PaymentDate;
-	export let canDelete: boolean;
-	export let onInputRemoved: (paymentDate: PaymentDate) => void;
-	let self: HTMLDivElement;
+	export let paymentDate: PaymentDate
+	export let onInputRemoved: (paymentDate: PaymentDate) => void
+	let self: HTMLDivElement
 
-	const daysOfMonth: SelectOption<Number>[] = [];
+	const daysOfMonth: SelectOption<Number>[] = []
 	for (let i = 1; i <= 31; i++) {
 		daysOfMonth.push({
 			value: i,
@@ -17,60 +17,17 @@
 		});
 	}
 
-	const months: SelectOption<Number>[] = [
-		{
-			value: 1,
-			text: 'January'
-		},
-		{
-			value: 2,
-			text: 'February'
-		},
-		{
-			value: 3,
-			text: 'March'
-		},
-		{
-			value: 4,
-			text: 'April'
-		},
-		{
-			value: 5,
-			text: 'May'
-		},
-		{
-			value: 6,
-			text: 'June'
-		},
-		{
-			value: 7,
-			text: 'July'
-		},
-		{
-			value: 8,
-			text: 'August'
-		},
-		{
-			value: 9,
-			text: 'September'
-		},
-		{
-			value: 10,
-			text: 'October'
-		},
-		{
-			value: 11,
-			text: 'November'
-		},
-		{
-			value: 12,
-			text: 'December'
-		}
-	];
+	const months: SelectOption<Number>[] = []
+	for (let i = 1; i <= 12; i++) {
+		months.push({
+			value: i,
+			text: DateUtil.getMonthName(i)
+		})
+	}
 
 	function removeSelf() {
-		self.parentNode?.removeChild(self);
-		onInputRemoved(paymentDate);
+		self.parentNode?.removeChild(self)
+		onInputRemoved(paymentDate)
 	}
 </script>
 
@@ -93,11 +50,9 @@
 			options={months}
 		/>
 	</span>
-	{#if canDelete}
-		<div>
-			<button on:click={removeSelf} type="button" class="btn-icon variant-filled mt-6 bg-error-600">
-				<IconXMark cssClass="w-8 h-8" />
-			</button>
-		</div>
-	{/if}
+	<div>
+		<button on:click={removeSelf} type="button" class="btn-icon variant-filled mt-6 bg-error-600">
+			<IconXMark cssClass="w-8 h-8" />
+		</button>
+	</div>
 </div>

@@ -94,6 +94,8 @@ export class AccountClient extends DatabaseClient<Account> {
                 FROM 
                     ${this.getTableName()} AS a
                     INNER JOIN ${ExpenseClient.TABLE_NAME} AS e ON a.id = e.account_id
+                WHERE
+                    e.is_enabled = true
                 GROUP BY
                     a.id
             `)

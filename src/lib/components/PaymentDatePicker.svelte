@@ -2,19 +2,16 @@
 	import { PaymentDate } from '$lib/models/PaymentDate';
 	import CalendarDatePicker from '$lib/components/CalendarDatePicker.svelte';
 
-	export let paymentDates: PaymentDate[];
-	if (paymentDates.length == 0) {
-		paymentDates.push(new PaymentDate(0, 0, 1, 0));
-	}
+	export let paymentDates: PaymentDate[]
 
 	function onInputRemoved(paymentDate: PaymentDate) {
 		paymentDates = paymentDates.filter((p) => {
-			return p.getId() != paymentDate.getId();
-		});
+			return p.getId() != paymentDate.getId()
+		})
 	}
 
 	function addInput() {
-		paymentDates = [...paymentDates, new PaymentDate(Math.random(), 0, 0, 0)]
+		paymentDates = [...paymentDates, new PaymentDate(Math.random(), 0, 1, 0)]
 	}
 </script>
 
@@ -26,5 +23,5 @@
 </div>
 
 {#each paymentDates as paymentDate (paymentDate.getId())}
-	<CalendarDatePicker {paymentDate} canDelete={paymentDates.length > 1} {onInputRemoved} />
+	<CalendarDatePicker {paymentDate} {onInputRemoved} />
 {/each}

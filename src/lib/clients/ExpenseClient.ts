@@ -3,6 +3,7 @@ import { DatabaseClient } from "$lib/clients/DatabaseClient";
 import { Expense } from "$lib/models/Expense";
 import type { Account } from "$lib/models/Account";
 import { DB_TABLE_PREFIX } from "$env/static/private"
+import { PaymentDateClient } from "./PaymentDateClient";
 
 /**
  * Client for querying expenses in the database.
@@ -38,7 +39,7 @@ export class ExpenseClient extends DatabaseClient<Expense> {
                 [
                     expense.getName(),
                     expense.getAmount(),
-                    expense.getFrequency(),
+                    expense.getFrequencyNumber(),
                     expense.getTag(),
                     expense.getAccountId(),
                     expense.isEnabled(),
@@ -77,7 +78,7 @@ export class ExpenseClient extends DatabaseClient<Expense> {
                 [
                     expense.getName(),
                     expense.getAmount(),
-                    expense.getFrequency(),
+                    expense.getFrequencyNumber(),
                     expense.getTag(),
                     expense.getAccountId(),
                     expense.isEnabled(),
@@ -136,5 +137,23 @@ export class ExpenseClient extends DatabaseClient<Expense> {
         }
 
         return result.rows.map((row) => row.tag as string)
+    }
+
+    /**
+     * Get all expenses for the current user. The returned expenses are enriched with payment date information.
+     * 
+     * @returns enriched expense
+     */
+    public async listAllWithPaymentDates() {
+        const expenses = await this.listAll('name')
+
+        const paymentDateClient = new PaymentDateClient(this.getUserId())
+        const paymentDates = await paymentDateClient.listAll('id')
+
+        return expenses.map(expense => {
+            const dates = paymentDates.filter((paymentDate) => paymentDate.getExpenseId() === expense.getId())
+            expense.setPaymentDates(dates)
+            return expense
+        })
     }
 }

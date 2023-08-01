@@ -50,10 +50,12 @@ export const actions = {
         const daysOfMonth = data.getAll('dayOfMonth')
         const months = data.getAll('month')
 
-        if (name == null || amount == 0 || frequency < 1 || frequency > 12 || tag == null || daysOfMonth.length == 0 
-            || months.length == 0) {
-
+        if (name == null || amount == 0 || frequency < 1 || frequency > 12 || tag == null) {
             return { error: 'Invalid data' }
+        }
+
+        if (daysOfMonth.length != months.length) {
+            return { error: 'Invalid payment date information'}
         }
 
         const id = +params.expenseId
@@ -76,18 +78,22 @@ export const actions = {
         }
         
         if (newExpense == null) {
-            return { error: 'Could not create expense'}
+            return { error: 'Could save the expense'}
         }
 
         const paymentDateClient = new PaymentDateClient(session.user.id)
-        paymentDateClient.deleteAllBelongingTo(expense)
+        await paymentDateClient.deleteAllBelongingTo(expense)
 
         for (let i = 0; i < daysOfMonth.length; i++) {
             const dayOfMonth = +daysOfMonth[i];
             const month = +months[i];
 
             const paymentDate = new PaymentDate(0, newExpense.getId(), dayOfMonth, month)
-            await paymentDateClient.create(paymentDate)
+            const createdPaymentDate = await paymentDateClient.create(paymentDate)
+
+            if (createdPaymentDate == null) {
+                return { error: 'Could not create payment date'}
+            }
         }
 
         throw redirect(303, "/accounts/" + params.accountId)
