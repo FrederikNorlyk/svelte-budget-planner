@@ -73,7 +73,9 @@ export class ExpenseClient extends DatabaseClient<Expense> {
                     tag = $4,
                     account_id = $5,
                     is_enabled = $6
-                WHERE id = $7
+                WHERE 
+                    id = $7 AND
+                    user_id = $8
                 RETURNING *`,
                 [
                     expense.getName(),
@@ -82,7 +84,8 @@ export class ExpenseClient extends DatabaseClient<Expense> {
                     expense.getTag(),
                     expense.getAccountId(),
                     expense.isEnabled(),
-                    expense.getId()
+                    expense.getId(),
+                    this.getUserId()
                 ]
             )
         } catch (e) {
@@ -105,7 +108,9 @@ export class ExpenseClient extends DatabaseClient<Expense> {
             result = await this.getPool().query(`
                 SELECT * 
                 FROM ${this.getTableName()} 
-                WHERE account_id = ${account.getId()}
+                WHERE 
+                    account_id = ${account.getId()} AND
+                    user_id = ${this.getUserId()}
                 ORDER BY tag, name
             `)
         } catch (e) {

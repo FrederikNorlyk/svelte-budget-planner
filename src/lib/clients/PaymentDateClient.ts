@@ -62,7 +62,9 @@ export class PaymentDateClient extends DatabaseClient<PaymentDate> {
             result = await this.getPool().query(`
                 SELECT * 
                 FROM ${this.getTableName()} 
-                WHERE expense_id = ${expense.getId()}
+                WHERE 
+                    expense_id = ${expense.getId()} AND
+                    user_id = ${this.getUserId()}
                 ORDER BY month
             `)
         } catch (e) {
@@ -81,8 +83,11 @@ export class PaymentDateClient extends DatabaseClient<PaymentDate> {
     public async deleteAllBelongingTo(expense: Expense) {
         try {
             await this.getPool().query(`
-                DELETE FROM ${this.getTableName()} 
-                WHERE expense_id = ${expense.getId()}
+                DELETE 
+                FROM ${this.getTableName()} 
+                WHERE 
+                    expense_id = ${expense.getId()} AND
+                    user_id = ${this.getUserId()}
             `)
         } catch (e) {
             console.log(e)

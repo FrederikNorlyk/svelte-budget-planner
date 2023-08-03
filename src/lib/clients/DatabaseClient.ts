@@ -63,7 +63,13 @@ export abstract class DatabaseClient<T extends DatabaseRecord> {
     public async getById(id: number) {
         let result
         try {
-            result = await this.pool.query(`SELECT * FROM ${this.getTableName()} WHERE id = ${id}`)
+            result = await this.pool.query(
+                `SELECT * 
+                FROM ${this.getTableName()} 
+                WHERE 
+                    id = ${id} AND 
+                    user_id = ${this.userId}`
+            )
         } catch (e) {
             console.error(e)
             return null
@@ -107,7 +113,13 @@ export abstract class DatabaseClient<T extends DatabaseRecord> {
      */
     public async delete(id: number) {
         try {
-            await this.pool.query(`DELETE FROM ${this.getTableName()} WHERE id = ${id}`)
+            await this.pool.query(
+                `DELETE 
+                FROM ${this.getTableName()} 
+                WHERE 
+                    id = ${id} AND 
+                    user_id = ${this.userId}`
+            )
         } catch (e) {
             let error = 'Unknown error'
             if (e instanceof Error) {

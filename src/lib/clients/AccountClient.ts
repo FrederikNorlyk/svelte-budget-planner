@@ -66,9 +66,11 @@ export class AccountClient extends DatabaseClient<Account> {
             result = await this.getPool().query(`
                 UPDATE ${this.getTableName()} 
                 SET name = $1
-                WHERE id = $2
+                WHERE 
+                    id = $2 AND
+                    user_id = $3
                 RETURNING *`,
-                [name, id]
+                [name, id, this.getUserId()]
             )
         } catch (e) {
             console.error(e)
@@ -95,7 +97,8 @@ export class AccountClient extends DatabaseClient<Account> {
                     ${this.getTableName()} AS a
                     INNER JOIN ${ExpenseClient.TABLE_NAME} AS e ON a.id = e.account_id
                 WHERE
-                    e.is_enabled = true
+                    e.is_enabled = true AND
+                    a.user_id = ${this.getUserId()}
                 GROUP BY
                     a.id
             `)
