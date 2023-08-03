@@ -6,7 +6,7 @@
 	import { CurrentAmountUtil } from '$lib/util/CurrentAmountUtil.js';
 	import { DateUtil } from '$lib/util/DateUtil.js';
 	import { i18n } from '$lib/localization/i18n.js';
-	import NoExpenses from '$lib/components/NoExpenses.svelte';
+	import NoEntries from '$lib/components/NoEntries.svelte';
 
 	export let data;
 	const account = Account.parse(data.account);
@@ -41,7 +41,7 @@
 
 <div class="mt-3 flex flex-col space-y-3">
 	{#if expenses.length == 0}
-		<NoExpenses />
+		<NoEntries question="chat.noExpenses" />
 	{:else}
 		{#each expenses as expense (expense.getId())}
 			{@const nextPaymentDate = CurrentAmountUtil.getNextPaymentDateForExpense(expense)}

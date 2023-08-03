@@ -19,7 +19,8 @@ export default {
         "expense.inactive": "The expense is inactive",
         "account.details": "Maintain the the account's expenses",
         "chat.noExpenses": "It seems that I have no expenses...",
-        "chat.howToAdd": "You can use the button above to add some 🙂"
+        "chat.howToAdd": "You can use the button above to add some 🙂",
+        "chat.noAccounts": "It seems that I have no accounts...",
     },
     da: {
         "accounts.title": "Konti",
@@ -41,6 +42,7 @@ export default {
         "expense.inactive": "Udgiften er inaktiv",
         "account.details": "Få overblik over kontoens udgifter",
         "chat.noExpenses": "Det ser ud til at jeg ikke har nogle udgifter...",
-        "chat.howToAdd": "Do kan bruge knappen ovenover til at tilføje nogle 🙂"
+        "chat.howToAdd": "Do kan bruge knappen ovenover til at tilføje nogle 🙂",
+        "chat.noAccounts": "Det ser ud til at jeg ikke har nogle konti...",
     },
 }

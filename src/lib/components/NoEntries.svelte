@@ -1,12 +1,13 @@
-<script>
+<script lang="ts">
 	import IconChatBubbleOvalLeftEllipsis from "$lib/icons/IconChatBubbleOvalLeftEllipsis.svelte";
 	import { i18n } from "$lib/localization/i18n";
 
+    export let question: string
 </script>
 <div class="space-y-6">
     <div class="relative ml-20 mr-60 mt-5">
         <p class="rounded-xl bg-slate-400 p-5 pl-10 text-white shadow-lg">
-            {$i18n('chat.noExpenses')}
+            {$i18n(question)}
         </p>
     </div>
     <div class="relative ml-60 mr-20 mt-5">
