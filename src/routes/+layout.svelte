@@ -87,7 +87,7 @@
 		</AppBar>
 	</svelte:fragment>
 
-	<div class="m-5 sm:m-16">
+	<div class="m-5 sm:mt-10 sm:ml-16 sm:mr-16 md:ml-20 md:mr-20">
 		<slot />
 	</div>
 </AppShell>

@@ -54,7 +54,7 @@ export const actions = {
             return { error: 'Could not create account'}
         }
 
-        throw redirect(303, "/accounts/" + account.getId())
+        throw redirect(303, "/accounts")
     },
 
     delete: async ({ params, locals }) => {

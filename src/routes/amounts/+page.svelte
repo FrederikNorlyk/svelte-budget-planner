@@ -2,14 +2,15 @@
 	import { Account } from '$lib/models/Account.js';
 	import { DateUtil } from '$lib/util/DateUtil';
 	import {CurrentAmountUtil} from '$lib/util/CurrentAmountUtil';
+	import { i18n } from '$lib/localization/i18n';
 
 	export let data;
 
 	const accounts = data.accounts.map((account) => Account.parse(account))
 </script>
 
-<h1 class="text-3xl">Current amounts</h1>
-<p>These amounts should currently be on the accounts, to avoid overdrawing</p>
+<h1 class="text-3xl">{$i18n('balance.title')}</h1>
+<p>{$i18n('balance.details')}</p>
 
 <div class="mt-5 grid grid-cols-1 gap-3 lg:grid-cols-2 2xl:grid-cols-3">
 	{#each accounts as account (account.getId())}
