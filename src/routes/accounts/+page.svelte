@@ -18,13 +18,12 @@
 <div class="flex flex-col space-y-2">
 	<a class="underline" href="/accounts/0/edit">{$i18n('newAccount')}</a>
 </div>
-
-<div class="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
-	{#if accounts.length === 0}
-		<NoEntries question="chat.noAccounts" />
-	{:else}
+{#if accounts.length === 0}
+	<NoEntries question="chat.noAccounts" />
+{:else}
+	<div class="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
 		{#each accounts as account (account.getId())}
 			<Card {account} totalAmount={getTotalAmount(account)} />
 		{/each}
-	{/if}
-</div>
+	</div>
+{/if}
