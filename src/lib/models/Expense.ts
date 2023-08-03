@@ -7,12 +7,12 @@ export class Expense extends DatabaseRecord {
     private name: string
     private amount: number
     private frequencyNumber: number
-    private tag: string
+    private tag: string | null
     private accountId: number
     private enabled: boolean
     private paymentDates: PaymentDate[] = []
 
-    constructor(id: number, name: string, amount: number, frequency: number, tag: string,
+    constructor(id: number, name: string, amount: number, frequency: number, tag: string | null | undefined,
         accountId: number, enabled: boolean) {
 
         super(id)
@@ -20,7 +20,7 @@ export class Expense extends DatabaseRecord {
         this.name = name
         this.amount = amount
         this.frequencyNumber = frequency
-        this.tag = tag
+        this.tag = tag === undefined ? null : tag
         this.accountId = accountId
         this.enabled = enabled
     }

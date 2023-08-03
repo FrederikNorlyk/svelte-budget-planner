@@ -73,7 +73,6 @@
 		<AutoCompletingTextField
 			name="tag"
 			label="Tag"
-			required={true}
 			value={expense?.getTag()}
 			options={tagOptions}
 		/>

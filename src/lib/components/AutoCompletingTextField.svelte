@@ -4,7 +4,7 @@
 
 	export let name: string;
 	export let label: string;
-	export let value: string | undefined;
+	export let value: string | null;
 	export let required = false
 	export let options: AutocompleteOption[];
 </script>
