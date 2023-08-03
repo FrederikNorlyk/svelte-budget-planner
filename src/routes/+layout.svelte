@@ -54,7 +54,7 @@
 					href="/accounts"
 					rel="noreferrer">{$i18n('accounts.title')}</a
 				>
-				<a class="btn btn-sm variant-ghost-surface hidden sm:block" href="/amounts" rel="noreferrer"
+				<a class="btn btn-sm variant-ghost-surface hidden sm:block" href="/balance" rel="noreferrer"
 					>{$i18n('currentAmount.title')}</a
 				>
 
@@ -75,7 +75,7 @@
 						<a class="btn variant-ghost w-full sm:hidden" href="/accounts" rel="noreferrer"
 							>{$i18n('accounts.title')}</a
 						>
-						<a class="btn variant-ghost w-full sm:hidden" href="/amounts" rel="noreferrer"
+						<a class="btn variant-ghost w-full sm:hidden" href="/balance" rel="noreferrer"
 							>{$i18n('currentAmount.title')}</a
 						>
 						<button on:click={() => signOut()} class="btn variant-ghost w-full"

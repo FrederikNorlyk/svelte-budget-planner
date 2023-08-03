@@ -149,9 +149,7 @@ export class ExpenseClient extends DatabaseClient<Expense> {
      * 
      * @returns enriched expense
      */
-    public async listAllWithPaymentDates() {
-        const expenses = await this.listAll('name')
-
+    public async addPaymentDatesTo(expenses: Expense[]) {
         const paymentDateClient = new PaymentDateClient(this.getUserId())
         const paymentDates = await paymentDateClient.listAll('id')
 

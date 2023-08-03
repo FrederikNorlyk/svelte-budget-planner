@@ -9,22 +9,23 @@ export async function load(event) {
         throw redirect(303, "/");
     }
 
-    const accountClient = new AccountClient(session.user.id)
-    const expenseClient = new ExpenseClient(session.user.id)
+    const accountClient = new AccountClient(session.user.id);
+    const expenseClient = new ExpenseClient(session.user.id);
 
-    const id = +event.params.accountId
+    const id = +event.params.accountId;
 
-    const account = await accountClient.getById(id)
+    const account = await accountClient.getById(id);
 
     if (account == null) {
-        throw redirect(303, "/accounts")
+        throw redirect(303, "/accounts");
     }
 
-    const expenses = await expenseClient.listBelongingTo(account)
+    let expenses = await expenseClient.listBelongingTo(account);
+    expenses = await expenseClient.addPaymentDatesTo(expenses);
 
     return {
         session: session,
         account: account.serialize(),
         expenses: expenses.map((e) => e.serialize())
-    }
+    };
 }

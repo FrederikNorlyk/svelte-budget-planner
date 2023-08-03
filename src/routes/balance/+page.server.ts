@@ -15,7 +15,8 @@ export const load: PageServerLoad = async (event) => {
     const accounts = await accountClient.listAll('name')
 
     const expenseClient = new ExpenseClient(session.user.id)
-    const expenses = await expenseClient.listAllWithPaymentDates()
+    let expenses = await expenseClient.listAll('name')
+    expenses = await expenseClient.addPaymentDatesTo(expenses)
 
     accounts.forEach((account) => {
         account.setExpenses(expenses.filter((expense) => expense.getAccountId() === account.getId()))

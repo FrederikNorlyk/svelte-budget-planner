@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Account } from '$lib/models/Account.js';
 	import { Expense } from '$lib/models/Expense.js';
-	import frequencyToLocalizationKey, { Frequency } from '$lib/models/Frequency.js';
+	import { Frequency } from '$lib/models/Frequency.js';
 	import { AmountUtil } from '$lib/util/AmountUtil.js';
 	import { CurrentAmountUtil } from '$lib/util/CurrentAmountUtil.js';
 	import { DateUtil } from '$lib/util/DateUtil.js';
