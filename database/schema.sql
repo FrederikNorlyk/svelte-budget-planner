@@ -1,7 +1,7 @@
 CREATE TABLE accounts(
     id INT GENERATED ALWAYS AS IDENTITY,
     user_id INT NOT NULL,
-    name VARCHAR(255) NOT NULL UNIQUE,
+    name VARCHAR(255) NOT NULL,
    
     PRIMARY KEY(id)
 );
