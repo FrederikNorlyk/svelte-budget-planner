@@ -2,7 +2,7 @@
 	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
 	import '@skeletonlabs/skeleton/styles/skeleton.css';
 	import '../app.postcss';
-	import { i18n, locale, locales } from "$lib/localization/i18n";
+	import { i18n, locale, locales } from '$lib/localization/i18n';
 	import { page } from '$app/stores';
 	import { signOut } from '@auth/sveltekit/client';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
@@ -41,12 +41,12 @@
 	<svelte:fragment slot="header">
 		<AppBar shadow="shadow-md">
 			<svelte:fragment slot="lead">
-				<p
+				<a href="/accounts"
 					class="ml-5 select-none text-3xl sm:ml-16"
 					style="font-family: 'Permanent Marker', cursive;"
 				>
 					Budget planner
-				</p>
+				</a>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<a
@@ -78,7 +78,9 @@
 						<a class="btn variant-ghost w-full sm:hidden" href="/amounts" rel="noreferrer"
 							>{$i18n('currentAmount.title')}</a
 						>
-						<button on:click={() => signOut()} class="btn variant-ghost w-full">{$i18n('signOut')}</button>
+						<button on:click={() => signOut()} class="btn variant-ghost w-full"
+							>{$i18n('signOut')}</button
+						>
 					</div>
 				</div>
 			</svelte:fragment>

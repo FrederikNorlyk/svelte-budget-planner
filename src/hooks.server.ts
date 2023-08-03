@@ -3,6 +3,7 @@ import GitHub from "@auth/core/providers/github";
 import { GITHUB_ID, GITHUB_SECRET } from "$env/static/private";
 import { redirect, type Handle } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
+import Credentials from "@auth/core/providers/credentials";
 
 type HandleParams = Parameters<Handle>[0];
 
@@ -19,7 +20,15 @@ async function authorization({ event, resolve }: HandleParams) {
 
 export const handle: Handle = sequence(
   SvelteKitAuth({
-    providers: [GitHub({ clientId: GITHUB_ID, clientSecret: GITHUB_SECRET })],
+    providers: [
+      GitHub({ clientId: GITHUB_ID, clientSecret: GITHUB_SECRET }),
+      Credentials({
+        name: "a demo user",
+        async authorize() {
+          return { id: "1", name: "John Smith", email: "jsmith@example.com" }
+        }
+      })
+    ],
     callbacks: {
       async session({ session, token }) {
         return Promise.resolve({ ...session, user: { ...session.user, id: token.sub } })
