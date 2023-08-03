@@ -53,7 +53,10 @@
 					: 'opacity-60'}"
 				href="/accounts/{account.getId()}/{expense.getId()}"
 			>
-				<h2 class="text-xl">{expense.getName()}</h2>
+				<div>
+					<h2 class="text-xl">{expense.getName()}</h2>
+					<small class="text-slate-500">{expense.getTag()}</small>
+				</div>	
 				<div class="text-right text-slate-500">
 					{#if !expense.isEnabled()}
 						{$i18n('expense.inactive')}
