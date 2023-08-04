@@ -7,6 +7,7 @@
 	import { DateUtil } from '$lib/util/DateUtil.js';
 	import { i18n } from '$lib/localization/i18n.js';
 	import NoEntries from '$lib/components/NoEntries.svelte';
+	import AddButton from '$lib/components/AddButton.svelte';
 
 	export let data;
 	const account = Account.parse(data.account);
@@ -35,14 +36,14 @@
 </script>
 
 <div class="flex flex-col space-y-2">
-	<a class="underline" href="/accounts/{account.getId()}/0">New expense</a>
 	<a class="underline" href="/accounts/{account.getId()}/edit">Edit account</a>
 </div>
 
-<div class="mt-3 flex flex-col space-y-3">
-	{#if expenses.length == 0}
-		<NoEntries question="chat.noExpenses" />
-	{:else}
+{#if expenses.length == 0}
+	<AddButton href="/accounts/{account.getId()}/0" ariaLabel="Add new expense" />
+	<NoEntries question="chat.noExpenses" />
+{:else}
+	<div class="flex flex-col space-y-3">
 		{#each expenses as expense (expense.getId())}
 			{@const nextPaymentDate = CurrentAmountUtil.getNextPaymentDateForExpense(expense)}
 			{@const monthlyAmount = expense.getAmount() / expense.getFrequencyNumber()}
@@ -75,5 +76,6 @@
 				<div class="text-right text-slate-500">{localizePaymentFrequency(expense)}</div>
 			</a>
 		{/each}
-	{/if}
-</div>
+		<AddButton href="/accounts/{account.getId()}/0" ariaLabel="Add new expense" />
+	</div>
+{/if}
