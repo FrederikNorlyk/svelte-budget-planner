@@ -41,7 +41,8 @@
 	<svelte:fragment slot="header">
 		<AppBar shadow="shadow-md">
 			<svelte:fragment slot="lead">
-				<a href="/accounts"
+				<a
+					href="/accounts"
 					class="ml-5 select-none text-3xl sm:ml-16"
 					style="font-family: 'Permanent Marker', cursive;"
 				>
@@ -58,9 +59,11 @@
 					>{$i18n('currentAmount.title')}</a
 				>
 
-				<LightSwitch />
+				<div class="hidden sm:block">
+					<LightSwitch />
+				</div>
 
-				<select bind:value={$locale}>
+				<select class="hidden sm:block" bind:value={$locale}>
 					{#each locales as l}
 						<option value={l}>{l}</option>
 					{/each}
@@ -78,6 +81,16 @@
 						<a class="btn variant-ghost w-full sm:hidden" href="/balance" rel="noreferrer"
 							>{$i18n('currentAmount.title')}</a
 						>
+
+						<div class="block sm:hidden">
+							<LightSwitch />
+						</div>
+
+						<select class="block sm:hidden" bind:value={$locale}>
+							{#each locales as l}
+								<option value={l}>{l}</option>
+							{/each}
+						</select>
 						<button on:click={() => signOut()} class="btn variant-ghost w-full"
 							>{$i18n('signOut')}</button
 						>
@@ -87,7 +100,7 @@
 		</AppBar>
 	</svelte:fragment>
 
-	<div class="m-5 sm:mt-10 sm:ml-16 sm:mr-16 md:ml-20 md:mr-20">
+	<div class="m-5 sm:ml-16 sm:mr-16 sm:mt-10 md:ml-20 md:mr-20">
 		<slot />
 	</div>
 </AppShell>
