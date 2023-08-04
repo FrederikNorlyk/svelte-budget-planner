@@ -35,10 +35,6 @@
 	}
 </script>
 
-<div class="flex flex-col space-y-2">
-	<a class="underline" href="/accounts/{account.getId()}/edit">Edit account</a>
-</div>
-
 {#if expenses.length == 0}
 	<AddButton href="/accounts/{account.getId()}/0" ariaLabel="Add new expense" />
 	<NoEntries question="chat.noExpenses" />
