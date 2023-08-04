@@ -50,7 +50,7 @@ export const actions = {
         const daysOfMonth = data.getAll('dayOfMonth')
         const months = data.getAll('month')
 
-        if (name == null || amount == 0 || frequency < 1 || frequency > 12) {
+        if (name == null || amount == 0 || isNaN(amount) || frequency < 1 || frequency > 12) {
             return { error: 'Invalid data' }
         }
 

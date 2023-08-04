@@ -16,6 +16,7 @@
 	import type { SelectOption } from '$lib/components/types/SelectOption';
 	import { i18n } from '$lib/localization/i18n';
 	import frequencyToLocalizationKey from '$lib/models/Frequency';
+	import NumberField from '$lib/components/NumberField.svelte';
 
 	export let form;
 	export let data;
@@ -60,7 +61,7 @@
 <form class="space-y-4" method="post" action="?/save">
 	<div class="card space-y-2 bg-white p-4">
 		<TextField name="name" label="Name" autofocus={expense == null} required={true} value={expense?.getName()} />
-		<TextField name="amount" label="Amount" required={true} value={expense?.getAmount()} />
+		<NumberField name="amount" label="Amount" required={true} value={expense?.getAmount()} />
 
 		<SelectField
 			name="frequency"
