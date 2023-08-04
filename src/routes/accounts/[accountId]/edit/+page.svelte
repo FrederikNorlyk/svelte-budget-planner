@@ -35,7 +35,7 @@
 </script>
 
 <form class="card space-y-2 bg-white p-4" method="post" action="?/save">
-	<TextField name="name" label="Name" required={true} value={account?.getName()} />
+	<TextField name="name" label="Name" autofocus={account == null} required={true} value={account?.getName()} />
 
 	<div class="flex space-x-2">
 		<button class="btn variant-filled basis-1/4 bg-primary-500">Save</button>
