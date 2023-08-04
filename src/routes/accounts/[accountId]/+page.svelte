@@ -12,6 +12,7 @@
 	export let data;
 	const account = Account.parse(data.account);
 	const expenses: Expense[] = data.expenses.map((e) => Expense.parse(e));
+	const currentAmountUtil = new CurrentAmountUtil();
 
 	function localizePaymentFrequency(expense: Expense) {
 		let key: String;
@@ -41,7 +42,7 @@
 {:else}
 	<div class="flex flex-col space-y-3">
 		{#each expenses as expense (expense.getId())}
-			{@const nextPaymentDate = CurrentAmountUtil.getNextPaymentDateForExpense(expense)}
+			{@const nextPaymentDate = currentAmountUtil.getNextPaymentDateForExpense(expense)}
 			{@const monthlyAmount = expense.getAmount() / expense.getFrequencyNumber()}
 
 			<a
