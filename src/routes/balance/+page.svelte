@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { Account } from '$lib/models/Account.js';
 	import { DateUtil } from '$lib/util/DateUtil';
-	import {CurrentAmountUtil} from '$lib/util/CurrentAmountUtil';
+	import { CurrentAmountUtil } from '$lib/util/CurrentAmountUtil';
 	import { i18n } from '$lib/localization/i18n';
 	import { AmountUtil } from '$lib/util/AmountUtil.js';
 
 	export let data;
 
 	const accounts = data.accounts.map((account) => Account.parse(account))
+	const currentAmountUtil = new CurrentAmountUtil();
 </script>
 
 <h1 class="text-3xl">{$i18n('balance.title')}</h1>
@@ -15,19 +16,21 @@
 
 <div class="mt-5 grid grid-cols-1 gap-3 lg:grid-cols-2 2xl:grid-cols-3">
 	{#each accounts as account (account.getId())}
-		{@const nextPaymentDate = CurrentAmountUtil.getNextPaymentDate(account)}
+		{@const nextPaymentDate = currentAmountUtil.getNextPaymentDate(account)}
 		<div class="card flex rounded-md bg-white p-10">
 			<div class="grow">
 				<div class="flex">
-					<h2 class="text-2xl white">{account.getName()}</h2>
-					<span class="grow"></span>
+					<h2 class="white text-2xl">{account.getName()}</h2>
+					<span class="grow" />
 					{#if nextPaymentDate != null}
-						<p class="text-slate-500 flex-none">
+						<p class="flex-none text-slate-500">
 							{$i18n('nextPayment')}: {DateUtil.localizeLongerFormat(nextPaymentDate)}
 						</p>
 					{/if}
 				</div>
-				<h1 class="text-4xl">{AmountUtil.localize(CurrentAmountUtil.getCurrentAmmount(account))}</h1>
+				<h1 class="text-4xl">
+					{AmountUtil.localize(currentAmountUtil.getCurrentAmmount(account))}
+				</h1>
 			</div>
 		</div>
 	{/each}
