@@ -3,6 +3,7 @@
 	import { DateUtil } from '$lib/util/DateUtil';
 	import {CurrentAmountUtil} from '$lib/util/CurrentAmountUtil';
 	import { i18n } from '$lib/localization/i18n';
+	import { AmountUtil } from '$lib/util/AmountUtil.js';
 
 	export let data;
 
@@ -26,7 +27,7 @@
 						</p>
 					{/if}
 				</div>
-				<h1 class="text-4xl">{CurrentAmountUtil.getCurrentAmmount(account)}</h1>
+				<h1 class="text-4xl">{AmountUtil.localize(CurrentAmountUtil.getCurrentAmmount(account))}</h1>
 			</div>
 		</div>
 	{/each}

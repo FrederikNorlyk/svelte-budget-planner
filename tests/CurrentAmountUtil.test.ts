@@ -3,7 +3,7 @@ import { CurrentAmountUtil } from '$lib/util/CurrentAmountUtil';
 import { Account } from '$lib/models/Account';
 import { Expense } from '$lib/models/Expense';
 
-test('Monthly expenses require no payment date entries', () => {
+test('Monthly expenses are not included', () => {
     const account = new Account(1, "Test");
     
     account.setExpenses([
@@ -11,5 +11,5 @@ test('Monthly expenses require no payment date entries', () => {
     ]);
 
     const amount = CurrentAmountUtil.getCurrentAmmount(account)
-    expect(amount).toBe(123)
+    expect(amount).toBe(0)
 })

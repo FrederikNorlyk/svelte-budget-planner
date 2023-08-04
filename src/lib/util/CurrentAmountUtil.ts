@@ -41,7 +41,7 @@ export class CurrentAmountUtil {
 			currentAmount += (expense.getAmount() - amountNotYetTransfered)
 		})
 
-		return AmountUtil.localize(currentAmount);
+		return currentAmount;
 	}
 
 	/**
