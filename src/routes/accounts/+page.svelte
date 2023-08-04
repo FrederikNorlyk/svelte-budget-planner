@@ -1,10 +1,10 @@
 <script lang="ts">
-	import Card from '$lib/components/Card.svelte';
 	import { Account } from '$lib/models/Account.js';
 	import { i18n } from '$lib/localization/i18n';
 	import NoEntries from '$lib/components/NoEntries.svelte';
-	import IconPlus from '$lib/icons/IconPlus.svelte';
 	import AddButton from '$lib/components/AddButton.svelte';
+	import { AmountUtil } from '$lib/util/AmountUtil.js';
+	import IconArrowCircleRight from '$lib/icons/IconArrowCircleRight.svelte';
 
 	export let data;
 	const accounts = data.accounts.map((a) => Account.parse(a));
@@ -25,7 +25,18 @@
 {:else}
 	<div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
 		{#each accounts as account (account.getId())}
-			<Card {account} totalAmount={getTotalAmount(account)} />
+			<a
+				class="group card flex rounded-md bg-white p-10"
+				href="/accounts/{account.getId()}"
+				aria-label="Open the account {account.getName()}"
+			>
+				<div class="grow">
+					<h2 class="text-2xl">{account.getName()}</h2>
+					<h1 class="text-4xl">{AmountUtil.localize(getTotalAmount(account))}</h1>
+				</div>
+
+				<IconArrowCircleRight cssClass="flex-none h-8 w-8 text-slate-300 group-hover:text-slate-400" />
+			</a>
 		{/each}
 
 		<AddButton href="/accounts/0/edit" ariaLabel="New account" />

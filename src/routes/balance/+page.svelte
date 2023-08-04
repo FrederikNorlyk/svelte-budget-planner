@@ -18,10 +18,10 @@
 		<div class="card flex rounded-md bg-white p-10">
 			<div class="grow">
 				<div class="flex">
-					<h2 class="text-2xl">{account.getName()}</h2>
-					<span class="grow" />
+					<h2 class="text-2xl white">{account.getName()}</h2>
+					<span class="grow"></span>
 					{#if nextPaymentDate != null}
-						<p class="text-slate-500">
+						<p class="text-slate-500 flex-none">
 							Next payment: {DateUtil.localizeLongerFormat(nextPaymentDate)}
 						</p>
 					{/if}
