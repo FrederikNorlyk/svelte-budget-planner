@@ -25,7 +25,7 @@ export const handle: Handle = sequence(
       Credentials({
         name: "a demo user",
         async authorize() {
-          return { id: "1", name: "John Smith", email: "jsmith@example.com" }
+          return { id: "1", name: "John Smith", email: "jsmith@example.com", image: "/demouser.jpg" }
         }
       })
     ],
