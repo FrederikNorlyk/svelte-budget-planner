@@ -8,5 +8,6 @@
 
 <label class="label">
 	<span>{label}</span>
+	<!-- svelte-ignore a11y-autofocus -->
 	<input {name} {required} class="input bg-secondary-50" {autofocus} type="number" step="0.01" min="0" value={value ?? ''} />
 </label>
