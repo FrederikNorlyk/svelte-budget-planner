@@ -25,10 +25,12 @@ jobs:
       env:
         DB_TABLE_PREFIX: ${{ secrets.DB_TABLE_PREFIX }}
         POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+        GHUB_ID: ${{ secrets.GHUB_ID }}
       run: |
           touch .env
           echo DB_TABLE_PREFIX="$DB_TABLE_PREFIX" >> .env
           echo POSTGRES_URL="$POSTGRES_URL" >> .env
+          echo GITHUB_ID="$GHUB_ID" >> .env
       shell: bash
 
     - name: Use Node.js ${{ matrix.node-version }}
