@@ -1,7 +1,7 @@
 export const load = (async () => {
     return {
-        title: "Expense",
-        details: 'Some details for the current expense',
+        title: 'editExpense.title',
+        details: 'editExpense.details',
         editHref: null
     };
 })

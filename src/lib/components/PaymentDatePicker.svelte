@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { PaymentDate } from '$lib/models/PaymentDate';
 	import CalendarDatePicker from '$lib/components/CalendarDatePicker.svelte';
+	import { i18n } from '$lib/localization/i18n';
 
 	export let paymentDates: PaymentDate[]
 
@@ -16,9 +17,9 @@
 </script>
 
 <div class="flex space-x-3">
-	<p class="text-xl">Payment dates</p>
+	<p class="text-xl">{$i18n('paymentDates')}</p>
 	<button on:click={addInput} type="button" class="btn btn-sm variant-filled">
-		Add date
+		{$i18n('addDate')}
 	</button>
 </div>
 

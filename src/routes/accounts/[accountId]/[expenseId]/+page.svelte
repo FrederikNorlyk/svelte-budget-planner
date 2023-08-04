@@ -15,7 +15,7 @@
 	import SelectField from '$lib/components/SelectField.svelte';
 	import type { SelectOption } from '$lib/components/types/SelectOption';
 	import { i18n } from '$lib/localization/i18n';
-	import frequencyToLocalizationKey from '$lib/models/Frequency';
+	import frequencyToLocalizationKey, { Frequency } from '$lib/models/Frequency';
 	import NumberField from '$lib/components/NumberField.svelte';
 
 	export let form;
@@ -28,14 +28,14 @@
 		tagOptions.push({ label: tag, value: tag });
 	});
 
-	let frequencyOptions: SelectOption<Number>[] = []
-	const frequencies = [12, 6, 4, 1]
+	let frequencyOptions: SelectOption<Number>[] = [];
+	const frequencies = [12, 6, 4, 1];
 
 	frequencies.forEach((frequency) => {
 		frequencyOptions.push({
 			value: frequency,
 			text: $i18n(frequencyToLocalizationKey(frequency))
-		})
+		});
 	});
 
 	if (form?.error) {
@@ -50,9 +50,10 @@
 		const modal: ModalSettings = {
 			type: 'component',
 			component: component,
-			title: 'Delete expense',
-			body: `You are about to delete an expense.`,
-			buttonTextSubmit: 'Delete expense'
+			title: $i18n('deleteExpense.title'),
+			body: $i18n('deleteExpense.body'),
+			buttonTextSubmit: $i18n('button.delete'),
+			buttonTextCancel: $i18n('button.cancel')
 		};
 		modalStore.trigger(modal);
 	}
@@ -60,26 +61,32 @@
 
 <form class="space-y-4" method="post" action="?/save">
 	<div class="card space-y-2 bg-white p-4">
-		<TextField name="name" label="Name" autofocus={expense == null} required={true} value={expense?.getName()} />
-		<NumberField name="amount" label="Amount" required={true} value={expense?.getAmount()} />
+		<TextField
+			name="name"
+			label={$i18n('expense.name')}
+			autofocus={expense == null}
+			required={true}
+			value={expense?.getName()}
+		/>
+		<NumberField name="amount" label={$i18n('expense.amount')} required={true} value={expense?.getAmount()} />
 
 		<SelectField
 			name="frequency"
-			label="Frequency"
+			label={$i18n('expense.frequency')}
 			required={true}
-			value={expense?.getFrequencyNumber()}
+			value={expense?.getFrequencyNumber() ?? 1}
 			options={frequencyOptions}
 		/>
 
 		<AutoCompletingTextField
 			name="tag"
-			label="Tag"
+			label={$i18n('expense.group')}
 			value={expense?.getTag()}
 			options={tagOptions}
 		/>
 
 		<SlideToggle name="isEnabled" active="bg-primary-500" checked={expense?.isEnabled() ?? true}
-			>Is enabled</SlideToggle
+			>{$i18n('expense.isEnabled')}</SlideToggle
 		>
 	</div>
 
@@ -88,13 +95,13 @@
 	</div>
 
 	<div class="flex space-x-2 p-4">
-		<button class="btn variant-filled basis-1/4 bg-primary-500">Save</button>
+		<button class="btn variant-filled basis-1/4 bg-primary-500">{$i18n('button.save')}</button>
 
 		{#if expense != null}
 			<button
 				formnovalidate={true}
 				class="btn variant-filled basis-1/4"
-				on:click|preventDefault={showDeleteModal}>Delete</button
+				on:click|preventDefault={showDeleteModal}>{$i18n('button.delete')}</button
 			>
 		{/if}
 	</div>

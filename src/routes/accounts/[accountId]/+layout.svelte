@@ -14,12 +14,12 @@
 	<div>
 		{#if $page.data.editHref}
 			<a class="flex" href={$page.data.editHref} aria-label="Edit">
-				<h1 class="text-3xl">{$page.data.title}</h1>
+				<h1 class="text-3xl">{$i18n($page.data.title)}</h1>
 				<IconPencilSquare cssClass="flex-none h-5 w-5" />
 			</a>
 			<p>{$i18n($page.data.details)}</p>
 		{:else}
-			<h1 class="text-3xl">{$page.data.title}</h1>
+			<h1 class="text-3xl">{$i18n($page.data.title)}</h1>
 			<p>{$i18n($page.data.details)}</p>
 		{/if}
 	</div>

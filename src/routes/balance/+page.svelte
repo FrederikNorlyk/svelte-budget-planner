@@ -22,7 +22,7 @@
 					<span class="grow"></span>
 					{#if nextPaymentDate != null}
 						<p class="text-slate-500 flex-none">
-							Next payment: {DateUtil.localizeLongerFormat(nextPaymentDate)}
+							{$i18n('nextPayment')}: {DateUtil.localizeLongerFormat(nextPaymentDate)}
 						</p>
 					{/if}
 				</div>

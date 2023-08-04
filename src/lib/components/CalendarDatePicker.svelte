@@ -2,6 +2,7 @@
 	import SelectField from '$lib/components/SelectField.svelte';
 	import type { SelectOption } from '$lib/components/types/SelectOption';
 	import IconXMark from '$lib/icons/IconXMark.svelte';
+	import { i18n } from '$lib/localization/i18n';
 	import type { PaymentDate } from '$lib/models/PaymentDate';
 	import { DateUtil } from '$lib/util/DateUtil';
 
@@ -36,7 +37,7 @@
 		<SelectField
 			value={paymentDate.getDayOfMonth()}
 			name="dayOfMonth"
-			label="Day"
+			label={$i18n('calendarDatePicker.day')}
 			required={true}
 			options={daysOfMonth}
 		/>
@@ -45,7 +46,7 @@
 		<SelectField
 			value={paymentDate.getMonth()}
 			name="month"
-			label="Month"
+			label={$i18n('calendarDatePicker.month')}
 			required={true}
 			options={months}
 		/>
