@@ -50,10 +50,11 @@ export class CurrentAmountUtil {
 				return
 			}
 
-			const remainingNumberOfTransfers = DateUtil.getMonthsBetween(this.today, nextPaymentDate)
-			const monthlyAmount = expense.getMonthlyAmount()
-			const amountNotYetTransfered = monthlyAmount * remainingNumberOfTransfers
-			currentAmount += (expense.getAmount() - amountNotYetTransfered)
+			const remainingNumberOfTransfers = DateUtil.getMonthsBetween(this.today, nextPaymentDate);
+			const monthlyAmount = expense.getMonthlyAmount();
+			const amountNotYetTransfered = monthlyAmount * remainingNumberOfTransfers;
+			const amount = (expense.getAmount() - amountNotYetTransfered);
+			currentAmount += Math.ceil(amount);
 		})
 
 		return currentAmount;

@@ -85,7 +85,7 @@ test('Half-yearly expense', () => {
         new PaymentDate(2, 1, Month.JULY, 1),
     ];
 
-    const account = createAccountWithPaymentDates(paymentDates);
+    const account = createAccountWithPaymentDates(600, paymentDates);
     const util = new CurrentAmountUtil();
 
     util.setToday(new Date(2023, Month.JANUARY, 1));
@@ -109,6 +109,30 @@ test('Half-yearly expense', () => {
     expect(amount).toBe(100);
 })
 
+test('Quarterly expense', () => {
+    const paymentDates = [
+        new PaymentDate(1, 1, Month.JANUARY, 1),
+        new PaymentDate(1, 1, Month.APRIL, 1),
+        new PaymentDate(2, 1, Month.JULY, 1),
+        new PaymentDate(2, 1, Month.OCTOBER, 1),
+    ];
+
+    const account = createAccountWithPaymentDates(500, paymentDates);
+    const util = new CurrentAmountUtil();
+
+    util.setToday(new Date(2023, Month.JANUARY, 1));
+    let amount = util.getCurrentAmmount(account);
+    expect(amount).toBe(0);
+
+    util.setToday(new Date(2023, Month.FEBRUARY, 1));
+    amount = util.getCurrentAmmount(account);
+    expect(amount).toBe(167);
+
+    util.setToday(new Date(2023, Month.JUNE, 1));
+    amount = util.getCurrentAmmount(account);
+    expect(amount).toBe(334);
+})
+
 function createAccountWithSinglePaymentExpense(month: Month, dayOfMonth: number) {
     const account = new Account(1, "Test");
     const expense = new Expense(1, "Test", 1200, "Test", account.getId(), true);
@@ -122,9 +146,9 @@ function createAccountWithSinglePaymentExpense(month: Month, dayOfMonth: number)
     return account;
 }
 
-function createAccountWithPaymentDates(paymentDates: PaymentDate[]) {
+function createAccountWithPaymentDates(amount: number, paymentDates: PaymentDate[]) {
     const account = new Account(1, "Test");
-    const expense = new Expense(1, "Test", 600, "Test", account.getId(), true);
+    const expense = new Expense(1, "Test", amount, "Test", account.getId(), true);
 
     expense.setPaymentDates(paymentDates);
     account.setExpenses([expense]);
