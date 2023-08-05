@@ -30,7 +30,7 @@ export class CurrentAmountUtil {
 		let currentAmount = 0;
 
 		account.getExpenses().forEach((expense) => {
-			if (!expense.isEnabled) {
+			if (!expense.isEnabled()) {
 				return
 			}
 

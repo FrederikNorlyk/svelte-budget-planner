@@ -16,6 +16,22 @@ test('Monthly expenses are not included', () => {
     expect(amount).toBe(0)
 })
 
+test('Disabled expenses are not included', () => {
+    const account = new Account(1, "Test");
+    const expense = new Expense(1, "Test", 100, 12, "Test", account.getId(), false);
+    
+    expense.setPaymentDates([
+        new PaymentDate(1, expense.getId(), 1, 2)
+    ])
+
+    account.setExpenses([
+        expense
+    ]);
+    const util = new CurrentAmountUtil();
+    const amount = util.getCurrentAmmount(account)
+    expect(amount).toBe(0)
+})
+
 test('Single payment date', () => {
     const util = new CurrentAmountUtil();
     util.setToday(new Date(2023, 0, 1));
@@ -35,7 +51,7 @@ test('Single payment date', () => {
 
 function createAccountWithSinglePaymentExpense(amount: number, month: number) {
     const account = new Account(1, "Test");
-    const expense = new Expense(1, "Test", 1200, 12, "Test", account.getId(), true);
+    const expense = new Expense(1, "Test", amount, 12, "Test", account.getId(), true);
     
     expense.setPaymentDates([
         new PaymentDate(1, expense.getId(), 1, month)
