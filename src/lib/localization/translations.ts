@@ -40,6 +40,8 @@ export default {
         "calendarDatePicker.day": "Day",
         "calendarDatePicker.month": "Month",
         "expense.isMonthly.explanation": "This is a monthly expense, as it has no payment dates",
+        "expense.error.maxMonths": "An expense can have no more than 12 payment dates",
+        "expense.error.duplicateMonths": "You can not have multiple payment dates in the same month",
     },
     da: {
         "accounts.title": "Konti",
@@ -82,5 +84,7 @@ export default {
         "calendarDatePicker.day": "Dag",
         "calendarDatePicker.month": "Måned",
         "expense.isMonthly.explanation": "Dette er en månedtlig udgift, da den ikke har nogle betalingsdatoer",
+        "expense.error.maxMonths": "En udgift kan ikke have mere end 12 betalingsdatoer",
+        "expense.error.duplicateMonths": "Du kan ikke have flere betalingsdatoer i samme måned",
     },
 }

@@ -53,6 +53,14 @@ export const actions = {
             return { error: 'Invalid data' };
         }
 
+        if (months.length > 12) {
+            return { error: 'expense.error.maxMonths' };
+        }
+
+        if ((new Set(months)).size !== months.length) {
+            return { error: 'expense.error.duplicateMonths' };
+        }
+
         if (daysOfMonth.length != months.length) {
             return { error: 'Invalid payment date information' };
         }

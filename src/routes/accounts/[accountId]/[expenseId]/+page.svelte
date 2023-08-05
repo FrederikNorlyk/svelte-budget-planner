@@ -27,7 +27,7 @@
 
 	if (form?.error) {
 		toastStore.trigger({
-			message: form.error,
+			message: $i18n(form.error),
 			background: 'variant-filled-error'
 		});
 	}
