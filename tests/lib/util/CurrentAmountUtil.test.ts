@@ -5,21 +5,9 @@ import { Expense } from '$lib/models/Expense';
 import { PaymentDate } from '$lib/models/PaymentDate';
 import { Month } from '$lib/enums/Month';
 
-test('Monthly expenses are not included', () => {
-    const account = new Account(1, "Test");
-
-    account.setExpenses([
-        new Expense(1, "Test", 123, 1, "Test", 1, true)
-    ]);
-
-    const util = new CurrentAmountUtil();
-    const amount = util.getCurrentAmmount(account);
-    expect(amount).toBe(0);
-})
-
 test('Disabled expenses are not included', () => {
     const account = new Account(1, "Test");
-    const expense = new Expense(1, "Test", 100, 12, "Test", account.getId(), false);
+    const expense = new Expense(1, "Test", 100, "Test", account.getId(), false);
 
     expense.setPaymentDates([
         new PaymentDate(1, expense.getId(), Month.FEBRUARY, 1)
@@ -37,10 +25,9 @@ test('Disabled expenses are not included', () => {
 
 test('Expenses without payment dates are not included', () => {
     const account = new Account(1, "Test");
-    const expense = new Expense(1, "Test", 100, 12, "Test", account.getId(), true);
 
     account.setExpenses([
-        expense
+        new Expense(1, "Test", 100, "Test", account.getId(), true)
     ]);
 
     const util = new CurrentAmountUtil();
@@ -124,7 +111,7 @@ test('Half-yearly expense', () => {
 
 function createAccountWithSinglePaymentExpense(month: Month, dayOfMonth: number) {
     const account = new Account(1, "Test");
-    const expense = new Expense(1, "Test", 1200, 12, "Test", account.getId(), true);
+    const expense = new Expense(1, "Test", 1200, "Test", account.getId(), true);
 
     expense.setPaymentDates([
         new PaymentDate(1, expense.getId(), month, dayOfMonth)
@@ -137,7 +124,7 @@ function createAccountWithSinglePaymentExpense(month: Month, dayOfMonth: number)
 
 function createAccountWithPaymentDates(paymentDates: PaymentDate[]) {
     const account = new Account(1, "Test");
-    const expense = new Expense(1, "Test", 600, 6, "Test", account.getId(), true);
+    const expense = new Expense(1, "Test", 600, "Test", account.getId(), true);
 
     expense.setPaymentDates(paymentDates);
     account.setExpenses([expense]);

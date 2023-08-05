@@ -17,7 +17,7 @@ export class ExpenseClient extends DatabaseClient<Expense> {
     }
 
     protected override parse(row: QueryResultRow) {
-        return new Expense(row.id, row.name, row.amount, row.frequency, row.tag, row.account_id, row.is_enabled)
+        return new Expense(row.id, row.name, row.amount, row.tag, row.account_id, row.is_enabled)
     }
 
     /**
@@ -32,14 +32,13 @@ export class ExpenseClient extends DatabaseClient<Expense> {
         try {
             result = await this.getPool().query(`
                 INSERT INTO ${this.getTableName()} 
-                    (name, amount, frequency, tag, account_id, is_enabled, user_id) 
+                    (name, amount, tag, account_id, is_enabled, user_id) 
                 VALUES 
-                    ($1, $2, $3, $4, $5, $6, $7) 
+                    ($1, $2, $3, $4, $5, $6) 
                 RETURNING *`,
                 [
                     expense.getName(),
                     expense.getAmount(),
-                    expense.getFrequencyNumber(),
                     expense.getTag(),
                     expense.getAccountId(),
                     expense.isEnabled(),
@@ -69,18 +68,16 @@ export class ExpenseClient extends DatabaseClient<Expense> {
                 SET 
                     name = $1,
                     amount = $2,
-                    frequency = $3,
-                    tag = $4,
-                    account_id = $5,
-                    is_enabled = $6
+                    tag = $3,
+                    account_id = $4,
+                    is_enabled = $5
                 WHERE 
-                    id = $7 AND
-                    user_id = $8
+                    id = $6 AND
+                    user_id = $7
                 RETURNING *`,
                 [
                     expense.getName(),
                     expense.getAmount(),
-                    expense.getFrequencyNumber(),
                     expense.getTag(),
                     expense.getAccountId(),
                     expense.isEnabled(),

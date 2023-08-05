@@ -12,10 +12,7 @@
 	import { PaymentDate } from '$lib/models/PaymentDate.js';
 	import { toastStore, modalStore } from '@skeletonlabs/skeleton';
 	import DeleteModal from '$lib/components/DeleteModal.svelte';
-	import SelectField from '$lib/components/SelectField.svelte';
-	import type { SelectOption } from '$lib/components/types/SelectOption';
 	import { i18n } from '$lib/localization/i18n';
-	import frequencyToLocalizationKey, { Frequency } from '$lib/models/Frequency';
 	import NumberField from '$lib/components/NumberField.svelte';
 
 	export let form;
@@ -26,16 +23,6 @@
 	let tagOptions: AutocompleteOption[] = [];
 	data.tags.forEach((tag) => {
 		tagOptions.push({ label: tag, value: tag });
-	});
-
-	let frequencyOptions: SelectOption<Number>[] = [];
-	const frequencies = [12, 6, 4, 1];
-
-	frequencies.forEach((frequency) => {
-		frequencyOptions.push({
-			value: frequency,
-			text: $i18n(frequencyToLocalizationKey(frequency))
-		});
 	});
 
 	if (form?.error) {
@@ -68,14 +55,12 @@
 			required={true}
 			value={expense?.getName()}
 		/>
-		<NumberField name="amount" label={$i18n('expense.amount')} required={true} value={expense?.getAmount()} />
-
-		<SelectField
-			name="frequency"
-			label={$i18n('expense.frequency')}
+		
+		<NumberField
+			name="amount"
+			label={$i18n('expense.amount')}
 			required={true}
-			value={expense?.getFrequencyNumber() ?? 1}
-			options={frequencyOptions}
+			value={expense?.getAmount()}
 		/>
 
 		<AutoCompletingTextField

@@ -11,7 +11,6 @@ CREATE TABLE expenses(
     user_id INT NOT NULL,
     name VARCHAR(255) NOT NULL,
     amount NUMERIC(10, 2) NOT NULL,
-    frequency INT NOT NULL,
     tag VARCHAR(255),
     account_id INT NOT NULL,
     is_enabled BOOLEAN NOT NULL DEFAULT true,

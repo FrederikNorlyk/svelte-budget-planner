@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { Account } from '$lib/models/Account.js';
 	import { Expense } from '$lib/models/Expense.js';
-	import { Frequency } from '$lib/models/Frequency.js';
 	import { AmountUtil } from '$lib/util/AmountUtil.js';
 	import { CurrentAmountUtil } from '$lib/util/CurrentAmountUtil.js';
 	import { DateUtil } from '$lib/util/DateUtil.js';
@@ -16,23 +15,29 @@
 
 	function localizePaymentFrequency(expense: Expense) {
 		let key: String;
-		switch (expense.getFrequency()) {
-			case Frequency.YEARLY:
+		let parameters: any = {}
+		const numberOfPaymentDates = expense.getPaymentDates().length;
+
+		switch (numberOfPaymentDates) {
+			case 1:
 				key = 'paid.yearly';
 				break;
-			case Frequency.HALF_YEARLY:
+			case 2:
 				key = 'paid.halfYearly';
 				break;
-			case Frequency.QUARTERLY:
+			case 4:
 				key = 'paid.quarterly';
 				break;
-			case Frequency.MONTHLY:
-			default:
+			case 0:
 				key = 'paid.monthly';
+				break;
+			default:
+				key = 'paid.custom';
+				parameters = { times: numberOfPaymentDates};
 				break;
 		}
 
-		return $i18n(key);
+		return $i18n(key, parameters);
 	}
 </script>
 
@@ -43,7 +48,7 @@
 	<div class="flex flex-col space-y-3">
 		{#each expenses as expense (expense.getId())}
 			{@const nextPaymentDate = currentAmountUtil.getNextPaymentDateForExpense(expense)}
-			{@const monthlyAmount = expense.getAmount() / expense.getFrequencyNumber()}
+			{@const monthlyAmount = expense.getMonthlyAmount()}
 
 			<a
 				class="card grid grid-cols-2 space-y-2 bg-white p-4 {expense.isEnabled()
@@ -64,7 +69,7 @@
 				</div>
 				<div>
 					<h1 class="inline-block text-2xl">{AmountUtil.localize(expense.getAmount())}</h1>
-					{#if expense.getFrequency() != Frequency.MONTHLY}
+					{#if expense.getPaymentDates().length > 0}
 						<small class="text-slate-500"
 							>{AmountUtil.localize(monthlyAmount)}/{$i18n('month')}</small
 						>

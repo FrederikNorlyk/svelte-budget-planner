@@ -1,25 +1,22 @@
 import { DatabaseRecord } from "$lib/models/DatabaseRecord"
-import { Frequency } from "./Frequency"
 import { PaymentDate } from "./PaymentDate"
 
 export class Expense extends DatabaseRecord {
 
     private name: string
     private amount: number
-    private frequencyNumber: number
     private tag: string | null
     private accountId: number
     private enabled: boolean
     private paymentDates: PaymentDate[] = []
 
-    constructor(id: number, name: string, amount: number, frequency: number, tag: string | null | undefined,
+    constructor(id: number, name: string, amount: number, tag: string | null | undefined,
         accountId: number, enabled: boolean) {
 
         super(id)
 
         this.name = name
         this.amount = amount
-        this.frequencyNumber = frequency
         this.tag = tag === undefined ? null : tag
         this.accountId = accountId
         this.enabled = enabled
@@ -33,23 +30,9 @@ export class Expense extends DatabaseRecord {
         return this.amount
     }
 
-    public getFrequencyNumber() {
-        return this.frequencyNumber
-    }
-
-    public getFrequency() {
-        switch (this.frequencyNumber) {
-            case 12:
-                return Frequency.YEARLY
-            case 6:
-                return Frequency.HALF_YEARLY
-            case 4:
-                return Frequency.QUARTERLY
-            case 1:
-                return Frequency.MONTHLY
-            default:
-                return Frequency.CUSTOM
-        }
+    public getMonthlyAmount() {
+        const numberOfTransfers = 12 / this.getPaymentDates().length;
+        return this.amount / numberOfTransfers;
     }
 
     public getTag() {
@@ -77,7 +60,6 @@ export class Expense extends DatabaseRecord {
             id: this.getId(),
             name: this.getName(),
             amount: this.getAmount(),
-            frequency: this.getFrequencyNumber(),
             tag: this.getTag(),
             accountId: this.getAccountId(),
             enabled: this.isEnabled(),
@@ -92,7 +74,6 @@ export class Expense extends DatabaseRecord {
             parsed.id,
             parsed.name,
             parsed.amount,
-            parsed.frequency,
             parsed.tag,
             parsed.accountId,
             parsed.enabled

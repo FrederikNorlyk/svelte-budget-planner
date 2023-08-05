@@ -1,6 +1,5 @@
 import type { Account } from "$lib/models/Account";
 import type { Expense } from "$lib/models/Expense";
-import { Frequency } from "$lib/models/Frequency";
 import { DateUtil } from "./DateUtil";
 
 /**
@@ -41,8 +40,8 @@ export class CurrentAmountUtil {
 				return
 			}
 
-			if (expense.getFrequency() === Frequency.MONTHLY) {
-				return
+			if (expense.getPaymentDates().length === 0) {
+				return;
 			}
 
 			const nextPaymentDate = this.getNextPaymentDateForExpense(expense)
@@ -52,7 +51,7 @@ export class CurrentAmountUtil {
 			}
 
 			const remainingNumberOfTransfers = DateUtil.getMonthsBetween(this.today, nextPaymentDate)
-			const monthlyAmount = expense.getAmount() / expense.getFrequencyNumber()
+			const monthlyAmount = expense.getMonthlyAmount()
 			const amountNotYetTransfered = monthlyAmount * remainingNumberOfTransfers
 			currentAmount += (expense.getAmount() - amountNotYetTransfered)
 		})
@@ -98,7 +97,7 @@ export class CurrentAmountUtil {
 		let nextPaymentDate: Date | null = null;
 		const thisYear = this.today.getFullYear();
 
-		if (expense.getFrequency() === Frequency.MONTHLY) {
+		if (expense.getPaymentDates().length === 0) {
 			const nextMonth = this.today.getMonth() + 1;
 			return new Date(thisYear, nextMonth, 1)
 		}

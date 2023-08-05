@@ -44,13 +44,12 @@ export const actions = {
         const data = await request.formData();
         const name = data.get('name')?.toString();
         const amount = +(data.get('amount')?.toString() || '');
-        const frequency = +(data.get('frequency')?.toString() || '');
         const tag = data.get('tag')?.toString();
         const isEnabled = !!data.get('isEnabled');
         const daysOfMonth = data.getAll('dayOfMonth');
         const months = data.getAll('month');
 
-        if (name == null || amount == 0 || isNaN(amount) || frequency < 1 || frequency > 12) {
+        if (name == null || amount == 0 || isNaN(amount)) {
             return { error: 'Invalid data' };
         }
 
@@ -68,7 +67,7 @@ export const actions = {
         }
 
         const expenseClient = new ExpenseClient(session.user.id);
-        const expense = new Expense(id, name, amount, frequency, tag, accountId, isEnabled);
+        const expense = new Expense(id, name, amount, tag, accountId, isEnabled);
 
         let newExpense;
         if (id == 0) {
