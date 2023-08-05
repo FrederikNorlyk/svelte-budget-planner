@@ -31,8 +31,17 @@ export class Expense extends DatabaseRecord {
     }
 
     public getMonthlyAmount() {
+        if (this.isMonthlyExpense()) {
+            return this.amount;
+        }
+        
         const numberOfTransfers = 12 / this.getPaymentDates().length;
         return this.amount / numberOfTransfers;
+    }
+
+    public isMonthlyExpense() {
+        const numberOfDates = this.getPaymentDates().length;
+        return numberOfDates === 0 || numberOfDates === 12;
     }
 
     public getTag() {

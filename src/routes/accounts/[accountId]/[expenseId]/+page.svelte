@@ -14,7 +14,7 @@
 	import DeleteModal from '$lib/components/DeleteModal.svelte';
 	import { i18n } from '$lib/localization/i18n';
 	import NumberField from '$lib/components/NumberField.svelte';
-
+	
 	export let form;
 	export let data;
 	const expense = data.expense != null ? Expense.parse(data.expense) : null;
@@ -55,7 +55,7 @@
 			required={true}
 			value={expense?.getName()}
 		/>
-		
+
 		<NumberField
 			name="amount"
 			label={$i18n('expense.amount')}

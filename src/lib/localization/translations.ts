@@ -39,6 +39,7 @@ export default {
         "addDate": "Add date",
         "calendarDatePicker.day": "Day",
         "calendarDatePicker.month": "Month",
+        "expense.isMonthly.explanation": "This is a monthly expense, as it has no payment dates",
     },
     da: {
         "accounts.title": "Konti",
@@ -80,5 +81,6 @@ export default {
         "addDate": "Tilføj dato",
         "calendarDatePicker.day": "Dag",
         "calendarDatePicker.month": "Måned",
+        "expense.isMonthly.explanation": "Dette er en månedtlig udgift, da den ikke har nogle betalingsdatoer",
     },
 }

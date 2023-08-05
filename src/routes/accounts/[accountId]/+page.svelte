@@ -28,6 +28,7 @@
 			case 4:
 				key = 'paid.quarterly';
 				break;
+			case 12:
 			case 0:
 				key = 'paid.monthly';
 				break;
@@ -69,7 +70,7 @@
 				</div>
 				<div>
 					<h1 class="inline-block text-2xl">{AmountUtil.localize(expense.getAmount())}</h1>
-					{#if expense.getPaymentDates().length > 0}
+					{#if !expense.isMonthlyExpense()}
 						<small class="text-slate-500"
 							>{AmountUtil.localize(monthlyAmount)}/{$i18n('month')}</small
 						>

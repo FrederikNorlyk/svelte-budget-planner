@@ -40,7 +40,7 @@ export class CurrentAmountUtil {
 				return
 			}
 
-			if (expense.getPaymentDates().length === 0) {
+			if (expense.isMonthlyExpense()) {
 				return;
 			}
 
