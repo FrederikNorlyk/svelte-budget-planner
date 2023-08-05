@@ -20,6 +20,13 @@ export class CurrentAmountUtil {
 		this.today = date;
 	}
 
+	constructor() {
+		this.today.setHours(0);
+		this.today.setMinutes(0);
+		this.today.setSeconds(0);
+		this.today.setMilliseconds(0);
+	}
+
 	/**
 	 * Get the current amount that should be on the given account, to avoid overdrawing.
 	 * 
@@ -89,16 +96,18 @@ export class CurrentAmountUtil {
 	 */
 	public getNextPaymentDateForExpense(expense: Expense): Date | null {
 		let nextPaymentDate: Date | null = null;
-		const year = this.today.getFullYear();
+		const thisYear = this.today.getFullYear();
 
 		if (expense.getFrequency() === Frequency.MONTHLY) {
-			return new Date(year, this.today.getMonth() + 1, 1)
+			const nextMonth = this.today.getMonth() + 1;
+			return new Date(thisYear, nextMonth, 1)
 		}
 
 		expense.getPaymentDates().forEach((paymentDate) => {
-			const date = new Date(year, paymentDate.getMonth(), paymentDate.getDayOfMonth());
-			if (date < this.today) {
-				date.setFullYear(year + 1)
+			const date = new Date(thisYear, paymentDate.getMonth(), paymentDate.getDayOfMonth());
+			
+			if (date <= this.today) {
+				date.setFullYear(thisYear + 1)
 			}
 
 			if (nextPaymentDate == null || nextPaymentDate > date) {

@@ -37,6 +37,7 @@ export class DateUtil {
     }
 
     public static getMonthsBetween(fromDate: Date, toDate: Date) {
-        return toDate.getMonth() - fromDate.getMonth() + (12 * (toDate.getFullYear() - fromDate.getFullYear()))
+        const yearsBetween = toDate.getFullYear() - fromDate.getFullYear();
+        return toDate.getMonth() - fromDate.getMonth() + (12 * yearsBetween)
     }
 }
