@@ -3,7 +3,7 @@
 {
 	"name": "Node.js & TypeScript",
 	"image": "mcr.microsoft.com/devcontainers/typescript-node:0-20",
-	"postCreateCommand": "pnpm install",
+	"postCreateCommand": "npm install",
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -12,7 +12,8 @@
 				"bradlc.vscode-tailwindcss",
 				"moalamri.inline-fold",
 				"esbenp.prettier-vscode",
-				"bradlc.vscode-tailwindcss"
+				"bradlc.vscode-tailwindcss",
+				"zixuanchen.vitest-explorer"
 			]
 		}
 	}
