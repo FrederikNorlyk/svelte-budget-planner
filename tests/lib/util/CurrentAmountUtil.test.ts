@@ -133,6 +133,73 @@ test('Quarterly expense', () => {
     expect(amount).toBe(334);
 })
 
+test('Multiple expenses', () => {
+    const account = new Account(1, "Test");
+    const expense1 = new Expense(1, "Test", 1200, "Test", account.getId(), true);
+    const expense2 = new Expense(2, "Test", 600, "Test", account.getId(), true);
+
+    expense1.setPaymentDates([
+        new PaymentDate(1, expense1.getId(), Month.OCTOBER, 1)
+    ])
+
+    expense2.setPaymentDates([
+        new PaymentDate(2, expense2.getId(), Month.MARCH, 1),
+        new PaymentDate(3, expense2.getId(), Month.SEPTEMBER, 1)
+    ])
+
+    account.setExpenses([expense1, expense2]);
+
+    const util = new CurrentAmountUtil();
+
+    util.setToday(new Date(2023, Month.JANUARY, 1));
+    let amount = util.getCurrentAmmount(account);
+    expect(amount).toBe(700);
+
+    util.setToday(new Date(2023, Month.FEBRUARY, 1));
+    amount = util.getCurrentAmmount(account);
+    expect(amount).toBe(900);
+  
+    util.setToday(new Date(2023, Month.MARCH, 1));
+    amount = util.getCurrentAmmount(account);
+    expect(amount).toBe(500);
+  
+    util.setToday(new Date(2023, Month.APRIL, 1));
+    amount = util.getCurrentAmmount(account);
+    expect(amount).toBe(700);
+  
+    util.setToday(new Date(2023, Month.MAY, 1));
+    amount = util.getCurrentAmmount(account);
+    expect(amount).toBe(900);
+  
+    util.setToday(new Date(2023, Month.JUNE, 1));
+    amount = util.getCurrentAmmount(account);
+    expect(amount).toBe(1100);
+  
+    util.setToday(new Date(2023, Month.JULY, 1));
+    amount = util.getCurrentAmmount(account);
+    expect(amount).toBe(1300);
+  
+    util.setToday(new Date(2023, Month.AUGUST, 1));
+    amount = util.getCurrentAmmount(account);
+    expect(amount).toBe(1500);
+  
+    util.setToday(new Date(2023, Month.SEPTEMBER, 1));
+    amount = util.getCurrentAmmount(account);
+    expect(amount).toBe(1100);
+  
+    util.setToday(new Date(2023, Month.OCTOBER, 1));
+    amount = util.getCurrentAmmount(account);
+    expect(amount).toBe(100);
+  
+    util.setToday(new Date(2023, Month.NOVEMBER, 1));
+    amount = util.getCurrentAmmount(account);
+    expect(amount).toBe(300);
+  
+    util.setToday(new Date(2023, Month.DECEMBER, 1));
+    amount = util.getCurrentAmmount(account);
+    expect(amount).toBe(500);
+})
+
 function createAccountWithSinglePaymentExpense(month: Month, dayOfMonth: number) {
     const account = new Account(1, "Test");
     const expense = new Expense(1, "Test", 1200, "Test", account.getId(), true);
