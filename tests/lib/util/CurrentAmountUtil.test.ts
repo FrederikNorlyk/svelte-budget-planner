@@ -52,15 +52,15 @@ test('Expense with a single payment date', () => {
     const util = new CurrentAmountUtil();
     util.setToday(new Date(2023, Month.JANUARY, 1));
 
-    let account = createAccountWithSinglePaymentExpense(1200, Month.FEBRUARY);
+    let account = createAccountWithSinglePaymentExpense(Month.FEBRUARY, 1);
     let amount = util.getCurrentAmmount(account);
     expect(amount).toBe(1100);
 
-    account = createAccountWithSinglePaymentExpense(1200, Month.MARCH);
+    account = createAccountWithSinglePaymentExpense(Month.MARCH, 1);
     amount = util.getCurrentAmmount(account);
     expect(amount).toBe(1000);
 
-    account = createAccountWithSinglePaymentExpense(1200, Month.APRIL);
+    account = createAccountWithSinglePaymentExpense(Month.APRIL, 1);
     amount = util.getCurrentAmmount(account);
     expect(amount).toBe(900);
 })
@@ -69,7 +69,7 @@ test('Payment date is in the following year', () => {
     const util = new CurrentAmountUtil();
     util.setToday(new Date(2023, Month.OCTOBER, 22));
 
-    const account = createAccountWithSinglePaymentExpense(1200, Month.MAY);
+    const account = createAccountWithSinglePaymentExpense(Month.MAY, 1);
     const amount = util.getCurrentAmmount(account);
     expect(amount).toBe(500);
 })
@@ -78,22 +78,69 @@ test('Payment date is tomorrow', () => {
     const util = new CurrentAmountUtil();
     util.setToday(new Date(2023, Month.OCTOBER, 31));
 
-    const account = createAccountWithSinglePaymentExpense(1200, Month.NOVEMBER);
+    const account = createAccountWithSinglePaymentExpense(Month.NOVEMBER, 1);
     const amount = util.getCurrentAmmount(account);
     expect(amount).toBe(1100);
 })
 
-function createAccountWithSinglePaymentExpense(amount: number, month: Month) {
+test('Payment date is in exactly one year', () => {
+    const util = new CurrentAmountUtil();
+    util.setToday(new Date(2023, Month.OCTOBER, 10));
+
+    const account = createAccountWithSinglePaymentExpense(Month.OCTOBER, 10);
+    const amount = util.getCurrentAmmount(account);
+    expect(amount).toBe(0);
+})
+
+test('Half-yearly expense', () => {
+    const paymentDates = [
+        new PaymentDate(1, 1, Month.JANUARY, 1),
+        new PaymentDate(2, 1, Month.JULY, 1),
+    ];
+
+    const account = createAccountWithPaymentDates(paymentDates);
+    const util = new CurrentAmountUtil();
+
+    util.setToday(new Date(2023, Month.JANUARY, 1));
+    let amount = util.getCurrentAmmount(account);
+    expect(amount).toBe(0);
+
+    util.setToday(new Date(2023, Month.FEBRUARY, 1));
+    amount = util.getCurrentAmmount(account);
+    expect(amount).toBe(100);
+
+    util.setToday(new Date(2023, Month.JUNE, 1));
+    amount = util.getCurrentAmmount(account);
+    expect(amount).toBe(500);
+
+    util.setToday(new Date(2023, Month.JULY, 1));
+    amount = util.getCurrentAmmount(account);
+    expect(amount).toBe(0);
+
+    util.setToday(new Date(2023, Month.AUGUST, 1));
+    amount = util.getCurrentAmmount(account);
+    expect(amount).toBe(100);
+})
+
+function createAccountWithSinglePaymentExpense(month: Month, dayOfMonth: number) {
     const account = new Account(1, "Test");
-    const expense = new Expense(1, "Test", amount, 12, "Test", account.getId(), true);
+    const expense = new Expense(1, "Test", 1200, 12, "Test", account.getId(), true);
 
     expense.setPaymentDates([
-        new PaymentDate(1, expense.getId(), month, 1)
+        new PaymentDate(1, expense.getId(), month, dayOfMonth)
     ])
 
-    account.setExpenses([
-        expense
-    ]);
+    account.setExpenses([expense]);
+
+    return account;
+}
+
+function createAccountWithPaymentDates(paymentDates: PaymentDate[]) {
+    const account = new Account(1, "Test");
+    const expense = new Expense(1, "Test", 600, 6, "Test", account.getId(), true);
+
+    expense.setPaymentDates(paymentDates);
+    account.setExpenses([expense]);
 
     return account;
 }
