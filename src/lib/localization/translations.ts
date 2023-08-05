@@ -17,7 +17,7 @@ export default {
         "nextPayment": "Next payment",
         "month": "month",
         "expense.inactive": "The expense is inactive",
-        "account.details": "Maintain the the account's expenses",
+        "account.details": "Maintain the account's expenses",
         "chat.noExpenses": "It seems that I have no expenses...",
         "chat.howToAdd": "You can use the button above to add some 🙂",
         "chat.noAccounts": "It seems that I have no accounts...",
