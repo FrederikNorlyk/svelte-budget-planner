@@ -44,7 +44,7 @@ export class CurrentAmountUtil {
 				return
 			}
 
-			const remainingNumberOfTransfers = Math.max(1, DateUtil.getMonthsBetween(this.today, nextPaymentDate))
+			const remainingNumberOfTransfers = DateUtil.getMonthsBetween(this.today, nextPaymentDate)
 			const monthlyAmount = expense.getAmount() / expense.getFrequencyNumber()
 			const amountNotYetTransfered = monthlyAmount * remainingNumberOfTransfers
 			currentAmount += (expense.getAmount() - amountNotYetTransfered)
