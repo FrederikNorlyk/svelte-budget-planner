@@ -33,7 +33,7 @@ export class DateUtil {
     }
 
     public static getMonthName(month: number) {
-        return DateUtil.monthNameFormat.format(new Date(1974, month - 1, 1))
+        return DateUtil.monthNameFormat.format(new Date(1974, month, 1))
     }
 
     public static getMonthsBetween(fromDate: Date, toDate: Date) {

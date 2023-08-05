@@ -19,7 +19,7 @@
 	}
 
 	const months: SelectOption<Number>[] = []
-	for (let i = 1; i <= 12; i++) {
+	for (let i = 0; i < 12; i++) {
 		months.push({
 			value: i,
 			text: DateUtil.getMonthName(i)

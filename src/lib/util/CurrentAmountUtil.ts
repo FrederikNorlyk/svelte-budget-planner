@@ -96,7 +96,7 @@ export class CurrentAmountUtil {
 		}
 
 		expense.getPaymentDates().forEach((paymentDate) => {
-			const date = new Date(year, paymentDate.getMonth() - 1, paymentDate.getDayOfMonth());
+			const date = new Date(year, paymentDate.getMonth(), paymentDate.getDayOfMonth());
 			if (date < this.today) {
 				date.setFullYear(year + 1)
 			}

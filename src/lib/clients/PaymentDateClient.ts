@@ -16,7 +16,7 @@ export class PaymentDateClient extends DatabaseClient<PaymentDate> {
     }
 
     protected override parse(row: QueryResultRow) {
-        return new PaymentDate(row.id, row.expense_id, row.day_of_month, row.month)
+        return new PaymentDate(row.id, row.expense_id, row.month, row.day_of_month)
     }
 
     /**

@@ -41,62 +41,62 @@ export async function load(event) {
 
 export const actions = {
     save: async ({ request, params, locals }) => {
-        const data = await request.formData()
-        const name = data.get('name')?.toString()
-        const amount = +(data.get('amount')?.toString() || '')
-        const frequency = +(data.get('frequency')?.toString() || '')
-        const tag = data.get('tag')?.toString()
-        const isEnabled = !!data.get('isEnabled')
-        const daysOfMonth = data.getAll('dayOfMonth')
-        const months = data.getAll('month')
+        const data = await request.formData();
+        const name = data.get('name')?.toString();
+        const amount = +(data.get('amount')?.toString() || '');
+        const frequency = +(data.get('frequency')?.toString() || '');
+        const tag = data.get('tag')?.toString();
+        const isEnabled = !!data.get('isEnabled');
+        const daysOfMonth = data.getAll('dayOfMonth');
+        const months = data.getAll('month');
 
         if (name == null || amount == 0 || isNaN(amount) || frequency < 1 || frequency > 12) {
-            return { error: 'Invalid data' }
+            return { error: 'Invalid data' };
         }
 
         if (daysOfMonth.length != months.length) {
-            return { error: 'Invalid payment date information'}
+            return { error: 'Invalid payment date information' };
         }
 
-        const id = +params.expenseId
-        const accountId = +params.accountId
+        const id = +params.expenseId;
+        const accountId = +params.accountId;
 
-        const session = await locals.getSession()
+        const session = await locals.getSession();
 
         if (session == null) {
-            throw redirect(303, "/")
+            throw redirect(303, "/");
         }
 
-        const expenseClient = new ExpenseClient(session.user.id)
-        const expense = new Expense(id, name, amount, frequency, tag, accountId, isEnabled)
+        const expenseClient = new ExpenseClient(session.user.id);
+        const expense = new Expense(id, name, amount, frequency, tag, accountId, isEnabled);
 
-        let newExpense
+        let newExpense;
         if (id == 0) {
-            newExpense = await expenseClient.create(expense)
+            newExpense = await expenseClient.create(expense);
         } else {
-            newExpense = await expenseClient.update(expense)
-        }
-        
-        if (newExpense == null) {
-            return { error: 'Could save the expense'}
+            newExpense = await expenseClient.update(expense);
         }
 
-        const paymentDateClient = new PaymentDateClient(session.user.id)
-        await paymentDateClient.deleteAllBelongingTo(expense)
+        if (newExpense == null) {
+            return { error: 'Could save the expense' };
+        }
+
+        const paymentDateClient = new PaymentDateClient(session.user.id);
+        await paymentDateClient.deleteAllBelongingTo(expense);
 
         for (let i = 0; i < daysOfMonth.length; i++) {
             const dayOfMonth = +daysOfMonth[i];
             const month = +months[i];
 
-            const paymentDate = new PaymentDate(0, newExpense.getId(), dayOfMonth, month)
-            const createdPaymentDate = await paymentDateClient.create(paymentDate)
+            const paymentDate = new PaymentDate(0, newExpense.getId(), month, dayOfMonth);
+            const createdPaymentDate = await paymentDateClient.create(paymentDate);
 
             if (createdPaymentDate == null) {
-                return { error: 'Could not create payment date'}
+                return { error: 'Could not create payment date' };
             }
         }
 
-        throw redirect(303, "/accounts/" + params.accountId)
+        throw redirect(303, "/accounts/" + params.accountId);
     },
 
     delete: async ({ params, locals }) => {
