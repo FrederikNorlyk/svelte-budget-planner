@@ -13,7 +13,7 @@
 	</a>
 	<div>
 		{#if $page.data.editHref}
-			<a class="flex" href={$page.data.editHref} aria-label="Edit">
+			<a class="flex space-x-1" href={$page.data.editHref} aria-label="Edit">
 				<h1 class="text-3xl">{$i18n($page.data.title)}</h1>
 				<IconPencilSquare cssClass="flex-none h-5 w-5" />
 			</a>
