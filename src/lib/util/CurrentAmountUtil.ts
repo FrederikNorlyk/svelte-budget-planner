@@ -70,7 +70,7 @@ export class CurrentAmountUtil {
 		let nextPaymentDate: Date | null = null;
 
 		account.getExpenses().forEach((expense) => {
-			if (!expense.isEnabled) {
+			if (!expense.isEnabled()) {
 				return
 			}
 			
