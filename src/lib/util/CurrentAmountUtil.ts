@@ -66,7 +66,7 @@ export class CurrentAmountUtil {
 	 * @param account the account to use when calculating the date
 	 * @returns the next date from today when a payment will occur, or NULL
 	 */
-	public getNextPaymentDate(account: Account) {
+	public getNextPaymentDate(account: Account): Date | null {
 		let nextPaymentDate: Date | null = null;
 
 		account.getExpenses().forEach((expense) => {
@@ -98,7 +98,7 @@ export class CurrentAmountUtil {
 		let nextPaymentDate: Date | null = null;
 		const thisYear = this.today.getFullYear();
 
-		if (expense.getPaymentDates().length === 0) {
+		if (expense.isMonthlyExpense()) {
 			const nextMonth = this.today.getMonth() + 1;
 			return new Date(thisYear, nextMonth, 1)
 		}

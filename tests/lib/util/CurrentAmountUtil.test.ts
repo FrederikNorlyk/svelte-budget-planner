@@ -203,6 +203,15 @@ describe('Tests for getCurrentAmount', () => {
 })
 
 describe('Tests for getNextPaymentDate', () => {
+
+    test('No account with no expenses', () => {
+        const account = new Account(1, "Test");
+
+        const util = new CurrentAmountUtil();
+        const paymentDate = util.getNextPaymentDate(account);
+        expect(paymentDate).toBe(null);
+    })
+
     test('Disabled expenses are not included', () => {
         const account = new Account(1, "Test");
         const expense = new Expense(1, "Test", 100, "Tag", account.getId(), false);
@@ -216,6 +225,106 @@ describe('Tests for getNextPaymentDate', () => {
         const util = new CurrentAmountUtil();
         const paymentDate = util.getNextPaymentDate(account);
         expect(paymentDate).toBe(null);
+    })
+
+    test('Monthly expense', () => {
+        const account = new Account(1, "Test");
+
+        account.setExpenses([
+            new Expense(1, "Test", 100, "Tag", account.getId(), true)
+        ])
+
+        const util = new CurrentAmountUtil();
+        util.setToday(new Date(2023, Month.JUNE, 1));
+        const paymentDate = util.getNextPaymentDate(account);
+        if (paymentDate == null) {
+            throw Error("Should have found a payment date")
+        }
+
+        expect(paymentDate.getFullYear()).toBe(2023);
+        expect(paymentDate.getMonth()).toBe(Month.JULY);
+        expect(paymentDate.getDate()).toBe(1);
+    })
+
+    test('Two expenses, only one is enabled', () => {
+        const account = new Account(1, "Test");
+        const expense1 = new Expense(1, "Test", 100, "Tag", account.getId(), true);
+        const expense2 = new Expense(2, "Test", 100, "Tag", account.getId(), false);
+
+        expense1.setPaymentDates([
+            new PaymentDate(1, expense1.getId(), Month.MARCH, 1), 
+        ]);
+ 
+        expense2.setPaymentDates([
+            new PaymentDate(1, expense2.getId(), Month.FEBRUARY, 1), 
+        ]);
+
+        account.setExpenses([expense1, expense2]);
+
+        const util = new CurrentAmountUtil();
+        util.setToday(new Date(2023, Month.JANUARY, 1));
+        const paymentDate = util.getNextPaymentDate(account);
+        if (paymentDate == null) {
+            throw Error("Should have found a payment date")
+        }
+
+        expect(paymentDate.getFullYear()).toBe(2023);
+        expect(paymentDate.getMonth()).toBe(Month.MARCH);
+        expect(paymentDate.getDate()).toBe(1);
+    })
+
+    test('Two expenses', () => {
+        const account = new Account(1, "Test");
+        const expense1 = new Expense(1, "Test", 100, "Tag", account.getId(), true);
+        const expense2 = new Expense(2, "Test", 100, "Tag", account.getId(), true);
+
+        expense1.setPaymentDates([
+            new PaymentDate(1, expense1.getId(), Month.MARCH, 1), 
+        ]);
+ 
+        expense2.setPaymentDates([
+            new PaymentDate(1, expense2.getId(), Month.FEBRUARY, 1), 
+        ]);
+
+        account.setExpenses([expense1, expense2]);
+
+        const util = new CurrentAmountUtil();
+        util.setToday(new Date(2023, Month.JANUARY, 1));
+        const paymentDate = util.getNextPaymentDate(account);
+        if (paymentDate == null) {
+            throw Error("Should have found a payment date")
+        }
+
+        expect(paymentDate.getFullYear()).toBe(2023);
+        expect(paymentDate.getMonth()).toBe(Month.FEBRUARY);
+        expect(paymentDate.getDate()).toBe(1);
+    })
+
+    test('Two expenses, one is next year', () => {
+        const account = new Account(1, "Test");
+        const expense1 = new Expense(1, "Test", 100, "Tag", account.getId(), true);
+        const expense2 = new Expense(2, "Test", 100, "Tag", account.getId(), true);
+
+        expense1.setPaymentDates([
+            new PaymentDate(1, expense1.getId(), Month.APRIL, 1), 
+        ]);
+ 
+        expense2.setPaymentDates([
+            new PaymentDate(1, expense2.getId(), Month.JANUARY, 1), 
+        ]);
+
+        account.setExpenses([expense1, expense2]);
+
+        const util = new CurrentAmountUtil();
+        util.setToday(new Date(2023, Month.JANUARY, 1));
+        const paymentDate = util.getNextPaymentDate(account);
+        if (paymentDate == null) {
+            throw Error("Should have found a payment date")
+        }
+
+        expect(paymentDate.getFullYear()).toBe(2023);
+        expect(paymentDate.getMonth()).toBe(Month.APRIL);
+        expect(paymentDate.getDate()).toBe(1);
     })
 })
 
