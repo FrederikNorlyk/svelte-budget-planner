@@ -200,11 +200,28 @@ describe('Tests for getCurrentAmount', () => {
         amount = util.getCurrentAmmount(account);
         expect(amount).toBe(500);
     })
+
+    test('Payment date is last day of month', () => {
+        const account = new Account(1, "Test");
+
+        const expense = new Expense(1, "Test", 1200, "Tag", account.getId(), true);
+
+        expense.setPaymentDates([
+            new PaymentDate(1, expense.getId(), Month.JUNE, 30)
+        ])
+
+        account.setExpenses([expense])
+
+        const util = new CurrentAmountUtil();
+        util.setToday(new Date(2023, Month.JUNE, 1));
+        const amount = util.getCurrentAmmount(account);
+        expect(amount).toBe(1200)
+    })
 })
 
 describe('Tests for getNextPaymentDate', () => {
 
-    test('No account with no expenses', () => {
+    test('An account with no expenses', () => {
         const account = new Account(1, "Test");
 
         const util = new CurrentAmountUtil();
@@ -223,6 +240,7 @@ describe('Tests for getNextPaymentDate', () => {
         account.setExpenses([expense])
 
         const util = new CurrentAmountUtil();
+        util.setToday(new Date(2023, Month.JUNE, 1));
         const paymentDate = util.getNextPaymentDate(account);
         expect(paymentDate).toBe(null);
     })
@@ -325,6 +343,116 @@ describe('Tests for getNextPaymentDate', () => {
         expect(paymentDate.getFullYear()).toBe(2023);
         expect(paymentDate.getMonth()).toBe(Month.APRIL);
         expect(paymentDate.getDate()).toBe(1);
+    })
+})
+
+describe('Tests for getNextPaymentDateForExpense', () => {
+
+    test('Monthly expense', () => {
+        const expense = new Expense(1, "Test", 100, "Tag", 1, true)
+
+        const util = new CurrentAmountUtil();
+        util.setToday(new Date(2023, Month.JUNE, 1));
+        const paymentDate = util.getNextPaymentDateForExpense(expense);
+        if (paymentDate == null) {
+            throw Error("Should have found a payment date")
+        }
+
+        expect(paymentDate.getFullYear()).toBe(2023);
+        expect(paymentDate.getMonth()).toBe(Month.JULY);
+        expect(paymentDate.getDate()).toBe(1);
+    })
+
+    test('Monthly expense in december', () => {
+        const expense = new Expense(1, "Test", 100, "Tag", 1, true)
+
+        const util = new CurrentAmountUtil();
+        util.setToday(new Date(2023, Month.DECEMBER, 1));
+        const paymentDate = util.getNextPaymentDateForExpense(expense);
+        if (paymentDate == null) {
+            throw Error("Should have found a payment date")
+        }
+
+        expect(paymentDate.getFullYear()).toBe(2024);
+        expect(paymentDate.getMonth()).toBe(Month.JANUARY);
+        expect(paymentDate.getDate()).toBe(1);
+    })
+
+    test('Yearly expense', () => {
+        const expense = new Expense(1, "Test", 100, "Tag", 1, true)
+
+        expense.setPaymentDates([
+            new PaymentDate(1, expense.getId(), Month.MAY, 1)
+        ])
+
+        const util = new CurrentAmountUtil();
+        util.setToday(new Date(2023, Month.MARCH, 1));
+        const paymentDate = util.getNextPaymentDateForExpense(expense);
+        if (paymentDate == null) {
+            throw Error("Should have found a payment date")
+        }
+
+        expect(paymentDate.getFullYear()).toBe(2023);
+        expect(paymentDate.getMonth()).toBe(Month.MAY);
+        expect(paymentDate.getDate()).toBe(1);
+    })
+
+    test('Yearly expense, next year', () => {
+        const expense = new Expense(1, "Test", 100, "Tag", 1, true)
+
+        expense.setPaymentDates([
+            new PaymentDate(1, expense.getId(), Month.MAY, 1)
+        ])
+
+        const util = new CurrentAmountUtil();
+        util.setToday(new Date(2023, Month.MAY, 1));
+        const paymentDate = util.getNextPaymentDateForExpense(expense);
+        if (paymentDate == null) {
+            throw Error("Should have found a payment date")
+        }
+
+        expect(paymentDate.getFullYear()).toBe(2024);
+        expect(paymentDate.getMonth()).toBe(Month.MAY);
+        expect(paymentDate.getDate()).toBe(1);
+    })
+
+    test('Half-yearly expense', () => {
+        const expense = new Expense(1, "Test", 100, "Tag", 1, true)
+
+        expense.setPaymentDates([
+            new PaymentDate(1, expense.getId(), Month.MAY, 1),
+            new PaymentDate(2, expense.getId(), Month.JULY, 1),
+        ])
+
+        const util = new CurrentAmountUtil();
+        util.setToday(new Date(2023, Month.MAY, 1));
+        const paymentDate = util.getNextPaymentDateForExpense(expense);
+        if (paymentDate == null) {
+            throw Error("Should have found a payment date")
+        }
+
+        expect(paymentDate.getFullYear()).toBe(2023);
+        expect(paymentDate.getMonth()).toBe(Month.JULY);
+        expect(paymentDate.getDate()).toBe(1);
+    })
+
+    test('Yearly expense, last day of month', () => {
+        const expense = new Expense(1, "Test", 100, "Tag", 1, true)
+
+        expense.setPaymentDates([
+            new PaymentDate(1, expense.getId(), Month.AUGUST, 31)
+        ])
+
+        const util = new CurrentAmountUtil();
+        util.setToday(new Date(2023, Month.AUGUST, 1));
+        const paymentDate = util.getNextPaymentDateForExpense(expense);
+        if (paymentDate == null) {
+            throw Error("Should have found a payment date")
+        }
+
+        expect(paymentDate.getFullYear()).toBe(2023);
+        expect(paymentDate.getMonth()).toBe(Month.AUGUST);
+        expect(paymentDate.getDate()).toBe(31);
     })
 })
 
