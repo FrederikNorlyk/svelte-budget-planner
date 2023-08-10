@@ -15,7 +15,7 @@
 
 	function localizePaymentFrequency(expense: Expense) {
 		let key: String;
-		let parameters: any = {}
+		let parameters: any = {};
 		const numberOfPaymentDates = expense.getPaymentDates().length;
 
 		switch (numberOfPaymentDates) {
@@ -34,7 +34,7 @@
 				break;
 			default:
 				key = 'paid.custom';
-				parameters = { times: numberOfPaymentDates};
+				parameters = { times: numberOfPaymentDates };
 				break;
 		}
 
@@ -46,7 +46,7 @@
 	<AddButton href="/accounts/{account.getId()}/0" ariaLabel="Add new expense" />
 	<NoEntries question="chat.noExpenses" />
 {:else}
-	<div class="flex flex-col space-y-3">
+	<div class="grid grid-cols-1 gap-3 xl:grid-cols-2">
 		{#each expenses as expense (expense.getId())}
 			{@const nextPaymentDate = currentAmountUtil.getNextPaymentDateForExpense(expense)}
 			{@const monthlyAmount = expense.getMonthlyAmount()}
@@ -72,8 +72,8 @@
 					<h1 class="inline-block text-2xl">{AmountUtil.localize(expense.getAmount())}</h1>
 					{#if !expense.isMonthlyExpense()}
 						<small class="text-slate-500"
-							>{AmountUtil.localize(monthlyAmount)}/{$i18n('month')}</small
-						>
+							>{AmountUtil.localize(monthlyAmount)}/{$i18n('month')}
+						</small>
 					{/if}
 				</div>
 				<div class="text-right text-slate-500">{localizePaymentFrequency(expense)}</div>

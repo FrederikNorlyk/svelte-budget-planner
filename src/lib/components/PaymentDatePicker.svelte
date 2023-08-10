@@ -5,7 +5,8 @@
 	import { Month } from '$lib/enums/Month';
 	import IconChatBubbleOvalLeftEllipsis from '$lib/icons/IconChatBubbleOvalLeftEllipsis.svelte';
 
-	export let paymentDates: PaymentDate[];
+	export let paymentDates: PaymentDate[]
+	export let disabled = false
 
 	function onInputRemoved(paymentDate: PaymentDate) {
 		paymentDates = paymentDates.filter((p) => {
@@ -20,13 +21,13 @@
 
 <div class="flex space-x-3">
 	<p class="text-xl">{$i18n('paymentDates')}</p>
-	<button on:click={addInput} type="button" class="btn btn-sm variant-filled">
+	<button {disabled} on:click={addInput} type="button" class="btn btn-sm variant-filled">
 		{$i18n('addDate')}
 	</button>
 </div>
 
 {#each paymentDates as paymentDate (paymentDate.getId())}
-	<CalendarDatePicker {paymentDate} {onInputRemoved} />
+	<CalendarDatePicker {paymentDate} {disabled} {onInputRemoved} />
 {/each}
 
 {#if paymentDates.length === 0}

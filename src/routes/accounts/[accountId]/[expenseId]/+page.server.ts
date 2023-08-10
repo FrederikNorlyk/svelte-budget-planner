@@ -41,6 +41,7 @@ export async function load(event) {
 
 export const actions = {
     save: async ({ request, params, locals }) => {
+
         const data = await request.formData();
         const name = data.get('name')?.toString();
         const amount = +(data.get('amount')?.toString() || '');

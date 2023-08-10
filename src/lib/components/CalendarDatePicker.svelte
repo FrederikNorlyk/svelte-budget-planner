@@ -7,6 +7,7 @@
 	import { DateUtil } from '$lib/util/DateUtil';
 
 	export let paymentDate: PaymentDate
+	export let disabled = false
 	export let onInputRemoved: (paymentDate: PaymentDate) => void
 	let self: HTMLDivElement
 
@@ -39,6 +40,7 @@
 			name="dayOfMonth"
 			label={$i18n('calendarDatePicker.day')}
 			required={true}
+			{disabled}
 			options={daysOfMonth}
 		/>
 	</span>
@@ -48,11 +50,12 @@
 			name="month"
 			label={$i18n('calendarDatePicker.month')}
 			required={true}
+			{disabled}
 			options={months}
 		/>
 	</span>
 	<div>
-		<button on:click={removeSelf} type="button" class="btn-icon variant-filled mt-6 bg-error-600">
+		<button {disabled} on:click={removeSelf} type="button" class="btn-icon variant-filled mt-6 bg-error-600">
 			<IconXMark cssClass="w-8 h-8" />
 		</button>
 	</div>

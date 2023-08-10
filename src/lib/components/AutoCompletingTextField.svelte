@@ -2,11 +2,12 @@
 	import type { AutocompleteOption } from '@skeletonlabs/skeleton';
 	import { Autocomplete, popup } from '@skeletonlabs/skeleton';
 
-	export let name: string;
-	export let label: string;
-	export let value: string | null;
+	export let name: string
+	export let label: string
+	export let value: string | null | undefined
 	export let required = false
-	export let options: AutocompleteOption[];
+	export let options: AutocompleteOption[]
+	export let disabled = false
 </script>
 
 <label class="label">
@@ -17,6 +18,7 @@
 		{name}
 		bind:value
 		{required}
+		{disabled}
         autocomplete="off"
 		use:popup={{
 			event: 'focus-click',

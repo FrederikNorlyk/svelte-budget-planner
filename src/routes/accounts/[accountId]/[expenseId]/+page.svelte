@@ -14,11 +14,14 @@
 	import DeleteModal from '$lib/components/DeleteModal.svelte';
 	import { i18n } from '$lib/localization/i18n';
 	import NumberField from '$lib/components/NumberField.svelte';
-	
+	import { enhance } from '$app/forms';
+
 	export let form;
 	export let data;
 	const expense = data.expense != null ? Expense.parse(data.expense) : null;
 	const paymentDates = data.paymentDates.map((d) => PaymentDate.parse(d));
+
+	let isSaving = false;
 
 	let tagOptions: AutocompleteOption[] = [];
 	data.tags.forEach((tag) => {
@@ -46,7 +49,19 @@
 	}
 </script>
 
-<form class="space-y-4" method="post" action="?/save">
+<form
+	class="space-y-4"
+	method="post"
+	action="?/save"
+	use:enhance={() => {
+		isSaving = true
+
+		return async ({ update }) => {
+			await update()
+			isSaving = false
+		}
+	}}
+>
 	<div class="card space-y-2 bg-white p-4">
 		<TextField
 			name="name"
@@ -54,6 +69,7 @@
 			autofocus={expense == null}
 			required={true}
 			value={expense?.getName()}
+			disabled={isSaving}
 		/>
 
 		<NumberField
@@ -61,6 +77,7 @@
 			label={$i18n('expense.amount')}
 			required={true}
 			value={expense?.getAmount()}
+			disabled={isSaving}
 		/>
 
 		<AutoCompletingTextField
@@ -68,23 +85,25 @@
 			label={$i18n('expense.group')}
 			value={expense?.getTag()}
 			options={tagOptions}
+			disabled={isSaving}
 		/>
 
-		<SlideToggle name="isEnabled" active="bg-primary-500" checked={expense?.isEnabled() ?? true}
+		<SlideToggle disabled={isSaving} name="isEnabled" active="bg-primary-500" checked={expense?.isEnabled() ?? true}
 			>{$i18n('expense.isEnabled')}</SlideToggle
 		>
 	</div>
 
 	<div class="card space-y-2 bg-white p-4">
-		<PaymentDatePicker {paymentDates} />
+		<PaymentDatePicker {paymentDates} disabled={isSaving} />
 	</div>
 
 	<div class="flex space-x-2 p-4">
-		<button class="btn variant-filled basis-1/4 bg-primary-500">{$i18n('button.save')}</button>
+		<button disabled={isSaving} class="btn variant-filled basis-1/4 bg-primary-500">{$i18n('button.save')}</button>
 
 		{#if expense != null}
 			<button
 				formnovalidate={true}
+				disabled={isSaving}
 				class="btn variant-filled basis-1/4"
 				on:click|preventDefault={showDeleteModal}>{$i18n('button.delete')}</button
 			>
