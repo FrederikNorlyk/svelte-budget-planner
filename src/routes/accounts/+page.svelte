@@ -10,7 +10,13 @@
 	const accounts = data.accounts.map((a) => Account.parse(a));
 
 	function getTotalAmount(account: Account) {
-		return data.totalAmounts.find((row) => row.accountId === account.getId())?.totalAmount ?? 0;
+		let amount = 0
+
+		account.getExpenses().forEach(expense => {
+			amount += expense.getMonthlyAmount()
+		})
+
+		return amount
 	}
 </script>
 
@@ -32,7 +38,10 @@
 			>
 				<div class="grow">
 					<h2 class="text-2xl">{account.getName()}</h2>
-					<h1 class="text-4xl">{AmountUtil.localize(getTotalAmount(account))}</h1>
+					<div class="flex">
+						<h1 class="text-4xl">{AmountUtil.localize(getTotalAmount(account))}</h1>
+						<p class="mt-auto text-slate-500">/{$i18n('month')}</p>
+					</div>
 				</div>
 
 				<IconArrowCircleRight cssClass="flex-none h-8 w-8 text-slate-300 group-hover:text-slate-400" />

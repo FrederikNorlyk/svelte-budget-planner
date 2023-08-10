@@ -3,11 +3,7 @@ import type { QueryResultRow } from "@vercel/postgres"
 import { DatabaseClient } from "$lib/clients/DatabaseClient"
 import { ExpenseClient } from "./ExpenseClient"
 import { DB_TABLE_PREFIX } from "$env/static/private"
-
-interface TotalAmountResult {
-    accountId: number,
-    totalAmount: number
-}
+import { PaymentDateClient } from "./PaymentDateClient"
 
 /**
  * Client for querying accounts in the database.
@@ -82,36 +78,40 @@ export class AccountClient extends DatabaseClient<Account> {
     }
 
     /**
-     * Get the ids of all accounts and their expenses total amounts.
+     * Lists all accounts for the current user. The accounts are expanded which means that they contain a list of all 
+     * their expenses, including the expenses payment dates.
      * 
-     * @returns account id mapped to its expenses total amounts
+     * @param sortBy account field to sort by
+     * @returns accounts with expenses
      */
-    public async getTotalAmounts() {
-        let result
-        try {
-            result = await this.getPool().query(`
-                SELECT
-                    a.id as id,
-                    SUM(e.amount) as total_amount
-                FROM 
-                    ${this.getTableName()} AS a
-                    INNER JOIN ${ExpenseClient.TABLE_NAME} AS e ON a.id = e.account_id
-                WHERE
-                    e.is_enabled = true AND
-                    a.user_id = ${this.getUserId()}
-                GROUP BY
-                    a.id
-            `)
-        } catch (e) {
-            console.error(e)
-            return []
-        }
+    public async listAllExpanded(sortBy: string): Promise<Account[]> {
+        const expenseClient = new ExpenseClient(this.getUserId())
+        const paymentDateClient = new PaymentDateClient(this.getUserId())
 
-        return result.rows.map(row => {
-            return {
-                accountId: +row.id,
-                totalAmount: +row.total_amount
-            } as TotalAmountResult
-        });
+        const [accounts, expenses, paymentDates] = await Promise.all([
+            this.listAll(sortBy),
+            expenseClient.listAll('id'),
+            paymentDateClient.listAll('id')
+        ])
+
+        accounts.forEach(account => {
+            expenses.forEach(expense => {
+                if (expense.getAccountId() !== account.getId()) {
+                    return
+                }
+
+                paymentDates.forEach(paymentDate => {
+                    if (paymentDate.getExpenseId() !== expense.getId()) {
+                        return
+                    }
+
+                    expense.setPaymentDates([...expense.getPaymentDates(), paymentDate])
+                })
+
+                account.setExpenses([...account.getExpenses(), expense])
+            })
+        })
+
+        return accounts
     }
 }

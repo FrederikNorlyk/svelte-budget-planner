@@ -11,11 +11,10 @@ export const load: PageServerLoad = async (event) => {
     }
 
     const accountClient = new AccountClient(session.user.id)
-    const accounts = await accountClient.listAll('name')
+    const accounts = await accountClient.listAllExpanded('name')
     
     return {
         session: session,
         accounts: accounts.map((a) => a.serialize()),
-        totalAmounts: await accountClient.getTotalAmounts()
     }
 }
