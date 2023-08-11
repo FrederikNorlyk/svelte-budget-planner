@@ -42,6 +42,9 @@ export default {
         "expense.isMonthly.explanation": "This is a monthly expense, as it has no payment dates",
         "expense.error.maxMonths": "An expense can have no more than 12 payment dates",
         "expense.error.duplicateMonths": "You can not have multiple payment dates in the same month",
+        "user.locale": "Select your language",
+        "settings.title": "Settings",
+        "settings.details": "Here you can change the behaviour of the application, such as language and theme",
     },
     da: {
         "accounts.title": "Konti",
@@ -86,5 +89,8 @@ export default {
         "expense.isMonthly.explanation": "Dette er en månedtlig udgift, da den ikke har nogle betalingsdatoer",
         "expense.error.maxMonths": "En udgift kan ikke have mere end 12 betalingsdatoer",
         "expense.error.duplicateMonths": "Du kan ikke have flere betalingsdatoer i samme måned",
+        "user.locale": "Vælg dit sprog",
+        "settings.title": "Indstillinger",
+        "settings.details": "Her kan du ændre programmets adfærd, som for eksampel sprog og tema",
     },
 }
