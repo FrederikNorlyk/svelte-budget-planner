@@ -9,9 +9,9 @@ export class DateUtil {
     })
 
     private static longFormat = Intl.DateTimeFormat('da-DK', {
-        year: "numeric",
+        year: undefined,
         month: "long",
-        day: "numeric",
+        day: undefined,
         minute: undefined,
         second: undefined
     })

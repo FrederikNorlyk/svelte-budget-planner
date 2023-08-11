@@ -1,6 +1,5 @@
 import { redirect } from "@sveltejs/kit"
 import type { PageServerLoad } from "./$types"
-import { ExpenseClient } from "$lib/clients/ExpenseClient"
 import { AccountClient } from "$lib/clients/AccountClient"
 
 export const load: PageServerLoad = async (event) => {
@@ -12,15 +11,7 @@ export const load: PageServerLoad = async (event) => {
     }
 
     const accountClient = new AccountClient(session.user.id)
-    const accounts = await accountClient.listAll('name')
-
-    const expenseClient = new ExpenseClient(session.user.id)
-    let expenses = await expenseClient.listAll('name')
-    expenses = await expenseClient.addPaymentDatesTo(expenses)
-
-    accounts.forEach((account) => {
-        account.setExpenses(expenses.filter((expense) => expense.getAccountId() === account.getId()))
-    })
+    const accounts = await accountClient.listAllExpanded('name')
 
     return {
         session: session,
