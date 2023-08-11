@@ -2,22 +2,21 @@
 	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
 	import '@skeletonlabs/skeleton/styles/skeleton.css';
 	import '../app.postcss';
-	import { i18n, locale, locales } from '$lib/localization/i18n';
+	import { i18n } from '$lib/localization/i18n';
 	import { page } from '$app/stores';
-	import { signOut } from '@auth/sveltekit/client';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
 
 	import {
 		AppShell,
 		AppBar,
-		LightSwitch,
 		Avatar,
 		Toast,
 		Modal,
 		type PopupSettings,
 		popup
 	} from '@skeletonlabs/skeleton';
+	import IconBarsThree from '$lib/icons/IconBarsThree.svelte';
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
@@ -39,7 +38,10 @@
 
 <AppShell>
 	<svelte:fragment slot="header">
-		<AppBar shadow="shadow-md" padding="p-3 pl-5 pr-5 sm:pl-16 sm:pr-16 md:pl-20 md:pr-20 2xl:pl-36 2xl:pr-36">
+		<AppBar
+			shadow="shadow-md"
+			padding="p-3 pl-5 pr-5 sm:pl-16 sm:pr-16 md:pl-20 md:pr-20 2xl:pl-36 2xl:pr-36"
+		>
 			<svelte:fragment slot="lead">
 				<a
 					href="/accounts"
@@ -59,18 +61,12 @@
 					>{$i18n('currentAmount.title')}</a
 				>
 
-				<div class="hidden sm:block">
-					<LightSwitch />
-				</div>
-
-				<select class="hidden sm:block" bind:value={$locale}>
-					{#each locales as l}
-						<option value={l}>{l}</option>
-					{/each}
-				</select>
-
-				<button use:popup={userMenuPopup} aria-label="User menu button">
+				<a href="/settings" class="hidden sm:block">
 					<Avatar src={getProfilePicture()} width="w-12" rounded="rounded-full" />
+				</a>
+
+				<button class="sm:hidden pr-4" use:popup={userMenuPopup} aria-label="Menu button">
+					<IconBarsThree cssClass="w-8 h-8" />
 				</button>
 
 				<div data-popup="userMenuPopup">
@@ -81,18 +77,8 @@
 						<a class="btn variant-ghost w-full sm:hidden" href="/balance" rel="noreferrer"
 							>{$i18n('currentAmount.title')}</a
 						>
-
-						<div class="block sm:hidden">
-							<LightSwitch />
-						</div>
-
-						<select class="block sm:hidden" bind:value={$locale}>
-							{#each locales as l}
-								<option value={l}>{l}</option>
-							{/each}
-						</select>
-						<button on:click={() => signOut()} class="btn variant-ghost w-full"
-							>{$i18n('signOut')}</button
+						<a class="btn variant-ghost w-full sm:hidden" href="/settings" rel="noreferrer"
+							>{$i18n('settings.title')}</a
 						>
 					</div>
 				</div>
