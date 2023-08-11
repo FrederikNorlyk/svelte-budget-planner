@@ -17,7 +17,7 @@ export class AccountClient extends DatabaseClient<Account> {
     }
 
     protected override parse(row: QueryResultRow) {
-        return new Account(row.id, row.name)
+        return new Account(+row.id, row.name)
     }
 
     /**

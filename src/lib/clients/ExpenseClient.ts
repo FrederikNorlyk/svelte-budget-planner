@@ -17,7 +17,7 @@ export class ExpenseClient extends DatabaseClient<Expense> {
     }
 
     protected override parse(row: QueryResultRow) {
-        return new Expense(row.id, row.name, row.amount, row.tag, row.account_id, row.is_enabled)
+        return new Expense(+row.id, row.name, +row.amount, row.tag, +row.account_id, row.is_enabled)
     }
 
     /**
