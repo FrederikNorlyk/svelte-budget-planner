@@ -7,7 +7,7 @@
 
 	export let data;
 
-	const accounts = data.accounts.map((account) => Account.parse(account))
+	const accounts = data.accounts.map((account) => Account.parse(account));
 	const currentAmountUtil = new CurrentAmountUtil();
 </script>
 
@@ -17,21 +17,16 @@
 <div class="mt-5 grid grid-cols-1 gap-3 lg:grid-cols-2 2xl:grid-cols-3">
 	{#each accounts as account (account.getId())}
 		{@const nextPaymentDate = currentAmountUtil.getNextPaymentDate(account)}
-		<div class="card flex rounded-md bg-white p-10">
-			<div class="grow">
-				<div class="flex">
-					<h2 class="white text-2xl">{account.getName()}</h2>
-					<span class="grow" />
-					{#if nextPaymentDate != null}
-						<p class="flex-none text-slate-500">
-							{$i18n('nextPayment')}: {DateUtil.localizeLongerFormat(nextPaymentDate)}
-						</p>
-					{/if}
-				</div>
-				<h1 class="text-4xl">
-					{AmountUtil.localize(currentAmountUtil.getCurrentAmmount(account))}
-				</h1>
-			</div>
+		<div class="card grid grid-cols-2 rounded-md bg-white p-10">
+			<h2 class="white text-2xl">{account.getName()}</h2>
+			{#if nextPaymentDate != null}
+				<p class="flex-none text-slate-500">
+					{$i18n('nextPayment')}: {DateUtil.localizeLongerFormat(nextPaymentDate)}
+				</p>
+			{/if}
+			<h1 class="text-4xl col-span-2">
+				{AmountUtil.localize(currentAmountUtil.getCurrentAmmount(account))}
+			</h1>
 		</div>
 	{/each}
 </div>
