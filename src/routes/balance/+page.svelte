@@ -17,10 +17,11 @@
 <div class="mt-5 grid grid-cols-1 gap-3 lg:grid-cols-2 2xl:grid-cols-3">
 	{#each accounts as account (account.getId())}
 		{@const nextPaymentDate = currentAmountUtil.getNextPaymentDate(account)}
-		<div class="card grid grid-cols-2 rounded-md bg-white p-10">
-			<h2 class="white text-2xl">{account.getName()}</h2>
+		
+		<div class="card grid grid-cols-2 rounded-md bg-white p-6 sm:p-10">
+			<h2 class="text-2xl">{account.getName()}</h2>
 			{#if nextPaymentDate != null}
-				<p class="flex-none text-slate-500">
+				<p class="text-slate-500 text-end">
 					{$i18n('nextPayment')}: {DateUtil.localizeLongerFormat(nextPaymentDate)}
 				</p>
 			{/if}
