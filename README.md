@@ -3,16 +3,17 @@ Simple budget planning application, built using SvelteKit.
 
 ### Technologies
 - SvelteKit
-- Auth.Js (OAuth 2.0)
+- Auth.js (OAuth 2.0)
 - Skeleton UI
 - Tailwind CSS
-- Vitest
+- Vitest (Unit tests)
 
 ### What can it do?
 🛑 This project is stil very much a work in progress.
+The budget planner allows you to manage your expenses in a simple user interface. The application keeps track of payment dates, which it uses to calculate the required account balances, in order to avoid overdrawing.
 
 ### Installation
-Next.js require three environment variables:
+Auth.js require three environment variables:
 ```
 GITHUB_ID=
 GITHUB_SECRET=
