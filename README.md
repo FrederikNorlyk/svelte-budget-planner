@@ -9,11 +9,11 @@ Simple budget planning application, built using SvelteKit.
 - Vitest (Unit tests)
 
 ### What can it do?
-🛑 This project is stil very much a work in progress.
-The budget planner allows you to manage your expenses in a simple user interface. The application keeps track of payment dates, which it uses to calculate the required account balances, in order to avoid overdrawing.
+🛑 This project is still very much a work in progress.
+The budget planner allows you to manage your expenses in a simple user interface. The application keeps track of payment dates, which it uses to calculate the required account balances, to avoid overdrawing.
 
 ### Installation
-I'm hosting the app [here on Vercel](https://vercel.com/). To link the application with you Vercel PostgreSQL database, run the following commands:
+I'm hosting the app [here on Vercel](https://vercel.com/). To link the application with your Vercel PostgreSQL database, run the following commands:
 [Read more](https://vercel.com/docs/cli)
 ```
 pnpm i -g vercel
