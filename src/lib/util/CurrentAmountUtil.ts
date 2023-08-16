@@ -33,7 +33,7 @@ export class CurrentAmountUtil {
 	 * @returns the amount that should currently be on the account
 	 */
     public getCurrentAmmount(account: Account) {
-		let currentAmount = 0;
+		let currentAmount = 0
 
 		account.getExpenses().forEach((expense) => {
 			if (!expense.isEnabled()) {
@@ -50,11 +50,11 @@ export class CurrentAmountUtil {
 				return
 			}
 
-			const remainingNumberOfTransfers = DateUtil.getMonthsBetween(this.today, nextPaymentDate);
-			const monthlyAmount = expense.getMonthlyAmount();
-			const amountNotYetTransfered = monthlyAmount * remainingNumberOfTransfers;
-			const amount = (expense.getAmount() - amountNotYetTransfered);
-			currentAmount += Math.ceil(amount);
+			const remainingNumberOfTransfers = DateUtil.getMonthsBetween(this.today, nextPaymentDate)
+			const monthlyAmount = expense.getMonthlyAmountWithTotalShared()
+			const amountNotYetTransfered = monthlyAmount * remainingNumberOfTransfers
+			const amount = (expense.getAmount() - amountNotYetTransfered)
+			currentAmount += Math.ceil(amount)
 		})
 
 		return currentAmount;

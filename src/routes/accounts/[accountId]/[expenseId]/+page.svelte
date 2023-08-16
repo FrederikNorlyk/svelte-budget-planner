@@ -15,6 +15,8 @@
 	import { i18n } from '$lib/localization/i18n';
 	import NumberField from '$lib/components/NumberField.svelte';
 	import { enhance } from '$app/forms';
+	import SelectField from '$lib/components/SelectField.svelte';
+	import type { SelectOption } from '$lib/components/types/SelectOption.js';
 
 	export let form;
 	export let data;
@@ -34,6 +36,17 @@
 			background: 'variant-filled-error'
 		});
 	}
+
+	let shareOptions: SelectOption<Boolean>[] = [
+		{
+			value: false,
+			text: $i18n('expense.notShared')
+		}, {
+			value: true,
+			text: $i18n('expense.isShared')
+		}
+	]
+	
 
 	function showDeleteModal(): void {
 		const component: ModalComponent = { ref: DeleteModal };
@@ -72,13 +85,25 @@
 			disabled={isSaving}
 		/>
 
-		<NumberField
-			name="amount"
-			label={$i18n('expense.amount')}
-			required={true}
-			value={expense?.getAmount()}
-			disabled={isSaving}
-		/>
+		<div class="flex space-x-2">
+			<span class="grow">
+				<NumberField
+					name="amount"
+					label={$i18n('expense.amount')}
+					required={true}
+					value={expense?.getAmount()}
+					disabled={isSaving}
+				/>
+			</span>
+
+			<SelectField 
+				name="isShared"
+				label={$i18n('expense.shared.label')}
+				options={shareOptions}
+				value={expense?.isShared() ?? false}
+				disabled={isSaving}
+			/>
+		</div>
 
 		<AutoCompletingTextField
 			name="tag"
