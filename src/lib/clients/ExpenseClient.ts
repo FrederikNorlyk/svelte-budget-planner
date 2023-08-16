@@ -17,7 +17,7 @@ export class ExpenseClient extends DatabaseClient<Expense> {
     }
 
     protected override parse(row: QueryResultRow) {
-        return new Expense(+row.id, row.name, +row.amount, row.tag, +row.account_id, row.is_enabled)
+        return new Expense(+row.id, row.name, +row.amount, row.tag, +row.account_id, row.is_enabled, row.is_shared)
     }
 
     /**
@@ -32,9 +32,9 @@ export class ExpenseClient extends DatabaseClient<Expense> {
         try {
             result = await this.getPool().query(`
                 INSERT INTO ${this.getTableName()} 
-                    (name, amount, tag, account_id, is_enabled, user_id) 
+                    (name, amount, tag, account_id, is_enabled, is_shared, user_id) 
                 VALUES 
-                    ($1, $2, $3, $4, $5, $6) 
+                    ($1, $2, $3, $4, $5, $6, $7) 
                 RETURNING *`,
                 [
                     expense.getName(),
@@ -42,6 +42,7 @@ export class ExpenseClient extends DatabaseClient<Expense> {
                     expense.getTag(),
                     expense.getAccountId(),
                     expense.isEnabled(),
+                    expense.isShared(),
                     this.getUserId()
                 ]
             )
@@ -70,10 +71,11 @@ export class ExpenseClient extends DatabaseClient<Expense> {
                     amount = $2,
                     tag = $3,
                     account_id = $4,
-                    is_enabled = $5
+                    is_enabled = $5,
+                    is_shared = $6
                 WHERE 
-                    id = $6 AND
-                    user_id = $7
+                    id = $7 AND
+                    user_id = $8
                 RETURNING *`,
                 [
                     expense.getName(),
@@ -81,6 +83,7 @@ export class ExpenseClient extends DatabaseClient<Expense> {
                     expense.getTag(),
                     expense.getAccountId(),
                     expense.isEnabled(),
+                    expense.isShared(),
                     expense.getId(),
                     this.getUserId()
                 ]

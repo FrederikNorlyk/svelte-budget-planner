@@ -45,6 +45,9 @@ export default {
         "user.locale": "Select your language",
         "settings.title": "Settings",
         "settings.details": "Here you can change the behaviour of the application, such as language and theme",
+        "expense.shared.label": "The expense is",
+        "expense.notShared": "Just for me",
+        "expense.isShared": "Shared with someone",
     },
     da: {
         "accounts.title": "Konti",
@@ -92,5 +95,8 @@ export default {
         "user.locale": "Vælg dit sprog",
         "settings.title": "Indstillinger",
         "settings.details": "Her kan du ændre programmets adfærd, som for eksampel sprog og tema",
+        "expense.shared.label": "Udgiften er",
+        "expense.notShared": "Min egen",
+        "expense.isShared": "Delt med en anden",
     },
 }

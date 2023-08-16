@@ -47,6 +47,7 @@ export const actions = {
         const amount = +(data.get('amount')?.toString() || '');
         const tag = data.get('tag')?.toString();
         const isEnabled = !!data.get('isEnabled');
+        const isShared = data.get('isShared') == 'true';
         const daysOfMonth = data.getAll('dayOfMonth');
         const months = data.getAll('month');
 
@@ -76,7 +77,7 @@ export const actions = {
         }
 
         const expenseClient = new ExpenseClient(session.user.id);
-        const expense = new Expense(id, name, amount, tag, accountId, isEnabled);
+        const expense = new Expense(id, name, amount, tag, accountId, isEnabled, isShared);
 
         let newExpense;
         if (id == 0) {

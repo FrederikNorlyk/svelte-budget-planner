@@ -14,6 +14,7 @@ CREATE TABLE expenses(
     tag VARCHAR(255),
     account_id INT NOT NULL,
     is_enabled BOOLEAN NOT NULL DEFAULT true,
+    is_shared BOOLEAN NOT NULL DEFAULT false,
     
     PRIMARY KEY(id),
     

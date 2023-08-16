@@ -5,13 +5,14 @@ export class Expense extends DatabaseRecord {
 
     private name: string
     private amount: number
+    private shared: boolean
     private tag: string | null
     private accountId: number
     private enabled: boolean
     private paymentDates: PaymentDate[] = []
 
     constructor(id: number, name: string, amount: number, tag: string | null | undefined,
-        accountId: number, enabled: boolean) {
+        accountId: number, enabled: boolean, shared: boolean) {
 
         super(id)
 
@@ -20,6 +21,7 @@ export class Expense extends DatabaseRecord {
         this.tag = tag === undefined ? null : tag
         this.accountId = accountId
         this.enabled = enabled
+        this.shared = shared;
     }
 
     public getName() {
@@ -31,12 +33,21 @@ export class Expense extends DatabaseRecord {
     }
 
     public getMonthlyAmount() {
+        return this.calculateMontlyAmount(true)
+    }
+
+    public getMonthlyAmountWithTotalShared() {
+        return this.calculateMontlyAmount(false)
+    }
+
+    private calculateMontlyAmount(divideShared: boolean) {
+        const amount = divideShared && this.isShared() ? this.amount / 2 : this.amount
         if (this.isMonthlyExpense()) {
-            return this.amount;
+            return amount
         }
         
-        const numberOfTransfers = 12 / this.getPaymentDates().length;
-        return this.amount / numberOfTransfers;
+        const numberOfTransfers = 12 / this.getPaymentDates().length
+        return amount / numberOfTransfers
     }
 
     public isMonthlyExpense() {
@@ -56,6 +67,10 @@ export class Expense extends DatabaseRecord {
         return this.enabled
     }
 
+    public isShared() {
+        return this.shared
+    }
+
     public getPaymentDates() {
         return this.paymentDates
     }
@@ -72,6 +87,7 @@ export class Expense extends DatabaseRecord {
             tag: this.getTag(),
             accountId: this.getAccountId(),
             enabled: this.isEnabled(),
+            shared: this.isShared(),
             paymentDates: this.getPaymentDates().map((paymentDate) => paymentDate.serialize())
         })
     }
@@ -85,7 +101,8 @@ export class Expense extends DatabaseRecord {
             parsed.amount,
             parsed.tag,
             parsed.accountId,
-            parsed.enabled
+            parsed.enabled,
+            parsed.shared
         )
 
         if (parsed.paymentDates) {
