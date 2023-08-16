@@ -11,7 +11,7 @@
 
 	function getTotalAmount(account: Account) {
 		let amount = 0
-		console.dir(account)
+		
 		account.getExpenses().forEach(expense => {
 			amount += expense.getMonthlyAmount()
 		})
