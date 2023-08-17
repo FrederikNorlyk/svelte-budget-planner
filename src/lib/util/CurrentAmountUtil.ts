@@ -1,3 +1,4 @@
+import type { Month } from "$lib/enums/Month";
 import type { Account } from "$lib/models/Account";
 import type { Expense } from "$lib/models/Expense";
 import { DateUtil } from "./DateUtil";
@@ -116,5 +117,24 @@ export class CurrentAmountUtil {
 		});
 
 		return nextPaymentDate;
+	}
+
+	public getExpensesIn(account: Account, month: Month): Expense[] {
+		const expenses: Expense[] = []
+		
+		account.getExpenses().forEach((expense) => {
+			if (expense.isMonthlyExpense()) {
+				return;
+			}
+
+			expense.getPaymentDates().forEach((paymentDate) => {
+				if (paymentDate.getMonth() === month) {
+					expenses.push(expense)
+					return 2
+				}
+			})
+		})
+
+		return expenses
 	}
 }
