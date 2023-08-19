@@ -8,39 +8,42 @@
     export let data
     const account = Account.parse(data.account)
     const currentAmountUtil = new CurrentAmountUtil()
-    const currentMonth = (new Date()).getMonth()
-    let startAmount = currentAmountUtil.getCurrentAmmount(account)
 
-    const months: number[] = [currentMonth]
-	while (months.length < 12) {
-        const last = months[months.length - 1]
+    const dates = [new Date()]
+    let year = (new Date()).getFullYear()
+	while (dates.length < 12) {
+        const previousDate = dates[dates.length - 1]
         
-        if (last == Month.DECEMBER) {
-            months.push(Month.JANUARY)
+        let newDate = new Date();
+        newDate.setDate(1)
+
+        if (previousDate.getMonth() == Month.DECEMBER) {
+            newDate.setMonth(Month.JANUARY)
+            year++
         } else {
-            months.push(last + 1)
+            newDate.setMonth(previousDate.getMonth() + 1)
         }
+        newDate.setFullYear(year)
+        dates.push(newDate)
 	}
 
-    const monthlyAmount = account.getMonthlyAmountWithTotalShared()
-    const monthAmounts: number[] = [startAmount]
-    while (monthAmounts.length < 12) {
-        const last = monthAmounts[monthAmounts.length - 1]
-        monthAmounts.push(last + monthlyAmount)
-    }
+    const monthAmounts: number[] = [currentAmountUtil.getCurrentAmmount(account)]
+    dates.forEach(date => {
+        monthAmounts.push(currentAmountUtil.getAccountBalanceOn(account, date))
+    })
 </script>
 
 {#if account.getExpenses().length == 0}
 	<h1>No expenses</h1>
 {:else}
 	<div class="grid grid-cols-1 gap-3">
-		{#each months as month, index}
+		{#each dates as date, index}
             <div class="flex space-x-1">
-                <h1>{DateUtil.getMonthName(month)}</h1>
+                <h1>{DateUtil.getMonthName(date.getMonth())}</h1>
                 <h1>{AmountUtil.localize(monthAmounts[index])}</h1>
             </div>
             <p>Transfer: +{AmountUtil.localize(account.getMonthlyAmountWithTotalShared())}</p>
-            {#each currentAmountUtil.getExpensesIn(account, month) as expense (expense.getId() + "_" + month)}
+            {#each currentAmountUtil.getExpensesIn(account, date.getMonth()) as expense (expense.getId() + "_" + index)}
                 <p>{expense.getName()}: -{expense.getAmount()}</p>
             {/each}
 		{/each}
