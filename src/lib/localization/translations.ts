@@ -48,6 +48,9 @@ export default {
         "expense.shared.label": "The expense is",
         "expense.notShared": "Just for me",
         "expense.isShared": "Shared with someone",
+        "budgetTransfer": "Budget transfer",
+        "accountBalance.title": "Balance for {{account}}",
+        "accountBalance.details": "This view gives you an overview of the coming expenses",
     },
     da: {
         "accounts.title": "Konti",
@@ -98,5 +101,8 @@ export default {
         "expense.shared.label": "Udgiften er",
         "expense.notShared": "Min egen",
         "expense.isShared": "Delt med en anden",
+        "budgetTransfer": "Budgetoverførsel",
+        "accountBalance.title": "Saldo for {{account}}",
+        "accountBalance.details": "Denne side giver dig et overblik over de kommende udgifter",
     },
 }

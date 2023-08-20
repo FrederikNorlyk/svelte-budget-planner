@@ -79,6 +79,10 @@ export class Expense extends DatabaseRecord {
         this.paymentDates = paymentDates
     }
 
+    public addPaymentDate(paymentDate: PaymentDate) {
+        this.paymentDates.push(paymentDate)
+    }
+
     public serialize() {
         return JSON.stringify({
             id: this.getId(),

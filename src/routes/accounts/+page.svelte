@@ -8,16 +8,6 @@
 
 	export let data;
 	const accounts = data.accounts.map((a) => Account.parse(a));
-
-	function getTotalAmount(account: Account) {
-		let amount = 0
-		
-		account.getExpenses().forEach(expense => {
-			amount += expense.getMonthlyAmount()
-		})
-
-		return amount
-	}
 </script>
 
 <div class="mb-3">
@@ -39,7 +29,7 @@
 				<div class="grow">
 					<h2 class="text-2xl">{account.getName()}</h2>
 					<div class="flex">
-						<h1 class="text-4xl">{AmountUtil.localize(getTotalAmount(account))}</h1>
+						<h1 class="text-4xl">{AmountUtil.localize(account.getMonthlyAmount())}</h1>
 						<p class="mt-auto text-slate-500">/{$i18n('month')}</p>
 					</div>
 				</div>
