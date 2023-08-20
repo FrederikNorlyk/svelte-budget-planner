@@ -35,36 +35,34 @@
 </script>
 
 <div class="mb-3">
-	<h1 class="text-3xl">{$i18n('accountBalance.title', {account: account.getName()})}</h1>
+	<h1 class="text-3xl">{$i18n('accountBalance.title', { account: account.getName() })}</h1>
 	<p>{$i18n('accountBalance.details')}</p>
 </div>
 
-{#if account.getExpenses().length == 0}
-	<h1>No expenses</h1>
-{:else}
-	<div class="space-y-3">
-		{#each dates as date, index}
-			<div class="card space-y-2 bg-white p-4">
-				<div class="flex">
-					<h1 class="text-xl grow capitalize">{DateUtil.getMonthName(date.getMonth())}</h1>
+<div class="space-y-3">
+	{#each dates as date, index}
+		<div class="card space-y-2 bg-white p-4">
+			<div class="flex">
+				<h1 class="text-xl grow capitalize">{DateUtil.getMonthName(date.getMonth())}</h1>
 
-					<h1 class="text-xl justify-end">{AmountUtil.localize(monthAmounts[index])}</h1>
+				<h1 class="text-xl justify-end">{AmountUtil.localize(monthAmounts[index])}</h1>
+			</div>
+
+			<div class="space-y-1">
+				<div class="flex space-x-1 text-slate-400">
+					<p class="">
+						+{AmountUtil.localize(currentAmountUtil.getMonthlyBudgetTransferAmount(account))}
+					</p>
+					<p>{$i18n('budgetTransfer')}</p>
 				</div>
 
-                <div class="space-y-1">
-                    <div class="flex space-x-1 text-slate-400">
-                        <p class="">+{AmountUtil.localize(currentAmountUtil.getMonthlyBudgetTransferAmount(account))}</p>
-                        <p>{$i18n('budgetTransfer')}</p>
-                    </div>
-                    
-                    {#each currentAmountUtil.getExpensesIn(account, date.getMonth()) as expense (expense.getId() + '_' + index)}
-                    <div class="flex space-x-1">
-                        <p>- {AmountUtil.localize(expense.getAmount())}</p>
-                        <p>{expense.getName()}</p>
-                    </div>
-                    {/each}
-                </div>
+				{#each currentAmountUtil.getExpensesIn(account, date.getMonth()) as expense (expense.getId() + '_' + index)}
+					<div class="flex space-x-1">
+						<p>- {AmountUtil.localize(expense.getAmount())}</p>
+						<p>{expense.getName()}</p>
+					</div>
+				{/each}
 			</div>
-		{/each}
-	</div>
-{/if}
+		</div>
+	{/each}
+</div>
