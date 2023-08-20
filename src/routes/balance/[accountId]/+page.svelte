@@ -53,7 +53,7 @@
 
                 <div class="space-y-1">
                     <div class="flex space-x-1 text-slate-400">
-                        <p class="">+{AmountUtil.localize(account.getMonthlyAmountWithTotalShared())}</p>
+                        <p class="">+{AmountUtil.localize(currentAmountUtil.getMonthlyBudgetTransferAmount(account))}</p>
                         <p>{$i18n('budgetTransfer')}</p>
                     </div>
                     

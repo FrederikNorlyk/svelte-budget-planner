@@ -115,6 +115,13 @@ export class CurrentAmountUtil {
 		return this.getNextPaymentDateForExpenseAfter(expense, this.today)
 	}
 
+	/**
+	 * Get the next date when a payment will occur on the given expense, after a given date.
+	 * 
+	 * @param expense the expense to use when calculating the date
+	 * @param startDate the date which expense must occur after
+	 * @returns the next date when a payment will occur, or NULL
+	 */
 	public getNextPaymentDateForExpenseAfter(expense: Expense, startDate: Date): Date | null {
 		let nextPaymentDate: Date | null = null
 		const thisYear = startDate.getFullYear()
@@ -163,5 +170,25 @@ export class CurrentAmountUtil {
 		})
 
 		return expenses
+	}
+
+	/**
+	 * Get the amount transfered every month to the account. This amount is a budget transfer amount, meaning that it
+	 * does not include monthly payments
+	 * 
+	 * @param account the account to use when calculating the amount
+	 * @returns the monthly amount transfered to the account
+	 */
+	public getMonthlyBudgetTransferAmount(account: Account) {
+		let amount = 0
+		
+		account.getExpenses().forEach(expense => {
+			if (!expense.isEnabled() || expense.isMonthlyExpense()) {
+				return
+			}
+			amount += expense.getMonthlyAmountWithTotalShared()
+		})
+
+		return amount
 	}
 }

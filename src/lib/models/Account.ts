@@ -8,7 +8,7 @@ export class Account extends DatabaseRecord {
 
     constructor(id: number, name: string) {
         super(id)
-        
+
         this.name = name
     }
 
@@ -25,25 +25,16 @@ export class Account extends DatabaseRecord {
     }
 
     public getMonthlyAmount(): number {
-        return this.calculateMontlyAmount(true)
-    }
-
-    public getMonthlyAmountWithTotalShared(): number {
-        return this.calculateMontlyAmount(false)
-    }
-
-    private calculateMontlyAmount(divideShared: boolean): number {
         let amount = 0
-		
-		this.getExpenses().forEach(expense => {
-            if (divideShared) {
-			    amount += expense.getMonthlyAmount()
-            } else {
-                amount += expense.getMonthlyAmountWithTotalShared()
-            }
-		})
 
-		return amount
+        this.getExpenses().forEach(expense => {
+            if (!expense.isEnabled()) {
+                return
+            }
+            amount += expense.getMonthlyAmount()
+        })
+
+        return amount
     }
 
     public serialize() {

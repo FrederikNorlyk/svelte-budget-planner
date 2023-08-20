@@ -513,7 +513,7 @@ describe('Test for getAccountBalanceOn', () => {
         const account = new Account(0, "name")
 
         account.setExpenses([
-            // createExpenseOn(100, []),
+            createExpenseOn(100, []),
             createExpenseOn(1200, [Month.JANUARY]), //1100
             createExpenseOn(600, [Month.JANUARY, Month.JULY]), //500
             createExpenseOn(300, [Month.FEBRUARY, Month.MAY, Month.AUGUST, Month.NOVEMBER]), //100
