@@ -75,7 +75,9 @@
 				</div>
 				<div>
 					<h1 class="inline-block text-2xl">{getAmount(expense)}</h1>
-					{#if !expense.isMonthlyExpense()}
+					{#if expense.isMonthlyExpense()}
+					<small class="text-slate-500">/{$i18n('month')}</small>
+						{:else}
 						<small class="text-slate-500"
 							>{AmountUtil.localize(monthlyAmount)}/{$i18n('month')}
 						</small>
