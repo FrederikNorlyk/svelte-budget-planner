@@ -27,7 +27,7 @@
         dates.push(newDate)
 	}
 
-    const monthAmounts: number[] = [currentAmountUtil.getCurrentAmmount(account)]
+    const monthAmounts: number[] = []
     dates.forEach(date => {
         monthAmounts.push(currentAmountUtil.getAccountBalanceOn(account, date))
     })
