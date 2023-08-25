@@ -4,6 +4,7 @@ Simple budget planning application, built using SvelteKit.
 ### Technologies
 - SvelteKit
 - Auth.js (OAuth 2.0)
+- TypeScript
 - Skeleton UI
 - Tailwind CSS
 - Vitest (Unit tests)
