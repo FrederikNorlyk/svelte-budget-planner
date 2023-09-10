@@ -37,3 +37,10 @@ CREATE TABLE payment_dates(
             REFERENCES expenses(id)
                 ON DELETE CASCADE
 );
+
+CREATE TABLE settings(
+    id INT GENERATED ALWAYS AS IDENTITY,
+    user_id INT NOT NULL UNIQUE,
+    locale VARCHAR(255) NOT NULL DEFAULT 'en',
+    income NUMERIC(10, 2) NOT NULL DEFAULT 0.00
+);

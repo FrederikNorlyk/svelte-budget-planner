@@ -51,6 +51,8 @@ export default {
         "budgetTransfer": "Budget transfer",
         "accountBalance.title": "Balance for {{account}}",
         "accountBalance.details": "This view gives you an overview of the coming expenses",
+        "user.income": "Income",
+        "user.income.required": "Income is required"
     },
     da: {
         "accounts.title": "Konti",
@@ -104,5 +106,7 @@ export default {
         "budgetTransfer": "Budgetoverførsel",
         "accountBalance.title": "Saldo for {{account}}",
         "accountBalance.details": "Denne side giver dig et overblik over de kommende udgifter",
+        "user.income": "Indkomst",
+        "user.income.required": "Indkomst er påkrævet"
     },
 }

@@ -1,4 +1,5 @@
 // See https://kit.svelte.dev/docs/types#app
+
 // for information about these interfaces
 declare global {
 	namespace App {
@@ -12,7 +13,8 @@ declare global {
 				id: number,
 				name: string,
 				email: string,
-				image: string
+				image: string,
+				income: number
 			}
 		}
 	}

@@ -1,12 +1,27 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { page, updated } from '$app/stores';
 	import { signOut } from '@auth/sveltekit/client';
 	import { i18n, locale, locales } from '$lib/localization/i18n';
 	import SelectField from '$lib/components/SelectField.svelte';
 	import type { SelectOption } from '$lib/components/types/SelectOption';
-	import { LightSwitch } from '@skeletonlabs/skeleton';
-
+	import { LightSwitch, toastStore } from '@skeletonlabs/skeleton';
+	import NumberField from '$lib/components/NumberField.svelte';
+	import { Settings } from '$lib/models/Settings.js';
+	import { enhance } from '$app/forms';
+	
 	const user = $page.data.session?.user
+	export let data;
+	export let form;
+
+	if (form?.error) {
+		toastStore.trigger({
+			message: form.error,
+			background: 'variant-filled-error'
+		});
+	}
+
+	let isSaving = false
+	const settings = Settings.parse(data.settings)
 
 	const localeOptions: SelectOption<String>[] = []
 	locales.forEach((locale) => {
@@ -58,13 +73,30 @@
 			label={$i18n('user.locale')}
 			options={localeOptions}
 			bind:value={$locale}
+			disabled={isSaving}
 		/>
 	</form>
 
 	<div>
 		<label class="label" for="light-switch">Dark mode</label>
-		<LightSwitch class="mt-1" id="light-switch" />
+		<LightSwitch disabled={isSaving} class="mt-1" id="light-switch" />
 	</div>
+
+	<form 
+		method="post" 
+		action="?/save"
+		use:enhance={() => {
+			isSaving = true
+
+			return async ({ update }) => {
+				await update()
+				isSaving = false
+			}
+		}}
+	>
+		<NumberField name="income" label={$i18n('user.income')} required={true} disabled={isSaving} value={settings.getIncome()}/>
+		<button disabled={isSaving} class="btn variant-filled basis-1/4 bg-primary-500">{$i18n('button.save')}</button>
+	</form>
 
 	<div class="h-4"></div>
 
