@@ -83,6 +83,7 @@
 	</div>
 
 	<form 
+		class="space-y-2"
 		method="post" 
 		action="?/save"
 		use:enhance={() => {
