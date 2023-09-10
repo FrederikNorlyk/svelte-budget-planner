@@ -63,9 +63,14 @@
 			<div class="md:basis-1/2 xl:basis-1/3 p-10">
 				<h2 class="text-xl">{$i18n('remainderAfterExpenses')}</h2>
 				{#if settings.getIncome() > 0}
-					<h1 class="text-2xl">{AmountUtil.localize(remainder)}</h1>
+					<div class="flex">
+						<h1 class="text-2xl">{AmountUtil.localize(remainder)}</h1>
+						<p class="mt-auto text-slate-500">/{$i18n('month')}</p>
+					</div>
 				{:else}
-					<a href="/settings" class="btn variant-filled basis-1/4 bg-orange-500">{$i18n('enterIncome')}</a>
+					<a href="/settings" class="btn variant-filled basis-1/4 bg-orange-500"
+						>{$i18n('enterIncome')}</a
+					>
 				{/if}
 			</div>
 		</div>
