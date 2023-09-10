@@ -48,10 +48,7 @@
 
 		<AddButton href="/accounts/0/edit" ariaLabel="New account" />
 
-		<!-- spacing -->
-		<div class="h-2"></div>
-
-		<div class="card bg-white xl:col-span-3 md:col-span-2 flex space-x-3">
+		<div class="card bg-white xl:col-span-3 md:col-span-2 flex space-x-3 mt-6">
 			<div class="md:basis-1/2 xl:basis-1/3 p-10">
 				<h2 class="text-xl">{$i18n('total')}</h2>
 				<div class="flex">
@@ -60,6 +57,7 @@
 				</div>
 			</div>
 
+			<!-- spacing -->
 			<div class="hidden xl:block xl:basis-1/3"></div>
 
 			<div class="md:basis-1/2 xl:basis-1/3 p-10">
