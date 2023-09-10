@@ -52,7 +52,10 @@ export default {
         "accountBalance.title": "Balance for {{account}}",
         "accountBalance.details": "This view gives you an overview of the coming expenses",
         "user.income": "Income",
-        "user.income.required": "Income is required"
+        "user.income.required": "Income is required",
+        "total": "Total",
+        "remainderAfterExpenses": "Remainder after expenses",
+        "enterIncome": "Enter your income"
     },
     da: {
         "accounts.title": "Konti",
@@ -107,6 +110,9 @@ export default {
         "accountBalance.title": "Saldo for {{account}}",
         "accountBalance.details": "Denne side giver dig et overblik over de kommende udgifter",
         "user.income": "Indkomst",
-        "user.income.required": "Indkomst er påkrævet"
+        "user.income.required": "Indkomst er påkrævet",
+        "total": "Total",
+        "remainderAfterExpenses": "Rådighedsbeløb",
+        "enterIncome": "Indtast din indkomst"
     },
 }

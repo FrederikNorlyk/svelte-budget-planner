@@ -5,9 +5,15 @@
 	import AddButton from '$lib/components/AddButton.svelte';
 	import { AmountUtil } from '$lib/util/AmountUtil.js';
 	import IconArrowCircleRight from '$lib/icons/IconArrowCircleRight.svelte';
+	import { Settings } from '$lib/models/Settings.js';
 
 	export let data;
 	const accounts = data.accounts.map((a) => Account.parse(a));
+	const settings = Settings.parse(data.settings);
+
+	let totalMonthlyAmount = 0;
+	accounts.map((a) => (totalMonthlyAmount += a.getMonthlyAmount()));
+	let remainder = settings.getIncome() - totalMonthlyAmount;
 </script>
 
 <div class="mb-3">
@@ -34,10 +40,36 @@
 					</div>
 				</div>
 
-				<IconArrowCircleRight cssClass="flex-none h-8 w-8 text-slate-300 group-hover:text-slate-400" />
+				<IconArrowCircleRight
+					cssClass="flex-none h-8 w-8 text-slate-300 group-hover:text-slate-400"
+				/>
 			</a>
 		{/each}
 
 		<AddButton href="/accounts/0/edit" ariaLabel="New account" />
+
+		<!-- spacing -->
+		<div class="h-2"></div>
+
+		<div class="card bg-white xl:col-span-3 md:col-span-2 flex space-x-3">
+			<div class="md:basis-1/2 xl:basis-1/3 p-10">
+				<h2 class="text-xl">{$i18n('total')}</h2>
+				<div class="flex">
+					<h1 class="text-2xl">{AmountUtil.localize(totalMonthlyAmount)}</h1>
+					<p class="mt-auto text-slate-500">/{$i18n('month')}</p>
+				</div>
+			</div>
+
+			<div class="hidden xl:block xl:basis-1/3"></div>
+
+			<div class="md:basis-1/2 xl:basis-1/3 p-10">
+				<h2 class="text-xl">{$i18n('remainderAfterExpenses')}</h2>
+				{#if settings.getIncome() > 0}
+					<h1 class="text-2xl">{AmountUtil.localize(remainder)}</h1>
+				{:else}
+					<a href="/settings" class="btn variant-filled basis-1/4 bg-orange-500">{$i18n('enterIncome')}</a>
+				{/if}
+			</div>
+		</div>
 	</div>
 {/if}
