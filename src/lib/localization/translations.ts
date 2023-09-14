@@ -1,7 +1,7 @@
 export default {
     en: {
         "accounts.title": "Accounts",
-        "currentAmount.title": "Overview",
+        "currentAmount.title": "Balance",
         "signOut": "Sign out",
         "accounts.details": "Create and maintain your accounts. Accounts should contain expenses of a similar kind.",
         "newAccount": "New account",
@@ -59,7 +59,7 @@ export default {
     },
     da: {
         "accounts.title": "Konti",
-        "currentAmount.title": "Overblik",
+        "currentAmount.title": "Saldo",
         "signOut": "Log ud",
         "accounts.details": "Opret og vedligehold dine konti. Hver konto bør indeholde udgifter af samme slags.",
         "newAccount": "Opret en ny konto",
