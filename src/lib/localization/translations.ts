@@ -53,7 +53,7 @@ export default {
         "accountBalance.details": "This view gives you an overview of the coming expenses",
         "user.income": "Income",
         "user.income.required": "Income is required",
-        "total": "Total",
+        "total": "Total expenses",
         "remainderAfterExpenses": "Remainder after expenses",
         "enterIncome": "Enter your income"
     },
@@ -111,7 +111,7 @@ export default {
         "accountBalance.details": "Denne side giver dig et overblik over de kommende udgifter",
         "user.income": "Indkomst",
         "user.income.required": "Indkomst er påkrævet",
-        "total": "Total",
+        "total": "Samlede udgifter",
         "remainderAfterExpenses": "Rådighedsbeløb",
         "enterIncome": "Indtast din indkomst"
     },
