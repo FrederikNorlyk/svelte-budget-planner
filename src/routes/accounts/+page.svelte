@@ -28,30 +28,31 @@
 	<div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
 		{#each accounts as account (account.getId())}
 			<a
-				class="group card flex rounded-md bg-white p-10"
+				class="group card rounded-md bg-white p-10"
 				href="/accounts/{account.getId()}"
 				aria-label="Open the account {account.getName()}"
 			>
-				<div class="grow">
-					<h2 class="text-2xl">{account.getName()}</h2>
-					<div class="flex">
-						<h1 class="text-4xl">{AmountUtil.localize(account.getMonthlyAmount())}</h1>
-						<p class="mt-auto text-slate-500">/{$i18n('month')}</p>
-					</div>
+				<div class="flex">
+					<h2 class="grow text-2xl">{account.getName()}</h2>
+
+					<IconArrowCircleRight
+						cssClass="ml-2 flex-none h-8 w-8 text-slate-300 group-hover:text-slate-400"
+					/>
 				</div>
 
-				<IconArrowCircleRight
-					cssClass="flex-none h-8 w-8 text-slate-300 group-hover:text-slate-400"
-				/>
+				<div class="flex flex-wrap">
+					<p class="text-4xl font-bold">{AmountUtil.localize(account.getMonthlyAmount())}</p>
+					<p class="mt-auto text-slate-500">/{$i18n('month')}</p>
+				</div>
 			</a>
 		{/each}
 
 		<AddButton href="/accounts/0/edit" ariaLabel="New account" />
 
-		<div class="card bg-white xl:col-span-3 md:col-span-2 flex space-x-3 mt-6">
-			<div class="md:basis-1/2 xl:basis-1/3 p-10">
+		<div class="card bg-white xl:col-span-3 md:col-span-2 md:flex md:space-x-3 md:space-y-0 space-y-6 mt-6 p-10">
+			<div class="md:basis-1/2 xl:basis-1/3">
 				<h2 class="text-xl">{$i18n('total')}</h2>
-				<div class="flex">
+				<div class="flex flex-wrap">
 					<h1 class="text-2xl">{AmountUtil.localize(totalMonthlyAmount)}</h1>
 					<p class="mt-auto text-slate-500">/{$i18n('month')}</p>
 				</div>
@@ -60,10 +61,10 @@
 			<!-- spacing -->
 			<div class="hidden xl:block xl:basis-1/3"></div>
 
-			<div class="md:basis-1/2 xl:basis-1/3 p-10">
+			<div class="md:basis-1/2 xl:basis-1/3">
 				<h2 class="text-xl">{$i18n('remainderAfterExpenses')}</h2>
 				{#if settings.getIncome() > 0}
-					<div class="flex">
+					<div class="flex flex-wrap">
 						<h1 class="text-2xl">{AmountUtil.localize(remainder)}</h1>
 						<p class="mt-auto text-slate-500">/{$i18n('month')}</p>
 					</div>
