@@ -36,7 +36,7 @@ export class PaymentDateClient extends DatabaseClient<PaymentDate> {
                     ($1, $2, $3, $4) 
                 RETURNING *`,
                 [
-                    this.getUserId(),
+                    [this.getUserId()],
                     paymentDate.getExpenseId(),
                     paymentDate.getDayOfMonth(),
                     paymentDate.getMonth()
@@ -64,7 +64,7 @@ export class PaymentDateClient extends DatabaseClient<PaymentDate> {
                 FROM ${this.getTableName()} 
                 WHERE 
                     expense_id = ${expense.getId()} AND
-                    user_id = ${this.getUserId()}
+                    ${this.getUserId()} = ANY (user_id)
                 ORDER BY month
             `)
         } catch (e) {
@@ -87,7 +87,7 @@ export class PaymentDateClient extends DatabaseClient<PaymentDate> {
                 FROM ${this.getTableName()} 
                 WHERE 
                     expense_id = ${expense.getId()} AND
-                    user_id = ${this.getUserId()}
+                    ${this.getUserId()} = ANY (user_id)
             `)
         } catch (e) {
             console.log(e)

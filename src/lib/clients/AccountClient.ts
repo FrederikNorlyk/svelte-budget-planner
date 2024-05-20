@@ -37,7 +37,7 @@ export class AccountClient extends DatabaseClient<Account> {
                 RETURNING *`,
                 [
                     name,
-                    this.getUserId()
+                    [this.getUserId()]
                 ]
             )
         } catch (e) {
@@ -64,7 +64,7 @@ export class AccountClient extends DatabaseClient<Account> {
                 SET name = $1
                 WHERE 
                     id = $2 AND
-                    user_id = $3
+                    $3 = ANY (user_id)
                 RETURNING *`,
                 [name, id, this.getUserId()]
             )

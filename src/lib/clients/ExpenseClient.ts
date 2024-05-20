@@ -43,7 +43,7 @@ export class ExpenseClient extends DatabaseClient<Expense> {
                     expense.getAccountId(),
                     expense.isEnabled(),
                     expense.isShared(),
-                    this.getUserId()
+                    [this.getUserId()]
                 ]
             )
         } catch (e) {
@@ -75,7 +75,7 @@ export class ExpenseClient extends DatabaseClient<Expense> {
                     is_shared = $6
                 WHERE 
                     id = $7 AND
-                    user_id = $8
+                    $8 = ANY (user_id)
                 RETURNING *`,
                 [
                     expense.getName(),
@@ -110,7 +110,7 @@ export class ExpenseClient extends DatabaseClient<Expense> {
                 FROM ${this.getTableName()} 
                 WHERE 
                     account_id = ${account.getId()} AND
-                    user_id = ${this.getUserId()}
+                    ${this.getUserId()} = ANY (user_id)
                 ORDER BY tag, name
             `)
         } catch (e) {
@@ -132,7 +132,7 @@ export class ExpenseClient extends DatabaseClient<Expense> {
             result = await this.getPool().query(`
                 SELECT tag 
                 FROM ${this.getTableName()} 
-                WHERE user_id = ${this.getUserId()}
+                WHERE ${this.getUserId()} = ANY (user_id)
                 GROUP BY tag
                 ORDER BY tag
             `)

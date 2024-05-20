@@ -35,7 +35,7 @@ export class SettingsClient extends DatabaseClient<Settings> {
                     ($1, $2, $3) 
                 RETURNING *`,
                 [
-                    this.getUserId(),
+                    [this.getUserId()],
                     settings.getLocale(),
                     settings.getIncome()
                 ]
@@ -65,7 +65,7 @@ export class SettingsClient extends DatabaseClient<Settings> {
                     income = $2
                 WHERE 
                     id = $3 AND
-                    user_id = $4
+                    $4 = ANY (user_id)
                 RETURNING *`,
                 [
                     settings.getLocale(),
@@ -109,7 +109,7 @@ export class SettingsClient extends DatabaseClient<Settings> {
             result = await this.getPool().query(
                 `SELECT * 
                 FROM ${this.getTableName()} 
-                WHERE user_id = ${this.getUserId()}`
+                WHERE ${this.getUserId()} = ANY (user_id)`
             )
         } catch (e) {
             console.error(e)

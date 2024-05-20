@@ -68,7 +68,7 @@ export abstract class DatabaseClient<T extends DatabaseRecord> {
                 FROM ${this.getTableName()} 
                 WHERE 
                     id = ${id} AND 
-                    user_id = ${this.userId}`
+                    ${this.userId} = ANY (user_id)`
             )
         } catch (e) {
             console.error(e)
@@ -95,7 +95,7 @@ export abstract class DatabaseClient<T extends DatabaseRecord> {
             result = await this.pool.query(`
                 SELECT * 
                 FROM ${this.getTableName()} 
-                WHERE user_id = ${this.userId}
+                WHERE ${this.userId} = ANY (user_id)
                 ORDER BY ${orderBy} ASC
             `)
         } catch (e) {
@@ -118,7 +118,7 @@ export abstract class DatabaseClient<T extends DatabaseRecord> {
                 FROM ${this.getTableName()} 
                 WHERE 
                     id = ${id} AND 
-                    user_id = ${this.userId}`
+                    ${this.userId} = ANY (user_id)`
             )
         } catch (e) {
             let error = 'Unknown error'
