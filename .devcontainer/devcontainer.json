@@ -12,8 +12,7 @@
 				"bradlc.vscode-tailwindcss",
 				"moalamri.inline-fold",
 				"esbenp.prettier-vscode",
-				"bradlc.vscode-tailwindcss",
-				"zixuanchen.vitest-explorer"
+				"vitest.explorer"
 			]
 		}
 	}
