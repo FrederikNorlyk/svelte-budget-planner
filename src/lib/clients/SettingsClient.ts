@@ -38,7 +38,7 @@ export class SettingsClient extends DatabaseClient<Settings> {
                 INSERT INTO ${this.getTableName()} 
                     (user_id, locale, income, partner_id) 
                 VALUES 
-                    ($1, $2, $3) 
+                    ($1, $2, $3, $4) 
                 RETURNING *`,
                 [
                     [this.getUserId()],
