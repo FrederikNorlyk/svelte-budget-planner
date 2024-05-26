@@ -12,7 +12,7 @@ async function authorization({ event, resolve }: HandleParams) {
 	const isLoggedIn = !!session;
 
 	if (!isLoggedIn) {
-		throw redirect(303, '/auth/signin');
+		redirect(303, '/auth/signin');
 	}
 
 	return resolve(event);

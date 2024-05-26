@@ -8,7 +8,7 @@ import { redirect } from '@sveltejs/kit';
 export async function load(event) {
 	const session = await event.locals.getSession();
 	if (session == null) {
-		throw redirect(303, '/');
+		redirect(303, '/');
 	}
 
 	const expenseClient = new ExpenseClient(session.user.id);
@@ -21,7 +21,7 @@ export async function load(event) {
 		expense = await expenseClient.getById(id);
 
 		if (expense == null) {
-			throw redirect(303, '/accounts/' + event.params.accountId);
+			redirect(303, '/accounts/' + event.params.accountId);
 		}
 	}
 
@@ -72,7 +72,7 @@ export const actions = {
 		const session = await locals.getSession();
 
 		if (session == null) {
-			throw redirect(303, '/');
+			redirect(303, '/');
 		}
 
 		const userIds = [session.user.id];
@@ -116,14 +116,14 @@ export const actions = {
 			}
 		}
 
-		throw redirect(303, '/accounts/' + params.accountId);
+		redirect(303, '/accounts/' + params.accountId);
 	},
 
 	delete: async ({ params, locals }) => {
 		const session = await locals.getSession();
 
 		if (session == null) {
-			throw redirect(303, '/');
+			redirect(303, '/');
 		}
 
 		const client = new ExpenseClient(session.user.id);
@@ -136,6 +136,6 @@ export const actions = {
 			};
 		}
 
-		throw redirect(303, '/accounts/' + params.accountId);
+		redirect(303, '/accounts/' + params.accountId);
 	}
 };

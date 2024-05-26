@@ -5,7 +5,7 @@ import { redirect } from '@sveltejs/kit';
 export async function load(event) {
 	const session = await event.locals.getSession();
 	if (session == null) {
-		throw redirect(303, '/');
+		redirect(303, '/');
 	}
 
 	const accountClient = new AccountClient(session.user.id);
@@ -38,7 +38,7 @@ export const actions = {
 		const session = await locals.getSession();
 
 		if (session == null) {
-			throw redirect(303, '/');
+			redirect(303, '/');
 		}
 
 		const id = +params.accountId;
@@ -66,14 +66,14 @@ export const actions = {
 			return { error: 'Could not create account' };
 		}
 
-		throw redirect(303, '/accounts');
+		redirect(303, '/accounts');
 	},
 
 	delete: async ({ params, locals }) => {
 		const session = await locals.getSession();
 
 		if (session == null) {
-			throw redirect(303, '/');
+			redirect(303, '/');
 		}
 
 		const client = new AccountClient(session.user.id);
@@ -86,6 +86,6 @@ export const actions = {
 			};
 		}
 
-		throw redirect(303, '/accounts');
+		redirect(303, '/accounts');
 	}
 };

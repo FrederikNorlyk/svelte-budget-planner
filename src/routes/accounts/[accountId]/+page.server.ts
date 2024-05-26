@@ -5,7 +5,7 @@ import { redirect } from '@sveltejs/kit';
 export async function load(event) {
 	const session = await event.locals.getSession();
 	if (session == null) {
-		throw redirect(303, '/');
+		redirect(303, '/');
 	}
 
 	const accountClient = new AccountClient(session.user.id);
@@ -16,7 +16,7 @@ export async function load(event) {
 	const account = await accountClient.getById(id);
 
 	if (account == null) {
-		throw redirect(303, '/accounts');
+		redirect(303, '/accounts');
 	}
 
 	let expenses = await expenseClient.listBelongingTo(account);
