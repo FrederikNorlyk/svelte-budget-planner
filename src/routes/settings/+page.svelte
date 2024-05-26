@@ -8,8 +8,8 @@
 	import NumberField from '$lib/components/NumberField.svelte';
 	import { Settings } from '$lib/models/Settings.js';
 	import { enhance } from '$app/forms';
-	
-	const user = $page.data.session?.user
+
+	const user = $page.data.session?.user;
 	export let data;
 	export let form;
 
@@ -20,30 +20,30 @@
 		});
 	}
 
-	let isSaving = false
-	const settings = Settings.parse(data.settings)
+	let isSaving = false;
+	const settings = Settings.parse(data.settings);
 
-	const localeOptions: SelectOption<String>[] = []
+	const localeOptions: SelectOption<string>[] = [];
 	locales.forEach((locale) => {
-		var text
+		var text;
 
 		switch (locale) {
 			case 'en':
-				text = 'English'
-				break
+				text = 'English';
+				break;
 			case 'da':
-				text = 'Dansk'
-				break
+				text = 'Dansk';
+				break;
 			default:
-				text = 'Unknown'
-				break
+				text = 'Unknown';
+				break;
 		}
 
 		localeOptions.push({
 			value: locale,
 			text: text
 		});
-	})
+	});
 
 	function getProfilePicture() {
 		return user?.image ?? `https://avatars.dicebear.com/api/identicon/${user.id}.svg`;
@@ -55,17 +55,21 @@
 
 <div class="mt-5 card bg-white p-10 space-y-3">
 	<div class="flex">
-		<img src={getProfilePicture()} class="rounded-full w-12 h-12 object-cover" alt="The current user" />
-		
-		<span class="grow"/>
-		
+		<img
+			src={getProfilePicture()}
+			class="rounded-full w-12 h-12 object-cover"
+			alt="The current user"
+		/>
+
+		<span class="grow" />
+
 		<div class="text-end flex space-x-1">
 			<h2 class="text-lg">{user?.name}</h2>
 			<small class="text-slate-400">#{user?.id}</small>
 		</div>
 	</div>
 
-	<hr>
+	<hr />
 
 	<form class="sm:w-64 pt-4">
 		<SelectField
@@ -82,21 +86,29 @@
 		<LightSwitch disabled={isSaving} class="mt-1" id="light-switch" />
 	</div>
 
-	<form 
+	<form
 		class="space-y-2"
-		method="post" 
+		method="post"
 		action="?/save"
 		use:enhance={() => {
-			isSaving = true
+			isSaving = true;
 
 			return async ({ update }) => {
-				await update()
-				isSaving = false
-			}
+				await update();
+				isSaving = false;
+			};
 		}}
 	>
-		<NumberField name="income" label={$i18n('user.income')} required={true} disabled={isSaving} value={settings.getIncome()}/>
-		<button disabled={isSaving} class="btn variant-filled basis-1/4 bg-primary-500">{$i18n('button.save')}</button>
+		<NumberField
+			name="income"
+			label={$i18n('user.income')}
+			required={true}
+			disabled={isSaving}
+			value={settings.getIncome()}
+		/>
+		<button disabled={isSaving} class="btn variant-filled basis-1/4 bg-primary-500"
+			>{$i18n('button.save')}</button
+		>
 	</form>
 
 	<div class="h-4"></div>

@@ -6,12 +6,12 @@
 	import type { PaymentDate } from '$lib/models/PaymentDate';
 	import { DateUtil } from '$lib/util/DateUtil';
 
-	export let paymentDate: PaymentDate
-	export let disabled = false
-	export let onInputRemoved: (paymentDate: PaymentDate) => void
-	let self: HTMLDivElement
+	export let paymentDate: PaymentDate;
+	export let disabled = false;
+	export let onInputRemoved: (paymentDate: PaymentDate) => void;
+	let self: HTMLDivElement;
 
-	const daysOfMonth: SelectOption<Number>[] = []
+	const daysOfMonth: SelectOption<number>[] = [];
 	for (let i = 1; i <= 31; i++) {
 		daysOfMonth.push({
 			value: i,
@@ -19,17 +19,17 @@
 		});
 	}
 
-	const months: SelectOption<Number>[] = []
+	const months: SelectOption<number>[] = [];
 	for (let i = 0; i < 12; i++) {
 		months.push({
 			value: i,
 			text: DateUtil.getMonthName(i)
-		})
+		});
 	}
 
 	function removeSelf() {
-		self.parentNode?.removeChild(self)
-		onInputRemoved(paymentDate)
+		self.parentNode?.removeChild(self);
+		onInputRemoved(paymentDate);
 	}
 </script>
 
@@ -55,7 +55,12 @@
 		/>
 	</span>
 	<div>
-		<button {disabled} on:click={removeSelf} type="button" class="btn-icon variant-filled mt-6 bg-error-600">
+		<button
+			{disabled}
+			on:click={removeSelf}
+			type="button"
+			class="btn-icon variant-filled mt-6 bg-error-600"
+		>
 			<IconXMark cssClass="w-8 h-8" />
 		</button>
 	</div>

@@ -14,8 +14,7 @@
 				<button class="btn {parent.buttonNeutral}" on:click|preventDefault={parent.onClose}
 					>{parent.buttonTextCancel}</button
 				>
-				<button class="btn {parent.buttonPositive}">{parent.buttonTextSubmit}</button
-				>
+				<button class="btn {parent.buttonPositive}">{parent.buttonTextSubmit}</button>
 			</form>
 		</footer>
 	</div>

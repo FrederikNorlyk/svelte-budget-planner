@@ -37,16 +37,16 @@
 		});
 	}
 
-	let shareOptions: SelectOption<Boolean>[] = [
+	let shareOptions: SelectOption<boolean>[] = [
 		{
 			value: false,
 			text: $i18n('expense.notShared')
-		}, {
+		},
+		{
 			value: true,
 			text: $i18n('expense.isShared')
 		}
-	]
-	
+	];
 
 	function showDeleteModal(): void {
 		const component: ModalComponent = { ref: DeleteModal };
@@ -67,12 +67,12 @@
 	method="post"
 	action="?/save"
 	use:enhance={() => {
-		isSaving = true
+		isSaving = true;
 
 		return async ({ update }) => {
-			await update()
-			isSaving = false
-		}
+			await update();
+			isSaving = false;
+		};
 	}}
 >
 	<div class="card space-y-2 bg-white p-4">
@@ -96,7 +96,7 @@
 				/>
 			</span>
 
-			<SelectField 
+			<SelectField
 				name="isShared"
 				label={$i18n('expense.shared.label')}
 				options={shareOptions}
@@ -113,8 +113,11 @@
 			disabled={isSaving}
 		/>
 
-		<SlideToggle disabled={isSaving} name="isEnabled" active="bg-primary-500" checked={expense?.isEnabled() ?? true}
-			>{$i18n('expense.isEnabled')}</SlideToggle
+		<SlideToggle
+			disabled={isSaving}
+			name="isEnabled"
+			active="bg-primary-500"
+			checked={expense?.isEnabled() ?? true}>{$i18n('expense.isEnabled')}</SlideToggle
 		>
 	</div>
 
@@ -123,7 +126,9 @@
 	</div>
 
 	<div class="flex space-x-2 p-4">
-		<button disabled={isSaving} class="btn variant-filled basis-1/4 bg-primary-500">{$i18n('button.save')}</button>
+		<button disabled={isSaving} class="btn variant-filled basis-1/4 bg-primary-500"
+			>{$i18n('button.save')}</button
+		>
 
 		{#if expense != null}
 			<button
