@@ -1,4 +1,5 @@
 import { AccountClient } from '$lib/clients/AccountClient.js'
+import { SettingsClient } from '$lib/clients/SettingsClient';
 import { redirect } from '@sveltejs/kit'
 
 export async function load(event) {
@@ -28,6 +29,7 @@ export const actions = {
         
         const data = await request.formData()
         const name = data.get('name')?.toString()
+        const isShared = data.get('shared') == 'on'
 
         if (name == null || name.trim().length == 0) {
             return {
@@ -44,11 +46,22 @@ export const actions = {
         const id = +params.accountId
         const client = new AccountClient(session.user.id)
 
+        const userIds = [session.user.id];
+        if (isShared) {
+            const settingsClient = new SettingsClient(session.user.id);
+            const setting = await settingsClient.getForCurrentUser();
+
+            const partnerId = setting.getPartnerId();
+            if (partnerId != null) {
+                userIds.push(partnerId);
+            }
+        }
+
         let account
         if (id == 0) {
-            account = await client.create(name)
+            account = await client.create(name, userIds)
         } else {
-            account = await client.update(id, name)
+            account = await client.update(id, name, userIds)
         }
 
         if (account == null) {

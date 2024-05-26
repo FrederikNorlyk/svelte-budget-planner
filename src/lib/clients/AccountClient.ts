@@ -17,16 +17,17 @@ export class AccountClient extends DatabaseClient<Account> {
     }
 
     protected override parse(row: QueryResultRow) {
-        return new Account(+row.id, row.name)
+        return new Account(+row.id, row.name, row.user_id)
     }
 
     /**
      * Creates an account.
      * 
      * @param name name of the account
+     * @param userIds the users of the account
      * @returns the newly created account
      */
-    public async create(name: string) {
+    public async create(name: string, userIds: number[]) {
         let result
         try {
             result = await this.getPool().query(`
@@ -37,7 +38,7 @@ export class AccountClient extends DatabaseClient<Account> {
                 RETURNING *`,
                 [
                     name,
-                    [this.getUserId()]
+                    userIds
                 ]
             )
         } catch (e) {
@@ -54,19 +55,22 @@ export class AccountClient extends DatabaseClient<Account> {
      * 
      * @param id the id of the account to update
      * @param name the new name for the account
+     * @param userIds the users of the account
      * @returns the updated account
      */
-    public async update(id: number, name: string) {
+    public async update(id: number, name: string, userIds: number[]) {
         let result
         try {
             result = await this.getPool().query(`
                 UPDATE ${this.getTableName()} 
-                SET name = $1
+                SET 
+                    name = $1,
+                    user_id = $2
                 WHERE 
-                    id = $2 AND
-                    $3 = ANY (user_id)
+                    id = $3 AND
+                    $4 = ANY (user_id)
                 RETURNING *`,
-                [name, id, this.getUserId()]
+                [name, userIds, id, this.getUserId()]
             )
         } catch (e) {
             console.error(e)

@@ -10,6 +10,7 @@
 		type ModalSettings
 	} from '@skeletonlabs/skeleton';
 	import { enhance } from '$app/forms';
+	import Checkbox from '$lib/components/Checkbox.svelte';
 
 	export let data;
 	export let form;
@@ -57,6 +58,13 @@
 		autofocus={account == null}
 		required={true}
 		value={account?.getName()}
+		disabled={isSaving}
+	/>
+
+	<Checkbox
+		name="shared"
+		label={$i18n('account.shared')}
+		value={(account?.getUserIds().length ?? 0) > 1}
 		disabled={isSaving}
 	/>
 

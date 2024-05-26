@@ -5,11 +5,13 @@ export class Account extends DatabaseRecord {
 
     private name: string
     private expenses: Expense[] = []
+    private userIds: number[]
 
-    constructor(id: number, name: string) {
+    constructor(id: number, name: string, userIds: number[]) {
         super(id)
 
         this.name = name
+        this.userIds = userIds
     }
 
     public getName() {
@@ -22,6 +24,10 @@ export class Account extends DatabaseRecord {
 
     public setExpenses(expenses: Expense[]) {
         this.expenses = expenses
+    }
+
+    public getUserIds() {
+        return this.userIds;
     }
 
     public getMonthlyAmount(): number {
@@ -41,13 +47,14 @@ export class Account extends DatabaseRecord {
         return JSON.stringify({
             id: this.getId(),
             name: this.getName(),
+            userIds: this.getUserIds(),
             expenses: this.getExpenses().map((expense) => expense.serialize())
         })
     }
 
     public static parse(json: string): Account {
         const parsed = JSON.parse(json)
-        const account = new Account(parsed.id, parsed.name)
+        const account = new Account(parsed.id, parsed.name, parsed.userIds)
 
         if (parsed.expenses) {
             account.setExpenses(parsed.expenses.map((expense: string) => Expense.parse(expense)))

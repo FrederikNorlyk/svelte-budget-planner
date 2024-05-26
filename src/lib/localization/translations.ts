@@ -55,7 +55,8 @@ export default {
         "user.income.required": "Income is required",
         "total": "Total expenses",
         "remainderAfterExpenses": "Remainder after expenses",
-        "enterIncome": "Enter your income"
+        "enterIncome": "Enter your income",
+        "account.shared": "Shared account"
     },
     da: {
         "accounts.title": "Konti",
@@ -113,6 +114,7 @@ export default {
         "user.income.required": "Indkomst er påkrævet",
         "total": "Samlede udgifter",
         "remainderAfterExpenses": "Rådighedsbeløb",
-        "enterIncome": "Indtast din indkomst"
+        "enterIncome": "Indtast din indkomst",
+        "account.shared": "Delt konto"
     },
 }
