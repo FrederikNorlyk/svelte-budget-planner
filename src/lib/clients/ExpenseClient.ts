@@ -17,7 +17,7 @@ export class ExpenseClient extends DatabaseClient<Expense> {
     }
 
     protected override parse(row: QueryResultRow) {
-        return new Expense(+row.id, row.name, +row.amount, row.tag, +row.account_id, row.is_enabled, row.is_shared)
+        return new Expense(+row.id, row.name, +row.amount, row.tag, +row.account_id, row.is_enabled, row.is_shared, row.user_id)
     }
 
     /**
@@ -43,7 +43,7 @@ export class ExpenseClient extends DatabaseClient<Expense> {
                     expense.getAccountId(),
                     expense.isEnabled(),
                     expense.isShared(),
-                    [this.getUserId()]
+                    expense.getUserIds()
                 ]
             )
         } catch (e) {
@@ -72,10 +72,11 @@ export class ExpenseClient extends DatabaseClient<Expense> {
                     tag = $3,
                     account_id = $4,
                     is_enabled = $5,
-                    is_shared = $6
+                    is_shared = $6,
+                    user_id = $7
                 WHERE 
-                    id = $7 AND
-                    $8 = ANY (user_id)
+                    id = $8 AND
+                    $9 = ANY (user_id)
                 RETURNING *`,
                 [
                     expense.getName(),
@@ -84,6 +85,7 @@ export class ExpenseClient extends DatabaseClient<Expense> {
                     expense.getAccountId(),
                     expense.isEnabled(),
                     expense.isShared(),
+                    expense.getUserIds(),
                     expense.getId(),
                     this.getUserId()
                 ]

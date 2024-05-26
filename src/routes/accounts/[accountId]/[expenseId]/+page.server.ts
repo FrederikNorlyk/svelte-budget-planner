@@ -1,5 +1,6 @@
 import { ExpenseClient } from '$lib/clients/ExpenseClient'
 import { PaymentDateClient } from '$lib/clients/PaymentDateClient.js';
+import { SettingsClient } from '$lib/clients/SettingsClient';
 import { Expense } from '$lib/models/Expense.js';
 import { PaymentDate } from '$lib/models/PaymentDate.js';
 import { redirect } from '@sveltejs/kit';
@@ -76,8 +77,19 @@ export const actions = {
             throw redirect(303, "/");
         }
 
+        const userIds = [session.user.id];
+        if (isShared) {
+            const settingsClient = new SettingsClient(session.user.id);
+            const setting = await settingsClient.getForCurrentUser();
+
+            if (setting.getPartnerId() != null) {
+                userIds.push(setting.getPartnerId());
+            }
+        }
+
+        const expense = new Expense(id, name, amount, tag, accountId, isEnabled, isShared, userIds);
+
         const expenseClient = new ExpenseClient(session.user.id);
-        const expense = new Expense(id, name, amount, tag, accountId, isEnabled, isShared);
 
         let newExpense;
         if (id == 0) {

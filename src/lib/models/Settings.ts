@@ -7,12 +7,14 @@ export class Settings extends DatabaseRecord {
 
     private locale: string
     private income: number
+    private partnerId: number | null
 
-    constructor(id: number, locale: string, income: number) {
+    constructor(id: number, locale: string, income: number, partnerId: number | null) {
         super(id)
 
         this.locale = locale
         this.income = income
+        this.partnerId = partnerId;
     }
 
     public getIncome() {
@@ -27,16 +29,21 @@ export class Settings extends DatabaseRecord {
         return this.locale
     }
 
+    public getPartnerId() {
+        return this.partnerId;
+    }
+
     public serialize() {
         return JSON.stringify({
             id: this.getId(),
             locale: this.getLocale(),
-            income: this.getIncome()
+            income: this.getIncome(),
+            partherId: this.getPartnerId()
         })
     }
 
     public static parse(json: string) {
         const parsed = JSON.parse(json)
-        return new Settings(parsed.id, parsed.locale, parsed.income)
+        return new Settings(parsed.id, parsed.locale, parsed.income, parsed.partnerId)
     }
 }

@@ -10,9 +10,10 @@ export class Expense extends DatabaseRecord {
     private accountId: number
     private enabled: boolean
     private paymentDates: PaymentDate[] = []
+    private userIds: number[]
 
     constructor(id: number, name: string, amount: number, tag: string | null | undefined,
-        accountId: number, enabled: boolean, shared: boolean) {
+        accountId: number, enabled: boolean, shared: boolean, userIds: number[]) {
 
         super(id)
 
@@ -22,6 +23,7 @@ export class Expense extends DatabaseRecord {
         this.accountId = accountId
         this.enabled = enabled
         this.shared = shared;
+        this.userIds = userIds
     }
 
     public getName() {
@@ -83,6 +85,10 @@ export class Expense extends DatabaseRecord {
         this.paymentDates.push(paymentDate)
     }
 
+    public getUserIds() {
+        return this.userIds;
+    }
+
     public serialize() {
         return JSON.stringify({
             id: this.getId(),
@@ -92,7 +98,8 @@ export class Expense extends DatabaseRecord {
             accountId: this.getAccountId(),
             enabled: this.isEnabled(),
             shared: this.isShared(),
-            paymentDates: this.getPaymentDates().map((paymentDate) => paymentDate.serialize())
+            paymentDates: this.getPaymentDates().map((paymentDate) => paymentDate.serialize()),
+            userIds: this.getUserIds()
         })
     }
 
@@ -106,7 +113,8 @@ export class Expense extends DatabaseRecord {
             parsed.tag,
             parsed.accountId,
             parsed.enabled,
-            parsed.shared
+            parsed.shared,
+            parsed.userIds
         )
 
         if (parsed.paymentDates) {

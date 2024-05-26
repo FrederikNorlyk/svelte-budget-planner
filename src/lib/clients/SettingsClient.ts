@@ -15,7 +15,13 @@ export class SettingsClient extends DatabaseClient<Settings> {
     }
 
     protected override parse(row: QueryResultRow) {
-        return new Settings(+row.id, row.locale, +row.income)
+        let partnerId = row.partner_id;
+        
+        if (partnerId != null) {
+            partnerId = +partnerId;
+        }
+
+        return new Settings(+row.id, row.locale, +row.income, row.partner_id)
     }
 
     /**
@@ -30,14 +36,15 @@ export class SettingsClient extends DatabaseClient<Settings> {
         try {
             result = await this.getPool().query(`
                 INSERT INTO ${this.getTableName()} 
-                    (user_id, locale, income) 
+                    (user_id, locale, income, partner_id) 
                 VALUES 
                     ($1, $2, $3) 
                 RETURNING *`,
                 [
                     [this.getUserId()],
                     settings.getLocale(),
-                    settings.getIncome()
+                    settings.getIncome(),
+                    null
                 ]
             )
         } catch (e) {
@@ -90,9 +97,9 @@ export class SettingsClient extends DatabaseClient<Settings> {
      */
     public async getForCurrentUser() {
         let settings = await this.get()
-        
+
         if (settings == null) {
-            await this.create(new Settings(0, "en", 0))
+            await this.create(new Settings(0, "en", 0, null))
             settings = await this.get()
         }
 
