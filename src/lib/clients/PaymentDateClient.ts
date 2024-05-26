@@ -16,7 +16,7 @@ export class PaymentDateClient extends DatabaseClient<PaymentDate> {
     }
 
     protected override parse(row: QueryResultRow) {
-        return new PaymentDate(+row.id, +row.expense_id, +row.month, +row.day_of_month)
+        return new PaymentDate(+row.id, +row.expense_id, +row.month, +row.day_of_month, row.user_id)
     }
 
     /**
@@ -36,7 +36,7 @@ export class PaymentDateClient extends DatabaseClient<PaymentDate> {
                     ($1, $2, $3, $4) 
                 RETURNING *`,
                 [
-                    [this.getUserId()],
+                    paymentDate.getUserIds(),
                     paymentDate.getExpenseId(),
                     paymentDate.getDayOfMonth(),
                     paymentDate.getMonth()

@@ -15,7 +15,7 @@
 	}
 
 	function addInput() {
-		paymentDates = [...paymentDates, new PaymentDate(Math.random(), 0, Month.JANUARY, 1)];
+		paymentDates = [...paymentDates, new PaymentDate(Math.random(), 0, Month.JANUARY, 1, [])];
 	}
 </script>
 

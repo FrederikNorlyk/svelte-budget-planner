@@ -14,7 +14,7 @@ describe('Tests for getCurrentAmount', () => {
         const expense = new Expense(1, "Test", 100, "Test", account.getId(), false, false, userIds)
     
         expense.setPaymentDates([
-            new PaymentDate(1, expense.getId(), Month.FEBRUARY, 1)
+            new PaymentDate(1, expense.getId(), Month.FEBRUARY, 1, userIds)
         ])
     
         account.setExpenses([
@@ -85,8 +85,8 @@ describe('Tests for getCurrentAmount', () => {
     
     test('Half-yearly expense', () => {
         const paymentDates = [
-            new PaymentDate(1, 1, Month.JANUARY, 1),
-            new PaymentDate(2, 1, Month.JULY, 1),
+            new PaymentDate(1, 1, Month.JANUARY, 1, userIds),
+            new PaymentDate(2, 1, Month.JULY, 1, userIds),
         ]
     
         const account = createAccountWithPaymentDates(600, paymentDates)
@@ -115,10 +115,10 @@ describe('Tests for getCurrentAmount', () => {
     
     test('Quarterly expense', () => {
         const paymentDates = [
-            new PaymentDate(1, 1, Month.JANUARY, 1),
-            new PaymentDate(1, 1, Month.APRIL, 1),
-            new PaymentDate(2, 1, Month.JULY, 1),
-            new PaymentDate(2, 1, Month.OCTOBER, 1),
+            new PaymentDate(1, 1, Month.JANUARY, 1, userIds),
+            new PaymentDate(1, 1, Month.APRIL, 1, userIds),
+            new PaymentDate(2, 1, Month.JULY, 1, userIds),
+            new PaymentDate(2, 1, Month.OCTOBER, 1, userIds),
         ]
     
         const account = createAccountWithPaymentDates(500, paymentDates)
@@ -143,12 +143,12 @@ describe('Tests for getCurrentAmount', () => {
         const expense2 = new Expense(2, "Test", 600, "Test", account.getId(), true, false, userIds)
     
         expense1.setPaymentDates([
-            new PaymentDate(1, expense1.getId(), Month.OCTOBER, 1)
+            new PaymentDate(1, expense1.getId(), Month.OCTOBER, 1, userIds)
         ])
     
         expense2.setPaymentDates([
-            new PaymentDate(2, expense2.getId(), Month.MARCH, 1),
-            new PaymentDate(3, expense2.getId(), Month.SEPTEMBER, 1)
+            new PaymentDate(2, expense2.getId(), Month.MARCH, 1, userIds),
+            new PaymentDate(3, expense2.getId(), Month.SEPTEMBER, 1, userIds)
         ])
     
         account.setExpenses([expense1, expense2])
@@ -210,7 +210,7 @@ describe('Tests for getCurrentAmount', () => {
         const expense = new Expense(1, "Test", 1200, "Tag", account.getId(), true, false, userIds)
 
         expense.setPaymentDates([
-            new PaymentDate(1, expense.getId(), Month.JUNE, 30)
+            new PaymentDate(1, expense.getId(), Month.JUNE, 30, userIds)
         ])
 
         account.setExpenses([expense])
@@ -232,7 +232,7 @@ describe('Tests for getCurrentAmount', () => {
         let expense = new Expense(1, "Test", 1200, "Tag", account.getId(), true, false, userIds)
 
         expense.setPaymentDates([
-            new PaymentDate(1, expense.getId(), Month.APRIL, 1)
+            new PaymentDate(1, expense.getId(), Month.APRIL, 1, userIds)
         ])
 
         account.setExpenses([expense])
@@ -246,7 +246,7 @@ describe('Tests for getCurrentAmount', () => {
         expense = new Expense(1, "Test", 1200, "Tag", account.getId(), true, true, userIds)
 
         expense.setPaymentDates([
-            new PaymentDate(1, expense.getId(), Month.APRIL, 1)
+            new PaymentDate(1, expense.getId(), Month.APRIL, 1, userIds)
         ])
 
         account.setExpenses([expense])
@@ -271,7 +271,7 @@ describe('Tests for getNextPaymentDate', () => {
         const expense = new Expense(1, "Test", 100, "Tag", account.getId(), false, false, userIds)
 
         expense.setPaymentDates([
-            new PaymentDate(1, expense.getId(), Month.FEBRUARY, 1), 
+            new PaymentDate(1, expense.getId(), Month.FEBRUARY, 1, userIds), 
         ])
 
         account.setExpenses([expense])
@@ -307,11 +307,11 @@ describe('Tests for getNextPaymentDate', () => {
         const expense2 = new Expense(2, "Test", 100, "Tag", account.getId(), false, false, userIds)
 
         expense1.setPaymentDates([
-            new PaymentDate(1, expense1.getId(), Month.MARCH, 1), 
+            new PaymentDate(1, expense1.getId(), Month.MARCH, 1, userIds), 
         ])
  
         expense2.setPaymentDates([
-            new PaymentDate(1, expense2.getId(), Month.FEBRUARY, 1), 
+            new PaymentDate(1, expense2.getId(), Month.FEBRUARY, 1, userIds), 
         ])
 
         account.setExpenses([expense1, expense2])
@@ -334,11 +334,11 @@ describe('Tests for getNextPaymentDate', () => {
         const expense2 = new Expense(2, "Test", 100, "Tag", account.getId(), true, false, userIds)
 
         expense1.setPaymentDates([
-            new PaymentDate(1, expense1.getId(), Month.MARCH, 1), 
+            new PaymentDate(1, expense1.getId(), Month.MARCH, 1, userIds), 
         ])
  
         expense2.setPaymentDates([
-            new PaymentDate(1, expense2.getId(), Month.FEBRUARY, 1), 
+            new PaymentDate(1, expense2.getId(), Month.FEBRUARY, 1, userIds), 
         ])
 
         account.setExpenses([expense1, expense2])
@@ -361,11 +361,11 @@ describe('Tests for getNextPaymentDate', () => {
         const expense2 = new Expense(2, "Test", 100, "Tag", account.getId(), true, false, userIds)
 
         expense1.setPaymentDates([
-            new PaymentDate(1, expense1.getId(), Month.APRIL, 1), 
+            new PaymentDate(1, expense1.getId(), Month.APRIL, 1, userIds), 
         ])
  
         expense2.setPaymentDates([
-            new PaymentDate(1, expense2.getId(), Month.JANUARY, 1), 
+            new PaymentDate(1, expense2.getId(), Month.JANUARY, 1, userIds), 
         ])
 
         account.setExpenses([expense1, expense2])
@@ -419,7 +419,7 @@ describe('Tests for getNextPaymentDateForExpense', () => {
         const expense = new Expense(1, "Test", 100, "Tag", 1, true, false, userIds)
 
         expense.setPaymentDates([
-            new PaymentDate(1, expense.getId(), Month.MAY, 1)
+            new PaymentDate(1, expense.getId(), Month.MAY, 1, userIds)
         ])
 
         const util = new CurrentAmountUtil()
@@ -438,7 +438,7 @@ describe('Tests for getNextPaymentDateForExpense', () => {
         const expense = new Expense(1, "Test", 100, "Tag", 1, true, false, userIds)
 
         expense.setPaymentDates([
-            new PaymentDate(1, expense.getId(), Month.MAY, 1)
+            new PaymentDate(1, expense.getId(), Month.MAY, 1, userIds)
         ])
 
         const util = new CurrentAmountUtil()
@@ -457,8 +457,8 @@ describe('Tests for getNextPaymentDateForExpense', () => {
         const expense = new Expense(1, "Test", 100, "Tag", 1, true, false, userIds)
 
         expense.setPaymentDates([
-            new PaymentDate(1, expense.getId(), Month.MAY, 1),
-            new PaymentDate(2, expense.getId(), Month.JULY, 1),
+            new PaymentDate(1, expense.getId(), Month.MAY, 1, userIds),
+            new PaymentDate(2, expense.getId(), Month.JULY, 1, userIds),
         ])
 
         const util = new CurrentAmountUtil()
@@ -477,7 +477,7 @@ describe('Tests for getNextPaymentDateForExpense', () => {
         const expense = new Expense(1, "Test", 100, "Tag", 1, true, false, userIds)
 
         expense.setPaymentDates([
-            new PaymentDate(1, expense.getId(), Month.AUGUST, 31)
+            new PaymentDate(1, expense.getId(), Month.AUGUST, 31, userIds)
         ])
 
         const util = new CurrentAmountUtil()
@@ -565,7 +565,7 @@ function createExpenseOn(amount: number, months: Month[]) {
     const expense = new Expense(0, "Test", amount, "tag", 0, true, false, userIds)
 
     for (let i = 0; i < months.length; i++) {
-         expense.addPaymentDate(new PaymentDate(0, 0, months[i], 1))
+         expense.addPaymentDate(new PaymentDate(0, 0, months[i], 1, userIds))
     }
 
     return expense
@@ -576,7 +576,7 @@ function createAccountWithSinglePaymentExpense(month: Month, dayOfMonth: number)
     const expense = new Expense(1, "Test", 1200, "Test", account.getId(), true, false, userIds)
 
     expense.setPaymentDates([
-        new PaymentDate(1, expense.getId(), month, dayOfMonth)
+        new PaymentDate(1, expense.getId(), month, dayOfMonth, userIds)
     ])
 
     account.setExpenses([expense])

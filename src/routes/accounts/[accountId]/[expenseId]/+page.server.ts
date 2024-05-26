@@ -110,7 +110,7 @@ export const actions = {
             const dayOfMonth = +daysOfMonth[i];
             const month = +months[i];
 
-            const paymentDate = new PaymentDate(0, newExpense.getId(), month, dayOfMonth);
+            const paymentDate = new PaymentDate(0, newExpense.getId(), month, dayOfMonth, userIds);
             const createdPaymentDate = await paymentDateClient.create(paymentDate);
 
             if (createdPaymentDate == null) {
