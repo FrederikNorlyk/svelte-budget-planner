@@ -5,13 +5,12 @@ name: Unit tests
 
 on:
   push:
-    branches: [ "*" ]
+    branches: ['*']
   pull_request:
-    branches: [ "*" ]
+    branches: ['*']
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -19,27 +18,27 @@ jobs:
         node-version: [18.x]
 
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: 'Create .env file'
-      env:
-        DB_TABLE_PREFIX: ${{ secrets.DB_TABLE_PREFIX }}
-        POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
-        GHUB_ID: ${{ secrets.GHUB_ID }}
-        GHUB_SECRET: ${{ secrets.GHUB_SECRET }}
-      run: |
+      - uses: actions/checkout@v3
+
+      - name: 'Create .env file'
+        env:
+          DB_TABLE_PREFIX: ${{ secrets.DB_TABLE_PREFIX }}
+          POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+          GHUB_ID: ${{ secrets.GHUB_ID }}
+          GHUB_SECRET: ${{ secrets.GHUB_SECRET }}
+        run: |
           touch .env
           echo DB_TABLE_PREFIX="$DB_TABLE_PREFIX" >> .env
           echo POSTGRES_URL="$POSTGRES_URL" >> .env
           echo GITHUB_ID="$GHUB_ID" >> .env
           echo GITHUB_SECRET="$GHUB_SECRET" >> .env
-      shell: bash
+        shell: bash
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test

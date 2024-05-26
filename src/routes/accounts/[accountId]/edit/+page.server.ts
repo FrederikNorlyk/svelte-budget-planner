@@ -1,93 +1,91 @@
-import { AccountClient } from '$lib/clients/AccountClient.js'
+import { AccountClient } from '$lib/clients/AccountClient.js';
 import { SettingsClient } from '$lib/clients/SettingsClient';
-import { redirect } from '@sveltejs/kit'
+import { redirect } from '@sveltejs/kit';
 
 export async function load(event) {
+	const session = await event.locals.getSession();
+	if (session == null) {
+		throw redirect(303, '/');
+	}
 
-    const session = await event.locals.getSession();
-    if (session == null) {
-        throw redirect(303, "/")
-    }
+	const accountClient = new AccountClient(session.user.id);
 
-    const accountClient = new AccountClient(session.user.id)
+	const id = +event.params.accountId;
 
-    const id = +event.params.accountId
+	let account = null;
+	if (id != 0) {
+		account = await accountClient.getById(id);
+	}
 
-    let account = null
-    if (id != 0) {
-        account = await accountClient.getById(id)
-    }
-
-    return {
-        session: session,
-        account: account?.serialize(),
-    }
+	return {
+		session: session,
+		account: account?.serialize()
+	};
 }
 
 export const actions = {
-    save: async ({ request, params, locals }) => {
-        
-        const data = await request.formData()
-        const name = data.get('name')?.toString()
-        const isShared = data.get('shared') == 'on'
+	save: async ({ request, params, locals }) => {
+		const data = await request.formData();
+		const name = data.get('name')?.toString();
+		const isShared = data.get('shared') == 'on';
 
-        if (name == null || name.trim().length == 0) {
-            return {
-                error: 'Name is required'
-            }
-        }
+		if (name == null || name.trim().length == 0) {
+			return {
+				error: 'Name is required'
+			};
+		}
 
-        const session = await locals.getSession()
+		const session = await locals.getSession();
 
-        if (session == null) {
-            throw redirect(303, "/")
-        }
+		if (session == null) {
+			throw redirect(303, '/');
+		}
 
-        const id = +params.accountId
-        const client = new AccountClient(session.user.id)
+		const id = +params.accountId;
+		const client = new AccountClient(session.user.id);
 
-        const userIds = [session.user.id];
-        if (isShared) {
-            const settingsClient = new SettingsClient(session.user.id);
-            const setting = await settingsClient.getForCurrentUser();
+		const userIds = [session.user.id];
+		if (isShared) {
+			const settingsClient = new SettingsClient(session.user.id);
+			const setting = await settingsClient.getForCurrentUser();
 
-            const partnerId = setting.getPartnerId();
-            if (partnerId != null) {
-                userIds.push(partnerId);
-            }
-        }
+			const partnerId = setting.getPartnerId();
+			if (partnerId != null) {
+				userIds.push(partnerId);
+			}
+		}
 
-        let account
-        if (id == 0) {
-            account = await client.create(name, userIds)
-        } else {
-            account = await client.update(id, name, userIds)
-        }
+		let account;
+		if (id == 0) {
+			account = await client.create(name, userIds);
+		} else {
+			account = await client.update(id, name, userIds);
+		}
 
-        if (account == null) {
-            return { error: 'Could not create account'}
-        }
+		if (account == null) {
+			return { error: 'Could not create account' };
+		}
 
-        throw redirect(303, "/accounts")
-    },
+		throw redirect(303, '/accounts');
+	},
 
-    delete: async ({ params, locals }) => {
-        const session = await locals.getSession()
+	delete: async ({ params, locals }) => {
+		const session = await locals.getSession();
 
-        if (session == null) {
-            throw redirect(303, "/")
-        }
+		if (session == null) {
+			throw redirect(303, '/');
+		}
 
-        const client = new AccountClient(session.user.id)
-        const id = +params.accountId
-        const result = await client.delete(id)
+		const client = new AccountClient(session.user.id);
+		const id = +params.accountId;
+		const result = await client.delete(id);
 
-        if (result.getError() != null) {
-            return {
-                error: result.getError()
-            }
-        }
+		if (result.getError() != null) {
+			return {
+				error: result.getError()
+			};
+		}
 
-        throw redirect(303, "/accounts")
-    }
-}
+		throw redirect(303, '/accounts');
+	}
+};

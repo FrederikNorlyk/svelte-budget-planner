@@ -10,12 +10,12 @@ declare global {
 
 		interface Session {
 			user: {
-				id: number,
-				name: string,
-				email: string,
-				image: string,
-				income: number
-			}
+				id: number;
+				name: string;
+				email: string;
+				image: string;
+				income: number;
+			};
 		}
 	}
 }

@@ -1,126 +1,134 @@
-import { DatabaseRecord } from "$lib/models/DatabaseRecord"
-import { PaymentDate } from "./PaymentDate"
+import { DatabaseRecord } from '$lib/models/DatabaseRecord';
+import { PaymentDate } from './PaymentDate';
 
 export class Expense extends DatabaseRecord {
+	private name: string;
+	private amount: number;
+	private shared: boolean;
+	private tag: string | null;
+	private accountId: number;
+	private enabled: boolean;
+	private paymentDates: PaymentDate[] = [];
+	private userIds: number[];
 
-    private name: string
-    private amount: number
-    private shared: boolean
-    private tag: string | null
-    private accountId: number
-    private enabled: boolean
-    private paymentDates: PaymentDate[] = []
-    private userIds: number[]
+	constructor(
+		id: number,
+		name: string,
+		amount: number,
+		tag: string | null | undefined,
+		accountId: number,
+		enabled: boolean,
+		shared: boolean,
+		userIds: number[]
+	) {
+		super(id);
 
-    constructor(id: number, name: string, amount: number, tag: string | null | undefined,
-        accountId: number, enabled: boolean, shared: boolean, userIds: number[]) {
+		this.name = name;
+		this.amount = amount;
+		this.tag = tag === undefined ? null : tag;
+		this.accountId = accountId;
+		this.enabled = enabled;
+		this.shared = shared;
+		this.userIds = userIds;
+	}
 
-        super(id)
+	public getName() {
+		return this.name;
+	}
 
-        this.name = name
-        this.amount = amount
-        this.tag = tag === undefined ? null : tag
-        this.accountId = accountId
-        this.enabled = enabled
-        this.shared = shared;
-        this.userIds = userIds
-    }
+	public getAmount() {
+		return this.amount;
+	}
 
-    public getName() {
-        return this.name
-    }
+	public getMonthlyAmount() {
+		return this.calculateMontlyAmount(true);
+	}
 
-    public getAmount() {
-        return this.amount
-    }
+	public getMonthlyAmountWithTotalShared() {
+		return this.calculateMontlyAmount(false);
+	}
 
-    public getMonthlyAmount() {
-        return this.calculateMontlyAmount(true)
-    }
+	private calculateMontlyAmount(divideShared: boolean) {
+		const amount = divideShared && this.isShared() ? this.amount / 2 : this.amount;
+		if (this.isMonthlyExpense()) {
+			return amount;
+		}
 
-    public getMonthlyAmountWithTotalShared() {
-        return this.calculateMontlyAmount(false)
-    }
+		const numberOfTransfers = 12 / this.getPaymentDates().length;
+		return amount / numberOfTransfers;
+	}
 
-    private calculateMontlyAmount(divideShared: boolean) {
-        const amount = divideShared && this.isShared() ? this.amount / 2 : this.amount
-        if (this.isMonthlyExpense()) {
-            return amount
-        }
-        
-        const numberOfTransfers = 12 / this.getPaymentDates().length
-        return amount / numberOfTransfers
-    }
+	public isMonthlyExpense() {
+		const numberOfDates = this.getPaymentDates().length;
+		return numberOfDates === 0 || numberOfDates === 12;
+	}
 
-    public isMonthlyExpense() {
-        const numberOfDates = this.getPaymentDates().length;
-        return numberOfDates === 0 || numberOfDates === 12;
-    }
+	public getTag() {
+		return this.tag;
+	}
 
-    public getTag() {
-        return this.tag
-    }
+	public getAccountId() {
+		return this.accountId;
+	}
 
-    public getAccountId() {
-        return this.accountId
-    }
+	public isEnabled() {
+		return this.enabled;
+	}
 
-    public isEnabled() {
-        return this.enabled
-    }
+	public isShared() {
+		return this.shared;
+	}
 
-    public isShared() {
-        return this.shared
-    }
+	public getPaymentDates() {
+		return this.paymentDates;
+	}
 
-    public getPaymentDates() {
-        return this.paymentDates
-    }
+	public setPaymentDates(paymentDates: PaymentDate[]) {
+		this.paymentDates = paymentDates;
+	}
 
-    public setPaymentDates(paymentDates: PaymentDate[]) {
-        this.paymentDates = paymentDates
-    }
+	public addPaymentDate(paymentDate: PaymentDate) {
+		this.paymentDates.push(paymentDate);
+	}
 
-    public addPaymentDate(paymentDate: PaymentDate) {
-        this.paymentDates.push(paymentDate)
-    }
+	public getUserIds() {
+		return this.userIds;
+	}
 
-    public getUserIds() {
-        return this.userIds;
-    }
+	public serialize() {
+		return JSON.stringify({
+			id: this.getId(),
+			name: this.getName(),
+			amount: this.getAmount(),
+			tag: this.getTag(),
+			accountId: this.getAccountId(),
+			enabled: this.isEnabled(),
+			shared: this.isShared(),
+			paymentDates: this.getPaymentDates().map((paymentDate) => paymentDate.serialize()),
+			userIds: this.getUserIds()
+		});
+	}
 
-    public serialize() {
-        return JSON.stringify({
-            id: this.getId(),
-            name: this.getName(),
-            amount: this.getAmount(),
-            tag: this.getTag(),
-            accountId: this.getAccountId(),
-            enabled: this.isEnabled(),
-            shared: this.isShared(),
-            paymentDates: this.getPaymentDates().map((paymentDate) => paymentDate.serialize()),
-            userIds: this.getUserIds()
-        })
-    }
+	public static parse(json: string) {
+		const parsed = JSON.parse(json);
 
-    public static parse(json: string) {
-        const parsed = JSON.parse(json)
+		const expense = new Expense(
+			parsed.id,
+			parsed.name,
+			parsed.amount,
+			parsed.tag,
+			parsed.accountId,
+			parsed.enabled,
+			parsed.shared,
+			parsed.userIds
+		);
 
-        const expense = new Expense(
-            parsed.id,
-            parsed.name,
-            parsed.amount,
-            parsed.tag,
-            parsed.accountId,
-            parsed.enabled,
-            parsed.shared,
-            parsed.userIds
-        )
+		if (parsed.paymentDates) {
+			expense.setPaymentDates(
+				parsed.paymentDates.map((paymentDate: string) => PaymentDate.parse(paymentDate))
+			);
+		}
 
-        if (parsed.paymentDates) {
-            expense.setPaymentDates(parsed.paymentDates.map((paymentDate: string) =>  PaymentDate.parse(paymentDate)))
-        }
-
-        return expense
-    }
+		return expense;
+	}
 }

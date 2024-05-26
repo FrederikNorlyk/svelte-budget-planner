@@ -1,4 +1,4 @@
 export type SelectOption<T extends object> = {
-    value: T
-    text: string
-}
+	value: T;
+	text: string;
+};

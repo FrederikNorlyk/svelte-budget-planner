@@ -1,18 +1,17 @@
 export abstract class DatabaseRecord {
+	private id: number;
 
-    private id: number
+	constructor(id: number) {
+		this.id = id;
+	}
 
-    constructor(id: number) {
-        this.id = id
-    }
+	public getId() {
+		return this.id;
+	}
 
-    public getId() {
-        return this.id
-    }
+	public setId(id: number) {
+		this.id = id;
+	}
 
-    public setId(id: number) {
-        this.id = id
-    }
-
-    public abstract serialize(): string
+	public abstract serialize(): string;
 }

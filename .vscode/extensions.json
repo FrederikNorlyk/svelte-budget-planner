@@ -1,11 +1,11 @@
 {
-    "recommendations": [
-        "svelte.svelte-vscode",
-        "dbaeumer.vscode-eslint",
-        "bradlc.vscode-tailwindcss",
-        "esbenp.prettier-vscode",
-        "vitest.explorer",
-        "Etsi0.class-collapse",
-        "PKief.material-icon-theme"
-    ]
+	"recommendations": [
+		"svelte.svelte-vscode",
+		"dbaeumer.vscode-eslint",
+		"bradlc.vscode-tailwindcss",
+		"esbenp.prettier-vscode",
+		"vitest.explorer",
+		"Etsi0.class-collapse",
+		"PKief.material-icon-theme"
+	]
 }
