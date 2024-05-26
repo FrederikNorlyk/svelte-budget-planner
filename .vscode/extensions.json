@@ -1,10 +1,11 @@
 {
     "recommendations": [
         "svelte.svelte-vscode",
-        "bradlc.vscode-tailwindcss",
-        "vitest.explorer",
         "dbaeumer.vscode-eslint",
+        "bradlc.vscode-tailwindcss",
         "esbenp.prettier-vscode",
-        "moalamri.inline-fold"
+        "vitest.explorer",
+        "Etsi0.class-collapse",
+        "PKief.material-icon-theme"
     ]
 }

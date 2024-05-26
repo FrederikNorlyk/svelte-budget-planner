@@ -10,9 +10,10 @@
 				"svelte.svelte-vscode",
 				"dbaeumer.vscode-eslint",
 				"bradlc.vscode-tailwindcss",
-				"moalamri.inline-fold",
 				"esbenp.prettier-vscode",
-				"vitest.explorer"
+				"vitest.explorer",
+				"Etsi0.class-collapse",
+				"PKief.material-icon-theme"
 			]
 		}
 	}
