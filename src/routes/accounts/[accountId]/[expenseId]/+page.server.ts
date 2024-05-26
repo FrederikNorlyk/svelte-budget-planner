@@ -82,8 +82,9 @@ export const actions = {
             const settingsClient = new SettingsClient(session.user.id);
             const setting = await settingsClient.getForCurrentUser();
 
-            if (setting.getPartnerId() != null) {
-                userIds.push(setting.getPartnerId());
+            const partnerId = setting.getPartnerId();
+            if (partnerId != null) {
+                userIds.push(partnerId);
             }
         }
 
