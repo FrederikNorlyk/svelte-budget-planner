@@ -1,9 +1,11 @@
+// @ts-check
 import { join } from 'path';
 import forms from '@tailwindcss/forms';
-import skeleton from '@skeletonlabs/skeleton/tailwind/skeleton.cjs';
+
+import { skeleton } from '@skeletonlabs/tw-plugin';
 
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
 	darkMode: 'class',
 	content: [
 		'./src/**/*.{html,js,svelte,ts}',
@@ -12,5 +14,5 @@ module.exports = {
 	theme: {
 		extend: {}
 	},
-	plugins: [forms, ...skeleton()]
+	plugins: [forms, skeleton({ themes: { preset: ['skeleton'] } })]
 };

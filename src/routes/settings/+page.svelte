@@ -4,10 +4,13 @@
 	import { i18n, locale, locales } from '$lib/localization/i18n';
 	import SelectField from '$lib/components/SelectField.svelte';
 	import type { SelectOption } from '$lib/components/types/SelectOption';
-	import { LightSwitch, toastStore } from '@skeletonlabs/skeleton';
+	import { LightSwitch } from '@skeletonlabs/skeleton';
 	import NumberField from '$lib/components/NumberField.svelte';
 	import { Settings } from '$lib/models/Settings.js';
 	import { enhance } from '$app/forms';
+	import { getToastStore } from '@skeletonlabs/skeleton';
+
+	const toastStore = getToastStore();
 
 	const user = $page.data.session?.user;
 	export let data;

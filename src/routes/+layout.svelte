@@ -1,6 +1,4 @@
 <script lang="ts">
-	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
-	import '@skeletonlabs/skeleton/styles/skeleton.css';
 	import '../app.postcss';
 	import { i18n } from '$lib/localization/i18n';
 	import { page } from '$app/stores';
@@ -10,13 +8,15 @@
 	import {
 		AppShell,
 		AppBar,
-		Avatar,
 		Toast,
 		Modal,
 		type PopupSettings,
-		popup
+		popup,
+		initializeStores
 	} from '@skeletonlabs/skeleton';
 	import IconBarsThree from '$lib/icons/IconBarsThree.svelte';
+
+	initializeStores();
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
@@ -29,7 +29,7 @@
 	const user = $page.data.session?.user;
 
 	function getProfilePicture() {
-		return user?.image ?? `https://avatars.dicebear.com/api/identicon/${user.id}.svg`;
+		return user?.image ?? `https://avatars.dicebear.com/api/identicon/${user?.id ?? 'unknown'}.svg`;
 	}
 </script>
 
@@ -62,7 +62,11 @@
 				>
 
 				<a href="/settings" class="hidden sm:block">
-					<Avatar src={getProfilePicture()} width="w-12" rounded="rounded-full" />
+					<img
+						src={getProfilePicture()}
+						alt="Current user"
+						class="overflow-hidden rounded-full w-12 h-12 object-cover"
+					/>
 				</a>
 
 				<button class="sm:hidden pr-4" use:popup={userMenuPopup} aria-label="Menu button">
