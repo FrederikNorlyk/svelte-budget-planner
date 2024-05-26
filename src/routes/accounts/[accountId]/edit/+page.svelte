@@ -40,7 +40,7 @@
 </script>
 
 <form
-	class="card space-y-2 bg-white p-4"
+	class="space-y-4"
 	method="post"
 	action="?/save"
 	use:enhance={() => {
@@ -50,23 +50,25 @@
 			await update();
 			isSaving = false;
 		};
-	}}
->
-	<TextField
-		name="name"
-		label={$i18n('account.name')}
-		autofocus={account == null}
-		required={true}
-		value={account?.getName()}
-		disabled={isSaving}
-	/>
+	}}>
 
-	<Checkbox
-		name="shared"
-		label={$i18n('account.shared')}
-		value={(account?.getUserIds().length ?? 0) > 1}
-		disabled={isSaving}
-	/>
+	<div class="card space-y-4 bg-white p-4">
+		<TextField
+			name="name"
+			label={$i18n('account.name')}
+			autofocus={account == null}
+			required={true}
+			value={account?.getName()}
+			disabled={isSaving}
+		/>
+
+		<Checkbox
+			name="shared"
+			label={$i18n('account.shared')}
+			value={(account?.getUserIds().length ?? 0) > 1}
+			disabled={isSaving}
+		/>
+	</div>
 
 	<div class="flex space-x-2">
 		<button disabled={isSaving} class="btn variant-filled basis-1/4 bg-primary-500">{$i18n('button.save')}</button>
