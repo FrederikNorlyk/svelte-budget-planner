@@ -1,6 +1,6 @@
 CREATE TABLE accounts(
     id INT GENERATED ALWAYS AS IDENTITY,
-    user_id INT[] NOT NULL,
+    user_id VARCHAR(255)[] NOT NULL,
     name VARCHAR(255) NOT NULL,
    
     PRIMARY KEY(id)
@@ -8,7 +8,7 @@ CREATE TABLE accounts(
 
 CREATE TABLE expenses(
     id INT GENERATED ALWAYS AS IDENTITY,
-    user_id INT[] NOT NULL,
+    user_id VARCHAR(255)[] NOT NULL,
     name VARCHAR(255) NOT NULL,
     amount NUMERIC(10, 2) NOT NULL,
     tag VARCHAR(255),
@@ -25,7 +25,7 @@ CREATE TABLE expenses(
 
 CREATE TABLE payment_dates(
     id INT GENERATED ALWAYS AS IDENTITY,
-    user_id INT[] NOT NULL,
+    user_id VARCHAR(255)[] NOT NULL,
     expense_id INT NOT NULL,
     day_of_month INT NOT NULL,
     month INT NOT NULL,
@@ -40,8 +40,8 @@ CREATE TABLE payment_dates(
 
 CREATE TABLE settings(
     id INT GENERATED ALWAYS AS IDENTITY,
-    user_id INT[] NOT NULL UNIQUE,
+    user_id VARCHAR(255) NOT NULL UNIQUE,
     locale VARCHAR(255) NOT NULL DEFAULT 'en',
     income NUMERIC(10, 2) NOT NULL DEFAULT 0.00,
-    partner_id INT;
+    partner_id VARCHAR(255);
 );

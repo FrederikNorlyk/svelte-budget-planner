@@ -6,9 +6,9 @@ import { DatabaseRecord } from './DatabaseRecord';
 export class Settings extends DatabaseRecord {
 	private locale: string;
 	private income: number;
-	private partnerId: number | null;
+	private partnerId: string | null;
 
-	constructor(id: number, locale: string, income: number, partnerId: number | null) {
+	constructor(id: number, locale: string, income: number, partnerId: string | null) {
 		super(id);
 
 		this.locale = locale;

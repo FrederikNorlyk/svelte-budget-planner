@@ -1,7 +1,7 @@
 import { SvelteKitAuth } from '@auth/sveltekit';
-import GitHub from '@auth/core/providers/github';
+import GitHub from '@auth/sveltekit/providers/github';
 import { GITHUB_ID, GITHUB_SECRET } from '$env/static/private';
-import Credentials from '@auth/core/providers/credentials';
+import Credentials from '@auth/sveltekit/providers/credentials';
 
 export const { handle, signIn, signOut } = SvelteKitAuth({
     providers: [
@@ -18,4 +18,4 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
             return Promise.resolve({ ...session, user: { ...session.user, id: token.sub } });
         }
     }
-})
+});

@@ -4,9 +4,9 @@ import { Expense } from './Expense';
 export class Account extends DatabaseRecord {
 	private name: string;
 	private expenses: Expense[] = [];
-	private userIds: number[];
+	private userIds: string[];
 
-	constructor(id: number, name: string, userIds: number[]) {
+	constructor(id: number, name: string, userIds: string[]) {
 		super(id);
 
 		this.name = name;

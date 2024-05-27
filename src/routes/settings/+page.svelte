@@ -49,7 +49,7 @@
 	});
 
 	function getProfilePicture() {
-		return user?.image ?? `https://avatars.dicebear.com/api/identicon/${user.id}.svg`;
+		return user?.image ?? `https://avatars.dicebear.com/api/identicon/${user?.id ?? 'unknown'}.svg`;
 	}
 </script>
 

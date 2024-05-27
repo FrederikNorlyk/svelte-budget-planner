@@ -8,14 +8,14 @@ import { createPool, type QueryResultRow } from '@vercel/postgres';
  */
 export abstract class DatabaseClient<T extends DatabaseRecord> {
 	private pool;
-	private userId;
+	private userId: string;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param userId id of the current user
 	 */
-	constructor(userId: number) {
+	constructor(userId: string) {
 		this.pool = createPool({
 			connectionString: POSTGRES_URL
 		});
@@ -67,7 +67,7 @@ export abstract class DatabaseClient<T extends DatabaseRecord> {
                 FROM ${this.getTableName()} 
                 WHERE 
                     id = ${id} AND 
-                    ${this.userId} = ANY (user_id)`
+                    '${this.userId}' = ANY (user_id)`
 			);
 		} catch (e) {
 			console.error(e);
@@ -94,7 +94,7 @@ export abstract class DatabaseClient<T extends DatabaseRecord> {
 			result = await this.pool.query(`
                 SELECT * 
                 FROM ${this.getTableName()} 
-                WHERE ${this.userId} = ANY (user_id)
+                WHERE '${this.userId}' = ANY (user_id)
                 ORDER BY ${orderBy} ASC
             `);
 		} catch (e) {
@@ -117,7 +117,7 @@ export abstract class DatabaseClient<T extends DatabaseRecord> {
                 FROM ${this.getTableName()} 
                 WHERE 
                     id = ${id} AND 
-                    ${this.userId} = ANY (user_id)`
+                    '${this.userId}' = ANY (user_id)`
 			);
 		} catch (e) {
 			let error = 'Unknown error';

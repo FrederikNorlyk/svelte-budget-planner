@@ -26,7 +26,7 @@ export class AccountClient extends DatabaseClient<Account> {
 	 * @param userIds the users of the account
 	 * @returns the newly created account
 	 */
-	public async create(name: string, userIds: number[]) {
+	public async create(name: string, userIds: string[]) {
 		let result;
 		try {
 			result = await this.getPool().query(
@@ -55,7 +55,7 @@ export class AccountClient extends DatabaseClient<Account> {
 	 * @param userIds the users of the account
 	 * @returns the updated account
 	 */
-	public async update(id: number, name: string, userIds: number[]) {
+	public async update(id: number, name: string, userIds: string[]) {
 		let result;
 		try {
 			result = await this.getPool().query(

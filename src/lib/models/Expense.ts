@@ -9,7 +9,7 @@ export class Expense extends DatabaseRecord {
 	private accountId: number;
 	private enabled: boolean;
 	private paymentDates: PaymentDate[] = [];
-	private userIds: number[];
+	private userIds: string[];
 
 	constructor(
 		id: number,
@@ -19,7 +19,7 @@ export class Expense extends DatabaseRecord {
 		accountId: number,
 		enabled: boolean,
 		shared: boolean,
-		userIds: number[]
+		userIds: string[]
 	) {
 		super(id);
 
