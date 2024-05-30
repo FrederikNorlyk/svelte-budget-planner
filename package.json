@@ -11,8 +11,7 @@
 		"test": "vitest",
 		"coverage": "vitest run --coverage",
 		"lint": "prettier --plugin=prettier-plugin-svelte --plugin=prettier-plugin-tailwindcss . --check . && eslint .",
-		"format": "prettier --plugin=prettier-plugin-svelte --plugin=prettier-plugin-tailwindcss . --write .",
-		"format:check": "prettier --plugin=prettier-plugin-svelte --plugin=prettier-plugin-tailwindcss . --check ."
+		"format": "prettier --plugin=prettier-plugin-svelte --plugin=prettier-plugin-tailwindcss . --write ."
 	},
 	"devDependencies": {
 		"@skeletonlabs/skeleton": "^2.10.0",
