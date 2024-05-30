@@ -3,10 +3,12 @@
 
 	export let name: string;
 	export let label: string;
-	export let value: T | undefined = undefined;
 	export let required: boolean | undefined = undefined;
-	export let options: SelectOption<T>[];
 	export let disabled = false;
+
+	// Eslint undefined type warning, has been disabled as it does not recognize the svelte syntax "generics="T"
+	export let value: T | undefined = undefined; // eslint-disable-line no-undef
+	export let options: SelectOption<T>[]; // eslint-disable-line no-undef
 </script>
 
 <label class="label">
