@@ -43,9 +43,9 @@
 	{#each dates as date, index}
 		<div class="card space-y-2 bg-white p-4">
 			<div class="flex">
-				<h1 class="text-xl grow capitalize">{DateUtil.getMonthName(date.getMonth())}</h1>
+				<h1 class="grow text-xl capitalize">{DateUtil.getMonthName(date.getMonth())}</h1>
 
-				<h1 class="text-xl justify-end">{AmountUtil.localize(monthAmounts[index])}</h1>
+				<h1 class="justify-end text-xl">{AmountUtil.localize(monthAmounts[index])}</h1>
 			</div>
 
 			<div class="space-y-1">

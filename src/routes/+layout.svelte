@@ -53,11 +53,11 @@
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<a
-					class="btn btn-sm variant-ghost-surface hidden sm:block"
+					class="variant-ghost-surface btn btn-sm hidden sm:block"
 					href="/accounts"
 					rel="noreferrer">{$i18n('accounts.title')}</a
 				>
-				<a class="btn btn-sm variant-ghost-surface hidden sm:block" href="/balance" rel="noreferrer"
+				<a class="variant-ghost-surface btn btn-sm hidden sm:block" href="/balance" rel="noreferrer"
 					>{$i18n('currentAmount.title')}</a
 				>
 
@@ -65,23 +65,23 @@
 					<img
 						src={getProfilePicture()}
 						alt="Current user"
-						class="overflow-hidden rounded-full w-12 h-12 object-cover"
+						class="h-12 w-12 overflow-hidden rounded-full object-cover"
 					/>
 				</a>
 
-				<button class="sm:hidden pr-4" use:popup={userMenuPopup} aria-label="Menu button">
+				<button class="pr-4 sm:hidden" use:popup={userMenuPopup} aria-label="Menu button">
 					<IconBarsThree cssClass="w-8 h-8" />
 				</button>
 
 				<div data-popup="userMenuPopup">
 					<div class="borderborder-gray-400 card mr-3 mt-3 w-40 space-y-2 p-4 shadow-xl">
-						<a class="btn variant-ghost w-full sm:hidden" href="/accounts" rel="noreferrer"
+						<a class="variant-ghost btn w-full sm:hidden" href="/accounts" rel="noreferrer"
 							>{$i18n('accounts.title')}</a
 						>
-						<a class="btn variant-ghost w-full sm:hidden" href="/balance" rel="noreferrer"
+						<a class="variant-ghost btn w-full sm:hidden" href="/balance" rel="noreferrer"
 							>{$i18n('currentAmount.title')}</a
 						>
-						<a class="btn variant-ghost w-full sm:hidden" href="/settings" rel="noreferrer"
+						<a class="variant-ghost btn w-full sm:hidden" href="/settings" rel="noreferrer"
 							>{$i18n('settings.title')}</a
 						>
 					</div>

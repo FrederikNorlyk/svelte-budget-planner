@@ -15,4 +15,4 @@ async function authorizationHandle({ event, resolve }: HandleParams) {
 	return resolve(event);
 }
 
-export const handle: Handle = sequence(authenticationHandle, authorizationHandle)
+export const handle: Handle = sequence(authenticationHandle, authorizationHandle);

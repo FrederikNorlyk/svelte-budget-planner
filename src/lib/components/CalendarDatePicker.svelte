@@ -59,7 +59,7 @@
 			{disabled}
 			on:click={removeSelf}
 			type="button"
-			class="btn-icon variant-filled mt-6 bg-error-600"
+			class="variant-filled btn-icon mt-6 bg-error-600"
 		>
 			<IconXMark cssClass="w-8 h-8" />
 		</button>

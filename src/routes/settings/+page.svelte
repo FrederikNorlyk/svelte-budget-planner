@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { page, updated } from '$app/stores';
+	import { page } from '$app/stores';
 	import { signOut } from '@auth/sveltekit/client';
 	import { i18n, locale, locales } from '$lib/localization/i18n';
 	import SelectField from '$lib/components/SelectField.svelte';
@@ -56,17 +56,17 @@
 <h1 class="text-3xl">{$i18n('settings.title')}</h1>
 <p>{$i18n('settings.details')}</p>
 
-<div class="mt-5 card bg-white p-10 space-y-3">
+<div class="card mt-5 space-y-3 bg-white p-10">
 	<div class="flex">
 		<img
 			src={getProfilePicture()}
-			class="rounded-full w-12 h-12 object-cover"
+			class="h-12 w-12 rounded-full object-cover"
 			alt="The current user"
 		/>
 
 		<span class="grow" />
 
-		<div class="text-end flex space-x-1">
+		<div class="flex space-x-1 text-end">
 			<h2 class="text-lg">{user?.name}</h2>
 			<small class="text-slate-400">#{user?.id}</small>
 		</div>
@@ -74,7 +74,7 @@
 
 	<hr />
 
-	<form class="sm:w-64 pt-4">
+	<form class="pt-4 sm:w-64">
 		<SelectField
 			name="locale"
 			label={$i18n('user.locale')}
@@ -109,7 +109,7 @@
 			disabled={isSaving}
 			value={settings.getIncome()}
 		/>
-		<button disabled={isSaving} class="btn variant-filled basis-1/4 bg-primary-500"
+		<button disabled={isSaving} class="variant-filled btn basis-1/4 bg-primary-500"
 			>{$i18n('button.save')}</button
 		>
 	</form>
@@ -118,7 +118,7 @@
 
 	<div class="flex">
 		<span class="grow"></span>
-		<button on:click={() => signOut()} class="btn variant-ghost w-full sm:w-auto"
+		<button on:click={() => signOut()} class="variant-ghost btn w-full sm:w-auto"
 			>{$i18n('signOut')}</button
 		>
 	</div>

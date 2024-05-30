@@ -130,7 +130,7 @@
 	</div>
 
 	<div class="flex space-x-2 p-4">
-		<button disabled={isSaving} class="btn variant-filled basis-1/4 bg-primary-500"
+		<button disabled={isSaving} class="variant-filled btn basis-1/4 bg-primary-500"
 			>{$i18n('button.save')}</button
 		>
 
@@ -138,7 +138,7 @@
 			<button
 				formnovalidate={true}
 				disabled={isSaving}
-				class="btn variant-filled basis-1/4"
+				class="variant-filled btn basis-1/4"
 				on:click|preventDefault={showDeleteModal}>{$i18n('button.delete')}</button
 			>
 		{/if}

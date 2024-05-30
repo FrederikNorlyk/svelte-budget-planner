@@ -30,7 +30,7 @@ To link the application with your Vercel PostgreSQL database, run the following 
 [Read more](https://vercel.com/docs/cli)
 
 ```
-pnpm i -g vercel
+npm i -g vercel
 vercel link
 vercel env pull .env.development.local
 ```

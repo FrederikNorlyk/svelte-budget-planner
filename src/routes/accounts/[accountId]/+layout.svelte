@@ -7,7 +7,7 @@
 
 <div class="flex space-x-2">
 	<a class="mt-2" href=".">
-		<button type="button" class="btn-icon variant-filled" aria-label="Back button">
+		<button type="button" class="variant-filled btn-icon" aria-label="Back button">
 			<IconArrowLeft cssClass="h-8 w-8" />
 		</button>
 	</a>

@@ -25,11 +25,11 @@
 		>
 			<h2 class="text-2xl">{account.getName()}</h2>
 			{#if nextPaymentDate != null}
-				<p class="text-slate-500 text-end">
+				<p class="text-end text-slate-500">
 					{$i18n('nextPayment')}: {DateUtil.localizeLongerFormat(nextPaymentDate)}
 				</p>
 			{/if}
-			<h1 class="text-4xl col-span-2">
+			<h1 class="col-span-2 text-4xl">
 				{AmountUtil.localize(currentAmountUtil.getCurrentAmmount(account))}
 			</h1>
 		</a>
