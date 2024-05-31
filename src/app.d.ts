@@ -7,16 +7,6 @@ declare global {
 		// interface Locals {}
 		// interface PageData {}
 		// interface Platform {}
-
-		interface Session {
-			user: {
-				id: string;
-				name: string;
-				email: string;
-				image: string;
-				income: number;
-			};
-		}
 	}
 }
 

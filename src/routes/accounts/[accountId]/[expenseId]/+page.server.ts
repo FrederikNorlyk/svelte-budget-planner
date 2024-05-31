@@ -6,7 +6,7 @@ import { PaymentDate } from '$lib/models/PaymentDate.js';
 import { redirect } from '@sveltejs/kit';
 
 export async function load(event) {
-	const session = await event.locals.getSession();
+	const session = await event.locals.auth();
 	if (session == null) {
 		redirect(303, '/');
 	}
@@ -69,7 +69,7 @@ export const actions = {
 		const id = +params.expenseId;
 		const accountId = +params.accountId;
 
-		const session = await locals.getSession();
+		const session = await locals.auth();
 
 		if (session == null) {
 			redirect(303, '/');
@@ -120,7 +120,7 @@ export const actions = {
 	},
 
 	delete: async ({ params, locals }) => {
-		const session = await locals.getSession();
+		const session = await locals.auth();
 
 		if (session == null) {
 			redirect(303, '/');

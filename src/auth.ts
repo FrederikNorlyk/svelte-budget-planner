@@ -1,8 +1,16 @@
-import { SvelteKitAuth } from '@auth/sveltekit';
+import { SvelteKitAuth, type DefaultSession } from '@auth/sveltekit';
 import GitHub from '@auth/sveltekit/providers/github';
 import Credentials from '@auth/sveltekit/providers/credentials';
 
-export const { handle, signIn, signOut } = SvelteKitAuth({
+declare module '@auth/sveltekit' {
+	interface Session {
+		user: {
+			id: string;
+		} & DefaultSession['user'];
+	}
+}
+
+export const { handle } = SvelteKitAuth({
 	providers: [
 		GitHub,
 		Credentials({
@@ -13,8 +21,24 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 		})
 	],
 	callbacks: {
-		async session({ session, token }) {
-			return Promise.resolve({ ...session, user: { ...session.user, id: token.sub } });
+		jwt({ token, profile }) {
+			if (profile?.id) {
+				token.id = profile.id;
+			} else if (token.sub === '1') {
+				// Demo user
+				token.id = '1';
+			}
+			return token;
+		},
+		session({ session, token }) {
+			const id = token.id;
+			if (typeof id === 'number') {
+				session.user.id = id.toString();
+			} else if (typeof id === 'string') {
+				session.user.id = id;
+			}
+			return session;
 		}
 	}
+	// trustHost: true
 });

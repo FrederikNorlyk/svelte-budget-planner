@@ -3,7 +3,7 @@ import { ExpenseClient } from '$lib/clients/ExpenseClient.js';
 import { redirect } from '@sveltejs/kit';
 
 export async function load(event) {
-	const session = await event.locals.getSession();
+	const session = await event.locals.auth();
 	if (session == null) {
 		redirect(303, '/');
 	}
