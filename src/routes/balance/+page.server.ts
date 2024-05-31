@@ -6,7 +6,7 @@ export const load: PageServerLoad = async (event) => {
 	const session = await event.locals.getSession();
 
 	if (session == null) {
-		throw redirect(303, '/');
+		redirect(303, '/');
 	}
 
 	const accountClient = new AccountClient(session.user.id);

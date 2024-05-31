@@ -6,6 +6,7 @@
 		"esbenp.prettier-vscode",
 		"vitest.explorer",
 		"Etsi0.class-collapse",
-		"PKief.material-icon-theme"
+		"PKief.material-icon-theme",
+		"github.vscode-github-actions"
 	]
 }

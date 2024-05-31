@@ -1,6 +1,4 @@
 <script lang="ts">
-	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
-	import '@skeletonlabs/skeleton/styles/skeleton.css';
 	import '../app.postcss';
 	import { i18n } from '$lib/localization/i18n';
 	import { page } from '$app/stores';
@@ -10,13 +8,15 @@
 	import {
 		AppShell,
 		AppBar,
-		Avatar,
 		Toast,
 		Modal,
 		type PopupSettings,
-		popup
+		popup,
+		initializeStores
 	} from '@skeletonlabs/skeleton';
 	import IconBarsThree from '$lib/icons/IconBarsThree.svelte';
+
+	initializeStores();
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
@@ -29,7 +29,7 @@
 	const user = $page.data.session?.user;
 
 	function getProfilePicture() {
-		return user?.image ?? `https://avatars.dicebear.com/api/identicon/${user.id}.svg`;
+		return user?.image ?? `https://avatars.dicebear.com/api/identicon/${user?.id ?? 'unknown'}.svg`;
 	}
 </script>
 
@@ -53,31 +53,35 @@
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<a
-					class="btn btn-sm variant-ghost-surface hidden sm:block"
+					class="variant-ghost-surface btn btn-sm hidden sm:block"
 					href="/accounts"
 					rel="noreferrer">{$i18n('accounts.title')}</a
 				>
-				<a class="btn btn-sm variant-ghost-surface hidden sm:block" href="/balance" rel="noreferrer"
+				<a class="variant-ghost-surface btn btn-sm hidden sm:block" href="/balance" rel="noreferrer"
 					>{$i18n('currentAmount.title')}</a
 				>
 
 				<a href="/settings" class="hidden sm:block">
-					<Avatar src={getProfilePicture()} width="w-12" rounded="rounded-full" />
+					<img
+						src={getProfilePicture()}
+						alt="Current user"
+						class="h-12 w-12 overflow-hidden rounded-full object-cover"
+					/>
 				</a>
 
-				<button class="sm:hidden pr-4" use:popup={userMenuPopup} aria-label="Menu button">
+				<button class="pr-4 sm:hidden" use:popup={userMenuPopup} aria-label="Menu button">
 					<IconBarsThree cssClass="w-8 h-8" />
 				</button>
 
 				<div data-popup="userMenuPopup">
 					<div class="borderborder-gray-400 card mr-3 mt-3 w-40 space-y-2 p-4 shadow-xl">
-						<a class="btn variant-ghost w-full sm:hidden" href="/accounts" rel="noreferrer"
+						<a class="variant-ghost btn w-full sm:hidden" href="/accounts" rel="noreferrer"
 							>{$i18n('accounts.title')}</a
 						>
-						<a class="btn variant-ghost w-full sm:hidden" href="/balance" rel="noreferrer"
+						<a class="variant-ghost btn w-full sm:hidden" href="/balance" rel="noreferrer"
 							>{$i18n('currentAmount.title')}</a
 						>
-						<a class="btn variant-ghost w-full sm:hidden" href="/settings" rel="noreferrer"
+						<a class="variant-ghost btn w-full sm:hidden" href="/settings" rel="noreferrer"
 							>{$i18n('settings.title')}</a
 						>
 					</div>

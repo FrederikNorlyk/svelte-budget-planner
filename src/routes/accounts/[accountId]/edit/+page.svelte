@@ -3,14 +3,15 @@
 	import DeleteModal from '$lib/components/DeleteModal.svelte';
 	import TextField from '$lib/components/TextField.svelte';
 	import { Account } from '$lib/models/Account';
-	import {
-		modalStore,
-		toastStore,
-		type ModalComponent,
-		type ModalSettings
-	} from '@skeletonlabs/skeleton';
+	import { type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { enhance } from '$app/forms';
 	import Checkbox from '$lib/components/Checkbox.svelte';
+
+	import { getModalStore } from '@skeletonlabs/skeleton';
+	import { getToastStore } from '@skeletonlabs/skeleton';
+
+	const toastStore = getToastStore();
+	const modalStore = getModalStore();
 
 	export let data;
 	export let form;
@@ -50,8 +51,8 @@
 			await update();
 			isSaving = false;
 		};
-	}}>
-
+	}}
+>
 	<div class="card space-y-4 bg-white p-4">
 		<TextField
 			name="name"
@@ -71,13 +72,15 @@
 	</div>
 
 	<div class="flex space-x-2">
-		<button disabled={isSaving} class="btn variant-filled basis-1/4 bg-primary-500">{$i18n('button.save')}</button>
+		<button disabled={isSaving} class="variant-filled btn basis-1/4 bg-primary-500"
+			>{$i18n('button.save')}</button
+		>
 
 		{#if account != null}
 			<button
 				formnovalidate={true}
 				disabled={isSaving}
-				class="btn variant-filled basis-1/4"
+				class="variant-filled btn basis-1/4"
 				on:click|preventDefault={showDeleteModal}>{$i18n('button.delete')}</button
 			>
 		{/if}

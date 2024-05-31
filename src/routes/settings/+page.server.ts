@@ -6,7 +6,7 @@ export const load: PageServerLoad = async (event) => {
 	const session = await event.locals.getSession();
 
 	if (session == null) {
-		throw redirect(303, '/');
+		redirect(303, '/');
 	}
 
 	const settingsClient = new SettingsClient(session.user.id);
@@ -31,7 +31,7 @@ export const actions = {
 		const session = await locals.getSession();
 
 		if (session == null) {
-			throw redirect(303, '/');
+			redirect(303, '/');
 		}
 
 		const client = new SettingsClient(session.user.id);
@@ -40,6 +40,6 @@ export const actions = {
 		settings.setIncome(income);
 		await client.update(settings);
 
-		throw redirect(303, '/settings');
+		redirect(303, '/settings');
 	}
 };

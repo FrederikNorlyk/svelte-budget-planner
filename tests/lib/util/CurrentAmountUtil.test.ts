@@ -5,7 +5,7 @@ import { Expense } from '$lib/models/Expense';
 import { PaymentDate } from '$lib/models/PaymentDate';
 import { Month } from '$lib/enums/Month';
 
-const userIds: number[] = [];
+const userIds: string[] = [];
 
 describe('Tests for getCurrentAmount', () => {
 	test('Disabled expenses are not included', () => {

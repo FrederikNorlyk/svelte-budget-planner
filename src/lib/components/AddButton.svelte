@@ -1,5 +1,5 @@
 <script lang="ts">
-	import IconPlus from "$lib/icons/IconPlus.svelte";
+	import IconPlus from '$lib/icons/IconPlus.svelte';
 
 	export let href: string;
 	export let ariaLabel: string;

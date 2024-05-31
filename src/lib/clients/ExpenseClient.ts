@@ -122,7 +122,7 @@ export class ExpenseClient extends DatabaseClient<Expense> {
                 FROM ${this.getTableName()} 
                 WHERE 
                     account_id = ${account.getId()} AND
-                    ${this.getUserId()} = ANY (user_id)
+                    '${this.getUserId()}' = ANY (user_id)
                 ORDER BY tag, name
             `);
 		} catch (e) {
@@ -144,7 +144,7 @@ export class ExpenseClient extends DatabaseClient<Expense> {
 			result = await this.getPool().query(`
                 SELECT tag 
                 FROM ${this.getTableName()} 
-                WHERE ${this.getUserId()} = ANY (user_id)
+                WHERE '${this.getUserId()}' = ANY (user_id)
                 GROUP BY tag
                 ORDER BY tag
             `);

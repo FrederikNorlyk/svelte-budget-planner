@@ -49,7 +49,9 @@
 
 		<AddButton href="/accounts/0/edit" ariaLabel="New account" />
 
-		<div class="card bg-white xl:col-span-3 md:col-span-2 md:flex md:space-x-3 md:space-y-0 space-y-6 mt-6 p-10">
+		<div
+			class="card mt-6 space-y-6 bg-white p-10 md:col-span-2 md:flex md:space-x-3 md:space-y-0 xl:col-span-3"
+		>
 			<div class="md:basis-1/2 xl:basis-1/3">
 				<h2 class="text-xl">{$i18n('total')}</h2>
 				<div class="flex flex-wrap">
@@ -69,7 +71,7 @@
 						<p class="mt-auto text-slate-500">/{$i18n('month')}</p>
 					</div>
 				{:else}
-					<a href="/settings" class="btn variant-filled basis-1/4 bg-orange-500"
+					<a href="/settings" class="variant-filled btn basis-1/4 bg-orange-500"
 						>{$i18n('enterIncome')}</a
 					>
 				{/if}

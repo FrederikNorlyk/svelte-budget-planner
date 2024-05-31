@@ -5,7 +5,7 @@ export class PaymentDate extends DatabaseRecord {
 	private expenseId: number;
 	private month: Month;
 	private dayOfMonth: number;
-	private userIds: number[];
+	private userIds: string[];
 
 	/**
 	 * Constructor.
@@ -15,7 +15,7 @@ export class PaymentDate extends DatabaseRecord {
 	 * @param dayOfMonth the day of the month where the payment will take place
 	 * @param month the 0-indexed month, that the payment will take place in
 	 */
-	constructor(id: number, expenseId: number, month: Month, dayOfMonth: number, userIds: number[]) {
+	constructor(id: number, expenseId: number, month: Month, dayOfMonth: number, userIds: string[]) {
 		super(id);
 
 		this.expenseId = expenseId;

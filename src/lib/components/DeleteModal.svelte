@@ -1,7 +1,10 @@
 <script lang="ts">
-	import { modalStore } from '@skeletonlabs/skeleton';
+	import type { SvelteComponent } from 'svelte';
+	import { getModalStore } from '@skeletonlabs/skeleton';
 
-	export let parent: any;
+	export let parent: SvelteComponent;
+
+	const modalStore = getModalStore();
 </script>
 
 {#if $modalStore[0]}

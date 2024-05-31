@@ -14,13 +14,13 @@
 	const currentAmountUtil = new CurrentAmountUtil();
 
 	function getAmount(expense: Expense) {
-		const amount = expense.isShared() ? expense.getAmount() / 2 : expense.getAmount()
-		return AmountUtil.localize(amount)
+		const amount = expense.isShared() ? expense.getAmount() / 2 : expense.getAmount();
+		return AmountUtil.localize(amount);
 	}
 
 	function localizePaymentFrequency(expense: Expense) {
-		let key: String;
-		let parameters: any = {};
+		let key: string;
+		let parameters: { times?: number } = {};
 		const numberOfPaymentDates = expense.getPaymentDates().length;
 
 		switch (numberOfPaymentDates) {
@@ -76,8 +76,8 @@
 				<div>
 					<h1 class="inline-block text-2xl">{getAmount(expense)}</h1>
 					{#if expense.isMonthlyExpense()}
-					<small class="text-slate-500">/{$i18n('month')}</small>
-						{:else}
+						<small class="text-slate-500">/{$i18n('month')}</small>
+					{:else}
 						<small class="text-slate-500"
 							>{AmountUtil.localize(monthlyAmount)}/{$i18n('month')}
 						</small>

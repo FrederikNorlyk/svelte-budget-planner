@@ -10,7 +10,7 @@ declare global {
 
 		interface Session {
 			user: {
-				id: number;
+				id: string;
 				name: string;
 				email: string;
 				image: string;

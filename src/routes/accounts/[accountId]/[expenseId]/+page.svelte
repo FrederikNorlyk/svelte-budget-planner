@@ -10,13 +10,17 @@
 	import AutoCompletingTextField from '$lib/components/AutoCompletingTextField.svelte';
 	import PaymentDatePicker from '$lib/components/PaymentDatePicker.svelte';
 	import { PaymentDate } from '$lib/models/PaymentDate.js';
-	import { toastStore, modalStore } from '@skeletonlabs/skeleton';
 	import DeleteModal from '$lib/components/DeleteModal.svelte';
 	import { i18n } from '$lib/localization/i18n';
 	import NumberField from '$lib/components/NumberField.svelte';
 	import { enhance } from '$app/forms';
 	import SelectField from '$lib/components/SelectField.svelte';
 	import type { SelectOption } from '$lib/components/types/SelectOption.js';
+	import { getModalStore } from '@skeletonlabs/skeleton';
+	import { getToastStore } from '@skeletonlabs/skeleton';
+
+	const toastStore = getToastStore();
+	const modalStore = getModalStore();
 
 	export let form;
 	export let data;
@@ -126,7 +130,7 @@
 	</div>
 
 	<div class="flex space-x-2 p-4">
-		<button disabled={isSaving} class="btn variant-filled basis-1/4 bg-primary-500"
+		<button disabled={isSaving} class="variant-filled btn basis-1/4 bg-primary-500"
 			>{$i18n('button.save')}</button
 		>
 
@@ -134,7 +138,7 @@
 			<button
 				formnovalidate={true}
 				disabled={isSaving}
-				class="btn variant-filled basis-1/4"
+				class="variant-filled btn basis-1/4"
 				on:click|preventDefault={showDeleteModal}>{$i18n('button.delete')}</button
 			>
 		{/if}
