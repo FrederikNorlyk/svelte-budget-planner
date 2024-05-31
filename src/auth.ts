@@ -1,5 +1,5 @@
 import { SvelteKitAuth } from '@auth/sveltekit';
-import GitHub from "@auth/sveltekit/providers/github"
+import GitHub from '@auth/sveltekit/providers/github';
 import Credentials from '@auth/sveltekit/providers/credentials';
 
 export const { handle, signIn, signOut } = SvelteKitAuth({
