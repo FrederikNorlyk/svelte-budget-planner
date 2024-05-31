@@ -1,11 +1,10 @@
 import { SvelteKitAuth } from '@auth/sveltekit';
-import GitHub from '@auth/sveltekit/providers/github';
-import { GITHUB_ID, GITHUB_SECRET } from '$env/static/private';
+import GitHub from "@auth/sveltekit/providers/github"
 import Credentials from '@auth/sveltekit/providers/credentials';
 
 export const { handle, signIn, signOut } = SvelteKitAuth({
 	providers: [
-		GitHub({ clientId: GITHUB_ID, clientSecret: GITHUB_SECRET }),
+		GitHub,
 		Credentials({
 			name: 'a demo user',
 			async authorize() {
