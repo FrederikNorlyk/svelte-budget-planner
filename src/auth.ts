@@ -40,5 +40,6 @@ export const { handle } = SvelteKitAuth({
 			return session;
 		}
 	},
+	// According to the Auth js documentation this flag should be set by Vercel, but for some reason it is not.
 	trustHost: true
 });
