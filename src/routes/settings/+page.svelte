@@ -12,7 +12,7 @@
 
 	const toastStore = getToastStore();
 
-	const user = $page.data.session?.user;
+	const user = $page.data.session!.user;
 	export let data;
 	export let form;
 
@@ -49,7 +49,7 @@
 	});
 
 	function getProfilePicture() {
-		return user?.image ?? `https://avatars.dicebear.com/api/identicon/${user?.id ?? 'unknown'}.svg`;
+		return user.image ?? `https://avatars.dicebear.com/api/identicon/${user.id ?? 'unknown'}.svg`;
 	}
 </script>
 
@@ -67,8 +67,8 @@
 		<span class="grow" />
 
 		<div class="flex space-x-1 text-end">
-			<h2 class="text-lg">{user?.name}</h2>
-			<small class="text-slate-400">#{user?.id}</small>
+			<h2 class="text-lg">{user.name}</h2>
+			<small class="text-slate-400">#{user.id}</small>
 		</div>
 	</div>
 

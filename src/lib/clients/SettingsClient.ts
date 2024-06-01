@@ -1,7 +1,7 @@
-import type { QueryResultRow } from '@vercel/postgres';
+import { DB_TABLE_PREFIX } from '$env/static/private';
 import { DatabaseClient } from '$lib/clients/DatabaseClient';
 import { Settings } from '$lib/models/Settings';
-import { DB_TABLE_PREFIX } from '$env/static/private';
+import type { QueryResultRow } from '@vercel/postgres';
 
 /**
  * Client for querying payment dates in the database.

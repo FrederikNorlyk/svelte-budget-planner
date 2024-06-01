@@ -1,10 +1,10 @@
 import { AccountClient } from '$lib/clients/AccountClient';
+import { ExpenseClient } from '$lib/clients/ExpenseClient';
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { ExpenseClient } from '$lib/clients/ExpenseClient';
 
 export const load: PageServerLoad = async (event) => {
-	const session = await event.locals.getSession();
+	const session = await event.locals.auth();
 	if (session == null) {
 		redirect(303, '/');
 	}

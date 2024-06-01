@@ -1,9 +1,9 @@
-import { describe, expect, test } from 'vitest';
-import { CurrentAmountUtil } from '$lib/util/CurrentAmountUtil';
+import { Month } from '$lib/enums/Month';
 import { Account } from '$lib/models/Account';
 import { Expense } from '$lib/models/Expense';
 import { PaymentDate } from '$lib/models/PaymentDate';
-import { Month } from '$lib/enums/Month';
+import { CurrentAmountUtil } from '$lib/util/CurrentAmountUtil';
+import { describe, expect, test } from 'vitest';
 
 const userIds: string[] = [];
 

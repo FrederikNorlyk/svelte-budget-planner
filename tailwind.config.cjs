@@ -1,6 +1,6 @@
 // @ts-check
-import { join } from 'path';
 import forms from '@tailwindcss/forms';
+import { join } from 'path';
 
 import { skeleton } from '@skeletonlabs/tw-plugin';
 

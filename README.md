@@ -38,7 +38,7 @@ vercel env pull .env.development.local
 Auth.js require three environment variables:
 
 ```
-GITHUB_ID=
-GITHUB_SECRET=
+AUTH_GITHUB_ID=
+AUTH_GITHUB_SECRET=
 AUTH_SECRET=
 ```

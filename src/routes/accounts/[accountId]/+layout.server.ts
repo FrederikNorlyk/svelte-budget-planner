@@ -1,7 +1,7 @@
 import { AccountClient } from '$lib/clients/AccountClient.js';
 
 export const load = async (event) => {
-	const session = await event.locals.getSession();
+	const session = await event.locals.auth();
 	if (session == null) {
 		throw Error('Invalid session');
 	}

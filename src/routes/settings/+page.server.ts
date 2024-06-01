@@ -1,9 +1,9 @@
+import { SettingsClient } from '$lib/clients/SettingsClient';
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { SettingsClient } from '$lib/clients/SettingsClient';
 
 export const load: PageServerLoad = async (event) => {
-	const session = await event.locals.getSession();
+	const session = await event.locals.auth();
 
 	if (session == null) {
 		redirect(303, '/');
@@ -28,7 +28,7 @@ export const actions = {
 			};
 		}
 
-		const session = await locals.getSession();
+		const session = await locals.auth();
 
 		if (session == null) {
 			redirect(303, '/');

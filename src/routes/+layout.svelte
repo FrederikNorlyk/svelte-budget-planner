@@ -26,10 +26,10 @@
 		placement: 'bottom'
 	};
 
-	const user = $page.data.session?.user;
+	const user = $page.data.session!.user;
 
 	function getProfilePicture() {
-		return user?.image ?? `https://avatars.dicebear.com/api/identicon/${user?.id ?? 'unknown'}.svg`;
+		return user.image ?? `https://avatars.dicebear.com/api/identicon/${user.id ?? 'unknown'}.svg`;
 	}
 </script>
 
