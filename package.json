@@ -10,8 +10,8 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test": "vitest",
 		"coverage": "vitest run --coverage",
-		"lint": "prettier --plugin=prettier-plugin-svelte --plugin=prettier-plugin-tailwindcss . --check . && eslint .",
-		"format": "prettier --plugin=prettier-plugin-svelte --plugin=prettier-plugin-tailwindcss . --write ."
+		"lint": "prettier --plugin=prettier-plugin-svelte --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports . --check . && eslint .",
+		"format": "prettier --plugin=prettier-plugin-svelte --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports . --write ."
 	},
 	"devDependencies": {
 		"@skeletonlabs/skeleton": "^2.10.0",
@@ -31,6 +31,7 @@
 		"eslint-plugin-svelte": "^2.39.0",
 		"postcss": "^8.4.38",
 		"prettier": "^3.2.5",
+		"prettier-plugin-organize-imports": "^3.2.4",
 		"prettier-plugin-svelte": "^3.2.3",
 		"prettier-plugin-tailwindcss": "^0.5.14",
 		"svelte": "^4.2.17",

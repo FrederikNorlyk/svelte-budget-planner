@@ -1,6 +1,6 @@
 import { SvelteKitAuth, type DefaultSession } from '@auth/sveltekit';
-import GitHub from '@auth/sveltekit/providers/github';
 import Credentials from '@auth/sveltekit/providers/credentials';
+import GitHub from '@auth/sveltekit/providers/github';
 
 declare module '@auth/sveltekit' {
 	interface Session {

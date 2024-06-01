@@ -1,6 +1,6 @@
 import { redirect, type Handle } from '@sveltejs/kit';
-import { handle as authenticationHandle } from './auth';
 import { sequence } from '@sveltejs/kit/hooks';
+import { handle as authenticationHandle } from './auth';
 
 type HandleParams = Parameters<Handle>[0];
 

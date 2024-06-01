@@ -1,8 +1,8 @@
+import { DB_TABLE_PREFIX } from '$env/static/private';
+import { DatabaseClient } from '$lib/clients/DatabaseClient';
 import { Account } from '$lib/models/Account';
 import type { QueryResultRow } from '@vercel/postgres';
-import { DatabaseClient } from '$lib/clients/DatabaseClient';
 import { ExpenseClient } from './ExpenseClient';
-import { DB_TABLE_PREFIX } from '$env/static/private';
 import { PaymentDateClient } from './PaymentDateClient';
 
 /**
