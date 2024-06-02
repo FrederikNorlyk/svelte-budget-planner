@@ -8,6 +8,9 @@ export class Settings {
 
 	constructor(record: SettingsRecord) {
 		this.record = record;
+		if (this.record.income != null) {
+			this.record.income = +this.record.income;
+		}
 	}
 
 	public get id() {

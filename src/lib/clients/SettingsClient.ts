@@ -1,6 +1,6 @@
 import { DatabaseClient } from '$lib/clients/DatabaseClient';
 import { Settings } from '$lib/models/Settings';
-import type { InsertableSettingsRecord } from '$lib/tables/SettingsTable';
+import type { InsertableSettingsRecord, SettingsRecord } from '$lib/tables/SettingsTable';
 
 /**
  * Client for querying payment dates in the database.
@@ -43,7 +43,7 @@ export class SettingsClient extends DatabaseClient {
 
 		if (!settings) {
 			//TODO: This should probably be done on in auth.ts.
-			settings = await this.create({
+			await this.create({
 				income: 0,
 				locale: 'en',
 				userId: this.getUserId()
@@ -59,17 +59,11 @@ export class SettingsClient extends DatabaseClient {
 		return new Settings(settings);
 	}
 
-	private async get(): Promise<Settings | null> {
-		const record = await this.getDatabase()
+	private async get(): Promise<SettingsRecord | undefined> {
+		return this.getDatabase()
 			.selectFrom('settings')
 			.selectAll()
 			.where('userId', '=', this.getUserId())
 			.executeTakeFirst();
-
-		if (!record) {
-			return null;
-		}
-
-		return new Settings(record);
 	}
 }
