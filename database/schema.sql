@@ -43,5 +43,5 @@ CREATE TABLE settings(
     user_id VARCHAR(255) NOT NULL UNIQUE,
     locale VARCHAR(255) NOT NULL DEFAULT 'en',
     income NUMERIC(10, 2) NOT NULL DEFAULT 0.00,
-    partner_id VARCHAR(255);
+    partner_id VARCHAR(255)
 );
