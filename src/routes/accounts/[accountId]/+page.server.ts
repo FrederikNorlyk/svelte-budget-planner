@@ -20,7 +20,10 @@ export async function load(event) {
 	}
 
 	let expenses = await expenseClient.listBelongingTo(account);
-	expenses = await expenseClient.addPaymentDatesTo(expenses);
+
+	if (expenses.length > 0) {
+		expenses = await expenseClient.addPaymentDatesTo(expenses);
+	}
 
 	return {
 		session: session,

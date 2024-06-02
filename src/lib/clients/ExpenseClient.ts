@@ -1,136 +1,117 @@
-import { DB_TABLE_PREFIX } from '$env/static/private';
 import { DatabaseClient } from '$lib/clients/DatabaseClient';
 import type { Account } from '$lib/models/Account';
 import { Expense } from '$lib/models/Expense';
-import type { QueryResultRow } from '@vercel/postgres';
+import { QueryResult } from '$lib/models/QueryResult';
+import type { InsertableExpenseRecord, UpdateableExpenseRecord } from '$lib/tables/ExpensesTable';
 import { PaymentDateClient } from './PaymentDateClient';
 
 /**
  * Client for querying expenses in the database.
  */
-export class ExpenseClient extends DatabaseClient<Expense> {
-	public static TABLE_NAME = DB_TABLE_PREFIX + 'expenses';
-
-	protected override getTableName(): string {
-		return ExpenseClient.TABLE_NAME;
-	}
-
-	protected override parse(row: QueryResultRow) {
-		return new Expense(
-			+row.id,
-			row.name,
-			+row.amount,
-			row.tag,
-			+row.account_id,
-			row.is_enabled,
-			row.is_shared,
-			row.user_id
-		);
-	}
-
+export class ExpenseClient extends DatabaseClient {
 	/**
 	 * Create a new expense.
 	 *
 	 * @param expense the expense to create
 	 * @returns the newly created expense
 	 */
-	public async create(expense: Expense) {
-		let result;
+	public async create(expense: InsertableExpenseRecord): Promise<Expense> {
+		const record = await this.getDatabase()
+			.insertInto('expenses')
+			.values(expense)
+			.returningAll()
+			.executeTakeFirstOrThrow();
 
-		try {
-			result = await this.getPool().query(
-				`
-                INSERT INTO ${this.getTableName()} 
-                    (name, amount, tag, account_id, is_enabled, is_shared, user_id) 
-                VALUES 
-                    ($1, $2, $3, $4, $5, $6, $7) 
-                RETURNING *`,
-				[
-					expense.getName(),
-					expense.getAmount(),
-					expense.getTag(),
-					expense.getAccountId(),
-					expense.isEnabled(),
-					expense.isShared(),
-					expense.getUserIds()
-				]
-			);
-		} catch (e) {
-			console.error(e);
-			return null;
-		}
-
-		const row = result.rows[0];
-		return this.parse(row);
+		return new Expense(record, []);
 	}
 
 	/**
 	 * Update an expense.
 	 *
-	 * @param expense the expense to update
+	 * @param id of the expense
+	 * @param expense the expense values to update
 	 * @returns the updated expense
 	 */
-	public async update(expense: Expense) {
-		let result;
-		try {
-			result = await this.getPool().query(
-				`
-                UPDATE ${this.getTableName()} 
-                SET 
-                    name = $1,
-                    amount = $2,
-                    tag = $3,
-                    account_id = $4,
-                    is_enabled = $5,
-                    is_shared = $6,
-                    user_id = $7
-                WHERE 
-                    id = $8 AND
-                    $9 = ANY (user_id)
-                RETURNING *`,
-				[
-					expense.getName(),
-					expense.getAmount(),
-					expense.getTag(),
-					expense.getAccountId(),
-					expense.isEnabled(),
-					expense.isShared(),
-					expense.getUserIds(),
-					expense.getId(),
-					this.getUserId()
-				]
-			);
-		} catch (e) {
-			console.error(e);
-			return null;
-		}
+	public async update(id: number, expense: UpdateableExpenseRecord): Promise<Expense> {
+		const record = await this.getDatabase()
+			.updateTable('expenses')
+			.set(expense)
+			.where('id', '=', id)
+			.returningAll()
+			.executeTakeFirstOrThrow();
 
-		const row = result.rows[0];
-		return this.parse(row);
+		return new Expense(record, []);
 	}
 
 	/**
-	 * List all records belonging to the given account.
+	 * Delete the given expense.
 	 *
-	 * @returns all records for the given account
+	 * @param id id of the expense to delete
+	 * @returns result of the delete operation
 	 */
-	public async listBelongingTo(account: Account) {
-		let result;
-		try {
-			result = await this.getPool().query(`
-                SELECT * 
-                FROM ${this.getTableName()} 
-                WHERE 
-                    account_id = ${account.getId()} AND
-                    '${this.getUserId()}' = ANY (user_id)
-                ORDER BY tag, name
-            `);
-		} catch (e) {
-			console.error(e);
-			return [];
+	public async delete(id: number) {
+		const result = await this.getDatabase()
+			.deleteFrom('expenses')
+			.where('id', '=', id)
+			.executeTakeFirst();
+
+		if (result.numDeletedRows == BigInt(0)) {
+			return QueryResult.asErrorResult('Unknown error'); // TODO: Better error handling?
 		}
 
-		return result.rows.map((row) => this.parse(row));
+		return QueryResult.asEmptySuccessResult();
+	}
+
+	/**
+	 * Get the expense with the given id.
+	 *
+	 * @param id id of the expense
+	 * @returns the expense or null
+	 */
+	public async getById(id: number): Promise<Expense | null> {
+		const record = await this.getDatabase()
+			.selectFrom('expenses')
+			.selectAll()
+			.where('id', '=', id)
+			.executeTakeFirstOrThrow();
+
+		if (!record) {
+			return null;
+		}
+
+		return new Expense(record, []);
+	}
+
+	/**
+	 * List all of the current user's expenses.
+	 *
+	 * @returns the current user's expenses
+	 */
+	public async listAll() {
+		const records = await this.getDatabase()
+			.selectFrom('expenses')
+			.selectAll()
+			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')))
+			.execute();
+
+		return records.map((record) => new Expense(record, []));
+	}
+
+	/**
+	 * List all of the current user's expenses, belonging to the given account.
+	 *
+	 * @param account the expenses' account
+	 * @returns all of the current user's expenses, for the given account
+	 */
+	public async listBelongingTo(account: Account): Promise<Expense[]> {
+		const records = await this.getDatabase()
+			.selectFrom('expenses')
+			.selectAll()
+			.where('accountId', '=', account.id)
+			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')))
+			.execute();
+
+		return records.map((record) => new Expense(record, []));
 	}
 
 	/**
@@ -138,38 +119,33 @@ export class ExpenseClient extends DatabaseClient<Expense> {
 	 *
 	 * @returns a unique list of used tags
 	 */
-	public async listAllTags() {
-		let result;
-		try {
-			result = await this.getPool().query(`
-                SELECT tag 
-                FROM ${this.getTableName()} 
-                WHERE '${this.getUserId()}' = ANY (user_id)
-                GROUP BY tag
-                ORDER BY tag
-            `);
-		} catch (e) {
-			console.error(e);
-			return [];
-		}
+	public async listAllTags(): Promise<string[]> {
+		const result = await this.getDatabase()
+			.selectFrom('expenses')
+			.select('tag')
+			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')))
+			.groupBy('tag')
+			.orderBy('tag')
+			.execute();
 
-		return result.rows.map((row) => row.tag as string);
+		const tags = result.map((row) => row.tag);
+		return tags.filter((tag) => tag != null) as string[];
 	}
 
 	/**
-	 * Get all expenses for the current user. The returned expenses are enriched with payment date information.
+	 * Add payment dates to the given expenses.
 	 *
-	 * @returns enriched expense
+	 * @param expenses the expenses to add the payment dates to
+	 * @returns the expenses with their payment dates
 	 */
 	public async addPaymentDatesTo(expenses: Expense[]) {
 		const paymentDateClient = new PaymentDateClient(this.getUserId());
-		const paymentDates = await paymentDateClient.listAll('id');
+		const paymentDates = await paymentDateClient.listAllBelongingToMultiple(expenses);
 
 		return expenses.map((expense) => {
-			const dates = paymentDates.filter(
-				(paymentDate) => paymentDate.getExpenseId() === expense.getId()
+			expense.paymentDates = paymentDates.filter(
+				(paymentDate) => paymentDate.expenseId === expense.id
 			);
-			expense.setPaymentDates(dates);
 			return expense;
 		});
 	}

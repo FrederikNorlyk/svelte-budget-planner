@@ -1,42 +1,43 @@
-import { DatabaseRecord } from './DatabaseRecord';
+import type { AccountRecord } from '$lib/tables/AccountsTable';
 import { Expense } from './Expense';
 
-export class Account extends DatabaseRecord {
-	private name: string;
-	private expenses: Expense[] = [];
-	private userIds: string[];
+export class Account {
+	private record: AccountRecord;
+	private _expenses: Expense[];
 
-	constructor(id: number, name: string, userIds: string[]) {
-		super(id);
-
-		this.name = name;
-		this.userIds = userIds;
+	constructor(record: AccountRecord, expenses: Expense[]) {
+		this.record = record;
+		this._expenses = expenses;
 	}
 
-	public getName() {
-		return this.name;
+	public get id() {
+		return this.record.id;
 	}
 
-	public getExpenses() {
-		return this.expenses;
+	public get name() {
+		return this.record.name;
 	}
 
-	public setExpenses(expenses: Expense[]) {
-		this.expenses = expenses;
+	public get userIds() {
+		return this.record.userId;
 	}
 
-	public getUserIds() {
-		return this.userIds;
+	public get expenses() {
+		return this._expenses;
 	}
 
-	public getMonthlyAmount(): number {
+	public set expenses(expenses: Expense[]) {
+		this._expenses = expenses;
+	}
+
+	public get monthlyAmount(): number {
 		let amount = 0;
 
-		this.getExpenses().forEach((expense) => {
-			if (!expense.isEnabled()) {
+		this.expenses.forEach((expense) => {
+			if (!expense.isEnabled) {
 				return;
 			}
-			amount += expense.getMonthlyAmount();
+			amount += expense.monthlyAmount;
 		});
 
 		return amount;
@@ -44,21 +45,23 @@ export class Account extends DatabaseRecord {
 
 	public serialize() {
 		return JSON.stringify({
-			id: this.getId(),
-			name: this.getName(),
-			userIds: this.getUserIds(),
-			expenses: this.getExpenses().map((expense) => expense.serialize())
+			id: this.id,
+			name: this.name,
+			userIds: this.userIds,
+			expenses: this.expenses.map((expense) => expense.serialize())
 		});
 	}
 
 	public static parse(json: string): Account {
 		const parsed = JSON.parse(json);
-		const account = new Account(parsed.id, parsed.name, parsed.userIds);
 
-		if (parsed.expenses) {
-			account.setExpenses(parsed.expenses.map((expense: string) => Expense.parse(expense)));
-		}
-
-		return account;
+		return new Account(
+			{
+				id: parsed.id,
+				name: parsed.name,
+				userId: parsed.userIds
+			},
+			parsed.expenses.map((expense: string) => Expense.parse(expense))
+		);
 	}
 }

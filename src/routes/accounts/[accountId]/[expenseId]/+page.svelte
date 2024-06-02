@@ -85,7 +85,7 @@
 			label={$i18n('expense.name')}
 			autofocus={expense == null}
 			required={true}
-			value={expense?.getName()}
+			value={expense?.name}
 			disabled={isSaving}
 		/>
 
@@ -95,7 +95,7 @@
 					name="amount"
 					label={$i18n('expense.amount')}
 					required={true}
-					value={expense?.getAmount()}
+					value={expense?.amount}
 					disabled={isSaving}
 				/>
 			</span>
@@ -104,7 +104,7 @@
 				name="isShared"
 				label={$i18n('expense.shared.label')}
 				options={shareOptions}
-				value={expense?.isShared() ?? false}
+				value={expense?.isShared ?? false}
 				disabled={isSaving}
 			/>
 		</div>
@@ -112,7 +112,7 @@
 		<AutoCompletingTextField
 			name="tag"
 			label={$i18n('expense.group')}
-			value={expense?.getTag()}
+			value={expense?.tag}
 			options={tagOptions}
 			disabled={isSaving}
 		/>
@@ -121,7 +121,7 @@
 			disabled={isSaving}
 			name="isEnabled"
 			active="bg-primary-500"
-			checked={expense?.isEnabled() ?? true}>{$i18n('expense.isEnabled')}</SlideToggle
+			checked={expense?.isEnabled ?? true}>{$i18n('expense.isEnabled')}</SlideToggle
 		>
 	</div>
 

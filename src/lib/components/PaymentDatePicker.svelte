@@ -10,12 +10,20 @@
 
 	function onInputRemoved(paymentDate: PaymentDate) {
 		paymentDates = paymentDates.filter((p) => {
-			return p.getId() != paymentDate.getId();
+			return p.id != paymentDate.id;
 		});
 	}
 
 	function addInput() {
-		paymentDates = [...paymentDates, new PaymentDate(Math.random(), 0, Month.JANUARY, 1, [])];
+		const newPaymentDate = new PaymentDate({
+			id: Math.random(),
+			expenseId: 0,
+			month: Month.JANUARY,
+			dayOfMonth: 1,
+			userId: []
+		});
+
+		paymentDates = [...paymentDates, newPaymentDate];
 	}
 </script>
 
@@ -26,7 +34,7 @@
 	</button>
 </div>
 
-{#each paymentDates as paymentDate (paymentDate.getId())}
+{#each paymentDates as paymentDate (paymentDate.id)}
 	<CalendarDatePicker {paymentDate} {disabled} {onInputRemoved} />
 {/each}
 

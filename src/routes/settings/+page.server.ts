@@ -11,6 +11,7 @@ export const load: PageServerLoad = async (event) => {
 
 	const settingsClient = new SettingsClient(session.user.id);
 	const settings = await settingsClient.getForCurrentUser();
+
 	return {
 		session: session,
 		settings: settings.serialize()
@@ -35,10 +36,9 @@ export const actions = {
 		}
 
 		const client = new SettingsClient(session.user.id);
-
 		const settings = await client.getForCurrentUser();
-		settings.setIncome(income);
-		await client.update(settings);
+
+		client.updateIncome(settings.id, income);
 
 		redirect(303, '/settings');
 	}

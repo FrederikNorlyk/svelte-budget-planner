@@ -1,48 +1,54 @@
-import { DatabaseRecord } from './DatabaseRecord';
+import type { SettingsRecord } from '$lib/tables/SettingsTable';
 
 /**
  * A record for storing user settings.
  */
-export class Settings extends DatabaseRecord {
-	private locale: string;
-	private income: number;
-	private partnerId: string | null;
+export class Settings {
+	private record: SettingsRecord;
 
-	constructor(id: number, locale: string, income: number, partnerId: string | null) {
-		super(id);
-
-		this.locale = locale;
-		this.income = income;
-		this.partnerId = partnerId;
+	constructor(record: SettingsRecord) {
+		this.record = record;
 	}
 
-	public getIncome() {
-		return this.income;
+	public get id() {
+		return this.record.id;
 	}
 
-	public setIncome(income: number) {
-		this.income = income;
+	public get income() {
+		return this.record.income;
 	}
 
-	public getLocale() {
-		return this.locale;
+	public get locale() {
+		return this.record.locale;
 	}
 
-	public getPartnerId() {
-		return this.partnerId;
+	public get partnerId() {
+		return this.record.partnerId;
+	}
+
+	public get userId() {
+		return this.record.userId;
 	}
 
 	public serialize() {
 		return JSON.stringify({
-			id: this.getId(),
-			locale: this.getLocale(),
-			income: this.getIncome(),
-			partherId: this.getPartnerId()
+			id: this.id,
+			userId: this.userId,
+			locale: this.locale,
+			income: this.income,
+			partherId: this.partnerId
 		});
 	}
 
 	public static parse(json: string) {
 		const parsed = JSON.parse(json);
-		return new Settings(parsed.id, parsed.locale, parsed.income, parsed.partnerId);
+
+		return new Settings({
+			userId: parsed.userId,
+			id: parsed.id,
+			locale: parsed.locale,
+			income: parsed.income,
+			partnerId: parsed.partnerId
+		});
 	}
 }

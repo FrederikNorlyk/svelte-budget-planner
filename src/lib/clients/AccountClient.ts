@@ -1,116 +1,137 @@
-import { DB_TABLE_PREFIX } from '$env/static/private';
 import { DatabaseClient } from '$lib/clients/DatabaseClient';
+import type { DatabaseError } from '$lib/errors/DatabaseError';
 import { Account } from '$lib/models/Account';
-import type { QueryResultRow } from '@vercel/postgres';
+import { QueryResult } from '$lib/models/QueryResult';
+import type { InsertableAccountRecord, UpdateableAccountRecord } from '$lib/tables/AccountsTable';
 import { ExpenseClient } from './ExpenseClient';
 import { PaymentDateClient } from './PaymentDateClient';
 
 /**
  * Client for querying accounts in the database.
  */
-export class AccountClient extends DatabaseClient<Account> {
-	public static TABLE_NAME = DB_TABLE_PREFIX + 'accounts';
-
-	protected override getTableName(): string {
-		return AccountClient.TABLE_NAME;
-	}
-
-	protected override parse(row: QueryResultRow) {
-		return new Account(+row.id, row.name, row.user_id);
-	}
-
+export class AccountClient extends DatabaseClient {
 	/**
 	 * Creates an account.
 	 *
-	 * @param name name of the account
-	 * @param userIds the users of the account
+	 * @param account the account to insert
 	 * @returns the newly created account
 	 */
-	public async create(name: string, userIds: string[]) {
-		let result;
-		try {
-			result = await this.getPool().query(
-				`
-                INSERT INTO ${this.getTableName()} 
-                    (name, user_id) 
-                VALUES 
-                    ($1, $2) 
-                RETURNING *`,
-				[name, userIds]
-			);
-		} catch (e) {
-			console.error(e);
-			return null;
-		}
+	public async create(account: InsertableAccountRecord): Promise<Account> {
+		const record = await this.getDatabase()
+			.insertInto('accounts')
+			.values(account)
+			.returningAll()
+			.executeTakeFirstOrThrow();
 
-		const row = result.rows[0];
-		return this.parse(row);
+		return new Account(record, []);
 	}
 
 	/**
 	 * Update an account.
 	 *
 	 * @param id the id of the account to update
-	 * @param name the new name for the account
-	 * @param userIds the users of the account
+	 * @param account the account values to update
 	 * @returns the updated account
 	 */
-	public async update(id: number, name: string, userIds: string[]) {
-		let result;
+	public async update(id: number, account: UpdateableAccountRecord): Promise<Account> {
+		const record = await this.getDatabase()
+			.updateTable('accounts')
+			.set(account)
+			.where('id', '=', id)
+			.returningAll()
+			.executeTakeFirstOrThrow();
+
+		return new Account(record, []);
+	}
+
+	/**
+	 * Delete the given account.
+	 *
+	 * @param id id of the account to delete
+	 * @returns result of the delete operation
+	 */
+	public async delete(id: number) {
 		try {
-			result = await this.getPool().query(
-				`
-                UPDATE ${this.getTableName()} 
-                SET 
-                    name = $1,
-                    user_id = $2
-                WHERE 
-                    id = $3 AND
-                    $4 = ANY (user_id)
-                RETURNING *`,
-				[name, userIds, id, this.getUserId()]
-			);
-		} catch (e) {
-			console.error(e);
+			await this.getDatabase().deleteFrom('accounts').where('id', '=', id).execute();
+		} catch (error) {
+			const dbError = error as DatabaseError;
+			let message = 'Unknown error';
+			if (dbError.code == '23503') {
+				message = 'errorDeleteAccountHasExpenses';
+			}
+			return QueryResult.asErrorResult(message);
+		}
+
+		return QueryResult.asEmptySuccessResult();
+	}
+
+	/**
+	 * Get the account with the given id.
+	 *
+	 * @param id the id of the account
+	 * @returns the account with the given id
+	 */
+	public async getById(id: number): Promise<Account | null> {
+		const record = await this.getDatabase()
+			.selectFrom('accounts')
+			.selectAll()
+			.where('id', '=', id)
+			.executeTakeFirst();
+
+		if (!record) {
 			return null;
 		}
 
-		const row = result.rows[0];
-		return this.parse(row);
+		return new Account(record, []);
+	}
+
+	/**
+	 * List all accounts belonging to the current user.
+	 * @returns the user's accounts
+	 */
+	public async listAll() {
+		const records = await this.getDatabase()
+			.selectFrom('accounts')
+			.selectAll()
+			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')))
+			.orderBy('name')
+			.execute();
+
+		return records.map((record) => new Account(record, []));
 	}
 
 	/**
 	 * Lists all accounts for the current user. The accounts are expanded which means that they contain a list of all
-	 * their expenses, including the expenses payment dates.
+	 * their expenses, including the expenses' payment dates.
 	 *
 	 * @param sortBy account field to sort by
 	 * @returns accounts with expenses
 	 */
-	public async listAllExpanded(sortBy: string): Promise<Account[]> {
+	public async listAllExpanded(): Promise<Account[]> {
 		const expenseClient = new ExpenseClient(this.getUserId());
 		const paymentDateClient = new PaymentDateClient(this.getUserId());
 
 		const [accounts, expenses, paymentDates] = await Promise.all([
-			this.listAll(sortBy),
-			expenseClient.listAll('id'),
-			paymentDateClient.listAll('id')
+			this.listAll(),
+			expenseClient.listAll(),
+			paymentDateClient.listAll()
 		]);
 
 		accounts.forEach((account) => {
 			expenses.forEach((expense) => {
-				if (expense.getAccountId() !== account.getId()) {
+				if (expense.accountId !== account.id) {
 					return;
 				}
 
 				paymentDates.forEach((paymentDate) => {
-					if (paymentDate.getExpenseId() !== expense.getId()) {
+					if (paymentDate.expenseId !== expense.id) {
 						return;
 					}
 
-					expense.setPaymentDates([...expense.getPaymentDates(), paymentDate]);
+					expense.paymentDates = [...expense.paymentDates, paymentDate];
 				});
 
-				account.setExpenses([...account.getExpenses(), expense]);
+				account.expenses = [...account.expenses, expense];
 			});
 		});
 

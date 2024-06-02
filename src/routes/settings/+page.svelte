@@ -107,7 +107,7 @@
 			label={$i18n('user.income')}
 			required={true}
 			disabled={isSaving}
-			value={settings.getIncome()}
+			value={settings.income}
 		/>
 		<button disabled={isSaving} class="variant-filled btn basis-1/4 bg-primary-500"
 			>{$i18n('button.save')}</button
