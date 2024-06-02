@@ -21,7 +21,7 @@
 
 	if (form?.error) {
 		toastStore.trigger({
-			message: form.error,
+			message: $i18n(form.error),
 			background: 'variant-filled-error'
 		});
 	}
@@ -59,14 +59,14 @@
 			label={$i18n('account.name')}
 			autofocus={account == null}
 			required={true}
-			value={account?.getName()}
+			value={account?.name}
 			disabled={isSaving}
 		/>
 
 		<Checkbox
 			name="shared"
 			label={$i18n('account.shared')}
-			value={(account?.getUserIds().length ?? 0) > 1}
+			value={(account?.userIds.length ?? 0) > 1}
 			disabled={isSaving}
 		/>
 	</div>

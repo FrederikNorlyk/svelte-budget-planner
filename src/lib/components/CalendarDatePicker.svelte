@@ -36,7 +36,7 @@
 <div bind:this={self} class="flex space-x-3">
 	<span class="grow">
 		<SelectField
-			value={paymentDate.getDayOfMonth()}
+			value={paymentDate.dayOfMonth}
 			name="dayOfMonth"
 			label={$i18n('calendarDatePicker.day')}
 			required={true}
@@ -46,7 +46,7 @@
 	</span>
 	<span class="grow">
 		<SelectField
-			value={paymentDate.getMonth()}
+			value={paymentDate.month}
 			name="month"
 			label={$i18n('calendarDatePicker.month')}
 			required={true}

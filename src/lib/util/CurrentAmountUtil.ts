@@ -51,8 +51,8 @@ export class CurrentAmountUtil {
 		this.floorDate(date);
 		let accountBalance = 0;
 
-		account.getExpenses().forEach((expense) => {
-			if (!expense.isEnabled()) {
+		account.expenses.forEach((expense) => {
+			if (!expense.isEnabled) {
 				return;
 			}
 
@@ -67,9 +67,9 @@ export class CurrentAmountUtil {
 			}
 
 			const remainingNumberOfTransfers = DateUtil.getMonthsBetween(date, nextPaymentDate);
-			const monthlyAmount = expense.getMonthlyAmountWithTotalShared();
+			const monthlyAmount = expense.monthlyAmountWithTotalShared;
 			const amountNotYetTransfered = monthlyAmount * remainingNumberOfTransfers;
-			const amount = expense.getAmount() - amountNotYetTransfered;
+			const amount = expense.amount - amountNotYetTransfered;
 			accountBalance += Math.ceil(amount);
 		});
 
@@ -85,8 +85,8 @@ export class CurrentAmountUtil {
 	public getNextPaymentDate(account: Account): Date | null {
 		let nextPaymentDate: Date | null = null;
 
-		account.getExpenses().forEach((expense) => {
-			if (!expense.isEnabled()) {
+		account.expenses.forEach((expense) => {
+			if (!expense.isEnabled) {
 				return;
 			}
 
@@ -130,8 +130,8 @@ export class CurrentAmountUtil {
 			return new Date(thisYear, nextMonth, 1);
 		}
 
-		expense.getPaymentDates().forEach((paymentDate) => {
-			const date = new Date(thisYear, paymentDate.getMonth(), paymentDate.getDayOfMonth());
+		expense.paymentDates.forEach((paymentDate) => {
+			const date = new Date(thisYear, paymentDate.month, paymentDate.dayOfMonth);
 
 			if (date <= startDate) {
 				date.setFullYear(thisYear + 1);
@@ -155,13 +155,13 @@ export class CurrentAmountUtil {
 	public getExpensesIn(account: Account, month: Month): Expense[] {
 		const expenses: Expense[] = [];
 
-		account.getExpenses().forEach((expense) => {
+		account.expenses.forEach((expense) => {
 			if (expense.isMonthlyExpense()) {
 				return;
 			}
 
-			expense.getPaymentDates().forEach((paymentDate) => {
-				if (paymentDate.getMonth() === month) {
+			expense.paymentDates.forEach((paymentDate) => {
+				if (paymentDate.month === month) {
 					expenses.push(expense);
 					return 2;
 				}
@@ -181,11 +181,11 @@ export class CurrentAmountUtil {
 	public getMonthlyBudgetTransferAmount(account: Account) {
 		let amount = 0;
 
-		account.getExpenses().forEach((expense) => {
-			if (!expense.isEnabled() || expense.isMonthlyExpense()) {
+		account.expenses.forEach((expense) => {
+			if (!expense.isEnabled || expense.isMonthlyExpense()) {
 				return;
 			}
-			amount += expense.getMonthlyAmountWithTotalShared();
+			amount += expense.monthlyAmountWithTotalShared;
 		});
 
 		return amount;

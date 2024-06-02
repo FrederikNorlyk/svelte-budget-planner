@@ -14,14 +14,14 @@
 	const currentAmountUtil = new CurrentAmountUtil();
 
 	function getAmount(expense: Expense) {
-		const amount = expense.isShared() ? expense.getAmount() / 2 : expense.getAmount();
+		const amount = expense.isShared ? expense.amount / 2 : expense.amount;
 		return AmountUtil.localize(amount);
 	}
 
 	function localizePaymentFrequency(expense: Expense) {
 		let key: string;
 		let parameters: { times?: number } = {};
-		const numberOfPaymentDates = expense.getPaymentDates().length;
+		const numberOfPaymentDates = expense.paymentDates.length;
 
 		switch (numberOfPaymentDates) {
 			case 1:
@@ -48,26 +48,24 @@
 </script>
 
 {#if expenses.length == 0}
-	<AddButton href="/accounts/{account.getId()}/0" ariaLabel="Add new expense" />
+	<AddButton href="/accounts/{account.id}/0" ariaLabel="Add new expense" />
 	<NoEntries question="chat.noExpenses" />
 {:else}
 	<div class="grid grid-cols-1 gap-3 xl:grid-cols-2">
-		{#each expenses as expense (expense.getId())}
+		{#each expenses as expense (expense.id)}
 			{@const nextPaymentDate = currentAmountUtil.getNextPaymentDateForExpense(expense)}
-			{@const monthlyAmount = expense.getMonthlyAmount()}
+			{@const monthlyAmount = expense.monthlyAmount}
 
 			<a
-				class="card grid grid-cols-2 space-y-2 bg-white p-4 {expense.isEnabled()
-					? ''
-					: 'opacity-60'}"
-				href="/accounts/{account.getId()}/{expense.getId()}"
+				class="card grid grid-cols-2 space-y-2 bg-white p-4 {expense.isEnabled ? '' : 'opacity-60'}"
+				href="/accounts/{account.id}/{expense.id}"
 			>
 				<div>
-					<h2 class="text-xl">{expense.getName()}</h2>
-					<small class="text-slate-500">{expense.getTag()}</small>
+					<h2 class="text-xl">{expense.name}</h2>
+					<small class="text-slate-500">{expense.tag}<small> </small></small>
 				</div>
 				<div class="text-right text-slate-500">
-					{#if !expense.isEnabled()}
+					{#if !expense.isEnabled}
 						{$i18n('expense.inactive')}
 					{:else if nextPaymentDate != null}
 						{$i18n('nextPayment')}: {DateUtil.localizeLongerFormat(nextPaymentDate)}
@@ -86,6 +84,6 @@
 				<div class="text-right text-slate-500">{localizePaymentFrequency(expense)}</div>
 			</a>
 		{/each}
-		<AddButton href="/accounts/{account.getId()}/0" ariaLabel="Add new expense" />
+		<AddButton href="/accounts/{account.id}/0" ariaLabel="Add new expense" />
 	</div>
 {/if}

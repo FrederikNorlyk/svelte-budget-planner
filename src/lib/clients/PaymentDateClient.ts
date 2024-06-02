@@ -1,96 +1,85 @@
-import { DB_TABLE_PREFIX } from '$env/static/private';
 import { DatabaseClient } from '$lib/clients/DatabaseClient';
 import type { Expense } from '$lib/models/Expense';
 import { PaymentDate } from '$lib/models/PaymentDate';
-import type { QueryResultRow } from '@vercel/postgres';
+import type { InsertablePaymentDateRecord } from '$lib/tables/PaymentDatesTable';
 
 /**
  * Client for querying payment dates in the database.
  */
-export class PaymentDateClient extends DatabaseClient<PaymentDate> {
-	public static TABLE_NAME = DB_TABLE_PREFIX + 'payment_dates';
-
-	protected override getTableName(): string {
-		return PaymentDateClient.TABLE_NAME;
-	}
-
-	protected override parse(row: QueryResultRow) {
-		return new PaymentDate(+row.id, +row.expense_id, +row.month, +row.day_of_month, row.user_id);
-	}
-
+export class PaymentDateClient extends DatabaseClient {
 	/**
 	 * Create a new payment date.
 	 *
 	 * @param paymentDate the payment date to create
 	 * @returns the newly created payment date
 	 */
-	public async create(paymentDate: PaymentDate) {
-		let result;
+	public async create(paymentDate: InsertablePaymentDateRecord): Promise<PaymentDate> {
+		const record = await this.getDatabase()
+			.insertInto('paymentDates')
+			.values(paymentDate)
+			.returningAll()
+			.executeTakeFirstOrThrow();
 
-		try {
-			result = await this.getPool().query(
-				`
-                INSERT INTO ${this.getTableName()} 
-                    (user_id, expense_id, day_of_month, month) 
-                VALUES 
-                    ($1, $2, $3, $4) 
-                RETURNING *`,
-				[
-					paymentDate.getUserIds(),
-					paymentDate.getExpenseId(),
-					paymentDate.getDayOfMonth(),
-					paymentDate.getMonth()
-				]
-			);
-		} catch (e) {
-			console.error(e);
-			return null;
-		}
+		return new PaymentDate(record);
+	}
 
-		const row = result.rows[0];
-		return this.parse(row);
+	/**
+	 * List all of the current user's payment dates.
+	 *
+	 * @returns all payment dates for the given user
+	 */
+	public async listAll(): Promise<PaymentDate[]> {
+		const records = await this.getDatabase()
+			.selectFrom('paymentDates')
+			.selectAll()
+			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')))
+			.execute();
+
+		return records.map((record) => new PaymentDate(record));
 	}
 
 	/**
 	 * List all payment dates belonging to the given expense.
 	 *
+	 * @param expense the payment dates' expense
 	 * @returns all payment dates for the given expense
 	 */
-	public async listAllBelongingTo(expense: Expense) {
-		let result;
-		try {
-			result = await this.getPool().query(`
-                SELECT * 
-                FROM ${this.getTableName()} 
-                WHERE 
-                    expense_id = ${expense.getId()} AND
-                    '${this.getUserId()}' = ANY (user_id)
-                ORDER BY month
-            `);
-		} catch (e) {
-			console.error(e);
-			return [];
-		}
+	public async listAllBelongingTo(expense: Expense): Promise<PaymentDate[]> {
+		const records = await this.getDatabase()
+			.selectFrom('paymentDates')
+			.selectAll()
+			.where('expenseId', '=', expense.id)
+			.execute();
 
-		return result.rows.map((row) => this.parse(row));
+		return records.map((record) => new PaymentDate(record));
 	}
 
 	/**
-	 * Delete all payment dates belonging to the given expense
+	 * List all payment dates belonging to the given expenses.
 	 *
-	 * @param expense the expense to remove payment dates for
+	 * @param expenses the payment dates' expenses
+	 * @returns all payment dates for the given expenses
 	 */
-	public async deleteAllBelongingTo(expense: Expense) {
-		try {
-			await this.getPool().query(`
-                DELETE 
-                FROM ${this.getTableName()} 
-                WHERE 
-                    expense_id = ${expense.getId()} AND
-                    '${this.getUserId()}' = ANY (user_id)
-            `);
-		} catch (e) {
-			console.log(e);
-		}
+	public async listAllBelongingToMultiple(expenses: Expense[]): Promise<PaymentDate[]> {
+		const records = await this.getDatabase()
+			.selectFrom('paymentDates')
+			.selectAll()
+			.where(
+				'expenseId',
+				'in',
+				expenses.map((expense) => expense.id)
+			)
+			.execute();
+
+		return records.map((record) => new PaymentDate(record));
+	}
+
+	/**
+	 * Delete all payment dates belonging to the given expense.
+	 *
+	 * @param id the id of the expense to remove payment dates from
+	 */
+	public async deleteAllBelongingTo(id: number) {
+		await this.getDatabase().deleteFrom('paymentDates').where('expenseId', '=', id).execute();
 	}
 }

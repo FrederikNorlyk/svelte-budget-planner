@@ -8,12 +8,12 @@
 	import { Settings } from '$lib/models/Settings.js';
 
 	export let data;
-	const accounts = data.accounts.map((a) => Account.parse(a));
+	const accounts = data.accounts.map((account) => Account.parse(account));
 	const settings = Settings.parse(data.settings);
 
 	let totalMonthlyAmount = 0;
-	accounts.map((a) => (totalMonthlyAmount += a.getMonthlyAmount()));
-	let remainder = settings.getIncome() - totalMonthlyAmount;
+	accounts.map((account) => (totalMonthlyAmount += account.monthlyAmount));
+	let remainder = settings.income - totalMonthlyAmount;
 </script>
 
 <div class="mb-3">
@@ -26,14 +26,14 @@
 	<NoEntries question="chat.noAccounts" />
 {:else}
 	<div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
-		{#each accounts as account (account.getId())}
+		{#each accounts as account (account.id)}
 			<a
 				class="group card rounded-md bg-white p-10"
-				href="/accounts/{account.getId()}"
-				aria-label="Open the account {account.getName()}"
+				href="/accounts/{account.id}"
+				aria-label="Open the account {account.name}"
 			>
 				<div class="flex">
-					<h2 class="grow text-2xl">{account.getName()}</h2>
+					<h2 class="grow text-2xl">{account.name}</h2>
 
 					<IconArrowCircleRight
 						cssClass="ml-2 flex-none h-8 w-8 text-slate-300 group-hover:text-slate-400"
@@ -41,7 +41,7 @@
 				</div>
 
 				<div class="flex flex-wrap">
-					<p class="text-4xl font-bold">{AmountUtil.localize(account.getMonthlyAmount())}</p>
+					<p class="text-4xl font-bold">{AmountUtil.localize(account.monthlyAmount)}</p>
 					<p class="mt-auto text-slate-500">/{$i18n('month')}</p>
 				</div>
 			</a>
@@ -65,7 +65,7 @@
 
 			<div class="md:basis-1/2 xl:basis-1/3">
 				<h2 class="text-xl">{$i18n('remainderAfterExpenses')}</h2>
-				{#if settings.getIncome() > 0}
+				{#if settings.income > 0}
 					<div class="flex flex-wrap">
 						<h1 class="text-2xl">{AmountUtil.localize(remainder)}</h1>
 						<p class="mt-auto text-slate-500">/{$i18n('month')}</p>

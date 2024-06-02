@@ -1,84 +1,36 @@
-import { DB_TABLE_PREFIX } from '$env/static/private';
 import { DatabaseClient } from '$lib/clients/DatabaseClient';
 import { Settings } from '$lib/models/Settings';
-import type { QueryResultRow } from '@vercel/postgres';
+import type { InsertableSettingsRecord } from '$lib/tables/SettingsTable';
 
 /**
  * Client for querying payment dates in the database.
  */
-export class SettingsClient extends DatabaseClient<Settings> {
-	public static TABLE_NAME = DB_TABLE_PREFIX + 'settings';
-
-	protected override getTableName(): string {
-		return SettingsClient.TABLE_NAME;
-	}
-
-	protected override parse(row: QueryResultRow) {
-		let partnerId = row.partner_id;
-
-		if (partnerId != null) {
-			partnerId = +partnerId;
-		}
-
-		return new Settings(+row.id, row.locale, +row.income, row.partner_id);
-	}
-
+export class SettingsClient extends DatabaseClient {
 	/**
 	 * Create a new settings entry.
 	 *
 	 * @param settings the settings entry to create
 	 * @returns the newly created settings entry
 	 */
-	private async create(settings: Settings) {
-		let result;
+	private async create(settings: InsertableSettingsRecord): Promise<Settings> {
+		const record = await this.getDatabase()
+			.insertInto('settings')
+			.values(settings)
+			.returningAll()
+			.executeTakeFirstOrThrow();
 
-		try {
-			result = await this.getPool().query(
-				`
-                INSERT INTO ${this.getTableName()} 
-                    (user_id, locale, income, partner_id) 
-                VALUES 
-                    ($1, $2, $3, $4) 
-                RETURNING *`,
-				[this.getUserId(), settings.getLocale(), settings.getIncome(), null]
-			);
-		} catch (e) {
-			console.error(e);
-			return null;
-		}
-
-		const row = result.rows[0];
-		return this.parse(row);
+		return new Settings(record);
 	}
 
-	/**
-	 * Update a settings entry.
-	 *
-	 * @param settings the settings entry to update
-	 * @returns the updated settings entry
-	 */
-	public async update(settings: Settings) {
-		let result;
-		try {
-			result = await this.getPool().query(
-				`
-                UPDATE ${this.getTableName()} 
-                SET 
-                    locale = $1,
-                    income = $2
-                WHERE 
-                    id = $3 AND
-                    user_id = $4
-                RETURNING *`,
-				[settings.getLocale(), settings.getIncome(), settings.getId(), this.getUserId()]
-			);
-		} catch (e) {
-			console.error(e);
-			return null;
-		}
+	public async updateIncome(id: number, income: number): Promise<Settings> {
+		const record = await this.getDatabase()
+			.updateTable('settings')
+			.set({ income: income })
+			.where('id', '=', id)
+			.returningAll()
+			.executeTakeFirstOrThrow();
 
-		const row = result.rows[0];
-		return this.parse(row);
+		return new Settings(record);
 	}
 
 	/**
@@ -86,11 +38,17 @@ export class SettingsClient extends DatabaseClient<Settings> {
 	 *
 	 * @returns settings entry for the given user
 	 */
-	public async getForCurrentUser() {
+	public async getForCurrentUser(): Promise<Settings> {
 		let settings = await this.get();
 
-		if (settings == null) {
-			await this.create(new Settings(0, 'en', 0, null));
+		if (!settings) {
+			//TODO: This should probably be done on in auth.ts.
+			settings = await this.create({
+				income: 0,
+				locale: 'en',
+				userId: this.getUserId()
+			});
+
 			settings = await this.get();
 		}
 
@@ -98,27 +56,20 @@ export class SettingsClient extends DatabaseClient<Settings> {
 			throw Error('Something went wrong');
 		}
 
-		return settings;
+		return new Settings(settings);
 	}
 
-	private async get() {
-		let result;
-		try {
-			result = await this.getPool().query(
-				`SELECT * 
-                FROM ${this.getTableName()} 
-                WHERE user_id = '${this.getUserId()}'`
-			);
-		} catch (e) {
-			console.error(e);
+	private async get(): Promise<Settings | null> {
+		const record = await this.getDatabase()
+			.selectFrom('settings')
+			.selectAll()
+			.where('userId', '=', this.getUserId())
+			.executeTakeFirst();
+
+		if (!record) {
 			return null;
 		}
 
-		if (result.rows.length == 0) {
-			return null;
-		}
-
-		const row = result.rows[0];
-		return this.parse(row);
+		return new Settings(record);
 	}
 }

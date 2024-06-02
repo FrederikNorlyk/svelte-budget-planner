@@ -35,7 +35,7 @@
 </script>
 
 <div class="mb-3">
-	<h1 class="text-3xl">{$i18n('accountBalance.title', { account: account.getName() })}</h1>
+	<h1 class="text-3xl">{$i18n('accountBalance.title', { account: account.name })}</h1>
 	<p>{$i18n('accountBalance.details')}</p>
 </div>
 
@@ -56,10 +56,10 @@
 					<p>{$i18n('budgetTransfer')}</p>
 				</div>
 
-				{#each currentAmountUtil.getExpensesIn(account, date.getMonth()) as expense (expense.getId() + '_' + index)}
+				{#each currentAmountUtil.getExpensesIn(account, date.getMonth()) as expense (expense.id + '_' + index)}
 					<div class="flex space-x-1">
-						<p>- {AmountUtil.localize(expense.getAmount())}</p>
-						<p>{expense.getName()}</p>
+						<p>- {AmountUtil.localize(expense.amount)}</p>
+						<p>{expense.name}</p>
 					</div>
 				{/each}
 			</div>

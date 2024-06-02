@@ -21,8 +21,12 @@ export const load: PageServerLoad = async (event) => {
 	}
 
 	let expenses = await expenseClient.listBelongingTo(account);
-	expenses = await expenseClient.addPaymentDatesTo(expenses);
-	account.setExpenses(expenses);
+
+	if (expenses.length > 0) {
+		expenses = await expenseClient.addPaymentDatesTo(expenses);
+	}
+
+	account.expenses = expenses;
 
 	return {
 		session: session,

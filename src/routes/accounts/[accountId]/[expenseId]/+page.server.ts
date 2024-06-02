@@ -1,8 +1,8 @@
 import { ExpenseClient } from '$lib/clients/ExpenseClient';
 import { PaymentDateClient } from '$lib/clients/PaymentDateClient.js';
 import { SettingsClient } from '$lib/clients/SettingsClient';
-import { Expense } from '$lib/models/Expense.js';
-import { PaymentDate } from '$lib/models/PaymentDate.js';
+import type { Expense } from '$lib/models/Expense.js';
+import type { PaymentDate } from '$lib/models/PaymentDate.js';
 import { redirect } from '@sveltejs/kit';
 
 export async function load(event) {
@@ -14,10 +14,8 @@ export async function load(event) {
 	const expenseClient = new ExpenseClient(session.user.id);
 	const id = +event.params.expenseId;
 
-	let expense;
-	if (id == 0) {
-		expense = null;
-	} else {
+	let expense: Expense | null = null;
+	if (id != 0) {
 		expense = await expenseClient.getById(id);
 
 		if (expense == null) {
@@ -80,36 +78,53 @@ export const actions = {
 			const settingsClient = new SettingsClient(session.user.id);
 			const setting = await settingsClient.getForCurrentUser();
 
-			const partnerId = setting.getPartnerId();
+			const partnerId = setting.partnerId;
 			if (partnerId != null) {
 				userIds.push(partnerId);
 			}
 		}
 
-		const expense = new Expense(id, name, amount, tag, accountId, isEnabled, isShared, userIds);
-
 		const expenseClient = new ExpenseClient(session.user.id);
 
-		let newExpense;
+		let newExpense: Expense;
 		if (id == 0) {
-			newExpense = await expenseClient.create(expense);
+			newExpense = await expenseClient.create({
+				userId: userIds,
+				name: name,
+				amount: amount,
+				accountId: accountId,
+				isEnabled: isEnabled,
+				isShared: isShared,
+				tag: tag
+			});
 		} else {
-			newExpense = await expenseClient.update(expense);
-		}
-
-		if (newExpense == null) {
-			return { error: 'Could save the expense' };
+			newExpense = await expenseClient.update(id, {
+				userId: userIds,
+				name: name,
+				amount: amount,
+				accountId: accountId,
+				isEnabled: isEnabled,
+				isShared: isShared,
+				tag: tag
+			});
 		}
 
 		const paymentDateClient = new PaymentDateClient(session.user.id);
-		await paymentDateClient.deleteAllBelongingTo(expense);
+
+		if (id != 0) {
+			await paymentDateClient.deleteAllBelongingTo(id);
+		}
 
 		for (let i = 0; i < daysOfMonth.length; i++) {
 			const dayOfMonth = +daysOfMonth[i];
 			const month = +months[i];
 
-			const paymentDate = new PaymentDate(0, newExpense.getId(), month, dayOfMonth, userIds);
-			const createdPaymentDate = await paymentDateClient.create(paymentDate);
+			const createdPaymentDate = await paymentDateClient.create({
+				userId: userIds,
+				expenseId: newExpense.id,
+				month: month,
+				dayOfMonth: dayOfMonth
+			});
 
 			if (createdPaymentDate == null) {
 				return { error: 'Could not create payment date' };

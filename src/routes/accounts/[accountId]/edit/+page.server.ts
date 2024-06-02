@@ -49,21 +49,16 @@ export const actions = {
 			const settingsClient = new SettingsClient(session.user.id);
 			const setting = await settingsClient.getForCurrentUser();
 
-			const partnerId = setting.getPartnerId();
+			const partnerId = setting.partnerId;
 			if (partnerId != null) {
 				userIds.push(partnerId);
 			}
 		}
 
-		let account;
 		if (id == 0) {
-			account = await client.create(name, userIds);
+			await client.create({ name: name, userId: userIds });
 		} else {
-			account = await client.update(id, name, userIds);
-		}
-
-		if (account == null) {
-			return { error: 'Could not create account' };
+			await client.update(id, { name: name, userId: userIds });
 		}
 
 		redirect(303, '/accounts');

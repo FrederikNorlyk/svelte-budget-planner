@@ -26,6 +26,8 @@
 		"@typescript-eslint/parser": "^7.10.0",
 		"@vitest/coverage-v8": "^1.6.0",
 		"autoprefixer": "^10.4.19",
+		"dotenv": "^16.4.5",
+		"dotenv-expand": "^11.0.6",
 		"eslint": "^8.57.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.39.0",
@@ -47,6 +49,9 @@
 	"dependencies": {
 		"@auth/sveltekit": "^1.1.0",
 		"@floating-ui/dom": "^1.6.5",
-		"@vercel/postgres": "^0.8.0"
+		"@vercel/postgres": "^0.8.0",
+		"@vercel/postgres-kysely": "^0.8.0",
+		"kysely": "^0.27.3",
+		"kysely-plugin-prefix": "^1.1.1"
 	}
 }

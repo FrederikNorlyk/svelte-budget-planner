@@ -22,8 +22,8 @@ export const load = async (event) => {
 	}
 
 	return {
-		title: account.getName(),
+		title: account.name,
 		details: 'account.details',
-		editHref: `/accounts/${account.getId()}/edit`
+		editHref: `/accounts/${account.id}/edit`
 	};
 };
