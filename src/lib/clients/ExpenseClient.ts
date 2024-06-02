@@ -109,6 +109,8 @@ export class ExpenseClient extends DatabaseClient {
 			.selectAll()
 			.where('accountId', '=', account.id)
 			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')))
+			.orderBy('tag')
+			.orderBy('name')
 			.execute();
 
 		return records.map((record) => new Expense(record, []));
