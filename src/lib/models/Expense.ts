@@ -7,6 +7,7 @@ export class Expense {
 
 	constructor(record: ExpenseRecord, paymentDates: PaymentDate[]) {
 		this.record = record;
+		this.record.amount = +this.record.amount;
 		this._paymentDates = paymentDates;
 	}
 
