@@ -56,7 +56,6 @@ export default {
 		'user.income.required': 'Income is required',
 		'total': 'Total expenses',
 		'remainderAfterExpenses': 'Remainder after expenses',
-		'enterIncome': 'Enter your income',
 		'account.shared': 'Shared account',
 		'errorDeleteAccountHasExpenses': 'This account can not be deleted, as it has expenses'
 	},
@@ -116,7 +115,6 @@ export default {
 		'user.income.required': 'Indkomst er påkrævet',
 		'total': 'Samlede udgifter',
 		'remainderAfterExpenses': 'Rådighedsbeløb',
-		'enterIncome': 'Indtast din indkomst',
 		'account.shared': 'Delt konto',
 		'errorDeleteAccountHasExpenses': 'Denne konto kan ikke slettes da den har udgifter'
 	}

@@ -53,9 +53,6 @@
 	}
 </script>
 
-<h1 class="text-3xl">{$i18n('settings.title')}</h1>
-<p>{$i18n('settings.details')}</p>
-
 <div class="card mt-5 space-y-3 bg-white p-10">
 	<div class="flex">
 		<img

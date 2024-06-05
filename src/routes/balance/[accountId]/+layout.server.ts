@@ -22,9 +22,9 @@ export const load = async (event) => {
 	}
 
 	return {
-		title: account.name,
-		details: 'account.details',
-		backHref: '.',
-		editHref: `/accounts/${account.id}/edit`
+		title: 'accountBalance.title',
+		titleParams: { account: account.name },
+		details: 'accountBalance.details',
+		backHref: '.'
 	};
 };

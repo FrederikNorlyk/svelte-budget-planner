@@ -11,10 +11,7 @@
 	const currentAmountUtil = new CurrentAmountUtil();
 </script>
 
-<h1 class="text-3xl">{$i18n('balance.title')}</h1>
-<p>{$i18n('balance.details')}</p>
-
-<div class="mt-5 grid grid-cols-1 gap-3 lg:grid-cols-2 2xl:grid-cols-3">
+<div class="grid grid-cols-1 gap-3 lg:grid-cols-2 2xl:grid-cols-3">
 	{#each accounts as account (account.id)}
 		{@const nextPaymentDate = currentAmountUtil.getNextPaymentDate(account)}
 

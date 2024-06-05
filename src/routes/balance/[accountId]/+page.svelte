@@ -34,11 +34,6 @@
 	});
 </script>
 
-<div class="mb-3">
-	<h1 class="text-3xl">{$i18n('accountBalance.title', { account: account.name })}</h1>
-	<p>{$i18n('accountBalance.details')}</p>
-</div>
-
 <div class="space-y-3">
 	{#each dates as date, index}
 		<div class="card space-y-2 bg-white p-4">
