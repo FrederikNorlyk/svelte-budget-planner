@@ -1,7 +1,8 @@
 import { DatabaseClient } from '$lib/clients/DatabaseClient';
-import type { Expense } from '$lib/models/Expense';
 import { PaymentDate } from '$lib/models/PaymentDate';
 import type { InsertablePaymentDateRecord } from '$lib/tables/PaymentDatesTable';
+
+type SearchCriteria = { expenseIds?: number[]; expenseId?: number };
 
 /**
  * Client for querying payment dates in the database.
@@ -26,50 +27,24 @@ export class PaymentDateClient extends DatabaseClient {
 	/**
 	 * List all of the current user's payment dates.
 	 *
+	 * @param [criteria=null] search criteria
 	 * @returns all payment dates for the given user
 	 */
-	public async listAll(): Promise<PaymentDate[]> {
-		const records = await this.getDatabase()
+	public async listAll(criteria: SearchCriteria | null = null): Promise<PaymentDate[]> {
+		let query = this.getDatabase()
 			.selectFrom('paymentDates')
 			.selectAll()
-			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')))
-			.execute();
+			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')));
 
-		return records.map((record) => new PaymentDate(record));
-	}
+		if (criteria?.expenseId) {
+			query = query.where('expenseId', '=', criteria.expenseId);
+		}
 
-	/**
-	 * List all payment dates belonging to the given expense.
-	 *
-	 * @param expense the payment dates' expense
-	 * @returns all payment dates for the given expense
-	 */
-	public async listAllBelongingTo(expense: Expense): Promise<PaymentDate[]> {
-		const records = await this.getDatabase()
-			.selectFrom('paymentDates')
-			.selectAll()
-			.where('expenseId', '=', expense.id)
-			.execute();
+		if (criteria?.expenseIds) {
+			query = query.where('expenseId', 'in', criteria.expenseIds);
+		}
 
-		return records.map((record) => new PaymentDate(record));
-	}
-
-	/**
-	 * List all payment dates belonging to the given expenses.
-	 *
-	 * @param expenses the payment dates' expenses
-	 * @returns all payment dates for the given expenses
-	 */
-	public async listAllBelongingToMultiple(expenses: Expense[]): Promise<PaymentDate[]> {
-		const records = await this.getDatabase()
-			.selectFrom('paymentDates')
-			.selectAll()
-			.where(
-				'expenseId',
-				'in',
-				expenses.map((expense) => expense.id)
-			)
-			.execute();
+		const records = await query.execute();
 
 		return records.map((record) => new PaymentDate(record));
 	}

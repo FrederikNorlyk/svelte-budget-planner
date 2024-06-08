@@ -19,7 +19,7 @@ export async function load(event) {
 		redirect(303, '/accounts');
 	}
 
-	let expenses = await expenseClient.listBelongingTo(account);
+	let expenses = await expenseClient.listAll({ accountId: account.id });
 
 	if (expenses.length > 0) {
 		expenses = await expenseClient.addPaymentDatesTo(expenses);

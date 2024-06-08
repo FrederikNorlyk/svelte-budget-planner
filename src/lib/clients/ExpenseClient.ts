@@ -1,9 +1,10 @@
 import { DatabaseClient } from '$lib/clients/DatabaseClient';
-import type { Account } from '$lib/models/Account';
 import { Expense } from '$lib/models/Expense';
 import { QueryResult } from '$lib/models/QueryResult';
 import type { InsertableExpenseRecord, UpdateableExpenseRecord } from '$lib/tables/ExpensesTable';
 import { PaymentDateClient } from './PaymentDateClient';
+
+type SearchCriteria = { accountId?: number; isEnabled?: boolean };
 
 /**
  * Client for querying expenses in the database.
@@ -85,33 +86,24 @@ export class ExpenseClient extends DatabaseClient {
 	/**
 	 * List all of the current user's expenses.
 	 *
+	 * @param [criteria=null] search criteria
 	 * @returns the current user's expenses
 	 */
-	public async listAll() {
-		const records = await this.getDatabase()
+	public async listAll(criteria: SearchCriteria | null = null) {
+		let query = this.getDatabase()
 			.selectFrom('expenses')
 			.selectAll()
-			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')))
-			.execute();
+			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')));
 
-		return records.map((record) => new Expense(record, []));
-	}
+		if (criteria?.accountId) {
+			query = query.where('accountId', '=', criteria.accountId);
+		}
 
-	/**
-	 * List all of the current user's expenses, belonging to the given account.
-	 *
-	 * @param account the expenses' account
-	 * @returns all of the current user's expenses, for the given account
-	 */
-	public async listBelongingTo(account: Account): Promise<Expense[]> {
-		const records = await this.getDatabase()
-			.selectFrom('expenses')
-			.selectAll()
-			.where('accountId', '=', account.id)
-			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')))
-			.orderBy('tag')
-			.orderBy('name')
-			.execute();
+		if (criteria?.isEnabled !== undefined) {
+			query = query.where('isEnabled', '=', criteria.isEnabled);
+		}
+
+		const records = await query.execute();
 
 		return records.map((record) => new Expense(record, []));
 	}
@@ -142,7 +134,10 @@ export class ExpenseClient extends DatabaseClient {
 	 */
 	public async addPaymentDatesTo(expenses: Expense[]) {
 		const paymentDateClient = new PaymentDateClient(this.getUserId());
-		const paymentDates = await paymentDateClient.listAllBelongingToMultiple(expenses);
+
+		const paymentDates = await paymentDateClient.listAll({
+			expenseIds: expenses.map((expense) => expense.id)
+		});
 
 		return expenses.map((expense) => {
 			expense.paymentDates = paymentDates.filter(

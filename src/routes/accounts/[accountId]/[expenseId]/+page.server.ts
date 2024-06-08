@@ -26,7 +26,7 @@ export async function load(event) {
 	const paymentDateClient = new PaymentDateClient(session.user.id);
 	let paymentDates: PaymentDate[] = [];
 	if (expense != null) {
-		paymentDates = await paymentDateClient.listAllBelongingTo(expense);
+		paymentDates = await paymentDateClient.listAll({ expenseId: expense.id });
 	}
 
 	return {
