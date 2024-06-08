@@ -1,4 +1,4 @@
-export default {
+const translations: { [key: string]: { [key: string]: string}} = {
 	en: {
 		'accounts.title': 'Accounts',
 		'currentAmount.title': 'Balance',
@@ -119,3 +119,5 @@ export default {
 		'errorDeleteAccountHasExpenses': 'Denne konto kan ikke slettes da den har udgifter'
 	}
 };
+
+export default translations;
