@@ -1,13 +1,17 @@
 import { derived, writable } from 'svelte/store';
 import translations from './translations';
 
-// Define the shape of the replacement variables object
-export interface Vars {
+export interface ReplacementVariables {
 	[key: string]: string;
 }
 
 export const locale = writable('en');
 export const locales = Object.keys(translations);
+
+locale.subscribe((value) => {
+	console.log('New subscriber:');
+	console.debug(value);
+});
 
 /**
  * Translate a localization key.
@@ -19,7 +23,7 @@ export const locales = Object.keys(translations);
  * @param {*} vars any variables to replace in the translation
  * @returns localized string
  */
-function translate(locale: string, key: string, vars: Vars): string {
+export function translate(locale: string, key: string, vars: ReplacementVariables = {}): string {
 	const translated = translations[locale];
 
 	if (!translated) {
@@ -44,6 +48,6 @@ function translate(locale: string, key: string, vars: Vars): string {
 export const i18n = derived(
 	locale,
 	($locale: string) =>
-		(key: string, vars: Vars = {}): string =>
+		(key: string, vars: ReplacementVariables = {}): string =>
 			translate($locale, key, vars)
 );

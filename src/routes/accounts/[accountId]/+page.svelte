@@ -6,7 +6,7 @@
 	import NoEntries from '$lib/components/NoEntries.svelte';
 	import AddButton from '$lib/components/AddButton.svelte';
 	import { Account } from '$lib/models/Account';
-	import { type Vars, i18n } from '$lib/localization/i18n';
+	import { type ReplacementVariables, i18n } from '$lib/localization/i18n';
 
 	export let data;
 	const account = Account.parse(data.account);
@@ -20,7 +20,7 @@
 
 	function localizePaymentFrequency(expense: Expense) {
 		let key: string;
-		let parameters: Vars = {};
+		let parameters: ReplacementVariables = {};
 		const numberOfPaymentDates = expense.paymentDates.length;
 
 		switch (numberOfPaymentDates) {
