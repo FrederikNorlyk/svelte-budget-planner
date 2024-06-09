@@ -22,10 +22,17 @@ export const actions = {
 	save: async ({ request, locals }) => {
 		const data = await request.formData();
 		const income = +(data.get('income') ?? 0);
+		const locale = data.get('locale');
 
 		if (income < 0) {
 			return {
 				error: 'user.income.required'
+			};
+		}
+
+		if (locale != 'en' && locale != 'da') {
+			return {
+				error: 'user.locale.required'
 			};
 		}
 
@@ -38,7 +45,7 @@ export const actions = {
 		const client = new SettingsClient(session.user.id);
 		const settings = await client.getForCurrentUser();
 
-		await client.updateIncome(settings.id, income);
+		await client.update(settings.id, { income: income, locale: locale });
 
 		redirect(303, '/settings');
 	}

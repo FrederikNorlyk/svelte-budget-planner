@@ -1,6 +1,10 @@
 import { DatabaseClient } from '$lib/clients/DatabaseClient';
 import { Settings } from '$lib/models/Settings';
-import type { InsertableSettingsRecord, SettingsRecord } from '$lib/tables/SettingsTable';
+import type {
+	InsertableSettingsRecord,
+	SettingsRecord,
+	UpdatableSettingsRecord
+} from '$lib/tables/SettingsTable';
 
 /**
  * Client for querying payment dates in the database.
@@ -22,10 +26,10 @@ export class SettingsClient extends DatabaseClient {
 		return new Settings(record);
 	}
 
-	public async updateIncome(id: number, income: number): Promise<Settings> {
+	public async update(id: number, settings: UpdatableSettingsRecord): Promise<Settings> {
 		const record = await this.getDatabase()
 			.updateTable('settings')
-			.set({ income: income })
+			.set(settings)
 			.where('id', '=', id)
 			.returningAll()
 			.executeTakeFirstOrThrow();
