@@ -8,11 +8,6 @@ export interface ReplacementVariables {
 export const locale = writable('en');
 export const locales = Object.keys(translations);
 
-locale.subscribe((value) => {
-	console.log('New subscriber:');
-	console.debug(value);
-});
-
 /**
  * Translate a localization key.
  * To use replacement variables, match them with the named variable in the translation text.
@@ -23,7 +18,7 @@ locale.subscribe((value) => {
  * @param {*} vars any variables to replace in the translation
  * @returns localized string
  */
-export function translate(locale: string, key: string, vars: ReplacementVariables = {}): string {
+function translate(locale: string, key: string, vars: ReplacementVariables = {}): string {
 	const translated = translations[locale];
 
 	if (!translated) {
