@@ -1,4 +1,4 @@
-export default {
+const translations: { [key: string]: { [key: string]: string}} = {
 	en: {
 		'accounts.title': 'Accounts',
 		'currentAmount.title': 'Balance',
@@ -54,6 +54,7 @@ export default {
 		'accountBalance.details': 'This view gives you an overview of the coming expenses',
 		'user.income': 'Income',
 		'user.income.required': 'Income is required',
+		'user.locale.required': 'Language is required',
 		'total': 'Total expenses',
 		'remainderAfterExpenses': 'Remainder after expenses',
 		'account.shared': 'Shared account',
@@ -113,9 +114,12 @@ export default {
 		'accountBalance.details': 'Denne side giver dig et overblik over de kommende udgifter',
 		'user.income': 'Indkomst',
 		'user.income.required': 'Indkomst er påkrævet',
+		'user.locale.required': 'Sprog er påkrævet',
 		'total': 'Samlede udgifter',
 		'remainderAfterExpenses': 'Rådighedsbeløb',
 		'account.shared': 'Delt konto',
 		'errorDeleteAccountHasExpenses': 'Denne konto kan ikke slettes da den har udgifter'
 	}
 };
+
+export default translations;

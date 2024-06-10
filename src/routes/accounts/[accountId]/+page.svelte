@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { Account } from '$lib/models/Account.js';
-	import { Expense } from '$lib/models/Expense.js';
-	import { AmountUtil } from '$lib/util/AmountUtil.js';
-	import { CurrentAmountUtil } from '$lib/util/CurrentAmountUtil.js';
-	import { DateUtil } from '$lib/util/DateUtil.js';
-	import { i18n } from '$lib/localization/i18n.js';
+	import { Expense } from '$lib/models/Expense';
+	import { AmountUtil } from '$lib/util/AmountUtil';
+	import { CurrentAmountUtil } from '$lib/util/CurrentAmountUtil';
+	import { DateUtil } from '$lib/util/DateUtil';
 	import NoEntries from '$lib/components/NoEntries.svelte';
 	import AddButton from '$lib/components/AddButton.svelte';
+	import { Account } from '$lib/models/Account';
+	import { type ReplacementVariables, i18n } from '$lib/localization/i18n';
 
 	export let data;
 	const account = Account.parse(data.account);
@@ -20,7 +20,7 @@
 
 	function localizePaymentFrequency(expense: Expense) {
 		let key: string;
-		let parameters: { times?: number } = {};
+		let parameters: ReplacementVariables = {};
 		const numberOfPaymentDates = expense.paymentDates.length;
 
 		switch (numberOfPaymentDates) {
@@ -39,7 +39,7 @@
 				break;
 			default:
 				key = 'paid.custom';
-				parameters = { times: numberOfPaymentDates };
+				parameters = { times: numberOfPaymentDates.toString() };
 				break;
 		}
 

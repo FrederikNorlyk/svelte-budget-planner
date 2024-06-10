@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { signOut } from '@auth/sveltekit/client';
-	import { i18n, locale, locales } from '$lib/localization/i18n';
+	import { i18n, locales } from '$lib/localization/i18n';
 	import SelectField from '$lib/components/SelectField.svelte';
 	import type { SelectOption } from '$lib/components/types/SelectOption';
 	import { LightSwitch } from '@skeletonlabs/skeleton';
@@ -71,16 +71,6 @@
 
 	<hr />
 
-	<form class="pt-4 sm:w-64">
-		<SelectField
-			name="locale"
-			label={$i18n('user.locale')}
-			options={localeOptions}
-			bind:value={$locale}
-			disabled={isSaving}
-		/>
-	</form>
-
 	<div>
 		<label class="label" for="light-switch">Dark mode</label>
 		<LightSwitch disabled={isSaving} class="mt-1" id="light-switch" />
@@ -99,6 +89,14 @@
 			};
 		}}
 	>
+		<SelectField
+			name="locale"
+			label={$i18n('user.locale')}
+			options={localeOptions}
+			value={settings.locale}
+			disabled={isSaving}
+		/>
+
 		<NumberField
 			name="income"
 			label={$i18n('user.income')}
@@ -106,6 +104,7 @@
 			disabled={isSaving}
 			value={settings.income}
 		/>
+
 		<button disabled={isSaving} class="variant-filled btn basis-1/4 bg-primary-500"
 			>{$i18n('button.save')}</button
 		>

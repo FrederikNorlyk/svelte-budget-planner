@@ -1,10 +1,10 @@
 <script lang="ts">
 	import IconArrowLeft from '$lib/icons/IconArrowLeft.svelte';
 	import IconPencilSquare from '$lib/icons/IconPencilSquare.svelte';
-	import { i18n } from '$lib/localization/i18n';
+	import { i18n, type ReplacementVariables } from '$lib/localization/i18n';
 
 	export let title: string;
-	export let titleParams: {} | undefined;
+	export let titleParams: ReplacementVariables | undefined;
 	export let details: string;
 	export let backHref: string | undefined = undefined;
 	export let editHref: string | undefined = undefined;
