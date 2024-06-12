@@ -6,10 +6,6 @@ updates:
       interval: 'daily'
     groups:
       production-dependencies:
-        patterns:
-          - '@auth/sveltekit'
-          - '@floating-ui/dom'
-          - '@vercel/postgres'
-          - '@vercel/postgres-kysely'
-          - 'kysely'
-          - 'kysely-plugin-prefix'
+        dependency-type: 'production'
+      development-dependencies:
+        dependency-type: 'development'
