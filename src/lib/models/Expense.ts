@@ -33,7 +33,7 @@ export class Expense {
 
 	private calculateMontlyAmount(divideShared: boolean) {
 		const amount = divideShared && this.isShared ? this.amount / 2 : this.amount;
-		if (this.isMonthlyExpense()) {
+		if (this.isMonthlyExpense) {
 			return amount;
 		}
 
@@ -41,7 +41,7 @@ export class Expense {
 		return amount / numberOfTransfers;
 	}
 
-	public isMonthlyExpense() {
+	public get isMonthlyExpense() {
 		const numberOfDates = this.paymentDates.length;
 		return numberOfDates === 0 || numberOfDates === 12;
 	}
@@ -60,6 +60,10 @@ export class Expense {
 
 	public get isShared() {
 		return this.record.isShared;
+	}
+
+	public set isShared(value: boolean) {
+		this.record.isShared = value;
 	}
 
 	public get paymentDates() {

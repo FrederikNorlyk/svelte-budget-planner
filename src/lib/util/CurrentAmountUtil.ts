@@ -56,7 +56,7 @@ export class CurrentAmountUtil {
 				return;
 			}
 
-			if (expense.isMonthlyExpense()) {
+			if (expense.isMonthlyExpense) {
 				return;
 			}
 
@@ -125,7 +125,7 @@ export class CurrentAmountUtil {
 		let nextPaymentDate: Date | null = null;
 		const thisYear = startDate.getFullYear();
 
-		if (expense.isMonthlyExpense()) {
+		if (expense.isMonthlyExpense) {
 			const nextMonth = startDate.getMonth() + 1;
 			return new Date(thisYear, nextMonth, 1);
 		}
@@ -156,7 +156,7 @@ export class CurrentAmountUtil {
 		const expenses: Expense[] = [];
 
 		account.expenses.forEach((expense) => {
-			if (expense.isMonthlyExpense()) {
+			if (expense.isMonthlyExpense) {
 				return;
 			}
 
@@ -182,7 +182,7 @@ export class CurrentAmountUtil {
 		let amount = 0;
 
 		account.expenses.forEach((expense) => {
-			if (!expense.isEnabled || expense.isMonthlyExpense()) {
+			if (!expense.isEnabled || expense.isMonthlyExpense) {
 				return;
 			}
 			amount += expense.monthlyAmountWithTotalShared;
