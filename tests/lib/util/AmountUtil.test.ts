@@ -11,7 +11,7 @@ describe('Tests for AmountUtil', () => {
 
 		amount = AmountUtil.localize(1.454);
 		expect(amount).toBe('1,45 kr.');
- 
+
 		amount = AmountUtil.localize(1.456);
 		expect(amount).toBe('1,46 kr.');
 
