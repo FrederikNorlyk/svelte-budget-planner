@@ -53,5 +53,8 @@
 		"@vercel/postgres-kysely": "^0.8.0",
 		"kysely": "^0.27.3",
 		"kysely-plugin-prefix": "^1.1.1"
+	},
+	"engines": {
+		"node": "20.x"
 	}
 }
