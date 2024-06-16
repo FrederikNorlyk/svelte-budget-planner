@@ -1,19 +1,14 @@
-import type { Locator, Page } from '@playwright/test';
 import { AccountCard } from './account-card';
 import { AppPage } from './app-page';
+import { EditAccountPage } from './edit-account-page';
 
 export class AccountsPage extends AppPage {
-	readonly header: Locator;
-	readonly subTitle: Locator;
+	protected getHeaderText(): string {
+		return 'Accounts';
+	}
 
-	constructor(page: Page) {
-		super(page);
-		this.header = page.locator('h1', { hasText: 'Accounts' });
-
-		this.subTitle = page.locator('p', {
-			hasText:
-				'Create and maintain your accounts. Accounts should contain expenses of a similar kind.'
-		});
+	protected getSubTitleText(): string {
+		return 'Create and maintain your accounts. Accounts should contain expenses of a similar kind.';
 	}
 
 	async getCards() {
@@ -26,6 +21,18 @@ export class AccountsPage extends AppPage {
 		}
 
 		return cards;
+	}
+
+	async getAccountCardWithTitle(title: string) {
+		const links = this.page.locator('a.card');
+		const header = links.getByRole('heading', { name: title });
+		const link = links.filter({ has: header });
+		return new AccountCard(link);
+	}
+
+	async clickNewAccountButton() {
+		await this.page.locator('a[aria-label="New account"]').click();
+		return new EditAccountPage(this.page);
 	}
 
 	async goto() {

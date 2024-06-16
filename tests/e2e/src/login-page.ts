@@ -1,9 +1,10 @@
 import type { Page } from '@playwright/test';
-import { AppPage } from './app-page';
 
-export class LoginPage extends AppPage {
+export class LoginPage {
+	readonly page: Page;
+
 	constructor(page: Page) {
-		super(page);
+		this.page = page;
 	}
 
 	async goto() {
