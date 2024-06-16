@@ -7,6 +7,7 @@
 		"vitest.explorer",
 		"PKief.material-icon-theme",
 		"github.vscode-github-actions",
-		"ms-playwright.playwright"
+		"ms-playwright.playwright",
+		"github.codespaces"
 	]
 }
