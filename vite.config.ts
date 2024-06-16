@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
 	return {
 		plugins: [sveltekit()],
 		test: {
-			include: ['tests/**/*.{test,spec}.{js,ts}']
+			include: ['tests/lib/**/*.{test,spec}.{js,ts}']
 		}
 	};
 });
