@@ -12,3 +12,8 @@ pnpm-lock.yaml
 package-lock.json
 yarn.lock
 src/lib/localization/translations.ts
+
+# Playwright
+/playwright-report/
+/blob-report/
+/playwright/.cache/
