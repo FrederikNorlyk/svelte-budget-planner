@@ -6,6 +6,7 @@
 		"esbenp.prettier-vscode",
 		"vitest.explorer",
 		"PKief.material-icon-theme",
-		"github.vscode-github-actions"
+		"github.vscode-github-actions",
+		"ms-playwright.playwright"
 	]
 }
