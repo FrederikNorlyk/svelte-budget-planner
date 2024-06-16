@@ -30,15 +30,20 @@ To link the application with your Vercel PostgreSQL database, run the following 
 [Read more](https://vercel.com/docs/cli)
 
 ```
-npm i -g vercel
-vercel link
-vercel env pull .env.development.local
+npx vercel link
+npx vercel env pull .env
 ```
 
-Auth.js require three environment variables:
+Auth.js requires three environment variables:
 
 ```
 AUTH_GITHUB_ID=
 AUTH_GITHUB_SECRET=
 AUTH_SECRET=
+```
+
+Playwright requires:
+
+```
+PLAYWRIGHT_BASE_URL=https://svelte-budget-planner.vercel.app
 ```
