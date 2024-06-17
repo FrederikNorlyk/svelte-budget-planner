@@ -7,12 +7,12 @@ export class AccountCard {
 	readonly amountParagraph: Locator;
 	readonly monthParagraph: Locator;
 
-	constructor(card: Locator) {
-		this.card = card;
-		this.header = card.locator('h2');
-		this.arrowIcon = card.locator('svg');
-		this.amountParagraph = card.locator('p.text-4xl');
-		this.monthParagraph = card.locator('p', { hasText: '/month' });
+	constructor(aTag: Locator) {
+		this.card = aTag;
+		this.header = aTag.locator('h2');
+		this.arrowIcon = aTag.locator('svg');
+		this.amountParagraph = aTag.locator('p', { hasText: new RegExp('^.*kr.$') });
+		this.monthParagraph = aTag.locator('p', { hasText: '/month' });
 	}
 
 	async clickCard() {
