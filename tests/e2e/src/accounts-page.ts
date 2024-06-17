@@ -25,6 +25,5 @@ export class AccountsPage extends AppPage {
 
 	async goto() {
 		await this.page.goto('accounts');
-		await this.page.waitForLoadState();
 	}
 }

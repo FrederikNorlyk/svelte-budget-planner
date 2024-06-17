@@ -9,7 +9,6 @@ export class LoginPage {
 
 	async goto() {
 		await this.page.goto('auth/signin');
-		await this.page.waitForLoadState();
 	}
 
 	async clickSignInWithADemoUser() {
