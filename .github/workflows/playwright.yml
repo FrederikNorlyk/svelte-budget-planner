@@ -15,6 +15,10 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+      - name: Echo
+        env:
+          SOME_VALUE: ${{ github.event.deployment_status.target_url }}
+        run: echo "$SOME_VALUE"
       - name: Run Playwright tests
         run: npx playwright test
         env:
