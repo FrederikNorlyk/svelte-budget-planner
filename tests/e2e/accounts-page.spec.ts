@@ -28,11 +28,8 @@ test('add new account', async ({ page }) => {
 	await checkbox.uncheck();
 	await expect(checkbox).not.toBeChecked();
 
-	const saveButton = editAccountsPage.getSaveButton();
-	await saveButton.click();
+	accountsPage = await editAccountsPage.clickSaveButton();
 
-	accountsPage = new AccountsPage(page);
-	await accountsPage.goto();
 	const card = await accountsPage.getAccountCardWithTitle(accountName);
 	await expect(card.header).toHaveText(accountName);
 	await expect(card.amountParagraph).toHaveText('0,00\u00A0kr.');
