@@ -2,14 +2,13 @@ import { expect, test } from '@playwright/test';
 import { AccountsPage } from './src/accounts-page';
 import { LoginPage } from './src/login-page';
 
-// test.beforeAll(async ({ page }) => {
-// 	// TODO: Delete all accounts
-// });
-
 test.beforeEach(async ({ page }) => {
 	const loginPage = new LoginPage(page);
 	await loginPage.goto();
 	await loginPage.clickSignInWithADemoUser();
+
+	await page.goto('e2e/reset');
+	await page.waitForLoadState();
 });
 
 test('add new account', async ({ page }) => {
@@ -33,6 +32,8 @@ test('add new account', async ({ page }) => {
 	await saveButton.click();
 
 	accountsPage = new AccountsPage(page);
+	await accountsPage.goto();
 	const card = await accountsPage.getAccountCardWithTitle(accountName);
-	// await expect(card.amountParagraph).toHaveText('0,00\u00A0*kr.');
+	await expect(card.header).toHaveText(accountName);
+	await expect(card.amountParagraph).toHaveText('0,00\u00A0kr.');
 });

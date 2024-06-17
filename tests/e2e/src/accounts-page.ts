@@ -11,23 +11,11 @@ export class AccountsPage extends AppPage {
 		return 'Create and maintain your accounts. Accounts should contain expenses of a similar kind.';
 	}
 
-	async getCards() {
-		const cards: AccountCard[] = [];
-		const links = await this.page.locator('a.card').all();
-
-		for (let i = 0; i < links.length; i++) {
-			const link = links[i];
-			cards.push(new AccountCard(link));
-		}
-
-		return cards;
-	}
-
 	async getAccountCardWithTitle(title: string) {
-		const links = this.page.locator('a.card');
-		const header = links.getByRole('heading', { name: title });
-		const link = links.filter({ has: header });
-		return new AccountCard(link);
+		const header = this.page.locator('a.card > div > h2', { hasText: title });
+		const aTag = header.locator('..').locator('..');
+
+		return new AccountCard(aTag);
 	}
 
 	async clickNewAccountButton() {
@@ -36,6 +24,7 @@ export class AccountsPage extends AppPage {
 	}
 
 	async goto() {
-		await this.page.goto('/accounts');
+		await this.page.goto('accounts');
+		await this.page.waitForLoadState();
 	}
 }
