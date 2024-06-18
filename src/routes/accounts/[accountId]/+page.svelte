@@ -62,7 +62,7 @@
 			>
 				<div>
 					<h2 class="text-xl">{expense.name}</h2>
-					<small class="text-slate-500">{expense.tag}<small> </small></small>
+					<small class="text-slate-500">{expense.tag}</small>
 				</div>
 				<div class="text-right text-slate-500">
 					{#if !expense.isEnabled}
