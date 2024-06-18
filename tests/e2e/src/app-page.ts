@@ -14,4 +14,8 @@ export abstract class AppPage {
 	protected abstract getHeaderText(): string;
 
 	protected abstract getSubTitleText(): string;
+
+	async clickHeader() {
+		await this.header.click();
+	}
 }

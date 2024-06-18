@@ -15,7 +15,7 @@ export class AccountCard {
 		this.monthParagraph = aTag.locator('p', { hasText: '/month' });
 	}
 
-	async clickCard() {
+	async click() {
 		await this.card.click();
 	}
 }
