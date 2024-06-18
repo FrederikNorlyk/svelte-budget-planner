@@ -1,4 +1,3 @@
-import { AccountsPage } from './accounts-page';
 import { AppPage } from './app-page';
 
 export class EditAccountPage extends AppPage {
@@ -25,6 +24,5 @@ export class EditAccountPage extends AppPage {
 	async clickSaveButton() {
 		const button = this.page.getByRole('button', { name: 'Save' });
 		await button.click();
-		return new AccountsPage(this.page);
 	}
 }

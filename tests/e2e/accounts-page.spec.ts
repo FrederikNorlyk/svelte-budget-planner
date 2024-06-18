@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { AccountsPage } from './src/accounts-page';
 import { App } from './src/app';
 
 test.beforeEach(async ({ page }) => {
@@ -6,7 +7,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('add new account', async ({ page }) => {
-	let accountsPage = await App.gotoAccountsPage(page);
+	const accountsPage = await AccountsPage.goto(page);
 
 	const editAccountsPage = await accountsPage.clickNewAccountButton();
 
@@ -14,7 +15,7 @@ test('add new account', async ({ page }) => {
 	const nameTextbox = editAccountsPage.getNameTextbox();
 	await nameTextbox.fill(accountName);
 
-	accountsPage = await editAccountsPage.clickSaveButton();
+	await editAccountsPage.clickSaveButton();
 
 	const card = await accountsPage.getAccountCardWithTitle(accountName);
 	await expect(card.header).toHaveText(accountName);
