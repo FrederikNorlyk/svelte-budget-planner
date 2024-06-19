@@ -7,7 +7,7 @@ test.beforeEach(async ({ page }) => {
 	await App.signInAndReset(page);
 });
 
-test('add and edit an account', async ({ page }) => {
+test('create and edit an expense', async ({ page }) => {
 	const accountsPage = await AccountsPage.goto(page);
 
 	/*
@@ -17,7 +17,7 @@ test('add and edit an account', async ({ page }) => {
 	const accountName = 'Test of expenses page';
 	await editAccountsPage.nameTextbox.fill(accountName);
 	await editAccountsPage.saveButton.click();
- 
+
 	const accountCard = await accountsPage.getAccountCardWithTitle(accountName);
 	await accountCard.click();
 	const expensesPage = new ExpensesPage(page, accountName);
