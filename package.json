@@ -14,11 +14,11 @@
 		"format": "prettier --plugin=prettier-plugin-svelte --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports . --write ."
 	},
 	"devDependencies": {
-		"@skeletonlabs/skeleton": "^2.10.0",
+		"@skeletonlabs/skeleton": "^2.10.1",
 		"@skeletonlabs/tw-plugin": "^0.4.0",
 		"@sveltejs/adapter-auto": "^3.2.2",
 		"@sveltejs/adapter-vercel": "^5.3.2",
-		"@sveltejs/kit": "^2.5.16",
+		"@sveltejs/kit": "^2.5.17",
 		"@sveltejs/vite-plugin-svelte": "^3.1.1",
 		"@tailwindcss/forms": "^0.5.7",
 		"@types/node": "^20.14.5",
