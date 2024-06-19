@@ -15,9 +15,8 @@ test('add and edit an account', async ({ page }) => {
 	*/
 	const editAccountsPage = await accountsPage.clickNewAccountButton();
 	const accountName = 'Playwright test account';
-	const nameTextbox = editAccountsPage.getNameTextbox();
-	await nameTextbox.fill(accountName);
-	await editAccountsPage.clickSaveButton();
+	await editAccountsPage.nameTextbox.fill(accountName);
+	await editAccountsPage.saveButton.click();
 
 	let card = await accountsPage.getAccountCardWithTitle(accountName);
 	await expect(card.header).toHaveText(accountName);
@@ -37,19 +36,10 @@ test('add and edit an account', async ({ page }) => {
 	*/
 	await expensesPage.clickHeader();
 	const newAccountName = 'Changed test account';
-	await nameTextbox.fill(newAccountName);
-	await editAccountsPage.clickSaveButton();
+	await editAccountsPage.nameTextbox.fill(newAccountName);
+	await editAccountsPage.saveButton.click();
 
 	card = await accountsPage.getAccountCardWithTitle(newAccountName);
 	await expect(card.header).toHaveText(newAccountName);
 	await expect(card.amountParagraph).toHaveText('0,00\u00A0kr.');
-
-	// /*
-	// Add an expense
-	// */
-	// const editExpensePage = await expensesPage.clickNewExpenseButton();
-	// await editExpensePage.nameTextbox.fill('First expense');
-	// await editExpensePage.amountTextbox.fill('123.45');
-	// await editExpensePage.groupTextbox.fill('some group');
-	// await editExpensePage.saveButton.click();
 });
