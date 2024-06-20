@@ -10,3 +10,7 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vercel
 coverage
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
