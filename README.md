@@ -12,6 +12,7 @@ Simple budget planning application, built using SvelteKit.
 - PostgreSQL
 - Skeleton UI
 - Tailwind CSS
+- Playwright (End to end tests)
 - Vitest (Unit tests)
 
 ### What can it do?
