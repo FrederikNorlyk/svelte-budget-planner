@@ -30,7 +30,7 @@ If you want to run it yourself you can follow these instructions.
 To link the application with your Vercel PostgreSQL database, run the following commands:
 [Read more](https://vercel.com/docs/cli)
 
-```
+```bash
 npx vercel link
 npx vercel env pull .env
 ```
