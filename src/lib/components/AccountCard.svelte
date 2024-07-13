@@ -1,5 +1,5 @@
 <script lang="ts">
-	import IconArrowCircleRight from "$lib/icons/IconArrowCircleRight.svelte"; // Test
+	import IconArrowCircleRight from '$lib/icons/IconArrowCircleRight.svelte';
 	import type { Account } from '$lib/models/Account';
 	import { AmountUtil } from '$lib/util/AmountUtil';
 	import { i18n } from '$lib/localization/i18n';
