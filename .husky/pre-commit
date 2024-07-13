@@ -1,0 +1,2 @@
+echo "Formatting..."
+npm run format

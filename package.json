@@ -11,7 +11,8 @@
 		"test": "vitest",
 		"coverage": "vitest run --coverage",
 		"lint": "prettier --plugin=prettier-plugin-svelte --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports . --check . && eslint .",
-		"format": "prettier --plugin=prettier-plugin-svelte --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports . --write ."
+		"format": "prettier --plugin=prettier-plugin-svelte --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports . --write .",
+		"prepare": "husky"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.45.1",
@@ -32,6 +33,7 @@
 		"eslint": "^8.57.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.41.0",
+		"husky": "^9.0.11",
 		"postcss": "^8.4.39",
 		"prettier": "^3.3.2",
 		"prettier-plugin-organize-imports": "^4.0.0",
