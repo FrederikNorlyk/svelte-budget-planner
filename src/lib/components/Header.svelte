@@ -3,13 +3,7 @@
 	import IconBarsThree from '$lib/icons/IconBarsThree.svelte';
 	import IconPencilSquare from '$lib/icons/IconPencilSquare.svelte';
 	import { i18n, type ReplacementVariables } from '$lib/localization/i18n';
-	import {
-		Toast,
-		Modal,
-		type PopupSettings,
-		popup,
-		initializeStores
-	} from '@skeletonlabs/skeleton';
+	import { type PopupSettings, popup } from '@skeletonlabs/skeleton';
 
 	export let title: string;
 	export let titleParams: ReplacementVariables | undefined;
