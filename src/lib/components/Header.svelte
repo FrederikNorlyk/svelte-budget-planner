@@ -26,9 +26,9 @@
 </script>
 
 <div class="flex space-x-2">
-	<div class="flex-grow">
+	<div class="flex flex-grow">
 		{#if backHref}
-			<a class="mt-2" href={backHref}>
+			<a class="mr-1 mt-2" href={backHref}>
 				<button type="button" class="variant-filled btn-icon" aria-label="Back button">
 					<IconArrowLeft cssClass="h-8 w-8" />
 				</button>
@@ -65,7 +65,7 @@
 	</a>
 
 	<button
-		class="variant-filled btn-icon h-10 w-12 md:hidden"
+		class="variant-ghost-surface btn-icon h-10 w-12 md:hidden"
 		use:popup={userMenuPopup}
 		aria-label="Menu button"
 	>
