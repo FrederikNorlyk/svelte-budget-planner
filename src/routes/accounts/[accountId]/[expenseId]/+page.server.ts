@@ -15,7 +15,7 @@ export async function load(event) {
 	const id = +event.params.expenseId;
 
 	let expense: Expense | null = null;
-	if (id != 0) {
+	if (id != 0 && !isNaN(id)) {
 		expense = await expenseClient.getById(id);
 
 		if (expense == null) {

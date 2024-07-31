@@ -13,6 +13,10 @@ export async function load(event) {
 
 	const id = +event.params.accountId;
 
+	if (isNaN(id)) {
+		redirect(303, '/accounts');
+	}
+
 	const account = await accountClient.getById(id);
 
 	if (account == null) {
