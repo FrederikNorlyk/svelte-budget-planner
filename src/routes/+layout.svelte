@@ -19,19 +19,17 @@
 <Modal />
 <Toast />
 
-<main>
-	<div class="m-5 sm:ml-16 sm:mr-16 md:ml-20 md:mr-20 2xl:ml-36 2xl:mr-36">
-		<Header
-			title={$page.data.title}
-			titleParams={$page.data.titleParams}
-			details={$page.data.details}
-			backHref={$page.data.backHref}
-			editHref={$page.data.editHref}
-			userProfilePicture={profilePicture}
-		/>
+<main class="p-5 sm:pb-16 sm:pl-16 sm:pr-16 md:pl-20 md:pr-20 2xl:pl-36 2xl:pr-36">
+	<Header
+		title={$page.data.title}
+		titleParams={$page.data.titleParams}
+		details={$page.data.details}
+		backHref={$page.data.backHref}
+		editHref={$page.data.editHref}
+		userProfilePicture={profilePicture}
+	/>
 
-		<div class="mt-3">
-			<slot />
-		</div>
+	<div class="mt-3">
+		<slot />
 	</div>
 </main>
