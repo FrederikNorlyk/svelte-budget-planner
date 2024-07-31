@@ -93,7 +93,9 @@ export class ExpenseClient extends DatabaseClient {
 		let query = this.getDatabase()
 			.selectFrom('expenses')
 			.selectAll()
-			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')));
+			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')))
+			.orderBy('tag')
+			.orderBy('name');
 
 		if (criteria?.accountId) {
 			query = query.where('accountId', '=', criteria.accountId);
