@@ -13,11 +13,14 @@ export const load: PageServerLoad = async (event) => {
 	const expenseClient = new ExpenseClient(session.user.id);
 
 	const id = +event.params.accountId;
+	if (isNaN(id)) {
+		redirect(303, '/balance');
+	}
 
 	const account = await accountClient.getById(id);
 
 	if (account == null) {
-		redirect(303, '/accounts');
+		redirect(303, '/balance');
 	}
 
 	let expenses = await expenseClient.listAll({ accountId: account.id, isEnabled: true });

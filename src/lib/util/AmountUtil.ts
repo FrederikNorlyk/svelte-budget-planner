@@ -1,7 +1,20 @@
 export class AmountUtil {
-	private static formatter = Intl.NumberFormat('da-DK', { style: 'currency', currency: 'DKK' });
+	private static decimalFormatter = Intl.NumberFormat('da-DK', {
+		style: 'currency',
+		currency: 'DKK'
+	});
 
-	public static localize(amount: number) {
-		return AmountUtil.formatter.format(amount);
+	private static integerFormatter = Intl.NumberFormat('da-DK', {
+		style: 'currency',
+		currency: 'DKK',
+		maximumFractionDigits: 0
+	});
+
+	public static localizeDecimal(amount: number) {
+		return AmountUtil.decimalFormatter.format(amount);
+	}
+
+	public static localizeInteger(amount: number) {
+		return AmountUtil.integerFormatter.format(Math.ceil(amount));
 	}
 }

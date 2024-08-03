@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { i18n } from '$lib/localization/i18n';
+	import { _ } from 'svelte-i18n';
 	import DeleteModal from '$lib/components/DeleteModal.svelte';
 	import TextField from '$lib/components/TextField.svelte';
 	import { Account } from '$lib/models/Account';
@@ -21,7 +21,7 @@
 
 	if (form?.error) {
 		toastStore.trigger({
-			message: $i18n(form.error),
+			message: $_(form.error),
 			background: 'variant-filled-error'
 		});
 	}
@@ -31,10 +31,10 @@
 		const modal: ModalSettings = {
 			type: 'component',
 			component: component,
-			title: $i18n('deleteAccount.title'),
-			body: $i18n('deleteAccount.body'),
-			buttonTextSubmit: $i18n('button.delete'),
-			buttonTextCancel: $i18n('button.cancel')
+			title: $_('deleteAccount.title'),
+			body: $_('deleteAccount.body'),
+			buttonTextSubmit: $_('button.delete'),
+			buttonTextCancel: $_('button.cancel')
 		};
 		modalStore.trigger(modal);
 	}
@@ -56,7 +56,7 @@
 	<div class="card space-y-4 bg-white p-4">
 		<TextField
 			name="name"
-			label={$i18n('account.name')}
+			label={$_('account.name')}
 			autofocus={account == null}
 			required={true}
 			value={account?.name}
@@ -65,7 +65,7 @@
 
 		<Checkbox
 			name="shared"
-			label={$i18n('account.shared')}
+			label={$_('account.shared')}
 			value={(account?.userIds.length ?? 0) > 1}
 			disabled={isSaving}
 		/>
@@ -73,7 +73,7 @@
 
 	<div class="flex space-x-2">
 		<button disabled={isSaving} class="variant-filled btn basis-1/4 bg-primary-500"
-			>{$i18n('button.save')}</button
+			>{$_('button.save')}</button
 		>
 
 		{#if account != null}
@@ -81,7 +81,7 @@
 				formnovalidate={true}
 				disabled={isSaving}
 				class="variant-filled btn basis-1/4"
-				on:click|preventDefault={showDeleteModal}>{$i18n('button.delete')}</button
+				on:click|preventDefault={showDeleteModal}>{$_('button.delete')}</button
 			>
 		{/if}
 	</div>

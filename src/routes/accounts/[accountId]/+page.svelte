@@ -6,7 +6,7 @@
 	import NoEntries from '$lib/components/NoEntries.svelte';
 	import AddButton from '$lib/components/AddButton.svelte';
 	import { Account } from '$lib/models/Account';
-	import { type ReplacementVariables, i18n } from '$lib/localization/i18n';
+	import { _ } from 'svelte-i18n';
 
 	export let data;
 	const account = Account.parse(data.account);
@@ -15,35 +15,25 @@
 
 	function getAmount(expense: Expense) {
 		const amount = expense.isShared ? expense.amount / 2 : expense.amount;
-		return AmountUtil.localize(amount);
+		return AmountUtil.localizeDecimal(amount);
 	}
 
 	function localizePaymentFrequency(expense: Expense) {
-		let key: string;
-		let parameters: ReplacementVariables = {};
 		const numberOfPaymentDates = expense.paymentDates.length;
 
 		switch (numberOfPaymentDates) {
 			case 1:
-				key = 'paid.yearly';
-				break;
+				return $_('paid.yearly');
 			case 2:
-				key = 'paid.halfYearly';
-				break;
+				return $_('paid.halfYearly');
 			case 4:
-				key = 'paid.quarterly';
-				break;
+				return $_('paid.quarterly');
 			case 12:
 			case 0:
-				key = 'paid.monthly';
-				break;
+				return $_('paid.monthly');
 			default:
-				key = 'paid.custom';
-				parameters = { times: numberOfPaymentDates.toString() };
-				break;
+				return $_('paid.custom', { values: { times: numberOfPaymentDates } });
 		}
-
-		return $i18n(key, parameters);
 	}
 </script>
 
@@ -66,18 +56,18 @@
 				</div>
 				<div class="text-right text-slate-500">
 					{#if !expense.isEnabled}
-						{$i18n('expense.inactive')}
+						{$_('expense.inactive')}
 					{:else if nextPaymentDate != null}
-						{$i18n('nextPayment')}: {DateUtil.localizeLongerFormat(nextPaymentDate)}
+						{$_('nextPayment')}: {DateUtil.localizeLongerFormat(nextPaymentDate)}
 					{/if}
 				</div>
 				<div>
 					<h1 class="inline-block text-2xl">{getAmount(expense)}</h1>
 					{#if expense.isMonthlyExpense}
-						<small class="text-slate-500">/{$i18n('month')}</small>
+						<small class="text-slate-500">/{$_('month')}</small>
 					{:else}
 						<small class="text-slate-500"
-							>{AmountUtil.localize(monthlyAmount)}/{$i18n('month')}
+							>{AmountUtil.localizeDecimal(monthlyAmount)}/{$_('month')}
 						</small>
 					{/if}
 				</div>

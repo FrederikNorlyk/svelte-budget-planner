@@ -9,7 +9,7 @@ export const load = async (event) => {
 	const accountClient = new AccountClient(session.user.id);
 
 	const id = +event.params.accountId;
-	if (id === 0) {
+	if (id === 0 || isNaN(id)) {
 		return {
 			title: '',
 			details: ''

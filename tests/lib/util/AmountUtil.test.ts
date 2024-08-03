@@ -3,28 +3,28 @@ import { describe, expect, test } from 'vitest';
 
 describe('Tests for AmountUtil', () => {
 	test('Test for localize', () => {
-		let amount = AmountUtil.localize(0);
+		let amount = AmountUtil.localizeDecimal(0);
 		expect(amount).toBe('0,00 kr.');
 
-		amount = AmountUtil.localize(1);
+		amount = AmountUtil.localizeDecimal(1);
 		expect(amount).toBe('1,00 kr.');
 
-		amount = AmountUtil.localize(1.454);
+		amount = AmountUtil.localizeDecimal(1.454);
 		expect(amount).toBe('1,45 kr.');
 
-		amount = AmountUtil.localize(1.456);
+		amount = AmountUtil.localizeDecimal(1.456);
 		expect(amount).toBe('1,46 kr.');
 
-		amount = AmountUtil.localize(12);
+		amount = AmountUtil.localizeDecimal(12);
 		expect(amount).toBe('12,00 kr.');
 
-		amount = AmountUtil.localize(123);
+		amount = AmountUtil.localizeDecimal(123);
 		expect(amount).toBe('123,00 kr.');
 
-		amount = AmountUtil.localize(1234);
+		amount = AmountUtil.localizeDecimal(1234);
 		expect(amount).toBe('1.234,00 kr.');
 
-		amount = AmountUtil.localize(123456);
+		amount = AmountUtil.localizeDecimal(123456);
 		expect(amount).toBe('123.456,00 kr.');
 	});
 });

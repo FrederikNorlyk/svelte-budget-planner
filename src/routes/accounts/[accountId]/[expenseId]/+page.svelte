@@ -11,7 +11,7 @@
 	import PaymentDatePicker from '$lib/components/PaymentDatePicker.svelte';
 	import { PaymentDate } from '$lib/models/PaymentDate.js';
 	import DeleteModal from '$lib/components/DeleteModal.svelte';
-	import { i18n } from '$lib/localization/i18n';
+	import { _ } from 'svelte-i18n';
 	import NumberField from '$lib/components/NumberField.svelte';
 	import { enhance } from '$app/forms';
 	import SelectField from '$lib/components/SelectField.svelte';
@@ -36,7 +36,7 @@
 
 	if (form?.error) {
 		toastStore.trigger({
-			message: $i18n(form.error),
+			message: $_(form.error),
 			background: 'variant-filled-error'
 		});
 	}
@@ -44,11 +44,11 @@
 	let shareOptions: SelectOption<boolean>[] = [
 		{
 			value: false,
-			text: $i18n('expense.notShared')
+			text: $_('expense.notShared')
 		},
 		{
 			value: true,
-			text: $i18n('expense.isShared')
+			text: $_('expense.isShared')
 		}
 	];
 
@@ -57,10 +57,10 @@
 		const modal: ModalSettings = {
 			type: 'component',
 			component: component,
-			title: $i18n('deleteExpense.title'),
-			body: $i18n('deleteExpense.body'),
-			buttonTextSubmit: $i18n('button.delete'),
-			buttonTextCancel: $i18n('button.cancel')
+			title: $_('deleteExpense.title'),
+			body: $_('deleteExpense.body'),
+			buttonTextSubmit: $_('button.delete'),
+			buttonTextCancel: $_('button.cancel')
 		};
 		modalStore.trigger(modal);
 	}
@@ -82,7 +82,7 @@
 	<div class="card space-y-2 bg-white p-4">
 		<TextField
 			name="name"
-			label={$i18n('expense.name')}
+			label={$_('expense.name')}
 			autofocus={expense == null}
 			required={true}
 			value={expense?.name}
@@ -93,7 +93,7 @@
 			<span class="grow">
 				<NumberField
 					name="amount"
-					label={$i18n('expense.amount')}
+					label={$_('expense.amount')}
 					required={true}
 					value={expense?.amount}
 					disabled={isSaving}
@@ -102,7 +102,7 @@
 
 			<SelectField
 				name="isShared"
-				label={$i18n('expense.shared.label')}
+				label={$_('expense.shared.label')}
 				options={shareOptions}
 				value={expense?.isShared ?? false}
 				disabled={isSaving}
@@ -111,7 +111,7 @@
 
 		<AutoCompletingTextField
 			name="tag"
-			label={$i18n('expense.group')}
+			label={$_('expense.group')}
 			value={expense?.tag}
 			options={tagOptions}
 			disabled={isSaving}
@@ -121,7 +121,7 @@
 			disabled={isSaving}
 			name="isEnabled"
 			active="bg-primary-500"
-			checked={expense?.isEnabled ?? true}>{$i18n('expense.isEnabled')}</SlideToggle
+			checked={expense?.isEnabled ?? true}>{$_('expense.isEnabled')}</SlideToggle
 		>
 	</div>
 
@@ -131,7 +131,7 @@
 
 	<div class="flex space-x-2 p-4">
 		<button disabled={isSaving} class="variant-filled btn basis-1/4 bg-primary-500"
-			>{$i18n('button.save')}</button
+			>{$_('button.save')}</button
 		>
 
 		{#if expense != null}
@@ -139,7 +139,7 @@
 				formnovalidate={true}
 				disabled={isSaving}
 				class="variant-filled btn basis-1/4"
-				on:click|preventDefault={showDeleteModal}>{$i18n('button.delete')}</button
+				on:click|preventDefault={showDeleteModal}>{$_('button.delete')}</button
 			>
 		{/if}
 	</div>
