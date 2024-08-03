@@ -43,7 +43,7 @@
 	"expense.error.duplicateMonths": "Du kan ikke have flere betalingsdatoer i samme måned",
 	"user.locale": "Vælg dit sprog",
 	"settings.title": "Indstillinger",
-	"settings.details": "Her kan du ændre programmets adfærd, som for eksampel sprog og tema",
+	"settings.details": "Her kan du ændre programmets adfærd",
 	"expense.shared.label": "Udgiften er",
 	"expense.notShared": "Min egen",
 	"expense.isShared": "Delt med en anden",

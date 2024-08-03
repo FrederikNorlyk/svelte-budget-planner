@@ -43,7 +43,7 @@
 	"expense.error.duplicateMonths": "You can not have multiple payment dates in the same month",
 	"user.locale": "Select your language",
 	"settings.title": "Settings",
-	"settings.details": "Here you can change the behaviour of the application, such as language and theme",
+	"settings.details": "Here you can change the behaviour of the application",
 	"expense.shared.label": "The expense is",
 	"expense.notShared": "Just for me",
 	"expense.isShared": "Shared with someone",
