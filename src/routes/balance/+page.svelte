@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { Account } from '$lib/models/Account.js';
-	import { _ } from 'svelte-i18n';
 	import BalanceCard from '$lib/components/AccountBalanceCard.svelte';
 
 	export let data;
