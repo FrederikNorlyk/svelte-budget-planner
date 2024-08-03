@@ -2,7 +2,7 @@
 	import IconArrowCircleRight from '$lib/icons/IconArrowCircleRight.svelte';
 	import type { Account } from '$lib/models/Account';
 	import { AmountUtil } from '$lib/util/AmountUtil';
-	import { i18n } from '$lib/localization/i18n';
+	import { _ } from 'svelte-i18n';
 
 	export let account: Account;
 </script>
@@ -21,7 +21,7 @@
 	</div>
 
 	<div class="flex flex-wrap">
-		<p class="text-4xl font-bold">{AmountUtil.localize(account.monthlyAmount)}</p>
-		<p class="mt-auto text-slate-500">/{$i18n('month')}</p>
+		<p class="text-4xl font-bold">{AmountUtil.localizeInteger(account.monthlyAmount)}</p>
+		<p class="mt-auto text-slate-500">/{$_('month')}</p>
 	</div>
 </a>

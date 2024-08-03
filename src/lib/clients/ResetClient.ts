@@ -2,7 +2,7 @@ import { DatabaseClient } from './DatabaseClient';
 import { ExpenseClient } from './ExpenseClient';
 
 /**
- * Client used to e2e tests to reset the demo user.
+ * Client used by e2e tests to reset the demo user.
  */
 export class ResetClient extends DatabaseClient {
 	async reset() {

@@ -4,7 +4,7 @@
 	import { AmountUtil } from '$lib/util/AmountUtil';
 	import { CurrentAmountUtil } from '$lib/util/CurrentAmountUtil.js';
 	import { DateUtil } from '$lib/util/DateUtil.js';
-	import { i18n } from '$lib/localization/i18n.js';
+	import { _ } from 'svelte-i18n';
 
 	export let data;
 	const account = Account.parse(data.account);
@@ -36,24 +36,25 @@
 
 <div class="space-y-3">
 	{#each dates as date, index}
+		{@const expenses = currentAmountUtil.getExpensesIn(account, date.getMonth())}
+
 		<div class="card space-y-2 bg-white p-4">
 			<div class="flex">
 				<h1 class="grow text-xl capitalize">{DateUtil.getMonthName(date.getMonth())}</h1>
-
-				<h1 class="justify-end text-xl">{AmountUtil.localize(monthAmounts[index])}</h1>
+				<h1 class="text-xl">{AmountUtil.localizeDecimal(monthAmounts[index])}</h1>
 			</div>
 
 			<div class="space-y-1">
 				<div class="flex space-x-1 text-slate-400">
-					<p class="">
-						+{AmountUtil.localize(currentAmountUtil.getMonthlyBudgetTransferAmount(account))}
+					<p>
+						+{AmountUtil.localizeDecimal(currentAmountUtil.getMonthlyBudgetTransferAmount(account))}
 					</p>
-					<p>{$i18n('budgetTransfer')}</p>
+					<p>{$_('budgetTransfer')}</p>
 				</div>
 
-				{#each currentAmountUtil.getExpensesIn(account, date.getMonth()) as expense (expense.id + '_' + index)}
+				{#each expenses as expense (expense.id + '_' + index)}
 					<div class="flex space-x-1">
-						<p>- {AmountUtil.localize(expense.amount)}</p>
+						<p>- {AmountUtil.localizeDecimal(expense.amount)}</p>
 						<p>{expense.name}</p>
 					</div>
 				{/each}

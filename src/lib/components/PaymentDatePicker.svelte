@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { PaymentDate } from '$lib/models/PaymentDate';
 	import CalendarDatePicker from '$lib/components/CalendarDatePicker.svelte';
-	import { i18n } from '$lib/localization/i18n';
+	import { _ } from 'svelte-i18n';
 	import { Month } from '$lib/enums/Month';
 	import IconChatBubbleOvalLeftEllipsis from '$lib/icons/IconChatBubbleOvalLeftEllipsis.svelte';
 
@@ -28,9 +28,9 @@
 </script>
 
 <div class="flex space-x-3">
-	<p class="text-xl">{$i18n('paymentDates')}</p>
+	<p class="text-xl">{$_('paymentDates')}</p>
 	<button {disabled} on:click={addInput} type="button" class="variant-filled btn btn-sm">
-		{$i18n('addDate')}
+		{$_('addDate')}
 	</button>
 </div>
 
@@ -41,6 +41,6 @@
 {#if paymentDates.length === 0}
 	<div class="flex">
 		<IconChatBubbleOvalLeftEllipsis cssClass="h-5 w-5" />
-		<span class="text-sm">{$i18n('expense.isMonthly.explanation')}</span>
+		<span class="text-sm">{$_('expense.isMonthly.explanation')}</span>
 	</div>
 {/if}

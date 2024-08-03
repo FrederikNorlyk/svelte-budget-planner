@@ -20,7 +20,7 @@ test('add and edit an account', async ({ page }) => {
 
 	let card = await accountsPage.getAccountCardWithTitle(accountName);
 	await expect(card.header).toHaveText(accountName);
-	await expect(card.amountParagraph).toHaveText('0,00\u00A0kr.');
+	await expect(card.amountParagraph).toHaveText('0\u00A0kr.');
 
 	/*
 	Verify that the account is empty
@@ -41,5 +41,5 @@ test('add and edit an account', async ({ page }) => {
 
 	card = await accountsPage.getAccountCardWithTitle(newAccountName);
 	await expect(card.header).toHaveText(newAccountName);
-	await expect(card.amountParagraph).toHaveText('0,00\u00A0kr.');
+	await expect(card.amountParagraph).toHaveText('0\u00A0kr.');
 });
