@@ -38,7 +38,8 @@ export default [
 			'coverage/',
 			'tsconfig.json',
 			'tailwind.config.cjs',
-			'eslint.config.mjs'
+			'eslint.config.mjs',
+			'.vercel/'
 		]
 	},
 	...compat.extends(
