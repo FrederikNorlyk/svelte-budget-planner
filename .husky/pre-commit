@@ -1,2 +1,2 @@
 echo "Formatting..."
-npm run format
+npm run lint
