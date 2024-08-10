@@ -18,22 +18,22 @@ export const GET = async (request: RequestEvent) => {
 	const expenseClient = new ExpenseClient(session.user.id);
 
 	// Query the records
-	const [accounts, expenses, tags] = await Promise.all([
+	const [accounts, expenses /*, tags*/] = await Promise.all([
 		accountClient.search(query),
-		expenseClient.search(query),
-		expenseClient.searchTags(query)
+		expenseClient.search(query)
+		// expenseClient.searchTags(query)
 	]);
 
 	// Convert them to SearchResult objects
 	const accountResults: SearchResult[] = accounts.map((account) => accountToSearchResult(account));
 	const expenseResults: SearchResult[] = expenses.map((expense) => expenseToSearchResult(expense));
-	const tagResults: SearchResult[] = tags.map((tag) => tagToSearchResult(tag));
+	// const tagResults: SearchResult[] = tags.map((tag) => tagToSearchResult(tag));
 
 	// Gather the results
 	const results: SearchResult[] = [];
 	results.push(...accountResults);
 	results.push(...expenseResults);
-	results.push(...tagResults);
+	// results.push(...tagResults);
 
 	results.sort((r1, r2) => r1.name.localeCompare(r2.name));
 
@@ -53,6 +53,6 @@ function expenseToSearchResult(expense: Expense): SearchResult {
 	};
 }
 
-function tagToSearchResult(tag: string): SearchResult {
-	return { id: tag, name: tag, recordType: RecordType.TAG };
-}
+// function tagToSearchResult(tag: string): SearchResult {
+// 	return { id: tag, name: tag, recordType: RecordType.TAG };
+// }
