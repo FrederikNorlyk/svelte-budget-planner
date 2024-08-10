@@ -3,7 +3,7 @@
 </script>
 
 <ul>
-	{#each results as result, index}
+	{#each results as result}
 		<li>{result}</li>
 	{/each}
 </ul>
