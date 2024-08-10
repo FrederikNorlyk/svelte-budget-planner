@@ -8,7 +8,7 @@
 	let timeoutId: number;
 
 	function onKeydown(event: KeyboardEvent) {
-		if (event.key === 'Escape') {
+		if (event.key === 'Escape' || event.key === 'Enter') {
 			(event.target as HTMLInputElement).blur();
 		}
 	}
