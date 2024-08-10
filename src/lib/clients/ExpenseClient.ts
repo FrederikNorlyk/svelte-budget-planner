@@ -2,6 +2,7 @@ import { DatabaseClient } from '$lib/clients/DatabaseClient';
 import { Expense } from '$lib/models/Expense';
 import { QueryResult } from '$lib/models/QueryResult';
 import type { InsertableExpenseRecord, UpdateableExpenseRecord } from '$lib/tables/ExpensesTable';
+import { sql } from 'kysely';
 import { PaymentDateClient } from './PaymentDateClient';
 
 type SearchCriteria = { accountId?: number; isEnabled?: boolean };
@@ -110,13 +111,37 @@ export class ExpenseClient extends DatabaseClient {
 		return records.map((record) => new Expense(record, []));
 	}
 
+	public async search(query: string) {
+		const records = await this.getDatabase()
+			.selectFrom('expenses')
+			.selectAll()
+			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')))
+			.where(sql`LOWER(name)`, 'like', `%${query.toLowerCase()}%`)
+			.execute();
+
+		return records.map((record) => new Expense(record, []));
+	}
+
+	public async searchTags(query: string) {
+		const records = await this.getDatabase()
+			.selectFrom('expenses')
+			.select('tag')
+			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')))
+			.where(sql`LOWER(tag)`, 'like', `%${query.toLowerCase()}%`)
+			.groupBy('tag')
+			.execute();
+
+		const tags = records.map((record) => record.tag);
+		return tags.filter((tag) => tag != null) as string[];
+	}
+
 	/**
 	 * List all used tags.
 	 *
 	 * @returns a unique list of used tags
 	 */
 	public async listAllTags(): Promise<string[]> {
-		const result = await this.getDatabase()
+		const records = await this.getDatabase()
 			.selectFrom('expenses')
 			.select('tag')
 			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')))
@@ -124,7 +149,7 @@ export class ExpenseClient extends DatabaseClient {
 			.orderBy('tag')
 			.execute();
 
-		const tags = result.map((row) => row.tag);
+		const tags = records.map((record) => record.tag);
 		return tags.filter((tag) => tag != null) as string[];
 	}
 

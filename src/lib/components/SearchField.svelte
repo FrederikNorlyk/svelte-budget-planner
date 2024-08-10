@@ -1,8 +1,8 @@
 <script lang="ts">
 	import IconMagnifyingGlass from '$lib/icons/IconMagnifyingGlass.svelte';
 
-	export let value = '';
 	export let hasFocus = false;
+	export let value: string;
 	export let onValueChanged: (value: string) => void;
 	let input: HTMLInputElement;
 	let timeoutId: number;
@@ -19,7 +19,13 @@
 		}
 
 		const target = event.target as HTMLInputElement;
-		timeoutId = window.setTimeout(() => onValueChanged(target.value), 400);
+		const value = target.value;
+
+		if (value.trim() === '') {
+			onValueChanged('');
+		} else {
+			timeoutId = window.setTimeout(() => onValueChanged(value), 400);
+		}
 	}
 </script>
 

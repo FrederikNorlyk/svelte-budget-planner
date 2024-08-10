@@ -3,6 +3,7 @@ import type { DatabaseError } from '$lib/errors/DatabaseError';
 import { Account } from '$lib/models/Account';
 import { QueryResult } from '$lib/models/QueryResult';
 import type { InsertableAccountRecord, UpdateableAccountRecord } from '$lib/tables/AccountsTable';
+import { sql } from 'kysely';
 import { ExpenseClient } from './ExpenseClient';
 import { PaymentDateClient } from './PaymentDateClient';
 
@@ -95,6 +96,17 @@ export class AccountClient extends DatabaseClient {
 			.selectAll()
 			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')))
 			.orderBy('name')
+			.execute();
+
+		return records.map((record) => new Account(record, []));
+	}
+
+	public async search(query: string) {
+		const records = await this.getDatabase()
+			.selectFrom('accounts')
+			.selectAll()
+			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')))
+			.where(sql`LOWER(name)`, 'like', `%${query.toLowerCase()}%`)
 			.execute();
 
 		return records.map((record) => new Account(record, []));

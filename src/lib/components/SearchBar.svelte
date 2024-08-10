@@ -1,9 +1,10 @@
 <script lang="ts">
+	import type SearchResult from '$lib/models/SearchResult';
 	import SearchField from './SearchField.svelte';
 	import SearchResultList from './SearchResultList.svelte';
 
-	let isSearching: boolean;
-	let results: string[] = [];
+	let results: SearchResult[] = [];
+	let searchFieldValue: string = '';
 
 	async function onSearchValueChanged(value: string) {
 		if (value.trim() === '') {
@@ -12,14 +13,27 @@
 		}
 
 		const query = encodeURIComponent(value);
-		const resposne = await fetch(`api/search?q=${query}`);
-		const json = await resposne.json();
+		const response = await fetch(`/api/search?q=${query}`);
+
+		if (!response.ok) {
+			console.error('Server error:', response.statusText);
+			return;
+		}
+
+		const json = await response.json();
+
 		results = json;
 	}
 </script>
 
-<SearchField bind:hasFocus={isSearching} onValueChanged={onSearchValueChanged} />
+<SearchField bind:value={searchFieldValue} onValueChanged={onSearchValueChanged} />
 
-{#if isSearching}
-	<SearchResultList {results} />
+{#if results.length > 0}
+	<SearchResultList
+		onSearchResultClicked={() => {
+			searchFieldValue = '';
+			results = [];
+		}}
+		{results}
+	/>
 {/if}
