@@ -56,5 +56,6 @@
 	"remainderAfterExpenses": "Rådighedsbeløb",
 	"account.shared": "Delt konto",
 	"errorDeleteAccountHasExpenses": "Denne konto kan ikke slettes da den har udgifter",
-	"settings.saved": "Indstillingerne blev gemt"
+	"settings.saved": "Indstillingerne blev gemt",
+	"tagView.details": "Disse udgifter hører under samme gruppe"
 }

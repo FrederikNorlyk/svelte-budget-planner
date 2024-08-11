@@ -5,6 +5,7 @@
 	import { storePopup } from '@skeletonlabs/skeleton';
 	import { Toast, Modal, initializeStores } from '@skeletonlabs/skeleton';
 	import Header from '$lib/components/Header.svelte';
+	import SearchBar from '$lib/components/SearchBar.svelte';
 
 	initializeStores();
 
@@ -22,6 +23,10 @@
 		backHref={$page.data.backHref}
 		editHref={$page.data.editHref}
 	/>
+
+	<div class="mt-2">
+		<SearchBar />
+	</div>
 
 	<div class="mt-3">
 		<slot />

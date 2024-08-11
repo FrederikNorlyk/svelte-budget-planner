@@ -3,8 +3,11 @@ import type { DatabaseError } from '$lib/errors/DatabaseError';
 import { Account } from '$lib/models/Account';
 import { QueryResult } from '$lib/models/QueryResult';
 import type { InsertableAccountRecord, UpdateableAccountRecord } from '$lib/tables/AccountsTable';
+import { sql } from 'kysely';
 import { ExpenseClient } from './ExpenseClient';
 import { PaymentDateClient } from './PaymentDateClient';
+
+type SearchCriteria = { ids?: number[] };
 
 /**
  * Client for querying accounts in the database.
@@ -89,12 +92,27 @@ export class AccountClient extends DatabaseClient {
 	 * List all accounts belonging to the current user.
 	 * @returns the user's accounts
 	 */
-	public async listAll() {
+	public async listAll(criteria: SearchCriteria | null = null) {
+		let query = this.getDatabase()
+			.selectFrom('accounts')
+			.selectAll()
+			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')))
+			.orderBy('name');
+
+		if (criteria?.ids) {
+			query = query.where('id', 'in', criteria.ids);
+		}
+
+		const records = await query.execute();
+		return records.map((record) => new Account(record, []));
+	}
+
+	public async search(query: string) {
 		const records = await this.getDatabase()
 			.selectFrom('accounts')
 			.selectAll()
 			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')))
-			.orderBy('name')
+			.where(sql`LOWER(name)`, 'like', `%${query.toLowerCase()}%`)
 			.execute();
 
 		return records.map((record) => new Account(record, []));
