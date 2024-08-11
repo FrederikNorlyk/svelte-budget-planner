@@ -3,7 +3,6 @@
 	import NoEntries from '$lib/components/NoEntries.svelte';
 	import AddButton from '$lib/components/AddButton.svelte';
 	import { Account } from '$lib/models/Account';
-	import { _ } from 'svelte-i18n';
 	import ExpenseCard from '$lib/components/ExpenseCard.svelte';
 
 	export let data;
