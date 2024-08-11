@@ -29,11 +29,13 @@
 <SearchField bind:value={searchFieldValue} onValueChanged={onSearchValueChanged} />
 
 {#if results.length > 0}
-	<SearchResultList
-		onSearchResultClicked={() => {
-			searchFieldValue = '';
-			results = [];
-		}}
-		{results}
-	/>
+	<div class="mt-2">
+		<SearchResultList
+			onSearchResultClicked={() => {
+				searchFieldValue = '';
+				results = [];
+			}}
+			{results}
+		/>
+	</div>
 {/if}
