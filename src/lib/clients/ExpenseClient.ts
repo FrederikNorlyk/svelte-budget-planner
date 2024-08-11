@@ -5,7 +5,7 @@ import type { InsertableExpenseRecord, UpdateableExpenseRecord } from '$lib/tabl
 import { sql } from 'kysely';
 import { PaymentDateClient } from './PaymentDateClient';
 
-type SearchCriteria = { accountId?: number; isEnabled?: boolean };
+type SearchCriteria = { accountId?: number; isEnabled?: boolean; tag?: string };
 
 /**
  * Client for querying expenses in the database.
@@ -104,6 +104,10 @@ export class ExpenseClient extends DatabaseClient {
 
 		if (criteria?.isEnabled !== undefined) {
 			query = query.where('isEnabled', '=', criteria.isEnabled);
+		}
+
+		if (criteria?.tag) {
+			query = query.where('tag', '=', criteria.tag);
 		}
 
 		const records = await query.execute();

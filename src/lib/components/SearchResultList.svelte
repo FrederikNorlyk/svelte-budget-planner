@@ -18,17 +18,6 @@
 				return IconTag;
 		}
 	}
-
-	function getHref(result: SearchResult) {
-		switch (result.recordType) {
-			case RecordType.ACCOUNT:
-				return `/accounts/${result.id}`;
-			case RecordType.EXPENSE:
-				return `/accounts/${result.accountId}/${result.id}`;
-			case RecordType.TAG:
-				return ''; // TODO: Implement tag view
-		}
-	}
 </script>
 
 <nav class="card list-nav bg-white p-2 shadow-2xl">
@@ -39,7 +28,7 @@
 					on:click={() => {
 						onSearchResultClicked();
 					}}
-					href={getHref(result)}
+					href={result.url}
 					data-sveltekit-reload
 				>
 					<span class="badge">

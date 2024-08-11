@@ -10,5 +10,5 @@
 	stroke="currentColor"
 	class={cssClass ?? ''}
 >
-	<slot />
+	<slot name="path" />
 </svg>

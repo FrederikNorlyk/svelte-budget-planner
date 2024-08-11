@@ -1,6 +1,5 @@
 export default interface SearchResult {
-	id: string;
-	accountId?: number;
+	url: string;
 	name: string;
 	recordType: RecordType;
 }

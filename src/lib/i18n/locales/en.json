@@ -56,5 +56,6 @@
 	"remainderAfterExpenses": "Remainder after expenses",
 	"account.shared": "Shared account",
 	"errorDeleteAccountHasExpenses": "This account can not be deleted, as it has expenses",
-	"settings.saved": "The settings were saved"
+	"settings.saved": "The settings were saved",
+	"tagView.details": "These expenses belong to the same group"
 }

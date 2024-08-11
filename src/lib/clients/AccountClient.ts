@@ -7,6 +7,8 @@ import { sql } from 'kysely';
 import { ExpenseClient } from './ExpenseClient';
 import { PaymentDateClient } from './PaymentDateClient';
 
+type SearchCriteria = { ids?: number[] };
+
 /**
  * Client for querying accounts in the database.
  */
@@ -90,14 +92,18 @@ export class AccountClient extends DatabaseClient {
 	 * List all accounts belonging to the current user.
 	 * @returns the user's accounts
 	 */
-	public async listAll() {
-		const records = await this.getDatabase()
+	public async listAll(criteria: SearchCriteria | null = null) {
+		let query = this.getDatabase()
 			.selectFrom('accounts')
 			.selectAll()
 			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')))
-			.orderBy('name')
-			.execute();
+			.orderBy('name');
 
+		if (criteria?.ids) {
+			query = query.where('id', 'in', criteria.ids);
+		}
+
+		const records = await query.execute();
 		return records.map((record) => new Account(record, []));
 	}
 
