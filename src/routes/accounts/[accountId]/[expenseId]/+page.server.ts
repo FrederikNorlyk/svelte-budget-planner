@@ -3,10 +3,11 @@ import { PaymentDateClient } from '$lib/clients/PaymentDateClient.js';
 import { SettingsClient } from '$lib/clients/SettingsClient';
 import type { Expense } from '$lib/models/Expense.js';
 import type { PaymentDate } from '$lib/models/PaymentDate.js';
-import { redirect } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 
 export async function load(event) {
 	const session = await event.locals.auth();
+
 	if (session == null) {
 		redirect(303, '/');
 	}
@@ -39,39 +40,34 @@ export async function load(event) {
 
 export const actions = {
 	save: async ({ request, params, locals }) => {
+		const session = await locals.auth();
+
+		if (session == null) {
+			redirect(303, '/');
+		}
+
 		const data = await request.formData();
 		const name = data.get('name')?.toString();
 		const amount = +(data.get('amount')?.toString() || '');
 		const tag = data.get('tag')?.toString();
 		const isEnabled = !!data.get('isEnabled');
 		const isShared = data.get('isShared') == 'true';
-		const daysOfMonth = data.getAll('dayOfMonth');
 		const months = data.getAll('month');
 
 		if (name == null || amount == 0 || isNaN(amount)) {
-			return { error: 'Invalid data' };
+			return fail(400, { error: 'expense.error.requiredFields' });
 		}
 
 		if (months.length > 12) {
-			return { error: 'expense.error.maxMonths' };
+			return fail(400, { error: 'expense.error.maxMonths' });
 		}
 
 		if (new Set(months).size !== months.length) {
-			return { error: 'expense.error.duplicateMonths' };
-		}
-
-		if (daysOfMonth.length != months.length) {
-			return { error: 'Invalid payment date information' };
+			return fail(400, { error: 'expense.error.duplicateMonths' });
 		}
 
 		const id = +params.expenseId;
 		const accountId = +params.accountId;
-
-		const session = await locals.auth();
-
-		if (session == null) {
-			redirect(303, '/');
-		}
 
 		const userIds = [session.user.id];
 		if (isShared) {
@@ -115,19 +111,15 @@ export const actions = {
 			await paymentDateClient.deleteAllBelongingTo(id);
 		}
 
-		for (let i = 0; i < daysOfMonth.length; i++) {
-			const dayOfMonth = +daysOfMonth[i];
-			const month = +months[i];
-
+		for (const month of months) {
 			const createdPaymentDate = await paymentDateClient.create({
 				userId: userIds,
 				expenseId: newExpense.id,
-				month: month,
-				dayOfMonth: dayOfMonth
+				month: +month
 			});
 
 			if (createdPaymentDate == null) {
-				return { error: 'Could not create payment date' };
+				return fail(400, { error: 'Could not create payment date' });
 			}
 		}
 
@@ -146,9 +138,7 @@ export const actions = {
 		const result = await client.delete(id);
 
 		if (result.getError() != null) {
-			return {
-				error: result.getError()
-			};
+			return fail(400, { error: result.getError() });
 		}
 
 		redirect(303, '/accounts/' + params.accountId);

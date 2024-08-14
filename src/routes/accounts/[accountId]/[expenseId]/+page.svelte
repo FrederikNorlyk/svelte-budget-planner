@@ -34,7 +34,7 @@
 		tagOptions.push({ label: tag, value: tag });
 	});
 
-	if (form?.error) {
+	$: if (form?.error) {
 		toastStore.trigger({
 			message: $_(form.error),
 			background: 'variant-filled-error'
@@ -68,7 +68,7 @@
 
 <form
 	class="space-y-4"
-	method="post"
+	method="POST"
 	action="?/save"
 	use:enhance={() => {
 		isSaving = true;

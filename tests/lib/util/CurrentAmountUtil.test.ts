@@ -3,9 +3,14 @@ import { Account } from '$lib/models/Account';
 import { Expense } from '$lib/models/Expense';
 import { PaymentDate } from '$lib/models/PaymentDate';
 import { CurrentAmountUtil } from '$lib/util/CurrentAmountUtil';
-import { describe, expect, test } from 'vitest';
+import { beforeAll, describe, expect, test, vi } from 'vitest';
 
 const userIds: string[] = [];
+
+beforeAll(() => {
+	// Tell vitest to use mocked time
+	vi.useFakeTimers();
+});
 
 describe('Tests for getCurrentAmount', () => {
 	test('Disabled expenses are not included', () => {
@@ -29,15 +34,14 @@ describe('Tests for getCurrentAmount', () => {
 				id: 1,
 				expenseId: expense.id,
 				month: Month.FEBRUARY,
-				dayOfMonth: 1,
 				userId: userIds
 			})
 		];
 
 		account.expenses = [expense];
 
+		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
 		const util = new CurrentAmountUtil();
-		util.setToday(new Date(2023, Month.JANUARY, 1));
 		const amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(0);
 	});
@@ -67,45 +71,45 @@ describe('Tests for getCurrentAmount', () => {
 	});
 
 	test('Expense with a single payment date', () => {
+		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
 		const util = new CurrentAmountUtil();
-		util.setToday(new Date(2023, Month.JANUARY, 1));
 
-		let account = createAccountWithSinglePaymentExpense(Month.FEBRUARY, 1);
+		let account = createAccountWithSinglePaymentExpense(Month.FEBRUARY);
 		let amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(1100);
 
-		account = createAccountWithSinglePaymentExpense(Month.MARCH, 1);
+		account = createAccountWithSinglePaymentExpense(Month.MARCH);
 		amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(1000);
 
-		account = createAccountWithSinglePaymentExpense(Month.APRIL, 1);
+		account = createAccountWithSinglePaymentExpense(Month.APRIL);
 		amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(900);
 	});
 
 	test('Payment date is in the following year', () => {
+		vi.setSystemTime(new Date(2023, Month.OCTOBER, 22));
 		const util = new CurrentAmountUtil();
-		util.setToday(new Date(2023, Month.OCTOBER, 22));
 
-		const account = createAccountWithSinglePaymentExpense(Month.MAY, 1);
+		const account = createAccountWithSinglePaymentExpense(Month.MAY);
 		const amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(500);
 	});
 
 	test('Payment date is tomorrow', () => {
+		vi.setSystemTime(new Date(2023, Month.OCTOBER, 31));
 		const util = new CurrentAmountUtil();
-		util.setToday(new Date(2023, Month.OCTOBER, 31));
 
-		const account = createAccountWithSinglePaymentExpense(Month.NOVEMBER, 1);
+		const account = createAccountWithSinglePaymentExpense(Month.NOVEMBER);
 		const amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(1100);
 	});
 
 	test('Payment date is in exactly one year', () => {
+		vi.setSystemTime(new Date(2023, Month.OCTOBER, 1));
 		const util = new CurrentAmountUtil();
-		util.setToday(new Date(2023, Month.OCTOBER, 10));
 
-		const account = createAccountWithSinglePaymentExpense(Month.OCTOBER, 10);
+		const account = createAccountWithSinglePaymentExpense(Month.OCTOBER);
 		const amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(0);
 	});
@@ -116,32 +120,31 @@ describe('Tests for getCurrentAmount', () => {
 				id: 1,
 				expenseId: 1,
 				month: Month.JANUARY,
-				dayOfMonth: 1,
 				userId: userIds
 			}),
-			new PaymentDate({ id: 2, expenseId: 1, month: Month.JULY, dayOfMonth: 1, userId: userIds })
+			new PaymentDate({ id: 2, expenseId: 1, month: Month.JULY, userId: userIds })
 		];
 
 		const account = createAccountWithPaymentDates(600, paymentDates);
 		const util = new CurrentAmountUtil();
 
-		util.setToday(new Date(2023, Month.JANUARY, 1));
+		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
 		let amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(0);
 
-		util.setToday(new Date(2023, Month.FEBRUARY, 1));
+		vi.setSystemTime(new Date(2023, Month.FEBRUARY, 1));
 		amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(100);
 
-		util.setToday(new Date(2023, Month.JUNE, 1));
+		vi.setSystemTime(new Date(2023, Month.JUNE, 1));
 		amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(500);
 
-		util.setToday(new Date(2023, Month.JULY, 1));
+		vi.setSystemTime(new Date(2023, Month.JULY, 1));
 		amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(0);
 
-		util.setToday(new Date(2023, Month.AUGUST, 1));
+		vi.setSystemTime(new Date(2023, Month.AUGUST, 1));
 		amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(100);
 	});
@@ -152,26 +155,25 @@ describe('Tests for getCurrentAmount', () => {
 				id: 1,
 				expenseId: 1,
 				month: Month.JANUARY,
-				dayOfMonth: 1,
 				userId: userIds
 			}),
-			new PaymentDate({ id: 1, expenseId: 1, month: Month.APRIL, dayOfMonth: 1, userId: userIds }),
-			new PaymentDate({ id: 2, expenseId: 1, month: Month.JULY, dayOfMonth: 1, userId: userIds }),
-			new PaymentDate({ id: 2, expenseId: 1, month: Month.OCTOBER, dayOfMonth: 1, userId: userIds })
+			new PaymentDate({ id: 1, expenseId: 1, month: Month.APRIL, userId: userIds }),
+			new PaymentDate({ id: 2, expenseId: 1, month: Month.JULY, userId: userIds }),
+			new PaymentDate({ id: 2, expenseId: 1, month: Month.OCTOBER, userId: userIds })
 		];
 
 		const account = createAccountWithPaymentDates(500, paymentDates);
 		const util = new CurrentAmountUtil();
 
-		util.setToday(new Date(2023, Month.JANUARY, 1));
+		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
 		let amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(0);
 
-		util.setToday(new Date(2023, Month.FEBRUARY, 1));
+		vi.setSystemTime(new Date(2023, Month.FEBRUARY, 1));
 		amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(167);
 
-		util.setToday(new Date(2023, Month.JUNE, 1));
+		vi.setSystemTime(new Date(2023, Month.JUNE, 1));
 		amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(334);
 	});
@@ -210,7 +212,6 @@ describe('Tests for getCurrentAmount', () => {
 				id: 1,
 				expenseId: expense1.id,
 				month: Month.OCTOBER,
-				dayOfMonth: 1,
 				userId: userIds
 			})
 		];
@@ -220,14 +221,12 @@ describe('Tests for getCurrentAmount', () => {
 				id: 2,
 				expenseId: expense2.id,
 				month: Month.MARCH,
-				dayOfMonth: 1,
 				userId: userIds
 			}),
 			new PaymentDate({
 				id: 3,
 				expenseId: expense2.id,
 				month: Month.SEPTEMBER,
-				dayOfMonth: 1,
 				userId: userIds
 			})
 		];
@@ -236,93 +235,58 @@ describe('Tests for getCurrentAmount', () => {
 
 		const util = new CurrentAmountUtil();
 
-		util.setToday(new Date(2023, Month.JANUARY, 1));
+		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
 		let amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(700);
 
-		util.setToday(new Date(2023, Month.FEBRUARY, 1));
+		vi.setSystemTime(new Date(2023, Month.FEBRUARY, 1));
 		amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(900);
 
-		util.setToday(new Date(2023, Month.MARCH, 1));
+		vi.setSystemTime(new Date(2023, Month.MARCH, 1));
 		amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(500);
 
-		util.setToday(new Date(2023, Month.APRIL, 1));
+		vi.setSystemTime(new Date(2023, Month.APRIL, 1));
 		amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(700);
 
-		util.setToday(new Date(2023, Month.MAY, 1));
+		vi.setSystemTime(new Date(2023, Month.MAY, 1));
 		amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(900);
 
-		util.setToday(new Date(2023, Month.JUNE, 1));
+		vi.setSystemTime(new Date(2023, Month.JUNE, 1));
 		amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(1100);
 
-		util.setToday(new Date(2023, Month.JULY, 1));
+		vi.setSystemTime(new Date(2023, Month.JULY, 1));
 		amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(1300);
 
-		util.setToday(new Date(2023, Month.AUGUST, 1));
+		vi.setSystemTime(new Date(2023, Month.AUGUST, 1));
 		amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(1500);
 
-		util.setToday(new Date(2023, Month.SEPTEMBER, 1));
+		vi.setSystemTime(new Date(2023, Month.SEPTEMBER, 1));
 		amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(1100);
 
-		util.setToday(new Date(2023, Month.OCTOBER, 1));
+		vi.setSystemTime(new Date(2023, Month.OCTOBER, 1));
 		amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(100);
 
-		util.setToday(new Date(2023, Month.NOVEMBER, 1));
+		vi.setSystemTime(new Date(2023, Month.NOVEMBER, 1));
 		amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(300);
 
-		util.setToday(new Date(2023, Month.DECEMBER, 1));
+		vi.setSystemTime(new Date(2023, Month.DECEMBER, 1));
 		amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(500);
 	});
 
-	test('Payment date is last day of month', () => {
-		const account = new Account({ id: 1, name: 'Test', userId: userIds }, []);
-
-		const expense = new Expense(
-			{
-				id: 1,
-				name: 'Test',
-				amount: 1200,
-				tag: 'Tag',
-				accountId: account.id,
-				isEnabled: true,
-				isShared: false,
-				userId: userIds
-			},
-			[]
-		);
-
-		expense.paymentDates = [
-			new PaymentDate({
-				id: 1,
-				expenseId: expense.id,
-				month: Month.JUNE,
-				dayOfMonth: 30,
-				userId: userIds
-			})
-		];
-
-		account.expenses = [expense];
-
-		const util = new CurrentAmountUtil();
-		util.setToday(new Date(2023, Month.JUNE, 1));
-		const amount = util.getCurrentAmmount(account);
-		expect(amount).toBe(1200);
-	});
-
 	test('Shared expenses and own expenses are handled the same way', () => {
+		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
 		const util = new CurrentAmountUtil();
-		util.setToday(new Date(2023, Month.JANUARY, 1));
 		const account = new Account({ id: 1, name: 'Test', userId: userIds }, []);
 
 		/*
@@ -347,7 +311,6 @@ describe('Tests for getCurrentAmount', () => {
 				id: 1,
 				expenseId: expense.id,
 				month: Month.APRIL,
-				dayOfMonth: 1,
 				userId: userIds
 			})
 		];
@@ -379,7 +342,6 @@ describe('Tests for getCurrentAmount', () => {
 				id: 1,
 				expenseId: expense.id,
 				month: Month.APRIL,
-				dayOfMonth: 1,
 				userId: userIds
 			})
 		];
@@ -421,15 +383,14 @@ describe('Tests for getNextPaymentDate', () => {
 				id: 1,
 				expenseId: expense.id,
 				month: Month.FEBRUARY,
-				dayOfMonth: 1,
 				userId: userIds
 			})
 		];
 
 		account.expenses = [expense];
 
+		vi.setSystemTime(new Date(2023, Month.JUNE, 1));
 		const util = new CurrentAmountUtil();
-		util.setToday(new Date(2023, Month.JUNE, 1));
 		const paymentDate = util.getNextPaymentDate(account);
 		expect(paymentDate).toBe(null);
 	});
@@ -453,8 +414,8 @@ describe('Tests for getNextPaymentDate', () => {
 			)
 		];
 
+		vi.setSystemTime(new Date(2023, Month.JUNE, 1));
 		const util = new CurrentAmountUtil();
-		util.setToday(new Date(2023, Month.JUNE, 1));
 		const paymentDate = util.getNextPaymentDate(account);
 		if (paymentDate == null) {
 			throw Error('Should have found a payment date');
@@ -499,7 +460,6 @@ describe('Tests for getNextPaymentDate', () => {
 				id: 1,
 				expenseId: expense1.id,
 				month: Month.MARCH,
-				dayOfMonth: 1,
 				userId: userIds
 			})
 		];
@@ -509,15 +469,14 @@ describe('Tests for getNextPaymentDate', () => {
 				id: 1,
 				expenseId: expense2.id,
 				month: Month.FEBRUARY,
-				dayOfMonth: 1,
 				userId: userIds
 			})
 		];
 
 		account.expenses = [expense1, expense2];
 
+		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
 		const util = new CurrentAmountUtil();
-		util.setToday(new Date(2023, Month.JANUARY, 1));
 		const paymentDate = util.getNextPaymentDate(account);
 		if (paymentDate == null) {
 			throw Error('Should have found a payment date');
@@ -562,7 +521,6 @@ describe('Tests for getNextPaymentDate', () => {
 				id: 1,
 				expenseId: expense1.id,
 				month: Month.MARCH,
-				dayOfMonth: 1,
 				userId: userIds
 			})
 		];
@@ -572,15 +530,14 @@ describe('Tests for getNextPaymentDate', () => {
 				id: 1,
 				expenseId: expense2.id,
 				month: Month.FEBRUARY,
-				dayOfMonth: 1,
 				userId: userIds
 			})
 		];
 
 		account.expenses = [expense1, expense2];
 
+		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
 		const util = new CurrentAmountUtil();
-		util.setToday(new Date(2023, Month.JANUARY, 1));
 		const paymentDate = util.getNextPaymentDate(account);
 		if (paymentDate == null) {
 			throw Error('Should have found a payment date');
@@ -625,7 +582,6 @@ describe('Tests for getNextPaymentDate', () => {
 				id: 1,
 				expenseId: expense1.id,
 				month: Month.APRIL,
-				dayOfMonth: 1,
 				userId: userIds
 			})
 		];
@@ -635,7 +591,6 @@ describe('Tests for getNextPaymentDate', () => {
 				id: 1,
 				expenseId: expense2.id,
 				month: Month.JANUARY,
-				dayOfMonth: 1,
 				userId: userIds
 			})
 		];
@@ -643,7 +598,7 @@ describe('Tests for getNextPaymentDate', () => {
 		account.expenses = [expense1, expense2];
 
 		const util = new CurrentAmountUtil();
-		util.setToday(new Date(2023, Month.JANUARY, 1));
+		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
 		const paymentDate = util.getNextPaymentDate(account);
 		if (paymentDate == null) {
 			throw Error('Should have found a payment date');
@@ -672,7 +627,7 @@ describe('Tests for getNextPaymentDateForExpense', () => {
 		);
 
 		const util = new CurrentAmountUtil();
-		util.setToday(new Date(2023, Month.JUNE, 1));
+		vi.setSystemTime(new Date(2023, Month.JUNE, 1));
 		const paymentDate = util.getNextPaymentDateForExpense(expense);
 		if (paymentDate == null) {
 			throw Error('Should have found a payment date');
@@ -699,7 +654,7 @@ describe('Tests for getNextPaymentDateForExpense', () => {
 		);
 
 		const util = new CurrentAmountUtil();
-		util.setToday(new Date(2023, Month.DECEMBER, 1));
+		vi.setSystemTime(new Date(2023, Month.DECEMBER, 1));
 		const paymentDate = util.getNextPaymentDateForExpense(expense);
 		if (paymentDate == null) {
 			throw Error('Should have found a payment date');
@@ -730,13 +685,12 @@ describe('Tests for getNextPaymentDateForExpense', () => {
 				id: 1,
 				expenseId: expense.id,
 				month: Month.MAY,
-				dayOfMonth: 1,
 				userId: userIds
 			})
 		];
 
 		const util = new CurrentAmountUtil();
-		util.setToday(new Date(2023, Month.MARCH, 1));
+		vi.setSystemTime(new Date(2023, Month.MARCH, 1));
 		const paymentDate = util.getNextPaymentDateForExpense(expense);
 		if (paymentDate == null) {
 			throw Error('Should have found a payment date');
@@ -767,13 +721,12 @@ describe('Tests for getNextPaymentDateForExpense', () => {
 				id: 1,
 				expenseId: expense.id,
 				month: Month.MAY,
-				dayOfMonth: 1,
 				userId: userIds
 			})
 		];
 
 		const util = new CurrentAmountUtil();
-		util.setToday(new Date(2023, Month.MAY, 1));
+		vi.setSystemTime(new Date(2023, Month.MAY, 1));
 		const paymentDate = util.getNextPaymentDateForExpense(expense);
 		if (paymentDate == null) {
 			throw Error('Should have found a payment date');
@@ -796,28 +749,24 @@ describe('Tests for getNextPaymentDateForExpense', () => {
 				isShared: false,
 				userId: userIds
 			},
-			[]
+			[
+				new PaymentDate({
+					id: 1,
+					expenseId: 1,
+					month: Month.MAY,
+					userId: userIds
+				}),
+				new PaymentDate({
+					id: 2,
+					expenseId: 1,
+					month: Month.JULY,
+					userId: userIds
+				})
+			]
 		);
 
-		expense.paymentDates = [
-			new PaymentDate({
-				id: 1,
-				expenseId: expense.id,
-				month: Month.MAY,
-				dayOfMonth: 1,
-				userId: userIds
-			}),
-			new PaymentDate({
-				id: 2,
-				expenseId: expense.id,
-				month: Month.JULY,
-				dayOfMonth: 1,
-				userId: userIds
-			})
-		];
-
+		vi.setSystemTime(new Date(2023, Month.MAY, 1));
 		const util = new CurrentAmountUtil();
-		util.setToday(new Date(2023, Month.MAY, 1));
 		const paymentDate = util.getNextPaymentDateForExpense(expense);
 		if (paymentDate == null) {
 			throw Error('Should have found a payment date');
@@ -826,43 +775,6 @@ describe('Tests for getNextPaymentDateForExpense', () => {
 		expect(paymentDate.getFullYear()).toBe(2023);
 		expect(paymentDate.getMonth()).toBe(Month.JULY);
 		expect(paymentDate.getDate()).toBe(1);
-	});
-
-	test('Yearly expense, last day of month', () => {
-		const expense = new Expense(
-			{
-				id: 1,
-				name: 'Test',
-				amount: 100,
-				tag: 'Tag',
-				accountId: 1,
-				isEnabled: true,
-				isShared: false,
-				userId: userIds
-			},
-			[]
-		);
-
-		expense.paymentDates = [
-			new PaymentDate({
-				id: 1,
-				expenseId: expense.id,
-				month: Month.AUGUST,
-				dayOfMonth: 31,
-				userId: userIds
-			})
-		];
-
-		const util = new CurrentAmountUtil();
-		util.setToday(new Date(2023, Month.AUGUST, 1));
-		const paymentDate = util.getNextPaymentDateForExpense(expense);
-		if (paymentDate == null) {
-			throw Error('Should have found a payment date');
-		}
-
-		expect(paymentDate.getFullYear()).toBe(2023);
-		expect(paymentDate.getMonth()).toBe(Month.AUGUST);
-		expect(paymentDate.getDate()).toBe(31);
 	});
 });
 
@@ -967,7 +879,6 @@ function createExpenseOn(amount: number, months: Month[]) {
 				id: 0,
 				expenseId: expense.id,
 				month: months[i],
-				dayOfMonth: 1,
 				userId: userIds
 			})
 		);
@@ -976,7 +887,7 @@ function createExpenseOn(amount: number, months: Month[]) {
 	return expense;
 }
 
-function createAccountWithSinglePaymentExpense(month: Month, dayOfMonth: number) {
+function createAccountWithSinglePaymentExpense(month: Month) {
 	const account = new Account({ id: 1, name: 'Test', userId: userIds }, []);
 	const expense = new Expense(
 		{
@@ -997,7 +908,6 @@ function createAccountWithSinglePaymentExpense(month: Month, dayOfMonth: number)
 			id: 1,
 			expenseId: expense.id,
 			month: month,
-			dayOfMonth: dayOfMonth,
 			userId: userIds
 		})
 	];

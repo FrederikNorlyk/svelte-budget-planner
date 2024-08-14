@@ -45,19 +45,19 @@
 			</div>
 
 			<div class="space-y-1">
-				<div class="flex space-x-1 text-slate-400">
-					<p>
-						+{AmountUtil.localizeDecimal(currentAmountUtil.getMonthlyBudgetTransferAmount(account))}
-					</p>
-					<p>{$_('budgetTransfer')}</p>
-				</div>
-
 				{#each expenses as expense (expense.id + '_' + index)}
 					<div class="flex space-x-1">
 						<p>- {AmountUtil.localizeDecimal(expense.amount)}</p>
 						<p>{expense.name}</p>
 					</div>
 				{/each}
+
+				<div class="flex space-x-1 text-slate-400">
+					<p>
+						+{AmountUtil.localizeDecimal(currentAmountUtil.getMonthlyBudgetTransferAmount(account))}
+					</p>
+					<p>{$_('budgetTransfer')}</p>
+				</div>
 			</div>
 		</div>
 	{/each}

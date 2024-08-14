@@ -11,14 +11,6 @@
 	export let onInputRemoved: (paymentDate: PaymentDate) => void;
 	let self: HTMLDivElement;
 
-	const daysOfMonth: SelectOption<number>[] = [];
-	for (let i = 1; i <= 31; i++) {
-		daysOfMonth.push({
-			value: i,
-			text: i.toString()
-		});
-	}
-
 	const months: SelectOption<number>[] = [];
 	for (let i = 0; i < 12; i++) {
 		months.push({
@@ -34,16 +26,6 @@
 </script>
 
 <div bind:this={self} class="flex space-x-3">
-	<span class="grow">
-		<SelectField
-			value={paymentDate.dayOfMonth}
-			name="dayOfMonth"
-			label={$_('calendarDatePicker.day')}
-			required={true}
-			{disabled}
-			options={daysOfMonth}
-		/>
-	</span>
 	<span class="grow">
 		<SelectField
 			value={paymentDate.month}

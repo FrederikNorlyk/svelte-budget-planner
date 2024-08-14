@@ -114,7 +114,6 @@ describe('Tests for the Expense model', () => {
 		expect(parsed.paymentDates.length).toBe(1);
 		const paymentDate = parsed.paymentDates[0];
 		expect(paymentDate).toBeInstanceOf(PaymentDate);
-		expect(paymentDate.dayOfMonth).toBe(1);
 		expect(paymentDate.expenseId).toBe(0);
 		expect(paymentDate.id).toBe(0);
 		expect(paymentDate.month).toBe(Month.JANUARY);
@@ -195,5 +194,5 @@ function createExpense() {
 }
 
 function createPaymentDate(month: Month) {
-	return new PaymentDate({ id: 0, userId: ['user2'], expenseId: 0, month: month, dayOfMonth: 1 });
+	return new PaymentDate({ id: 0, userId: ['user2'], expenseId: 0, month: month });
 }

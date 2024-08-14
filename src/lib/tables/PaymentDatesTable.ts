@@ -6,7 +6,6 @@ export interface PaymentDatesTable {
 	userId: string[];
 	expenseId: number;
 	month: Month;
-	dayOfMonth: number;
 }
 
 export type PaymentDateRecord = Selectable<PaymentDatesTable>;

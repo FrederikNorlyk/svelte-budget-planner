@@ -8,22 +8,13 @@ import { DateUtil } from './DateUtil';
  * account's expenses and their payment dates
  */
 export class CurrentAmountUtil {
-	private today = new Date();
-
 	/**
-	 * Function used for testing, to mock the current date.
-	 *
-	 * @param date date to represent the current date
+	 * The only values that this utility considers, are the year and month. Everything is floored to the lowest possible
+	 * value.
+	 * @param date the date to floor
 	 */
-	public setToday(date: Date) {
-		this.today = date;
-	}
-
-	constructor() {
-		this.floorDate(this.today);
-	}
-
 	private floorDate(date: Date) {
+		date.setDate(1);
 		date.setHours(0);
 		date.setMinutes(0);
 		date.setSeconds(0);
@@ -37,7 +28,7 @@ export class CurrentAmountUtil {
 	 * @returns the amount that should currently be on the account
 	 */
 	public getCurrentAmmount(account: Account) {
-		return this.getAccountBalanceOn(account, this.today);
+		return this.getAccountBalanceOn(account, new Date());
 	}
 
 	/**
@@ -51,19 +42,19 @@ export class CurrentAmountUtil {
 		this.floorDate(date);
 		let accountBalance = 0;
 
-		account.expenses.forEach((expense) => {
+		for (const expense of account.expenses) {
 			if (!expense.isEnabled) {
-				return;
+				continue;
 			}
 
 			if (expense.isMonthlyExpense) {
-				return;
+				continue;
 			}
 
 			const nextPaymentDate = this.getNextPaymentDateForExpenseAfter(expense, date);
 
 			if (nextPaymentDate == null) {
-				return;
+				continue;
 			}
 
 			const remainingNumberOfTransfers = DateUtil.getMonthsBetween(date, nextPaymentDate);
@@ -71,7 +62,7 @@ export class CurrentAmountUtil {
 			const amountNotYetTransfered = monthlyAmount * remainingNumberOfTransfers;
 			const amount = expense.amount - amountNotYetTransfered;
 			accountBalance += Math.ceil(amount);
-		});
+		}
 
 		return accountBalance;
 	}
@@ -85,21 +76,21 @@ export class CurrentAmountUtil {
 	public getNextPaymentDate(account: Account): Date | null {
 		let nextPaymentDate: Date | null = null;
 
-		account.expenses.forEach((expense) => {
+		for (const expense of account.expenses) {
 			if (!expense.isEnabled) {
-				return;
+				continue;
 			}
 
 			const expensePaymentDate = this.getNextPaymentDateForExpense(expense);
 
 			if (expensePaymentDate == null) {
-				return;
+				continue;
 			}
 
 			if (nextPaymentDate == null || nextPaymentDate > expensePaymentDate) {
 				nextPaymentDate = expensePaymentDate;
 			}
-		});
+		}
 
 		return nextPaymentDate;
 	}
@@ -111,17 +102,18 @@ export class CurrentAmountUtil {
 	 * @returns the next date from today when a payment will occur, or NULL
 	 */
 	public getNextPaymentDateForExpense(expense: Expense): Date | null {
-		return this.getNextPaymentDateForExpenseAfter(expense, this.today);
+		return this.getNextPaymentDateForExpenseAfter(expense, new Date());
 	}
 
 	/**
 	 * Get the next date when a payment will occur on the given expense, after a given date.
 	 *
 	 * @param expense the expense to use when calculating the date
-	 * @param startDate the date which expense must occur after
+	 * @param startDate the date which the expense must occur after
 	 * @returns the next date when a payment will occur, or NULL
 	 */
 	public getNextPaymentDateForExpenseAfter(expense: Expense, startDate: Date): Date | null {
+		this.floorDate(startDate);
 		let nextPaymentDate: Date | null = null;
 		const thisYear = startDate.getFullYear();
 
@@ -130,8 +122,8 @@ export class CurrentAmountUtil {
 			return new Date(thisYear, nextMonth, 1);
 		}
 
-		expense.paymentDates.forEach((paymentDate) => {
-			const date = new Date(thisYear, paymentDate.month, paymentDate.dayOfMonth);
+		for (const paymentDate of expense.paymentDates) {
+			const date = new Date(thisYear, paymentDate.month, 1);
 
 			if (date <= startDate) {
 				date.setFullYear(thisYear + 1);
@@ -140,33 +132,32 @@ export class CurrentAmountUtil {
 			if (nextPaymentDate == null || nextPaymentDate > date) {
 				nextPaymentDate = date;
 			}
-		});
+		}
 
 		return nextPaymentDate;
 	}
 
 	/**
-	 * Get all an account's expenses, set to occur in a given month. This does not include monthlt expenses.
+	 * Get all an account's expenses, set to occur in a given month. This does not include monthly expenses.
 	 *
 	 * @param account the account containing the expenses
 	 * @param month the month to find expenses in
-	 * @returns all expenses in the given month
+	 * @returns all expenses explicitly set to be paid in the given month
 	 */
 	public getExpensesIn(account: Account, month: Month): Expense[] {
 		const expenses: Expense[] = [];
 
-		account.expenses.forEach((expense) => {
+		for (const expense of account.expenses) {
 			if (expense.isMonthlyExpense) {
-				return;
+				continue;
 			}
 
-			expense.paymentDates.forEach((paymentDate) => {
-				if (paymentDate.month === month) {
-					expenses.push(expense);
-					return 2;
-				}
-			});
-		});
+			const isInMonth = expense.paymentDates.some((d) => d.month === month);
+
+			if (isInMonth) {
+				expenses.push(expense);
+			}
+		}
 
 		return expenses;
 	}
@@ -181,12 +172,12 @@ export class CurrentAmountUtil {
 	public getMonthlyBudgetTransferAmount(account: Account) {
 		let amount = 0;
 
-		account.expenses.forEach((expense) => {
+		for (const expense of account.expenses) {
 			if (!expense.isEnabled || expense.isMonthlyExpense) {
-				return;
+				continue;
 			}
 			amount += expense.monthlyAmountWithTotalShared;
-		});
+		}
 
 		return amount;
 	}
