@@ -148,7 +148,7 @@ export class CurrentAmountUtil {
 		const expenses: Expense[] = [];
 
 		for (const expense of account.expenses) {
-			if (expense.isMonthlyExpense) {
+			if (!expense.isEnabled || expense.isMonthlyExpense) {
 				continue;
 			}
 

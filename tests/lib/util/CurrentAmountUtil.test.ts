@@ -858,7 +858,86 @@ describe('Test for getAccountBalanceOn', () => {
 	});
 });
 
-function createExpenseOn(amount: number, months: Month[]) {
+describe('Test for getExpensesIn', () => {
+	test('Various months', () => {
+		const account = new Account({ id: 1, name: 'Test', userId: userIds }, [
+			createExpenseOn(1, []),
+			createExpenseOn(2, [Month.JANUARY]),
+			createExpenseOn(3, [Month.JANUARY, Month.JULY]),
+			createExpenseOn(4, [Month.JULY])
+		]);
+
+		const util = new CurrentAmountUtil();
+		let expenses = util.getExpensesIn(account, Month.JANUARY);
+		expect(expenses.length).toBe(2);
+		expect(expenses[0].amount).toBe(2);
+		expect(expenses[1].amount).toBe(3);
+
+		expenses = util.getExpensesIn(account, Month.FEBRUARY);
+		expect(expenses.length).toBe(0);
+
+		expenses = util.getExpensesIn(account, Month.JULY);
+		expect(expenses.length).toBe(2);
+		expect(expenses[0].amount).toBe(3);
+		expect(expenses[1].amount).toBe(4);
+	});
+
+	test('Disabled expenses are not included', () => {
+		const account = new Account({ id: 1, name: 'Test', userId: userIds }, [
+			createExpenseOn(1, [Month.JULY]),
+			createExpenseOn(2, [Month.JULY], false)
+		]);
+
+		const util = new CurrentAmountUtil();
+		const expenses = util.getExpensesIn(account, Month.JULY);
+		expect(expenses.length).toBe(1);
+		expect(expenses[0].amount).toBe(1);
+	});
+
+	test('Monthly expenses are not included', () => {
+		const account = new Account({ id: 1, name: 'Test', userId: userIds }, [createExpenseOn(1, [])]);
+
+		const util = new CurrentAmountUtil();
+		const expenses = util.getExpensesIn(account, Month.JULY);
+		expect(expenses.length).toBe(0);
+	});
+});
+
+describe('Test for getMonthlyBudgetTransferAmount', () => {
+	test('Various months', () => {
+		const account = new Account({ id: 1, name: 'Test', userId: userIds }, [
+			createExpenseOn(1200, [Month.JANUARY]),
+			createExpenseOn(600, [Month.JANUARY, Month.JULY]),
+			createExpenseOn(1200, [Month.JULY])
+		]);
+
+		const util = new CurrentAmountUtil();
+		const amount = util.getMonthlyBudgetTransferAmount(account);
+		expect(amount).toBe(300);
+	});
+
+	test('Disabled expenses are not included', () => {
+		const account = new Account({ id: 1, name: 'Test', userId: userIds }, [
+			createExpenseOn(1200, [Month.JULY], false)
+		]);
+
+		const util = new CurrentAmountUtil();
+		const amount = util.getMonthlyBudgetTransferAmount(account);
+		expect(amount).toBe(0);
+	});
+
+	test('Monthly expenses are not included', () => {
+		const account = new Account({ id: 1, name: 'Test', userId: userIds }, [
+			createExpenseOn(100, [])
+		]);
+
+		const util = new CurrentAmountUtil();
+		const amount = util.getMonthlyBudgetTransferAmount(account);
+		expect(amount).toBe(0);
+	});
+});
+
+function createExpenseOn(amount: number, months: Month[], isEnabled: boolean = true) {
 	const expense = new Expense(
 		{
 			id: 0,
@@ -866,7 +945,7 @@ function createExpenseOn(amount: number, months: Month[]) {
 			amount: amount,
 			tag: 'tag',
 			accountId: 0,
-			isEnabled: true,
+			isEnabled: isEnabled,
 			isShared: false,
 			userId: userIds
 		},
