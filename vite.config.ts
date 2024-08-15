@@ -12,7 +12,20 @@ export default defineConfig(({ mode }) => {
 	return {
 		plugins: [sveltekit()],
 		test: {
-			include: ['tests/lib/**/*.{test,spec}.{js,ts}']
+			include: ['tests/lib/**/*.{test,spec}.{js,ts}'],
+			coverage: {
+				exclude: [
+					'playwright.config.ts',
+					'.svelte-kit/**',
+					'eslint.config.mjs',
+					'postcss.config.js',
+					'svelte.config.js',
+					'tailwind.config.cjs',
+					'vite.config.ts',
+					'tests/**',
+					'src/routes/**'
+				]
+			}
 		}
 	};
 });
