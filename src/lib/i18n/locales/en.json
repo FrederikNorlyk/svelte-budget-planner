@@ -39,7 +39,7 @@
 	"calendarDatePicker.day": "Day",
 	"calendarDatePicker.month": "Month",
 	"expense.isMonthly.explanation": "This is a monthly expense, as it has no payment dates",
-	"expense.error.maxMonths": "An expense can have no more than 12 payment dates",
+	"expense.error.invalidCombinationOfMonths": "The combination of payment dates is invalid",
 	"expense.error.duplicateMonths": "You can not have multiple payment dates in the same month",
 	"expense.error.requiredFields": "A required field is missing",
 	"user.locale": "Select your language",

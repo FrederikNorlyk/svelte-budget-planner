@@ -39,7 +39,7 @@
 	"calendarDatePicker.day": "Dag",
 	"calendarDatePicker.month": "Måned",
 	"expense.isMonthly.explanation": "Dette er en månedtlig udgift, da den ikke har nogle betalingsdatoer",
-	"expense.error.maxMonths": "En udgift kan ikke have mere end 12 betalingsdatoer",
+	"expense.error.invalidCombinationOfMonths": "Den valgte kombination of betalingsdatoer er ugyldig",
 	"expense.error.duplicateMonths": "Du kan ikke have flere betalingsdatoer i samme måned",
 	"expense.error.requiredFields": "Et påkrævet felt mangler",
 	"user.locale": "Vælg dit sprog",

@@ -1,8 +1,10 @@
 import { ExpenseClient } from '$lib/clients/ExpenseClient';
 import { PaymentDateClient } from '$lib/clients/PaymentDateClient.js';
 import { SettingsClient } from '$lib/clients/SettingsClient';
+import { Month } from '$lib/enums/Month.js';
 import type { Expense } from '$lib/models/Expense.js';
 import type { PaymentDate } from '$lib/models/PaymentDate.js';
+import PaymentDateValidationUtil from '$lib/util/PaymentDateValidationUtil.js';
 import { fail, redirect } from '@sveltejs/kit';
 
 export async function load(event) {
@@ -52,18 +54,15 @@ export const actions = {
 		const tag = data.get('tag')?.toString();
 		const isEnabled = !!data.get('isEnabled');
 		const isShared = data.get('isShared') == 'true';
-		const months = data.getAll('month');
+		const monthNumbers: number[] = data.getAll('month').map(Number);
+		const months: Month[] = monthNumbers.map((month) => month as Month);
 
 		if (name == null || amount == 0 || isNaN(amount)) {
 			return fail(400, { error: 'expense.error.requiredFields' });
 		}
 
-		if (months.length > 12) {
-			return fail(400, { error: 'expense.error.maxMonths' });
-		}
-
-		if (new Set(months).size !== months.length) {
-			return fail(400, { error: 'expense.error.duplicateMonths' });
+		if (!PaymentDateValidationUtil.validateCombination(months)) {
+			return fail(400, { error: 'expense.error.invalidCombinationOfMonths' });
 		}
 
 		const id = +params.expenseId;
