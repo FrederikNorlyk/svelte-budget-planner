@@ -4,7 +4,7 @@ Simple budget planning application, built using SvelteKit.
 
 <img src="screenshot_01.png">
 
-### Technologies
+### Tech stack
 
 - SvelteKit
 - Auth.js (OAuth 2.0)
