@@ -26,7 +26,7 @@
 		<ExpenseCard {expense} account={getAccount(expense)} />
 	{/each}
 
-	<div class="card mt-2 bg-white p-4">
+	<div class="card mt-2 bg-white p-4 xl:col-span-2">
 		<AmountCard text="total" amount={totalMonthlyAmount} />
 	</div>
 </div>
