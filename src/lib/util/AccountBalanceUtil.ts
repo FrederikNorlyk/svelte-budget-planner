@@ -7,7 +7,7 @@ import { DateUtil } from './DateUtil';
  * Utility for calculating the current amount that should be on an account, to avoid overdrawing. This is done using the
  * account's expenses and their payment dates
  */
-export class CurrentAmountUtil {
+export class AccountBalanceUtil {
 	/**
 	 * The only values that this utility considers, are the year and month. Everything is floored to the lowest possible
 	 * value.

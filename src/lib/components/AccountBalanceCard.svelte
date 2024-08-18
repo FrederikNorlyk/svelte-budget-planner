@@ -2,13 +2,13 @@
 	import IconArrowCircleRight from '$lib/icons/IconArrowCircleRight.svelte';
 	import type { Account } from '$lib/models/Account';
 	import { AmountUtil } from '$lib/util/AmountUtil';
-	import { CurrentAmountUtil } from '$lib/util/CurrentAmountUtil';
+	import { AccountBalanceUtil } from '$lib/util/AccountBalanceUtil';
 	import { DateUtil } from '$lib/util/DateUtil';
 	import { _ } from 'svelte-i18n';
 
 	export let account: Account;
-	const currentAmountUtil = new CurrentAmountUtil();
-	const nextPaymentDate = currentAmountUtil.getNextPaymentDate(account);
+	const accountBalanceUtil = new AccountBalanceUtil();
+	const nextPaymentDate = accountBalanceUtil.getNextPaymentDate(account);
 </script>
 
 <a
@@ -25,7 +25,7 @@
 	</div>
 	<div class="flex">
 		<p class="flex-grow text-4xl font-bold">
-			{AmountUtil.localizeInteger(currentAmountUtil.getCurrentAmmount(account))}
+			{AmountUtil.localizeInteger(accountBalanceUtil.getCurrentAmmount(account))}
 		</p>
 		{#if nextPaymentDate != null}
 			<p class="text-end text-slate-500">

@@ -2,7 +2,7 @@ import { Month } from '$lib/enums/Month';
 import { Account } from '$lib/models/Account';
 import { Expense } from '$lib/models/Expense';
 import { PaymentDate } from '$lib/models/PaymentDate';
-import { CurrentAmountUtil } from '$lib/util/CurrentAmountUtil';
+import { AccountBalanceUtil } from '$lib/util/AccountBalanceUtil';
 import { beforeAll, describe, expect, test, vi } from 'vitest';
 
 const userIds: string[] = [];
@@ -41,7 +41,7 @@ describe('Tests for getCurrentAmount', () => {
 		account.expenses = [expense];
 
 		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 		const amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(0);
 	});
@@ -65,14 +65,14 @@ describe('Tests for getCurrentAmount', () => {
 			)
 		];
 
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 		const amount = util.getCurrentAmmount(account);
 		expect(amount).toBe(0);
 	});
 
 	test('Expense with a single payment date', () => {
 		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 
 		let account = createAccountWithSinglePaymentExpense(Month.FEBRUARY);
 		let amount = util.getCurrentAmmount(account);
@@ -89,7 +89,7 @@ describe('Tests for getCurrentAmount', () => {
 
 	test('Payment date is in the following year', () => {
 		vi.setSystemTime(new Date(2023, Month.OCTOBER, 22));
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 
 		const account = createAccountWithSinglePaymentExpense(Month.MAY);
 		const amount = util.getCurrentAmmount(account);
@@ -98,7 +98,7 @@ describe('Tests for getCurrentAmount', () => {
 
 	test('Payment date is tomorrow', () => {
 		vi.setSystemTime(new Date(2023, Month.OCTOBER, 31));
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 
 		const account = createAccountWithSinglePaymentExpense(Month.NOVEMBER);
 		const amount = util.getCurrentAmmount(account);
@@ -107,7 +107,7 @@ describe('Tests for getCurrentAmount', () => {
 
 	test('Payment date is in exactly one year', () => {
 		vi.setSystemTime(new Date(2023, Month.OCTOBER, 1));
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 
 		const account = createAccountWithSinglePaymentExpense(Month.OCTOBER);
 		const amount = util.getCurrentAmmount(account);
@@ -126,7 +126,7 @@ describe('Tests for getCurrentAmount', () => {
 		];
 
 		const account = createAccountWithPaymentDates(600, paymentDates);
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 
 		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
 		let amount = util.getCurrentAmmount(account);
@@ -163,7 +163,7 @@ describe('Tests for getCurrentAmount', () => {
 		];
 
 		const account = createAccountWithPaymentDates(500, paymentDates);
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 
 		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
 		let amount = util.getCurrentAmmount(account);
@@ -233,7 +233,7 @@ describe('Tests for getCurrentAmount', () => {
 
 		account.expenses = [expense1, expense2];
 
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 
 		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
 		let amount = util.getCurrentAmmount(account);
@@ -286,7 +286,7 @@ describe('Tests for getCurrentAmount', () => {
 
 	test('Shared expenses and own expenses are handled the same way', () => {
 		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 		const account = new Account({ id: 1, name: 'Test', userId: userIds }, []);
 
 		/*
@@ -357,7 +357,7 @@ describe('Tests for getNextPaymentDate', () => {
 	test('An account with no expenses', () => {
 		const account = new Account({ id: 1, name: 'Test', userId: userIds }, []);
 
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 		const paymentDate = util.getNextPaymentDate(account);
 		expect(paymentDate).toBe(null);
 	});
@@ -390,7 +390,7 @@ describe('Tests for getNextPaymentDate', () => {
 		account.expenses = [expense];
 
 		vi.setSystemTime(new Date(2023, Month.JUNE, 1));
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 		const paymentDate = util.getNextPaymentDate(account);
 		expect(paymentDate).toBe(null);
 	});
@@ -415,7 +415,7 @@ describe('Tests for getNextPaymentDate', () => {
 		];
 
 		vi.setSystemTime(new Date(2023, Month.JUNE, 1));
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 		const paymentDate = util.getNextPaymentDate(account);
 		if (paymentDate == null) {
 			throw Error('Should have found a payment date');
@@ -476,7 +476,7 @@ describe('Tests for getNextPaymentDate', () => {
 		account.expenses = [expense1, expense2];
 
 		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 		const paymentDate = util.getNextPaymentDate(account);
 		if (paymentDate == null) {
 			throw Error('Should have found a payment date');
@@ -537,7 +537,7 @@ describe('Tests for getNextPaymentDate', () => {
 		account.expenses = [expense1, expense2];
 
 		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 		const paymentDate = util.getNextPaymentDate(account);
 		if (paymentDate == null) {
 			throw Error('Should have found a payment date');
@@ -597,7 +597,7 @@ describe('Tests for getNextPaymentDate', () => {
 
 		account.expenses = [expense1, expense2];
 
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
 		const paymentDate = util.getNextPaymentDate(account);
 		if (paymentDate == null) {
@@ -626,7 +626,7 @@ describe('Tests for getNextPaymentDateForExpense', () => {
 			[]
 		);
 
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 		vi.setSystemTime(new Date(2023, Month.JUNE, 1));
 		const paymentDate = util.getNextPaymentDateForExpense(expense);
 		if (paymentDate == null) {
@@ -653,7 +653,7 @@ describe('Tests for getNextPaymentDateForExpense', () => {
 			[]
 		);
 
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 		vi.setSystemTime(new Date(2023, Month.DECEMBER, 1));
 		const paymentDate = util.getNextPaymentDateForExpense(expense);
 		if (paymentDate == null) {
@@ -689,7 +689,7 @@ describe('Tests for getNextPaymentDateForExpense', () => {
 			})
 		];
 
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 		vi.setSystemTime(new Date(2023, Month.MARCH, 1));
 		const paymentDate = util.getNextPaymentDateForExpense(expense);
 		if (paymentDate == null) {
@@ -725,7 +725,7 @@ describe('Tests for getNextPaymentDateForExpense', () => {
 			})
 		];
 
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 		vi.setSystemTime(new Date(2023, Month.MAY, 1));
 		const paymentDate = util.getNextPaymentDateForExpense(expense);
 		if (paymentDate == null) {
@@ -766,7 +766,7 @@ describe('Tests for getNextPaymentDateForExpense', () => {
 		);
 
 		vi.setSystemTime(new Date(2023, Month.MAY, 1));
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 		const paymentDate = util.getNextPaymentDateForExpense(expense);
 		if (paymentDate == null) {
 			throw Error('Should have found a payment date');
@@ -794,7 +794,7 @@ describe('Test for getNextPaymentDateForExpenseAfter', () => {
 			[]
 		);
 
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 		const date = new Date(2023, Month.JUNE, 1);
 		const paymentDate = util.getNextPaymentDateForExpenseAfter(expense, date);
 
@@ -819,7 +819,7 @@ describe('Test for getAccountBalanceOn', () => {
 			createExpenseOn(300, [Month.FEBRUARY, Month.MAY, Month.AUGUST, Month.NOVEMBER]) //100
 		];
 
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 		let amount = util.getAccountBalanceOn(account, new Date(2023, Month.JANUARY, 1));
 		expect(amount).toBe(200);
 
@@ -867,7 +867,7 @@ describe('Test for getExpensesIn', () => {
 			createExpenseOn(4, [Month.JULY])
 		]);
 
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 		let expenses = util.getExpensesIn(account, Month.JANUARY);
 		expect(expenses.length).toBe(2);
 		expect(expenses[0].amount).toBe(2);
@@ -888,7 +888,7 @@ describe('Test for getExpensesIn', () => {
 			createExpenseOn(2, [Month.JULY], false)
 		]);
 
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 		const expenses = util.getExpensesIn(account, Month.JULY);
 		expect(expenses.length).toBe(1);
 		expect(expenses[0].amount).toBe(1);
@@ -897,7 +897,7 @@ describe('Test for getExpensesIn', () => {
 	test('Monthly expenses are not included', () => {
 		const account = new Account({ id: 1, name: 'Test', userId: userIds }, [createExpenseOn(1, [])]);
 
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 		const expenses = util.getExpensesIn(account, Month.JULY);
 		expect(expenses.length).toBe(0);
 	});
@@ -911,7 +911,7 @@ describe('Test for getMonthlyBudgetTransferAmount', () => {
 			createExpenseOn(1200, [Month.JULY])
 		]);
 
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 		const amount = util.getMonthlyBudgetTransferAmount(account);
 		expect(amount).toBe(300);
 	});
@@ -921,7 +921,7 @@ describe('Test for getMonthlyBudgetTransferAmount', () => {
 			createExpenseOn(1200, [Month.JULY], false)
 		]);
 
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 		const amount = util.getMonthlyBudgetTransferAmount(account);
 		expect(amount).toBe(0);
 	});
@@ -931,7 +931,7 @@ describe('Test for getMonthlyBudgetTransferAmount', () => {
 			createExpenseOn(100, [])
 		]);
 
-		const util = new CurrentAmountUtil();
+		const util = new AccountBalanceUtil();
 		const amount = util.getMonthlyBudgetTransferAmount(account);
 		expect(amount).toBe(0);
 	});

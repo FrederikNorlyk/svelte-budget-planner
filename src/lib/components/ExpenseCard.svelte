@@ -2,15 +2,15 @@
 	import type { Account } from '$lib/models/Account';
 	import type { Expense } from '$lib/models/Expense';
 	import { AmountUtil } from '$lib/util/AmountUtil';
-	import { CurrentAmountUtil } from '$lib/util/CurrentAmountUtil';
+	import { AccountBalanceUtil } from '$lib/util/AccountBalanceUtil';
 	import { DateUtil } from '$lib/util/DateUtil';
 	import { _ } from 'svelte-i18n';
 
 	export let expense: Expense;
 	export let account: Account;
 
-	const currentAmountUtil = new CurrentAmountUtil();
-	const nextPaymentDate = currentAmountUtil.getNextPaymentDateForExpense(expense);
+	const accountBalanceUtil = new AccountBalanceUtil();
+	const nextPaymentDate = accountBalanceUtil.getNextPaymentDateForExpense(expense);
 	const monthlyAmount = expense.monthlyAmount;
 
 	function getAmount(expense: Expense) {
