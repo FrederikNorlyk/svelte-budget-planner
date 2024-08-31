@@ -10,7 +10,12 @@ export const load: PageServerLoad = async (event) => {
 	}
 
 	const accountClient = new AccountClient(session.user.id);
-	const accounts = await accountClient.listAllExpanded();
+	let accounts = await accountClient.listAllExpanded();
+
+	// Don't include accounts that only have monthly expenses
+	accounts = accounts.filter((account) =>
+		account.expenses.find((expense) => expense.isEnabled && !expense.isMonthlyExpense)
+	);
 
 	return {
 		session: session,
