@@ -3,7 +3,7 @@
 {
 	"name": "Node.js & TypeScript",
 	"image": "mcr.microsoft.com/devcontainers/typescript-node:0-20",
-	"postCreateCommand": "npm install && npx vercel link && npx vercel env pull .env",
+	"postCreateCommand": "nvm install 20.9.0 && nvm use 20.9.0 && npm install && npx vercel link && npx vercel env pull .env",
 	"customizations": {
 		"vscode": {
 			"extensions": [
