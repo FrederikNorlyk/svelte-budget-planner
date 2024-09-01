@@ -2,7 +2,7 @@
 
 Simple budget planning application, built using SvelteKit.
 
-<img src="screenshot_01.png">
+<img src="screenshot_01.png" alt="Screenshot of the accounts page">
 
 ### Tech stack
 
@@ -35,7 +35,9 @@ npx vercel link
 npx vercel env pull .env
 ```
 
-Auth.js requires three environment variables:
+### Environment variables
+
+#### Auth.js
 
 ```
 AUTH_GITHUB_ID=
@@ -43,8 +45,31 @@ AUTH_GITHUB_SECRET=
 AUTH_SECRET=
 ```
 
-Playwright requires:
+#### Playwright
+
+Playwright needs to know which site to navigate to, when testing.
 
 ```
 PLAYWRIGHT_BASE_URL=https://svelte-budget-planner.vercel.app
+```
+
+#### Database connection
+
+If you want to prefix your database table names, then you can set:
+
+```
+# The expenses table will be "test_expenses" instead of "expenses".
+DB_TABLE_PREFIX=test
+```
+
+Vercel's PostgreSQL database connection requires:
+
+```
+POSTGRES_DATABASE=
+POSTGRES_HOST=
+POSTGRES_PASSWORD=
+POSTGRES_PRISMA_URL=
+POSTGRES_URL=
+POSTGRES_URL_NON_POOLING=
+POSTGRES_USER=
 ```
