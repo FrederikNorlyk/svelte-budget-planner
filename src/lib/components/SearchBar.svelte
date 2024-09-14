@@ -5,7 +5,7 @@
 
 	let searchResults: SearchResult[] = [];
 	let searchFieldInput: HTMLInputElement;
-	let searchListElements: HTMLAnchorElement[];
+	let searchListDomElements: HTMLAnchorElement[] = [];
 
 	async function onSearchValueChanged(value: string) {
 		if (value.trim() === '') {
@@ -26,25 +26,24 @@
 		searchResults = json;
 	}
 
-	function onKeyPressed(event: KeyboardEvent): boolean {
-		var validSearchListElements = searchListElements.filter((element) => element != null);
+	function focusFirstSearchResult() {
+		var validSearchListElements = searchListDomElements.filter((element) => element != null);
 
-		if (event.key === 'ArrowDown') {
-			if (validSearchListElements.length) {
-				validSearchListElements[0].focus();
-			}
-			return true;
-		} else if (event.key === 'ArrowUp') {
-			if (validSearchListElements.length) {
-				validSearchListElements[validSearchListElements.length - 1].focus();
-			}
-			return true;
-		}
-		return false;
+		validSearchListElements[0]?.focus();
+	}
+
+	function focusLastSearchResult() {
+		var validSearchListElements = searchListDomElements.filter((element) => element != null);
+		validSearchListElements.at(-1)?.focus();
 	}
 </script>
 
-<SearchField bind:input={searchFieldInput} onValueChanged={onSearchValueChanged} {onKeyPressed} />
+<SearchField
+	bind:input={searchFieldInput}
+	onValueChanged={onSearchValueChanged}
+	{focusFirstSearchResult}
+	{focusLastSearchResult}
+/>
 
 {#if searchResults.length > 0}
 	<div class="mt-2">
@@ -66,7 +65,7 @@
 				onSearchValueChanged(searchFieldInput.value);
 			}}
 			results={searchResults}
-			bind:listElements={searchListElements}
+			bind:listElements={searchListDomElements}
 		/>
 	</div>
 {/if}

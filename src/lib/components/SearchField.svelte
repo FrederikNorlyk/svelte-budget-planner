@@ -9,17 +9,20 @@
 	 * Return true to indicate that the key press was captured by the parent and should not be handled by the
 	 * search field.
 	 */
-	export let onKeyPressed: (event: KeyboardEvent) => boolean;
+	export let focusFirstSearchResult: () => void;
+	export let focusLastSearchResult: () => void;
 	export let input: HTMLInputElement;
 
 	let value: string;
 	let timeoutId: number;
 
 	function onKeyUp(event: KeyboardEvent) {
-		var wasCapturedByParent = onKeyPressed(event);
-
-		// The key press was used by the parent component to perform navigation
-		if (wasCapturedByParent) {
+		if (event.key === 'ArrowDown') {
+			focusFirstSearchResult();
+			event.preventDefault();
+			return;
+		} else if (event.key === 'ArrowUp') {
+			focusLastSearchResult();
 			event.preventDefault();
 			return;
 		}

@@ -5,7 +5,7 @@
 	import { RecordType } from '$lib/models/SearchResult';
 	import type SearchResult from '$lib/models/SearchResult';
 
-	export let results: SearchResult[];
+	export let results: SearchResult[] = [];
 	export let onSearchResultClicked: () => void;
 	/**
 	 * References to each dom element for each search result.
@@ -25,14 +25,18 @@
 	}
 
 	function onKeyUp(currentIndex: number, event: KeyboardEvent) {
-		// If a letter from a-z (or backspace) was pressed, interpret it as a new search
-		if (/^[a-zA-Z]$/.test(event.key) || event.key == 'Backspace') {
+		// Some characters should be interpret it as a new search
+		var searchCharacters = ['Backspace', '-', ',', '.'];
+
+		if (/^[a-zA-Z0-9]$/.test(event.key) || searchCharacters.includes(event.key)) {
 			event.preventDefault();
 			setSearchFieldAsFocus(event.key);
 			return;
 		}
 
-		if (!listElements.length) {
+		var validSearchListElements = listElements.filter((element) => element != null);
+
+		if (!validSearchListElements.length) {
 			return;
 		}
 
@@ -40,18 +44,18 @@
 
 		if (event.key === 'ArrowDown') {
 			index = currentIndex + 1;
-			if (index > listElements.length - 1) {
+			if (index > validSearchListElements.length - 1) {
 				index = 0;
 			}
-			listElements[index].focus();
+			validSearchListElements[index].focus();
 		} else if (event.key === 'ArrowUp') {
 			index = currentIndex - 1;
 			if (index == -1) {
-				index = listElements.length - 1;
+				index = validSearchListElements.length - 1;
 			}
 		}
 
-		listElements[index].focus();
+		validSearchListElements[index].focus();
 	}
 </script>
 
