@@ -3,12 +3,13 @@
 	import SearchField from './SearchField.svelte';
 	import SearchResultList from './SearchResultList.svelte';
 
-	let results: SearchResult[] = [];
-	let searchFieldValue: string = '';
+	let searchResults: SearchResult[] = [];
+	let searchFieldInput: HTMLInputElement;
+	let searchListElements: HTMLAnchorElement[];
 
 	async function onSearchValueChanged(value: string) {
 		if (value.trim() === '') {
-			results = [];
+			searchResults = [];
 			return;
 		}
 
@@ -22,20 +23,43 @@
 
 		const json = await response.json();
 
-		results = json;
+		searchResults = json;
+	}
+
+	function onKeyPressed(event: KeyboardEvent): boolean {
+		var validSearchListElements = searchListElements.filter((element) => element != null);
+
+		if (event.key === 'ArrowDown') {
+			if (validSearchListElements.length) {
+				validSearchListElements[0].focus();
+			}
+			return true;
+		} else if (event.key === 'ArrowUp') {
+			if (validSearchListElements.length) {
+				validSearchListElements[validSearchListElements.length - 1].focus();
+			}
+			return true;
+		}
+		return false;
 	}
 </script>
 
-<SearchField bind:value={searchFieldValue} onValueChanged={onSearchValueChanged} />
+<SearchField bind:input={searchFieldInput} onValueChanged={onSearchValueChanged} {onKeyPressed} />
 
-{#if results.length > 0}
+{#if searchResults.length > 0}
 	<div class="mt-2">
 		<SearchResultList
 			onSearchResultClicked={() => {
-				searchFieldValue = '';
-				results = [];
+				searchFieldInput.value = '';
+				searchResults = [];
 			}}
-			{results}
+			setSearchFieldAsFocus={(typedCharacter) => {
+				searchFieldInput.focus();
+				searchFieldInput.value += typedCharacter;
+				onSearchValueChanged(searchFieldInput.value);
+			}}
+			results={searchResults}
+			bind:listElements={searchListElements}
 		/>
 	</div>
 {/if}

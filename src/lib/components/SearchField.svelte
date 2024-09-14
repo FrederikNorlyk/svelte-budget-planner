@@ -2,12 +2,28 @@
 	import IconMagnifyingGlass from '$lib/icons/IconMagnifyingGlass.svelte';
 
 	export let hasFocus = false;
-	export let value: string;
 	export let onValueChanged: (value: string) => void;
-	let input: HTMLInputElement;
+	/**
+	 * Fired when a keyboard key is pressed while the field has focus.
+	 *
+	 * Return true to indicate that the key press was captured by the parent and should not be handled by the
+	 * search field.
+	 */
+	export let onKeyPressed: (event: KeyboardEvent) => boolean;
+	export let input: HTMLInputElement;
+
+	let value: string;
 	let timeoutId: number;
 
-	function onKeydown(event: KeyboardEvent) {
+	function onKeyUp(event: KeyboardEvent) {
+		var wasCapturedByParent = onKeyPressed(event);
+
+		// The key press was used by the parent component to perform navigation
+		if (wasCapturedByParent) {
+			event.preventDefault();
+			return;
+		}
+
 		if (event.key === 'Escape' || event.key === 'Enter') {
 			(event.target as HTMLInputElement).blur();
 		}
@@ -42,7 +58,7 @@
 			on:focusout={() => {
 				hasFocus = false;
 			}}
-			on:keydown={onKeydown}
+			on:keyup={onKeyUp}
 			on:input={onInput}
 			bind:this={input}
 			bind:value
