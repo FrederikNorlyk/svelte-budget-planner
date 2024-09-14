@@ -67,10 +67,6 @@ export default [
 				extraFileExtensions: ['.svelte'],
 				project: true
 			}
-		},
-
-		rules: {
-			'@typescript-eslint/no-floating-promises': 'error'
 		}
 	},
 	{
@@ -84,6 +80,13 @@ export default [
 			parserOptions: {
 				parser: '@typescript-eslint/parser'
 			}
+		}
+	},
+	{
+		// This block targets only the 'tests/e2e' directory
+		files: ['tests/e2e/**/*.ts'],
+		rules: {
+			'@typescript-eslint/no-floating-promises': 'error'
 		}
 	}
 ];
