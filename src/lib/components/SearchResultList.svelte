@@ -25,8 +25,8 @@
 	}
 
 	function onKeyUp(currentIndex: number, event: KeyboardEvent) {
-		// If a letter from a-z was pressed, interpret it as a new search
-		if (/^[a-zA-Z]$/.test(event.key)) {
+		// If a letter from a-z (or backspace) was pressed, interpret it as a new search
+		if (/^[a-zA-Z]$/.test(event.key) || event.key == 'Backspace') {
 			event.preventDefault();
 			setSearchFieldAsFocus(event.key);
 			return;
