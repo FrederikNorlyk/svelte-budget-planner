@@ -13,7 +13,7 @@
 	export let listElements: HTMLAnchorElement[] = [];
 	export let setSearchFieldAsFocus: (typedCharacter: string) => void;
 
-	function getResultSymbol(result: SearchResult) {
+	function getResultIcon(result: SearchResult) {
 		switch (result.recordType) {
 			case RecordType.ACCOUNT:
 				return IconBuildingLibrary;
@@ -69,7 +69,7 @@
 					data-sveltekit-reload
 				>
 					<span class="badge">
-						<svelte:component this={getResultSymbol(result)} />
+						<svelte:component this={getResultIcon(result)} />
 					</span>
 					<span class="flex-auto">{result.name}</span>
 				</a>
