@@ -36,19 +36,22 @@
 			return;
 		}
 
+		var index = 0;
+
 		if (event.key === 'ArrowDown') {
-			var index = currentIndex + 1;
+			index = currentIndex + 1;
 			if (index > listElements.length - 1) {
 				index = 0;
 			}
 			listElements[index].focus();
 		} else if (event.key === 'ArrowUp') {
-			var index = currentIndex - 1;
+			index = currentIndex - 1;
 			if (index == -1) {
 				index = listElements.length - 1;
 			}
-			listElements[index].focus();
 		}
+
+		listElements[index].focus();
 	}
 </script>
 
