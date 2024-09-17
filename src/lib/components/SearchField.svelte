@@ -12,6 +12,7 @@
 	export let focusFirstSearchResult: () => void;
 	export let focusLastSearchResult: () => void;
 	export let input: HTMLInputElement;
+	import { _ } from 'svelte-i18n';
 
 	let value: string;
 	let timeoutId: number;
@@ -66,6 +67,13 @@
 			bind:this={input}
 			bind:value
 			type="search"
+			placeholder={$_('searchField.placeholder')}
 		/>
-	</div>
-</button>
+	</div></button
+>
+
+<style>
+	.search-field-shortcut-hint {
+		font-family: Consolas, monaco, monospace;
+	}
+</style>

@@ -58,5 +58,6 @@
 	"account.shared": "Shared account",
 	"errorDeleteAccountHasExpenses": "This account can not be deleted, as it has expenses",
 	"settings.saved": "The settings were saved",
-	"tagView.details": "These expenses belong to the same group"
+	"tagView.details": "These expenses belong to the same group",
+	"searchField.placeholder": "Search (ctrl+k)"
 }

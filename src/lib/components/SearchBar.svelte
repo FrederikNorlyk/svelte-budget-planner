@@ -2,6 +2,7 @@
 	import type SearchResult from '$lib/models/SearchResult';
 	import SearchField from './SearchField.svelte';
 	import SearchResultList from './SearchResultList.svelte';
+	import { onMount, onDestroy } from 'svelte';
 
 	let searchResults: SearchResult[] = [];
 	let searchFieldInput: HTMLInputElement;
@@ -36,6 +37,25 @@
 		var validSearchListElements = searchListDomElements.filter((element) => element != null);
 		validSearchListElements.at(-1)?.focus();
 	}
+
+	function handleKeydown(event: KeyboardEvent) {
+		if (event.ctrlKey && event.key === 'k') {
+			event.preventDefault();
+			searchFieldInput?.focus();
+		}
+	}
+
+	onMount(() => {
+		if (typeof window !== 'undefined') {
+			window.addEventListener('keydown', handleKeydown);
+		}
+	});
+
+	onDestroy(() => {
+		if (typeof window !== 'undefined') {
+			window.removeEventListener('keydown', handleKeydown);
+		}
+	});
 </script>
 
 <SearchField
