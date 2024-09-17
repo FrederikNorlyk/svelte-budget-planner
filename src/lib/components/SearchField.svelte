@@ -71,9 +71,3 @@
 		/>
 	</div></button
 >
-
-<style>
-	.search-field-shortcut-hint {
-		font-family: Consolas, monaco, monospace;
-	}
-</style>
