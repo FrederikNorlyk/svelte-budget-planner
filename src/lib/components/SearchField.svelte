@@ -18,7 +18,7 @@
 	let timeoutId: number;
 
 	function onKeyUp(event: KeyboardEvent) {
-		if (event.key === 'ArrowDown') {
+		if (event.key === 'ArrowDown' || event.key === 'Enter') {
 			focusFirstSearchResult();
 			event.preventDefault();
 			return;
