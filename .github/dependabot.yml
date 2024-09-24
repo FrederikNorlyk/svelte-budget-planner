@@ -6,9 +6,6 @@ updates:
       interval: 'weekly'
       day: 'sunday'
     groups:
-      production-dependencies:
-        dependency-type: 'production'
-      development-dependencies:
-        dependency-type: 'development'
-        exclude-patterns:
-          - 'eslint'
+      all:
+        patterns:
+          - '*'
