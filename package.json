@@ -53,7 +53,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@auth/sveltekit": "^1.4.2",
+		"@auth/sveltekit": "^1.5.0",
 		"@floating-ui/dom": "^1.6.11",
 		"@vercel/postgres": "^0.10.0",
 		"@vercel/postgres-kysely": "^0.10.0",
