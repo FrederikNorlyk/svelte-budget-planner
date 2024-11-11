@@ -1,5 +1,6 @@
 <script lang="ts">
-	import IconChatBubbleOvalLeftEllipsis from '$lib/icons/IconChatBubbleOvalLeftEllipsis.svelte';
+	import MessageCircleMore from 'lucide-svelte/icons/message-circle-more';
+
 	import { _ } from 'svelte-i18n';
 
 	export let question: string;
@@ -12,9 +13,9 @@
 		</p>
 	</div>
 	<div class="relative ml-20 mt-5 md:ml-60 md:mr-20">
-		<IconChatBubbleOvalLeftEllipsis
-			cssClass="absolute -left-3 -top-3 h-11 w-11 rounded-full bg-white p-2"
-		/>
+		<span class="absolute -left-3 -top-3 h-10 w-10 rounded-full bg-white p-2">
+			<MessageCircleMore />
+		</span>
 		<p class="rounded-xl bg-tertiary-500 p-5 pl-10 text-white shadow-lg">
 			{$_('chat.howToAdd')}
 		</p>

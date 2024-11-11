@@ -1,7 +1,7 @@
 <script lang="ts">
-	import IconArrowLeft from '$lib/icons/IconArrowLeft.svelte';
-	import IconBarsThree from '$lib/icons/IconBarsThree.svelte';
-	import IconPencilSquare from '$lib/icons/IconPencilSquare.svelte';
+	import Menu from 'lucide-svelte/icons/menu';
+	import ArrowLeft from 'lucide-svelte/icons/arrow-left';
+	import PencilLine from 'lucide-svelte/icons/pencil-line';
 	import { type PopupSettings, popup } from '@skeletonlabs/skeleton';
 	import { _ } from 'svelte-i18n';
 	import { signOut } from '@auth/sveltekit/client';
@@ -24,7 +24,7 @@
 		{#if backHref}
 			<a class="mr-2 mt-2" href={backHref}>
 				<button type="button" class="variant-filled btn-icon" aria-label="Back button">
-					<IconArrowLeft cssClass="h-8 w-8" />
+					<ArrowLeft />
 				</button>
 			</a>
 		{/if}
@@ -33,7 +33,7 @@
 			{#if editHref}
 				<a class="flex space-x-1" href={editHref} aria-label="Edit">
 					<h1 class="text-3xl">{$_(title, { values: titleParams })}</h1>
-					<IconPencilSquare cssClass="flex-none h-5 w-5" />
+					<PencilLine size="17" />
 				</a>
 				<p>{$_(details)}</p>
 			{:else}
@@ -56,7 +56,7 @@
 			use:popup={userMenuPopup}
 			aria-label="Menu button"
 		>
-			<IconBarsThree cssClass="w-6 h-6" />
+			<Menu />
 		</button>
 	</div>
 

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import SelectField from '$lib/components/SelectField.svelte';
 	import type { SelectOption } from '$lib/components/types/SelectOption';
-	import IconXMark from '$lib/icons/IconXMark.svelte';
+	import X from 'lucide-svelte/icons/x';
 	import { _ } from 'svelte-i18n';
 	import type { PaymentDate } from '$lib/models/PaymentDate';
 	import { DateUtil } from '$lib/util/DateUtil';
@@ -43,7 +43,7 @@
 			type="button"
 			class="variant-filled btn-icon mt-6 bg-error-600"
 		>
-			<IconXMark cssClass="w-8 h-8" />
+			<X />
 		</button>
 	</div>
 </div>

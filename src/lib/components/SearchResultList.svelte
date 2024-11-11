@@ -1,7 +1,7 @@
 <script lang="ts">
-	import IconBankNotes from '$lib/icons/micro/IconBankNotes.svelte';
-	import IconBuildingLibrary from '$lib/icons/micro/IconBuildingLibrary.svelte';
-	import IconTag from '$lib/icons/micro/IconTag.svelte';
+	import Tag from 'lucide-svelte/icons/tag';
+	import Banknote from 'lucide-svelte/icons/banknote';
+	import Landmark from 'lucide-svelte/icons/landmark';
 	import { RecordType } from '$lib/models/SearchResult';
 	import type SearchResult from '$lib/models/SearchResult';
 
@@ -16,11 +16,11 @@
 	function getResultIcon(result: SearchResult) {
 		switch (result.recordType) {
 			case RecordType.ACCOUNT:
-				return IconBuildingLibrary;
+				return Landmark;
 			case RecordType.EXPENSE:
-				return IconBankNotes;
+				return Banknote;
 			case RecordType.TAG:
-				return IconTag;
+				return Tag;
 		}
 	}
 
@@ -73,7 +73,7 @@
 					data-sveltekit-reload
 				>
 					<span class="badge">
-						<svelte:component this={getResultIcon(result)} />
+						<svelte:component this={getResultIcon(result)} size="20" />
 					</span>
 					<span class="flex-auto">{result.name}</span>
 				</a>
