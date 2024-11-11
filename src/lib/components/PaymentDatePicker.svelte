@@ -3,7 +3,7 @@
 	import MonthPicker from '$lib/components/MonthPicker.svelte';
 	import { _ } from 'svelte-i18n';
 	import { Month } from '$lib/enums/Month';
-	import IconChatBubbleOvalLeftEllipsis from '$lib/icons/IconChatBubbleOvalLeftEllipsis.svelte';
+	import MessageCircleMore from 'lucide-svelte/icons/message-circle-more';
 
 	export let paymentDates: PaymentDate[];
 	paymentDates.sort((d1, d2) => d1.month - d2.month);
@@ -40,7 +40,7 @@
 
 {#if paymentDates.length === 0}
 	<div class="flex">
-		<IconChatBubbleOvalLeftEllipsis cssClass="h-5 w-5" />
+		<MessageCircleMore size="20" />
 		<span class="text-sm">{$_('expense.isMonthly.explanation')}</span>
 	</div>
 {/if}

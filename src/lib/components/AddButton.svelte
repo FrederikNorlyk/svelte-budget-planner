@@ -1,5 +1,5 @@
 <script lang="ts">
-	import IconPlus from '$lib/icons/IconPlus.svelte';
+	import Plus from 'lucide-svelte/icons/plus';
 
 	export let href: string;
 	export let ariaLabel: string;
@@ -10,5 +10,5 @@
 	{href}
 	aria-label={ariaLabel}
 >
-	<IconPlus cssClass="h-14 w-14 text-slate-300" />
+	<Plus size="55" class="text-slate-300" />
 </a>

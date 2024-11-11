@@ -59,6 +59,7 @@
 		"@vercel/postgres-kysely": "^0.10.0",
 		"kysely": "^0.27.4",
 		"kysely-plugin-prefix": "^1.1.1",
+		"lucide-svelte": "^0.456.0",
 		"svelte-i18n": "^4.0.1"
 	},
 	"engines": {

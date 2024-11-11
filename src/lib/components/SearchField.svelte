@@ -1,5 +1,5 @@
 <script lang="ts">
-	import IconMagnifyingGlass from '$lib/icons/IconMagnifyingGlass.svelte';
+	import Search from 'lucide-svelte/icons/search';
 
 	export let hasFocus = false;
 	export let onValueChanged: (value: string) => void;
@@ -52,7 +52,7 @@
 <button on:click={() => input.focus()} class="w-full cursor-text">
 	<div class="input-group grid-cols-[auto_1fr_auto]">
 		<div>
-			<IconMagnifyingGlass cssClass="w-6 h-6 text-gray-600" />
+			<Search size="23" class="text-gray-500" />
 		</div>
 
 		<input
