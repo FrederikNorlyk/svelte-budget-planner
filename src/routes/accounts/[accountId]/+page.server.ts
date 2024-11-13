@@ -4,7 +4,7 @@ import { redirect } from '@sveltejs/kit';
 
 export async function load(event) {
 	const session = await event.locals.auth();
-	if (session == null) {
+	if (!session) {
 		redirect(303, '/');
 	}
 
@@ -19,7 +19,7 @@ export async function load(event) {
 
 	const account = await accountClient.getById(id);
 
-	if (account == null) {
+	if (!account) {
 		redirect(303, '/accounts');
 	}
 
