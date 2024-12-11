@@ -1,20 +1,22 @@
 <script lang="ts">
 	import Search from 'lucide-svelte/icons/search';
-
-	export let hasFocus = false;
-	export let onValueChanged: (value: string) => void;
-	/**
-	 * Fired when a keyboard key is pressed while the field has focus.
-	 *
-	 * Return true to indicate that the key press was captured by the parent and should not be handled by the
-	 * search field.
-	 */
-	export let focusFirstSearchResult: () => void;
-	export let focusLastSearchResult: () => void;
-	export let input: HTMLInputElement;
 	import { _ } from 'svelte-i18n';
 
-	let value: string;
+	interface Props {
+		onValueChanged: (value: string) => void;
+		focusFirstSearchResult: () => void;
+		focusLastSearchResult: () => void;
+		input: HTMLInputElement;
+	}
+
+	let {
+		onValueChanged,
+		focusFirstSearchResult,
+		focusLastSearchResult,
+		input = $bindable()
+	}: Props = $props();
+
+	let value = $state('');
 	let timeoutId: number;
 
 	function onKeyUp(event: KeyboardEvent) {
@@ -39,35 +41,29 @@
 		}
 
 		const target = event.target as HTMLInputElement;
-		const value = target.value;
+		const newValue = target.value;
 
-		if (value.trim() === '') {
+		if (newValue.trim() === '') {
 			onValueChanged('');
 		} else {
-			timeoutId = window.setTimeout(() => onValueChanged(value), 400);
+			timeoutId = window.setTimeout(() => onValueChanged(newValue), 400);
 		}
 	}
 </script>
 
-<button on:click={() => input.focus()} class="w-full cursor-text">
+<button onclick={() => input.focus()} class="w-full cursor-text">
 	<div class="input-group grid-cols-[auto_1fr_auto]">
 		<div>
 			<Search size="23" class="text-gray-500" />
 		</div>
 
 		<input
-			on:focusin={() => {
-				hasFocus = true;
-			}}
-			on:focusout={() => {
-				hasFocus = false;
-			}}
-			on:keyup={onKeyUp}
-			on:input={onInput}
+			onkeyup={onKeyUp}
+			oninput={onInput}
 			bind:this={input}
 			bind:value
 			type="search"
 			placeholder={$_('searchField.placeholder')}
 		/>
-	</div></button
->
+	</div>
+</button>

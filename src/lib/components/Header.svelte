@@ -6,11 +6,21 @@
 	import { _ } from 'svelte-i18n';
 	import { signOut } from '@auth/sveltekit/client';
 
-	export let title: string;
-	export let titleParams = undefined;
-	export let details: string;
-	export let backHref: string | undefined = undefined;
-	export let editHref: string | undefined = undefined;
+	interface Props {
+		title: string;
+		titleParams?: Record<string, string | number | boolean | Date | null | undefined> | undefined;
+		details: string;
+		backHref?: string | undefined;
+		editHref?: string | undefined;
+	}
+
+	let {
+		title,
+		titleParams = undefined,
+		details,
+		backHref = undefined,
+		editHref = undefined
+	}: Props = $props();
 
 	const userMenuPopup: PopupSettings = {
 		event: 'click',
@@ -71,7 +81,7 @@
 			<a class="variant-ghost btn w-full" href="/settings" rel="noreferrer"
 				>{$_('settings.title')}</a
 			>
-			<button class="variant-ghost btn w-full" on:click={() => signOut()}>{$_('signOut')}</button>
+			<button class="variant-ghost btn w-full" onclick={() => signOut()}>{$_('signOut')}</button>
 		</div>
 	</div>
 </div>

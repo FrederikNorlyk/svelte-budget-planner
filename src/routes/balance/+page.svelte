@@ -2,7 +2,7 @@
 	import { Account } from '$lib/models/Account.js';
 	import BalanceCard from '$lib/components/AccountBalanceCard.svelte';
 
-	export let data;
+	let { data } = $props();
 
 	const accounts = data.accounts.map((account) => Account.parse(account));
 </script>

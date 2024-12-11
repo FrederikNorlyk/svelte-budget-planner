@@ -6,8 +6,12 @@
 	import { DateUtil } from '$lib/util/DateUtil';
 	import { _ } from 'svelte-i18n';
 
-	export let expense: Expense;
-	export let account: Account;
+	interface Props {
+		expense: Expense;
+		account: Account;
+	}
+
+	let { expense, account }: Props = $props();
 
 	const accountBalanceUtil = new AccountBalanceUtil();
 	const nextPaymentDate = accountBalanceUtil.getNextPaymentDateForExpense(expense);

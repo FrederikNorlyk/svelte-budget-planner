@@ -6,18 +6,16 @@
 	import { type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { enhance } from '$app/forms';
 	import Checkbox from '$lib/components/Checkbox.svelte';
-
 	import { getModalStore } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 
 	const toastStore = getToastStore();
 	const modalStore = getModalStore();
 
-	export let data;
-	export let form;
+	let { data, form } = $props();
 
 	let account = data.account != null ? Account.parse(data.account) : null;
-	let isSaving = false;
+	let isSaving = $state(false);
 
 	if (form?.error) {
 		toastStore.trigger({
@@ -26,8 +24,11 @@
 		});
 	}
 
-	function showDeleteModal(): void {
+	function showDeleteModal(event: Event): void {
+		event.preventDefault();
+
 		const component: ModalComponent = { ref: DeleteModal };
+
 		const modal: ModalSettings = {
 			type: 'component',
 			component: component,
@@ -36,6 +37,7 @@
 			buttonTextSubmit: $_('button.delete'),
 			buttonTextCancel: $_('button.cancel')
 		};
+
 		modalStore.trigger(modal);
 	}
 </script>
@@ -81,7 +83,7 @@
 				formnovalidate={true}
 				disabled={isSaving}
 				class="variant-filled btn basis-1/4"
-				on:click|preventDefault={showDeleteModal}>{$_('button.delete')}</button
+				onclick={showDeleteModal}>{$_('button.delete')}</button
 			>
 		{/if}
 	</div>

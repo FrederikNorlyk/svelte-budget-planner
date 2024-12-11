@@ -4,7 +4,11 @@
 	import { AmountUtil } from '$lib/util/AmountUtil';
 	import { _ } from 'svelte-i18n';
 
-	export let account: Account;
+	interface Props {
+		account: Account;
+	}
+
+	let { account }: Props = $props();
 </script>
 
 <a

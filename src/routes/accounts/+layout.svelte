@@ -1,5 +1,10 @@
 <script lang="ts">
 	import { beforeNavigate, afterNavigate } from '$app/navigation';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 
 	let scrollPositions = new Map();
 
@@ -21,4 +26,4 @@
 	});
 </script>
 
-<slot />
+{@render children?.()}

@@ -6,6 +6,11 @@
 	import { Toast, Modal, initializeStores } from '@skeletonlabs/skeleton';
 	import Header from '$lib/components/Header.svelte';
 	import SearchBar from '$lib/components/SearchBar.svelte';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 
 	initializeStores();
 
@@ -29,6 +34,6 @@
 	</div>
 
 	<div class="mt-3">
-		<slot />
+		{@render children?.()}
 	</div>
 </main>

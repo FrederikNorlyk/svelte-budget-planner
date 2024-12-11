@@ -2,9 +2,18 @@
 	import type { SvelteComponent } from 'svelte';
 	import { getModalStore } from '@skeletonlabs/skeleton';
 
-	export let parent: SvelteComponent;
+	interface Props {
+		parent: SvelteComponent;
+	}
+
+	let { parent }: Props = $props();
 
 	const modalStore = getModalStore();
+
+	function cancelButtonPressed(event: Event) {
+		event.preventDefault();
+		parent.onClose();
+	}
 </script>
 
 {#if $modalStore[0]}
@@ -14,7 +23,7 @@
 
 		<footer class="modal-footer {parent.regionFooter}">
 			<form method="post" action="?/delete">
-				<button class="btn {parent.buttonNeutral}" on:click|preventDefault={parent.onClose}
+				<button class="btn {parent.buttonNeutral}" onclick={cancelButtonPressed}
 					>{parent.buttonTextCancel}</button
 				>
 				<button class="btn {parent.buttonPositive}">{parent.buttonTextSubmit}</button>

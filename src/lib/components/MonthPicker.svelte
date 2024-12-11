@@ -6,10 +6,14 @@
 	import type { PaymentDate } from '$lib/models/PaymentDate';
 	import { DateUtil } from '$lib/util/DateUtil';
 
-	export let paymentDate: PaymentDate;
-	export let disabled = false;
-	export let onInputRemoved: (paymentDate: PaymentDate) => void;
-	let self: HTMLDivElement;
+	interface Props {
+		paymentDate: PaymentDate;
+		disabled?: boolean;
+		onInputRemoved: (paymentDate: PaymentDate) => void;
+	}
+
+	let { paymentDate, disabled = false, onInputRemoved }: Props = $props();
+	let self: HTMLDivElement | undefined = $state();
 
 	const months: SelectOption<number>[] = [];
 	for (let i = 0; i < 12; i++) {
@@ -20,6 +24,9 @@
 	}
 
 	function removeSelf() {
+		if (!self) {
+			return;
+		}
 		self.parentNode?.removeChild(self);
 		onInputRemoved(paymentDate);
 	}
@@ -39,7 +46,7 @@
 	<div>
 		<button
 			{disabled}
-			on:click={removeSelf}
+			onclick={removeSelf}
 			type="button"
 			class="variant-filled btn-icon mt-6 bg-error-600"
 		>

@@ -4,7 +4,7 @@
 	import ExpenseCard from '$lib/components/ExpenseCard.svelte';
 	import AmountCard from '$lib/components/AmountCard.svelte';
 
-	export let data;
+	let { data } = $props();
 	const accounts: Account[] = data.accounts.map((a) => Account.parse(a));
 	const expenses: Expense[] = data.expenses.map((e) => Expense.parse(e));
 
@@ -12,7 +12,7 @@
 		return accounts.find((a) => a.id == expense.accountId)!;
 	}
 
-	let totalMonthlyAmount = 0;
+	let totalMonthlyAmount = $state(0);
 	for (const expense of expenses) {
 		if (!expense.isEnabled) {
 			continue;

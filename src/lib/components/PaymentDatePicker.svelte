@@ -5,9 +5,14 @@
 	import { Month } from '$lib/enums/Month';
 	import MessageCircleMore from 'lucide-svelte/icons/message-circle-more';
 
-	export let paymentDates: PaymentDate[];
+	interface Props {
+		paymentDates: PaymentDate[];
+		disabled?: boolean;
+	}
+
+	let { paymentDates = $bindable(), disabled = false }: Props = $props();
+
 	paymentDates.sort((d1, d2) => d1.month - d2.month);
-	export let disabled = false;
 
 	function onInputRemoved(paymentDate: PaymentDate) {
 		paymentDates = paymentDates.filter((p) => {
@@ -29,7 +34,7 @@
 
 <div class="flex space-x-3">
 	<p class="text-xl">{$_('paymentDates')}</p>
-	<button {disabled} on:click={addInput} type="button" class="variant-filled btn btn-sm">
+	<button {disabled} onclick={addInput} type="button" class="variant-filled btn btn-sm">
 		{$_('addDate')}
 	</button>
 </div>
