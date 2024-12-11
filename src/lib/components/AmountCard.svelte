@@ -2,8 +2,12 @@
 	import { _ } from 'svelte-i18n';
 	import { AmountUtil } from '$lib/util/AmountUtil';
 
-	export let text: string;
-	export let amount: number;
+	interface Props {
+		text: string;
+		amount: number;
+	}
+
+	let { text, amount }: Props = $props();
 </script>
 
 <div class="md:p-10">

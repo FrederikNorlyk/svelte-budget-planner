@@ -3,7 +3,11 @@
 
 	import { _ } from 'svelte-i18n';
 
-	export let question: string;
+	interface Props {
+		question: string;
+	}
+
+	let { question }: Props = $props();
 </script>
 
 <div class="space-y-6">

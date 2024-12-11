@@ -22,24 +22,25 @@
 	const toastStore = getToastStore();
 	const modalStore = getModalStore();
 
-	export let form;
-	export let data;
+	let { form, data } = $props();
 	const expense = data.expense != null ? Expense.parse(data.expense) : null;
 	const paymentDates = data.paymentDates.map((d) => PaymentDate.parse(d));
 
-	let isSaving = false;
+	let isSaving = $state(false);
 
 	let tagOptions: AutocompleteOption[] = [];
 	data.tags.forEach((tag) => {
 		tagOptions.push({ label: tag, value: tag });
 	});
 
-	$: if (form?.error) {
-		toastStore.trigger({
-			message: $_(form.error),
-			background: 'variant-filled-error'
-		});
-	}
+	$effect(() => {
+		if (form?.error) {
+			toastStore.trigger({
+				message: $_(form.error),
+				background: 'variant-filled-error'
+			});
+		}
+	});
 
 	let shareOptions: SelectOption<boolean>[] = [
 		{
@@ -52,8 +53,11 @@
 		}
 	];
 
-	function showDeleteModal(): void {
+	function showDeleteModal(event: MouseEvent): void {
+		event.preventDefault();
+
 		const component: ModalComponent = { ref: DeleteModal };
+
 		const modal: ModalSettings = {
 			type: 'component',
 			component: component,
@@ -62,6 +66,7 @@
 			buttonTextSubmit: $_('button.delete'),
 			buttonTextCancel: $_('button.cancel')
 		};
+
 		modalStore.trigger(modal);
 	}
 </script>
@@ -139,7 +144,7 @@
 				formnovalidate={true}
 				disabled={isSaving}
 				class="variant-filled btn basis-1/4"
-				on:click|preventDefault={showDeleteModal}>{$_('button.delete')}</button
+				onclick={showDeleteModal}>{$_('button.delete')}</button
 			>
 		{/if}
 	</div>

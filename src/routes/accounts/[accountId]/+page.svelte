@@ -5,7 +5,7 @@
 	import { Account } from '$lib/models/Account';
 	import ExpenseCard from '$lib/components/ExpenseCard.svelte';
 
-	export let data;
+	let { data } = $props();
 	const account = Account.parse(data.account);
 	const expenses: Expense[] = data.expenses.map((e) => Expense.parse(e));
 </script>

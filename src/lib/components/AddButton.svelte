@@ -1,8 +1,12 @@
 <script lang="ts">
 	import Plus from 'lucide-svelte/icons/plus';
 
-	export let href: string;
-	export let ariaLabel: string;
+	interface Props {
+		href: string;
+		ariaLabel: string;
+	}
+
+	let { href, ariaLabel }: Props = $props();
 </script>
 
 <a

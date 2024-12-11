@@ -7,19 +7,9 @@
 	import { _ } from 'svelte-i18n';
 
 	const toastStore = getToastStore();
-
-	export let data;
-	export let form;
-
-	if (form?.error) {
-		toastStore.trigger({
-			message: form.error,
-			background: 'variant-filled-error'
-		});
-	}
-
-	let isSaving = false;
-	const settings = Settings.parse(data.settings);
+	let { data } = $props();
+	let isSaving = $state(false);
+	const settings = $derived(Settings.parse(data.settings));
 </script>
 
 <div class="card mt-5 space-y-3 bg-white p-10">

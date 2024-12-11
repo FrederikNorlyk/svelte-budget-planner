@@ -1,15 +1,26 @@
 <script lang="ts">
-	export let label: string;
-	export let name: string;
-	export let required = false;
-	export let value: number | undefined;
-	export let autofocus = false;
-	export let disabled = false;
+	interface Props {
+		label: string;
+		name: string;
+		required?: boolean;
+		value: number | undefined;
+		autofocus?: boolean;
+		disabled?: boolean;
+	}
+
+	let {
+		label,
+		name,
+		required = false,
+		value,
+		autofocus = false,
+		disabled = false
+	}: Props = $props();
 </script>
 
 <label class="label">
 	<span>{label}</span>
-	<!-- svelte-ignore a11y-autofocus -->
+	<!-- svelte-ignore a11y_autofocus -->
 	<input
 		{name}
 		{required}

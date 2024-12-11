@@ -1,8 +1,12 @@
 <script lang="ts">
-	export let label: string;
-	export let name: string;
-	export let value: boolean;
-	export let disabled: boolean = false;
+	interface Props {
+		label: string;
+		name: string;
+		value: boolean;
+		disabled?: boolean;
+	}
+
+	let { label, name, value = $bindable(), disabled = false }: Props = $props();
 </script>
 
 <label class="flex items-center space-x-2">

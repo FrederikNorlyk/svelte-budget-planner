@@ -2,12 +2,23 @@
 	import type { AutocompleteOption } from '@skeletonlabs/skeleton';
 	import { Autocomplete, popup } from '@skeletonlabs/skeleton';
 
-	export let name: string;
-	export let label: string;
-	export let value: string | null | undefined;
-	export let required = false;
-	export let options: AutocompleteOption[];
-	export let disabled = false;
+	interface Props {
+		name: string;
+		label: string;
+		value: string | null | undefined;
+		required?: boolean;
+		options: AutocompleteOption[];
+		disabled?: boolean;
+	}
+
+	let {
+		name,
+		label,
+		value = $bindable(),
+		required = false,
+		options,
+		disabled = false
+	}: Props = $props();
 </script>
 
 <label class="label">

@@ -6,7 +6,7 @@
 	import { DateUtil } from '$lib/util/DateUtil.js';
 	import { _ } from 'svelte-i18n';
 
-	export let data;
+	let { data } = $props();
 	const account = Account.parse(data.account);
 	const accountBalanceUtil = new AccountBalanceUtil();
 

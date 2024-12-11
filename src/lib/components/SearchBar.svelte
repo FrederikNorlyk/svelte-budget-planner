@@ -4,9 +4,10 @@
 	import SearchResultList from './SearchResultList.svelte';
 	import { onMount, onDestroy } from 'svelte';
 
-	let searchResults: SearchResult[] = [];
-	let searchFieldInput: HTMLInputElement;
-	let searchListDomElements: HTMLAnchorElement[] = [];
+	let searchResults: SearchResult[] = $state([]);
+	// TODO: figure out how bind stateful dom elements
+	let searchFieldInput: any = $state(); // eslint-disable-line
+	let searchListDomElements: HTMLAnchorElement[] = $state([]);
 
 	async function onSearchValueChanged(value: string) {
 		if (value.trim() === '') {
@@ -22,19 +23,17 @@
 			return;
 		}
 
-		const json = await response.json();
-
-		searchResults = json;
+		searchResults = await response.json();
 	}
 
 	function focusFirstSearchResult() {
-		var validSearchListElements = searchListDomElements.filter((element) => element != null);
+		const validSearchListElements = searchListDomElements.filter((element) => element != null);
 
 		validSearchListElements[0]?.focus();
 	}
 
 	function focusLastSearchResult() {
-		var validSearchListElements = searchListDomElements.filter((element) => element != null);
+		const validSearchListElements = searchListDomElements.filter((element) => element != null);
 		validSearchListElements.at(-1)?.focus();
 	}
 

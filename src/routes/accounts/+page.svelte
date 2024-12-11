@@ -6,13 +6,13 @@
 	import AmountCard from '$lib/components/AmountCard.svelte';
 	import AccountCard from '$lib/components/AccountCard.svelte';
 
-	export let data;
+	let { data } = $props();
 	const accounts = data.accounts.map((account) => Account.parse(account));
 	const settings = Settings.parse(data.settings);
 
-	let totalMonthlyAmount = 0;
+	let totalMonthlyAmount = $state(0);
 	accounts.map((account) => (totalMonthlyAmount += account.monthlyAmount));
-	let remainder = settings.income - totalMonthlyAmount;
+	let remainder = $derived(settings.income - totalMonthlyAmount);
 </script>
 
 {#if accounts.length === 0}
