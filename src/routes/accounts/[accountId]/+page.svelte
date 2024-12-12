@@ -10,7 +10,7 @@
 	const expenses: Expense[] = data.expenses.map((e) => Expense.parse(e));
 </script>
 
-{#if expenses.length == 0}
+{#if expenses.length === 0}
 	<AddButton href="/accounts/{account.id}/0" ariaLabel="Add new expense" />
 	<NoEntries question="chat.noExpenses" />
 {:else}

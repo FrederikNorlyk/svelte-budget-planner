@@ -73,7 +73,7 @@
 			}}
 			setSearchFieldAsFocus={(typedCharacter) => {
 				searchFieldInput.focus();
-				if (typedCharacter == 'Backspace') {
+				if (typedCharacter === 'Backspace') {
 					searchFieldInput.value = searchFieldInput.value.substring(
 						0,
 						searchFieldInput.value.length - 1
