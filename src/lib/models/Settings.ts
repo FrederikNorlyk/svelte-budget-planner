@@ -39,7 +39,7 @@ export class Settings {
 			userId: this.userId,
 			locale: this.locale,
 			income: this.income,
-			partherId: this.partnerId
+			partnerId: this.partnerId
 		});
 	}
 
