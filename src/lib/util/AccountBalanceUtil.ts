@@ -27,7 +27,7 @@ export class AccountBalanceUtil {
 	 * @param account the account to calculate the amount for
 	 * @returns the amount that should currently be on the account
 	 */
-	public getCurrentAmmount(account: Account) {
+	public getCurrentAmount(account: Account) {
 		return this.getAccountBalanceOn(account, new Date());
 	}
 
