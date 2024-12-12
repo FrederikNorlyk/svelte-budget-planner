@@ -8,8 +8,8 @@ import { TablePrefixPlugin } from 'kysely-plugin-prefix';
  * Abstract class for clients used to query the database.
  */
 export abstract class DatabaseClient {
-	private userId: string;
-	private database;
+	private readonly userId: string;
+	private readonly database;
 
 	/**
 	 * Constructor.

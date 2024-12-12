@@ -35,7 +35,7 @@
 
 	function onKeyUp(currentIndex: number, event: KeyboardEvent) {
 		// Some characters should be interpreted as a new search
-		var searchCharacters = ['Backspace', '-', ',', '.'];
+		const searchCharacters = ['Backspace', '-', ',', '.'];
 
 		if (/^[a-zA-Z0-9]$/.test(event.key) || searchCharacters.includes(event.key)) {
 			event.preventDefault();
@@ -43,13 +43,13 @@
 			return;
 		}
 
-		var validSearchListElements = listElements.filter((element) => element != null);
+		const validSearchListElements = listElements.filter((element) => element != null);
 
 		if (!validSearchListElements.length) {
 			return;
 		}
 
-		var index = 0;
+		let index = 0;
 
 		if (event.key === 'ArrowDown') {
 			index = currentIndex + 1;

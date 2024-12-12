@@ -5,7 +5,7 @@ import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => {
 	const session = await event.locals.auth();
-	if (session == null) {
+	if (!session) {
 		redirect(303, '/');
 	}
 
@@ -19,7 +19,7 @@ export const load: PageServerLoad = async (event) => {
 
 	const account = await accountClient.getById(id);
 
-	if (account == null) {
+	if (!account) {
 		redirect(303, '/balance');
 	}
 

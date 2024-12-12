@@ -8,7 +8,7 @@ import { json, redirect, type RequestEvent } from '@sveltejs/kit';
 
 export const GET = async (request: RequestEvent) => {
 	const session = await request.locals.auth();
-	if (session == null) {
+	if (!session) {
 		redirect(303, '/');
 	}
 

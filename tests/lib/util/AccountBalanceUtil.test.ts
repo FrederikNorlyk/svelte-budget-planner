@@ -42,7 +42,7 @@ describe('Tests for getCurrentAmount', () => {
 
 		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
 		const util = new AccountBalanceUtil();
-		const amount = util.getCurrentAmmount(account);
+		const amount = util.getCurrentAmount(account);
 		expect(amount).toBe(0);
 	});
 
@@ -66,7 +66,7 @@ describe('Tests for getCurrentAmount', () => {
 		];
 
 		const util = new AccountBalanceUtil();
-		const amount = util.getCurrentAmmount(account);
+		const amount = util.getCurrentAmount(account);
 		expect(amount).toBe(0);
 	});
 
@@ -75,15 +75,15 @@ describe('Tests for getCurrentAmount', () => {
 		const util = new AccountBalanceUtil();
 
 		let account = createAccountWithSinglePaymentExpense(Month.FEBRUARY);
-		let amount = util.getCurrentAmmount(account);
+		let amount = util.getCurrentAmount(account);
 		expect(amount).toBe(1100);
 
 		account = createAccountWithSinglePaymentExpense(Month.MARCH);
-		amount = util.getCurrentAmmount(account);
+		amount = util.getCurrentAmount(account);
 		expect(amount).toBe(1000);
 
 		account = createAccountWithSinglePaymentExpense(Month.APRIL);
-		amount = util.getCurrentAmmount(account);
+		amount = util.getCurrentAmount(account);
 		expect(amount).toBe(900);
 	});
 
@@ -92,7 +92,7 @@ describe('Tests for getCurrentAmount', () => {
 		const util = new AccountBalanceUtil();
 
 		const account = createAccountWithSinglePaymentExpense(Month.MAY);
-		const amount = util.getCurrentAmmount(account);
+		const amount = util.getCurrentAmount(account);
 		expect(amount).toBe(500);
 	});
 
@@ -101,7 +101,7 @@ describe('Tests for getCurrentAmount', () => {
 		const util = new AccountBalanceUtil();
 
 		const account = createAccountWithSinglePaymentExpense(Month.NOVEMBER);
-		const amount = util.getCurrentAmmount(account);
+		const amount = util.getCurrentAmount(account);
 		expect(amount).toBe(1100);
 	});
 
@@ -110,7 +110,7 @@ describe('Tests for getCurrentAmount', () => {
 		const util = new AccountBalanceUtil();
 
 		const account = createAccountWithSinglePaymentExpense(Month.OCTOBER);
-		const amount = util.getCurrentAmmount(account);
+		const amount = util.getCurrentAmount(account);
 		expect(amount).toBe(0);
 	});
 
@@ -129,23 +129,23 @@ describe('Tests for getCurrentAmount', () => {
 		const util = new AccountBalanceUtil();
 
 		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
-		let amount = util.getCurrentAmmount(account);
+		let amount = util.getCurrentAmount(account);
 		expect(amount).toBe(0);
 
 		vi.setSystemTime(new Date(2023, Month.FEBRUARY, 1));
-		amount = util.getCurrentAmmount(account);
+		amount = util.getCurrentAmount(account);
 		expect(amount).toBe(100);
 
 		vi.setSystemTime(new Date(2023, Month.JUNE, 1));
-		amount = util.getCurrentAmmount(account);
+		amount = util.getCurrentAmount(account);
 		expect(amount).toBe(500);
 
 		vi.setSystemTime(new Date(2023, Month.JULY, 1));
-		amount = util.getCurrentAmmount(account);
+		amount = util.getCurrentAmount(account);
 		expect(amount).toBe(0);
 
 		vi.setSystemTime(new Date(2023, Month.AUGUST, 1));
-		amount = util.getCurrentAmmount(account);
+		amount = util.getCurrentAmount(account);
 		expect(amount).toBe(100);
 	});
 
@@ -166,15 +166,15 @@ describe('Tests for getCurrentAmount', () => {
 		const util = new AccountBalanceUtil();
 
 		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
-		let amount = util.getCurrentAmmount(account);
+		let amount = util.getCurrentAmount(account);
 		expect(amount).toBe(0);
 
 		vi.setSystemTime(new Date(2023, Month.FEBRUARY, 1));
-		amount = util.getCurrentAmmount(account);
+		amount = util.getCurrentAmount(account);
 		expect(amount).toBe(167);
 
 		vi.setSystemTime(new Date(2023, Month.JUNE, 1));
-		amount = util.getCurrentAmmount(account);
+		amount = util.getCurrentAmount(account);
 		expect(amount).toBe(334);
 	});
 
@@ -236,51 +236,51 @@ describe('Tests for getCurrentAmount', () => {
 		const util = new AccountBalanceUtil();
 
 		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
-		let amount = util.getCurrentAmmount(account);
+		let amount = util.getCurrentAmount(account);
 		expect(amount).toBe(700);
 
 		vi.setSystemTime(new Date(2023, Month.FEBRUARY, 1));
-		amount = util.getCurrentAmmount(account);
+		amount = util.getCurrentAmount(account);
 		expect(amount).toBe(900);
 
 		vi.setSystemTime(new Date(2023, Month.MARCH, 1));
-		amount = util.getCurrentAmmount(account);
+		amount = util.getCurrentAmount(account);
 		expect(amount).toBe(500);
 
 		vi.setSystemTime(new Date(2023, Month.APRIL, 1));
-		amount = util.getCurrentAmmount(account);
+		amount = util.getCurrentAmount(account);
 		expect(amount).toBe(700);
 
 		vi.setSystemTime(new Date(2023, Month.MAY, 1));
-		amount = util.getCurrentAmmount(account);
+		amount = util.getCurrentAmount(account);
 		expect(amount).toBe(900);
 
 		vi.setSystemTime(new Date(2023, Month.JUNE, 1));
-		amount = util.getCurrentAmmount(account);
+		amount = util.getCurrentAmount(account);
 		expect(amount).toBe(1100);
 
 		vi.setSystemTime(new Date(2023, Month.JULY, 1));
-		amount = util.getCurrentAmmount(account);
+		amount = util.getCurrentAmount(account);
 		expect(amount).toBe(1300);
 
 		vi.setSystemTime(new Date(2023, Month.AUGUST, 1));
-		amount = util.getCurrentAmmount(account);
+		amount = util.getCurrentAmount(account);
 		expect(amount).toBe(1500);
 
 		vi.setSystemTime(new Date(2023, Month.SEPTEMBER, 1));
-		amount = util.getCurrentAmmount(account);
+		amount = util.getCurrentAmount(account);
 		expect(amount).toBe(1100);
 
 		vi.setSystemTime(new Date(2023, Month.OCTOBER, 1));
-		amount = util.getCurrentAmmount(account);
+		amount = util.getCurrentAmount(account);
 		expect(amount).toBe(100);
 
 		vi.setSystemTime(new Date(2023, Month.NOVEMBER, 1));
-		amount = util.getCurrentAmmount(account);
+		amount = util.getCurrentAmount(account);
 		expect(amount).toBe(300);
 
 		vi.setSystemTime(new Date(2023, Month.DECEMBER, 1));
-		amount = util.getCurrentAmmount(account);
+		amount = util.getCurrentAmount(account);
 		expect(amount).toBe(500);
 	});
 
@@ -317,7 +317,7 @@ describe('Tests for getCurrentAmount', () => {
 
 		account.expenses = [expense];
 
-		let amount = util.getCurrentAmmount(account);
+		let amount = util.getCurrentAmount(account);
 		expect(amount).toBe(900);
 
 		/*
@@ -348,7 +348,7 @@ describe('Tests for getCurrentAmount', () => {
 
 		account.expenses = [expense];
 
-		amount = util.getCurrentAmmount(account);
+		amount = util.getCurrentAmount(account);
 		expect(amount).toBe(900);
 	});
 });
