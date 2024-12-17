@@ -27,7 +27,7 @@
 	</div>
 	<div class="flex">
 		<p class="flex-grow text-4xl font-bold">
-			{AmountUtil.localizeInteger(accountBalanceUtil.getCurrentAmmount(account))}
+			{AmountUtil.localizeInteger(accountBalanceUtil.getCurrentAmount(account))}
 		</p>
 		{#if nextPaymentDate != null}
 			<p class="text-end text-slate-500">

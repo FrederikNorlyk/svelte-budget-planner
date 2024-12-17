@@ -71,7 +71,7 @@
 	</div>
 
 	<div data-popup="userMenuPopup" class="z-50">
-		<div class="borderborder-gray-400 card mr-3 mt-3 w-40 space-y-2 p-4 shadow-xl">
+		<div class="card mr-3 mt-3 w-40 space-y-2 p-4 shadow-xl">
 			<a class="variant-ghost btn w-full md:hidden" href="/accounts" rel="noreferrer"
 				>{$_('accounts.title')}</a
 			>

@@ -6,7 +6,7 @@
 		label: string;
 		required?: boolean | undefined;
 		disabled?: boolean;
-		// Eslint undefined type warning, has been disabled as it does not recognize the svelte syntax "generics="T"
+		// Eslint undefined type warning, has been disabled as it does not recognize the svelte syntax: generics="T"
 		value?: T | undefined; // eslint-disable-line no-undef
 		options: SelectOption<T>[]; // eslint-disable-line no-undef
 	}

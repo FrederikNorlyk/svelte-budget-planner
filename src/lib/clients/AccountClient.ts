@@ -122,7 +122,6 @@ export class AccountClient extends DatabaseClient {
 	 * Lists all accounts for the current user. The accounts are expanded which means that they contain a list of all
 	 * their expenses, including the expenses' payment dates.
 	 *
-	 * @param sortBy account field to sort by
 	 * @returns accounts with expenses
 	 */
 	public async listAllExpanded(): Promise<Account[]> {

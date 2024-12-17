@@ -24,14 +24,14 @@ export class Expense {
 	}
 
 	public get monthlyAmount() {
-		return this.calculateMontlyAmount(true);
+		return this.calculateMonthlyAmount(true);
 	}
 
 	public get monthlyAmountWithTotalShared() {
-		return this.calculateMontlyAmount(false);
+		return this.calculateMonthlyAmount(false);
 	}
 
-	private calculateMontlyAmount(divideShared: boolean) {
+	private calculateMonthlyAmount(divideShared: boolean) {
 		const amount = divideShared && this.isShared ? this.amount / 2 : this.amount;
 		if (this.isMonthlyExpense) {
 			return amount;

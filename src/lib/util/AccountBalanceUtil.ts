@@ -27,7 +27,7 @@ export class AccountBalanceUtil {
 	 * @param account the account to calculate the amount for
 	 * @returns the amount that should currently be on the account
 	 */
-	public getCurrentAmmount(account: Account) {
+	public getCurrentAmount(account: Account) {
 		return this.getAccountBalanceOn(account, new Date());
 	}
 
@@ -59,8 +59,8 @@ export class AccountBalanceUtil {
 
 			const remainingNumberOfTransfers = DateUtil.getMonthsBetween(date, nextPaymentDate);
 			const monthlyAmount = expense.monthlyAmountWithTotalShared;
-			const amountNotYetTransfered = monthlyAmount * remainingNumberOfTransfers;
-			const amount = expense.amount - amountNotYetTransfered;
+			const amountNotYetTransferred = monthlyAmount * remainingNumberOfTransfers;
+			const amount = expense.amount - amountNotYetTransferred;
 			accountBalance += Math.ceil(amount);
 		}
 
@@ -163,11 +163,11 @@ export class AccountBalanceUtil {
 	}
 
 	/**
-	 * Get the amount transfered every month to the account. This amount is a budget transfer amount, meaning that it
+	 * Get the amount transferred every month to the account. This amount is a budget transfer amount, meaning that it
 	 * does not include monthly payments
 	 *
 	 * @param account the account to use when calculating the amount
-	 * @returns the monthly amount transfered to the account
+	 * @returns the monthly amount transferred to the account
 	 */
 	public getMonthlyBudgetTransferAmount(account: Account) {
 		let amount = 0;
