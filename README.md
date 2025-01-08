@@ -27,11 +27,16 @@ I'm hosting the app [here on Vercel](https://svelte-budget-planner.vercel.app/).
 
 If you want to run it yourself you can follow these instructions.
 
-To link the application with your Vercel PostgreSQL database, run the following commands:
-[Read more](https://vercel.com/docs/cli)
+To link the application with your Vercel PostgreSQL database, run the following commands
+([Read more](https://vercel.com/docs/cli)):
 
 ```bash
 npx vercel link
+```
+
+Then create an `.env` file.
+
+```bash
 npx vercel env pull .env
 ```
 
