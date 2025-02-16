@@ -1,4 +1,4 @@
-import type { ExpenseRecord } from '$lib/tables/ExpensesTable';
+import type { ExpenseRecord } from '$lib/server/tables/ExpensesTable';
 import { PaymentDate } from './PaymentDate';
 
 export class Expense {

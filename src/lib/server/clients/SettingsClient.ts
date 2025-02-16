@@ -4,7 +4,7 @@ import type {
 	InsertableSettingsRecord,
 	SettingsRecord,
 	UpdatableSettingsRecord
-} from '$lib/tables/SettingsTable';
+} from '$lib/server/tables/SettingsTable';
 
 /**
  * Client for querying payment dates in the database.

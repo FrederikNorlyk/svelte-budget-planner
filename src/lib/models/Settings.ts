@@ -1,4 +1,4 @@
-import type { SettingsRecord } from '$lib/tables/SettingsTable';
+import type { SettingsRecord } from '$lib/server/tables/SettingsTable';
 
 /**
  * A record for storing user settings.
