@@ -1,4 +1,4 @@
-import type { PaymentDateRecord } from '$lib/tables/PaymentDatesTable';
+import type { PaymentDateRecord } from '$lib/server/tables/PaymentDatesTable';
 
 export class PaymentDate {
 	private record: PaymentDateRecord;

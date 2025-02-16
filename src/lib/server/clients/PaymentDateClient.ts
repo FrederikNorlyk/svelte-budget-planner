@@ -1,6 +1,6 @@
-import { DatabaseClient } from '$lib/clients/DatabaseClient';
 import { PaymentDate } from '$lib/models/PaymentDate';
-import type { InsertablePaymentDateRecord } from '$lib/tables/PaymentDatesTable';
+import { DatabaseClient } from '$lib/server/clients/DatabaseClient';
+import type { InsertablePaymentDateRecord } from '$lib/server/tables/PaymentDatesTable';
 
 type SearchCriteria = { expenseIds?: number[]; expenseId?: number };
 

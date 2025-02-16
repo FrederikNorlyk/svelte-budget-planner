@@ -1,4 +1,4 @@
-import { SettingsClient } from '$lib/clients/SettingsClient';
+import { SettingsClient } from '$lib/server/clients/SettingsClient';
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 

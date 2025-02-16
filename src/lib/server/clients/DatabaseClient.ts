@@ -1,5 +1,5 @@
 import { DB_TABLE_PREFIX } from '$env/static/private';
-import { type Database } from '$lib/tables/Database';
+import { type Database } from '$lib/server/tables/Database';
 import { createKysely } from '@vercel/postgres-kysely';
 import { CamelCasePlugin } from 'kysely';
 import { TablePrefixPlugin } from 'kysely-plugin-prefix';

@@ -1,7 +1,10 @@
-import { DatabaseClient } from '$lib/clients/DatabaseClient';
 import { Expense } from '$lib/models/Expense';
 import { QueryResult } from '$lib/models/QueryResult';
-import type { InsertableExpenseRecord, UpdateableExpenseRecord } from '$lib/tables/ExpensesTable';
+import { DatabaseClient } from '$lib/server/clients/DatabaseClient';
+import type {
+	InsertableExpenseRecord,
+	UpdateableExpenseRecord
+} from '$lib/server/tables/ExpensesTable';
 import { sql } from 'kysely';
 import { PaymentDateClient } from './PaymentDateClient';
 
