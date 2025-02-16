@@ -11,3 +11,5 @@ updates:
       all:
         patterns:
           - '*'
+        exclude-patterns:
+          - 'tailwindcss'
