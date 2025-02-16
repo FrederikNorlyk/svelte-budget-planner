@@ -5,6 +5,8 @@ updates:
     schedule:
       interval: 'weekly'
       day: 'sunday'
+    ignore:
+      - dependency-name: 'tailwindcss'
     groups:
       all:
         patterns:
