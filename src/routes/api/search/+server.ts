@@ -1,9 +1,9 @@
-import { AccountClient } from '$lib/clients/AccountClient';
-import { ExpenseClient } from '$lib/clients/ExpenseClient.js';
 import { Account } from '$lib/models/Account';
 import type { Expense } from '$lib/models/Expense';
 import type SearchResult from '$lib/models/SearchResult';
 import { RecordType } from '$lib/models/SearchResult';
+import { AccountClient } from '$lib/server/clients/AccountClient';
+import { ExpenseClient } from '$lib/server/clients/ExpenseClient.js';
 import { json, redirect, type RequestEvent } from '@sveltejs/kit';
 
 export const GET = async (request: RequestEvent) => {

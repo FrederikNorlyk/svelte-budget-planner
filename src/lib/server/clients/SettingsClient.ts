@@ -1,5 +1,5 @@
-import { DatabaseClient } from '$lib/clients/DatabaseClient';
 import { Settings } from '$lib/models/Settings';
+import { DatabaseClient } from '$lib/server/clients/DatabaseClient';
 import type {
 	InsertableSettingsRecord,
 	SettingsRecord,

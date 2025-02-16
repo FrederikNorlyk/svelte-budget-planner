@@ -1,9 +1,9 @@
-import { ExpenseClient } from '$lib/clients/ExpenseClient';
-import { PaymentDateClient } from '$lib/clients/PaymentDateClient.js';
-import { SettingsClient } from '$lib/clients/SettingsClient';
 import { Month } from '$lib/enums/Month.js';
 import type { Expense } from '$lib/models/Expense.js';
 import type { PaymentDate } from '$lib/models/PaymentDate.js';
+import { ExpenseClient } from '$lib/server/clients/ExpenseClient';
+import { PaymentDateClient } from '$lib/server/clients/PaymentDateClient.js';
+import { SettingsClient } from '$lib/server/clients/SettingsClient';
 import PaymentDateValidationUtil from '$lib/util/PaymentDateValidationUtil.js';
 import { fail, redirect } from '@sveltejs/kit';
 

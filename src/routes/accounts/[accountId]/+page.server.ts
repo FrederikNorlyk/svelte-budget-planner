@@ -1,5 +1,5 @@
-import { AccountClient } from '$lib/clients/AccountClient.js';
-import { ExpenseClient } from '$lib/clients/ExpenseClient.js';
+import { AccountClient } from '$lib/server/clients/AccountClient.js';
+import { ExpenseClient } from '$lib/server/clients/ExpenseClient.js';
 import { redirect } from '@sveltejs/kit';
 
 export async function load(event) {

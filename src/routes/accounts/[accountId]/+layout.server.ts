@@ -1,4 +1,4 @@
-import { AccountClient } from '$lib/clients/AccountClient.js';
+import { AccountClient } from '$lib/server/clients/AccountClient.js';
 
 export const load = async (event) => {
 	const session = await event.locals.auth();
