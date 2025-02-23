@@ -47,6 +47,7 @@ The following environment variables are need.
 #### Auth.js
 
 The app is only set up to work with Github so these variables are required.
+
 ```
 AUTH_GITHUB_ID=
 AUTH_GITHUB_SECRET=
