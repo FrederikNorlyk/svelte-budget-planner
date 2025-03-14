@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../app.postcss';
+	import '../app.css';
 	import { page } from '$app/stores';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
@@ -20,7 +20,7 @@
 <Modal />
 <Toast />
 
-<main class="p-5 pb-8 sm:pb-16 sm:pl-16 sm:pr-16 md:pl-20 md:pr-20 2xl:pl-36 2xl:pr-36">
+<main class="p-5 pb-8 sm:pr-16 sm:pb-16 sm:pl-16 md:pr-20 md:pl-20 2xl:pr-36 2xl:pl-36">
 	<Header
 		title={$page.data.title}
 		titleParams={$page.data.titleParams}

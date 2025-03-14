@@ -32,7 +32,7 @@
 <div class="flex space-x-2">
 	<div class="flex flex-grow">
 		{#if backHref}
-			<a class="mr-2 mt-2" href={backHref}>
+			<a class="mt-2 mr-2" href={backHref}>
 				<button type="button" class="variant-filled btn-icon" aria-label="Back button">
 					<ArrowLeft />
 				</button>
@@ -71,7 +71,7 @@
 	</div>
 
 	<div data-popup="userMenuPopup" class="z-50">
-		<div class="card mr-3 mt-3 w-40 space-y-2 p-4 shadow-xl">
+		<div class="card mt-3 mr-3 w-40 space-y-2 p-4 shadow-xl">
 			<a class="variant-ghost btn w-full md:hidden" href="/accounts" rel="noreferrer"
 				>{$_('accounts.title')}</a
 			>

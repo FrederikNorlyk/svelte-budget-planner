@@ -48,7 +48,7 @@
 			value={settings.income}
 		/>
 
-		<button disabled={isSaving} class="variant-filled btn w-full basis-1/4 bg-primary-500 sm:w-auto"
+		<button disabled={isSaving} class="variant-filled btn bg-primary-500 w-full basis-1/4 sm:w-auto"
 			>{$_('button.save')}</button
 		>
 	</form>
