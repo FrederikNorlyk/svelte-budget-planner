@@ -14,7 +14,7 @@
 
 <div class="card mt-5 space-y-3 bg-white p-10">
 	<div class="flex">
-		<div class="flex-grow">
+		<div class="grow">
 			<label class="label" for="light-switch">Dark mode</label>
 			<LightSwitch disabled={isSaving} class="mt-1" id="light-switch" />
 		</div>

@@ -26,7 +26,7 @@
 		<CircleArrowRight class="ml-2 h-8 w-8 flex-none text-slate-300 group-hover:text-slate-400" />
 	</div>
 	<div class="flex">
-		<p class="flex-grow text-4xl font-bold">
+		<p class="grow text-4xl font-bold">
 			{AmountUtil.localizeInteger(accountBalanceUtil.getCurrentAmount(account))}
 		</p>
 		{#if nextPaymentDate != null}
