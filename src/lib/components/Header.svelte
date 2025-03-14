@@ -2,7 +2,7 @@
 	import Menu from 'lucide-svelte/icons/menu';
 	import ArrowLeft from 'lucide-svelte/icons/arrow-left';
 	import PencilLine from 'lucide-svelte/icons/pencil-line';
-	import { type PopupSettings, popup } from '@skeletonlabs/skeleton';
+	import { type PopupSettings } from '@skeletonlabs/skeleton-svelte';
 	import { _ } from 'svelte-i18n';
 	import { signOut } from '@auth/sveltekit/client';
 
@@ -33,7 +33,7 @@
 	<div class="flex grow">
 		{#if backHref}
 			<a class="mt-2 mr-2" href={backHref}>
-				<button type="button" class="variant-filled btn-icon" aria-label="Back button">
+				<button type="button" class="preset-filled btn-icon" aria-label="Back button">
 					<ArrowLeft />
 				</button>
 			</a>
@@ -53,16 +53,20 @@
 		</div>
 	</div>
 
-	<a class="variant-ghost-surface btn btn-sm hidden h-8 md:block" href="/accounts" rel="noreferrer"
-		>{$_('accounts.title')}</a
+	<a
+		class="preset-tonal-surface border-surface-500 btn btn-sm hidden h-8 border md:block"
+		href="/accounts"
+		rel="noreferrer">{$_('accounts.title')}</a
 	>
-	<a class="variant-ghost-surface btn btn-sm hidden h-8 md:block" href="/balance" rel="noreferrer"
-		>{$_('currentAmount.title')}</a
+	<a
+		class="preset-tonal-surface border-surface-500 btn btn-sm hidden h-8 border md:block"
+		href="/balance"
+		rel="noreferrer">{$_('currentAmount.title')}</a
 	>
 
 	<div>
 		<button
-			class="variant-ghost-surface btn-icon btn-sm h-8 w-8"
+			class="preset-tonal-surface border-surface-500 btn-icon btn-sm h-8 w-8 border"
 			use:popup={userMenuPopup}
 			aria-label="Menu button"
 		>
@@ -72,16 +76,22 @@
 
 	<div data-popup="userMenuPopup" class="z-50">
 		<div class="card mt-3 mr-3 w-40 space-y-2 p-4 shadow-xl">
-			<a class="variant-ghost btn w-full md:hidden" href="/accounts" rel="noreferrer"
-				>{$_('accounts.title')}</a
+			<a
+				class="preset-tonal border-surface-500 btn w-full border md:hidden"
+				href="/accounts"
+				rel="noreferrer">{$_('accounts.title')}</a
 			>
-			<a class="variant-ghost btn w-full md:hidden" href="/balance" rel="noreferrer"
-				>{$_('currentAmount.title')}</a
+			<a
+				class="preset-tonal border-surface-500 btn w-full border md:hidden"
+				href="/balance"
+				rel="noreferrer">{$_('currentAmount.title')}</a
 			>
-			<a class="variant-ghost btn w-full" href="/settings" rel="noreferrer"
+			<a class="preset-tonal border-surface-500 btn w-full border" href="/settings" rel="noreferrer"
 				>{$_('settings.title')}</a
 			>
-			<button class="variant-ghost btn w-full" onclick={() => signOut()}>{$_('signOut')}</button>
+			<button class="preset-tonal border-surface-500 btn w-full border" onclick={() => signOut()}
+				>{$_('signOut')}</button
+			>
 		</div>
 	</div>
 </div>

@@ -48,7 +48,7 @@
 			{disabled}
 			onclick={removeSelf}
 			type="button"
-			class="variant-filled btn-icon bg-error-600 mt-6"
+			class="preset-filled btn-icon bg-error-600 mt-6"
 		>
 			<X />
 		</button>

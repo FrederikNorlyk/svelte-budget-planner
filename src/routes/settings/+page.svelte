@@ -1,9 +1,7 @@
 <script lang="ts">
-	import { LightSwitch } from '@skeletonlabs/skeleton';
 	import NumberField from '$lib/components/NumberField.svelte';
 	import { Settings } from '$lib/models/Settings.js';
 	import { enhance } from '$app/forms';
-	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { _ } from 'svelte-i18n';
 
 	const toastStore = getToastStore();
@@ -33,7 +31,7 @@
 
 				toastStore.trigger({
 					message: $_('settings.saved'),
-					background: 'variant-filled-primary',
+					background: 'preset-filled-primary-500',
 					classes: 'text-white',
 					hideDismiss: true
 				});
@@ -48,7 +46,7 @@
 			value={settings.income}
 		/>
 
-		<button disabled={isSaving} class="variant-filled btn bg-primary-500 w-full basis-1/4 sm:w-auto"
+		<button disabled={isSaving} class="preset-filled btn bg-primary-500 w-full basis-1/4 sm:w-auto"
 			>{$_('button.save')}</button
 		>
 	</form>

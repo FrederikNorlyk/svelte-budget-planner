@@ -1,6 +1,5 @@
 <script lang="ts">
-	import type { AutocompleteOption } from '@skeletonlabs/skeleton';
-	import { Autocomplete, popup } from '@skeletonlabs/skeleton';
+	import type { AutocompleteOption } from '@skeletonlabs/skeleton-svelte';
 
 	interface Props {
 		name: string;

@@ -3,12 +3,9 @@
 	import DeleteModal from '$lib/components/DeleteModal.svelte';
 	import TextField from '$lib/components/TextField.svelte';
 	import { Account } from '$lib/models/Account';
-	import { type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
+	import { type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton-svelte';
 	import { enhance } from '$app/forms';
 	import Checkbox from '$lib/components/Checkbox.svelte';
-	import { getModalStore } from '@skeletonlabs/skeleton';
-	import { getToastStore } from '@skeletonlabs/skeleton';
-
 	const toastStore = getToastStore();
 	const modalStore = getModalStore();
 
@@ -20,7 +17,7 @@
 	if (form?.error) {
 		toastStore.trigger({
 			message: $_(form.error),
-			background: 'variant-filled-error'
+			background: 'preset-filled-error-500'
 		});
 	}
 
@@ -74,7 +71,7 @@
 	</div>
 
 	<div class="flex space-x-2">
-		<button disabled={isSaving} class="variant-filled btn bg-primary-500 basis-1/4"
+		<button disabled={isSaving} class="preset-filled btn bg-primary-500 basis-1/4"
 			>{$_('button.save')}</button
 		>
 
@@ -82,7 +79,7 @@
 			<button
 				formnovalidate={true}
 				disabled={isSaving}
-				class="variant-filled btn basis-1/4"
+				class="preset-filled btn basis-1/4"
 				onclick={showDeleteModal}>{$_('button.delete')}</button
 			>
 		{/if}
