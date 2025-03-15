@@ -3,11 +3,16 @@
 	import DeleteModal from '$lib/components/DeleteModal.svelte';
 	import TextField from '$lib/components/TextField.svelte';
 	import { Account } from '$lib/models/Account';
-	import { type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton-svelte';
+	import {
+		type ModalComponent,
+		type ModalSettings
+		type ToastContext
+	} from '@skeletonlabs/skeleton-svelte';
 	import { enhance } from '$app/forms';
 	import Checkbox from '$lib/components/Checkbox.svelte';
-	const toastStore = getToastStore();
-	const modalStore = getModalStore();
+	import { getContext } from 'svelte';
+
+	export const toast: ToastContext = getContext('toast');
 
 	let { data, form } = $props();
 
@@ -15,9 +20,9 @@
 	let isSaving = $state(false);
 
 	if (form?.error) {
-		toastStore.trigger({
-			message: $_(form.error),
-			background: 'preset-filled-error-500'
+		toast.create({
+			description: $_(form.error),
+			type: 'error'
 		});
 	}
 

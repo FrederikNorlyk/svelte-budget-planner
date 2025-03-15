@@ -3,8 +3,11 @@
 	import { Settings } from '$lib/models/Settings.js';
 	import { enhance } from '$app/forms';
 	import { _ } from 'svelte-i18n';
+	import { type ToastContext	} from '@skeletonlabs/skeleton-svelte';
+	import { getContext } from 'svelte';
 
-	const toastStore = getToastStore();
+	export const toast: ToastContext = getContext('toast');
+
 	let { data } = $props();
 	let isSaving = $state(false);
 	const settings = $derived(Settings.parse(data.settings));
@@ -29,11 +32,9 @@
 				await update();
 				isSaving = false;
 
-				toastStore.trigger({
-					message: $_('settings.saved'),
-					background: 'preset-filled-primary-500',
-					classes: 'text-white',
-					hideDismiss: true
+				toast.create({
+					description: $_('settings.saved'),
+					type: 'success'
 				});
 			};
 		}}

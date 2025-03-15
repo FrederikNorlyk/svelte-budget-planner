@@ -2,9 +2,9 @@
 	import TextField from '$lib/components/TextField.svelte';
 	import { Expense } from '$lib/models/Expense.js';
 	import {
-		type AutocompleteOption,
 		type ModalComponent,
 		type ModalSettings,
+		type ToastContext
 		Switch
 	} from '@skeletonlabs/skeleton-svelte';
 	import { Combobox } from '@skeletonlabs/skeleton-svelte';
@@ -16,8 +16,9 @@
 	import { enhance } from '$app/forms';
 	import SelectField from '$lib/components/SelectField.svelte';
 	import type { SelectOption } from '$lib/components/types/SelectOption.js';
-	const toastStore = getToastStore();
-	const modalStore = getModalStore();
+	import { getContext } from 'svelte';
+
+	export const toast: ToastContext = getContext('toast');
 
 	let { form, data } = $props();
 	const expense = data.expense != null ? Expense.parse(data.expense) : null;
@@ -32,9 +33,9 @@
 
 	$effect(() => {
 		if (form?.error) {
-			toastStore.trigger({
-				message: $_(form.error),
-				background: 'preset-filled-error-500'
+			toast.create({
+				description: $_(form.error),
+				type: 'error'
 			});
 		}
 	});
