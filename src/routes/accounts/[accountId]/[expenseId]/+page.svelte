@@ -7,7 +7,7 @@
 		type ModalSettings,
 		Switch
 	} from '@skeletonlabs/skeleton-svelte';
-	import AutoCompletingTextField from '$lib/components/AutoCompletingTextField.svelte';
+	import { Combobox } from '@skeletonlabs/skeleton-svelte';
 	import PaymentDatePicker from '$lib/components/PaymentDatePicker.svelte';
 	import { PaymentDate } from '$lib/models/PaymentDate.js';
 	import DeleteModal from '$lib/components/DeleteModal.svelte';
@@ -25,7 +25,7 @@
 
 	let isSaving = $state(false);
 
-	let tagOptions: AutocompleteOption[] = [];
+	let tagOptions: SelectOption<string>[] = [];
 	data.tags.forEach((tag) => {
 		tagOptions.push({ label: tag, value: tag });
 	});
@@ -42,11 +42,11 @@
 	let shareOptions: SelectOption<boolean>[] = [
 		{
 			value: false,
-			text: $_('expense.notShared')
+			label: $_('expense.notShared')
 		},
 		{
 			value: true,
-			text: $_('expense.isShared')
+			label: $_('expense.isShared')
 		}
 	];
 
@@ -111,11 +111,11 @@
 			/>
 		</div>
 
-		<AutoCompletingTextField
+		<Combobox
 			name="tag"
 			label={$_('expense.group')}
-			value={expense?.tag}
-			options={tagOptions}
+			value={expense?.tag ? [expense.tag] : undefined}
+			data={tagOptions}
 			disabled={isSaving}
 		/>
 

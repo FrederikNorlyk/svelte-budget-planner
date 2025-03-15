@@ -26,7 +26,7 @@
 
 	<select {name} {disabled} {value} {required} class="input bg-secondary-50" size="1">
 		{#each options as option (option.value)}
-			<option value={option.value}>{option.text}</option>
+			<option value={option.value}>{option.label}</option>
 		{/each}
 	</select>
 </label>

@@ -19,7 +19,7 @@
 	for (let i = 0; i < 12; i++) {
 		months.push({
 			value: i,
-			text: DateUtil.getMonthName(i)
+			label: DateUtil.getMonthName(i)
 		});
 	}
 
