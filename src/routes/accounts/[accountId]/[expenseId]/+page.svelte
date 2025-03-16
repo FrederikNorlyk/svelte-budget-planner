@@ -1,22 +1,17 @@
 <script lang="ts">
 	import TextField from '$lib/components/TextField.svelte';
 	import { Expense } from '$lib/models/Expense.js';
-	import {
-		type ModalComponent,
-		type ModalSettings,
-		type ToastContext
-		Switch
-	} from '@skeletonlabs/skeleton-svelte';
+	import type { ToastContext } from '@skeletonlabs/skeleton-svelte';
 	import { Combobox } from '@skeletonlabs/skeleton-svelte';
 	import PaymentDatePicker from '$lib/components/PaymentDatePicker.svelte';
 	import { PaymentDate } from '$lib/models/PaymentDate.js';
-	import DeleteModal from '$lib/components/DeleteModal.svelte';
 	import { _ } from 'svelte-i18n';
 	import NumberField from '$lib/components/NumberField.svelte';
 	import { enhance } from '$app/forms';
 	import SelectField from '$lib/components/SelectField.svelte';
 	import type { SelectOption } from '$lib/components/types/SelectOption.js';
 	import { getContext } from 'svelte';
+	import DeleteModal from '$lib/components/DeleteModal.svelte';
 
 	export const toast: ToastContext = getContext('toast');
 
@@ -25,6 +20,7 @@
 	const paymentDates = data.paymentDates.map((d) => PaymentDate.parse(d));
 
 	let isSaving = $state(false);
+	let isShowingDeleteModal = $state(false);
 
 	let tagOptions: SelectOption<string>[] = [];
 	data.tags.forEach((tag) => {
@@ -50,23 +46,6 @@
 			label: $_('expense.isShared')
 		}
 	];
-
-	function showDeleteModal(event: MouseEvent): void {
-		event.preventDefault();
-
-		const component: ModalComponent = { ref: DeleteModal };
-
-		const modal: ModalSettings = {
-			type: 'component',
-			component: component,
-			title: $_('deleteExpense.title'),
-			body: $_('deleteExpense.body'),
-			buttonTextSubmit: $_('button.delete'),
-			buttonTextCancel: $_('button.cancel')
-		};
-
-		modalStore.trigger(modal);
-	}
 </script>
 
 <form
@@ -138,12 +117,7 @@
 		>
 
 		{#if expense != null}
-			<button
-				formnovalidate={true}
-				disabled={isSaving}
-				class="preset-filled btn basis-1/4"
-				onclick={showDeleteModal}>{$_('button.delete')}</button
-			>
+			<DeleteModal open={isShowingDeleteModal} title={$_('deleteExpense.title')} body={$_('deleteExpense.body')} />
 		{/if}
 	</div>
 </form>

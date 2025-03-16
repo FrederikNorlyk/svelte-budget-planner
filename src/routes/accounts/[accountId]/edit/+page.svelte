@@ -3,11 +3,7 @@
 	import DeleteModal from '$lib/components/DeleteModal.svelte';
 	import TextField from '$lib/components/TextField.svelte';
 	import { Account } from '$lib/models/Account';
-	import {
-		type ModalComponent,
-		type ModalSettings
-		type ToastContext
-	} from '@skeletonlabs/skeleton-svelte';
+	import type { ToastContext } from '@skeletonlabs/skeleton-svelte';
 	import { enhance } from '$app/forms';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import { getContext } from 'svelte';
@@ -18,29 +14,13 @@
 
 	let account = data.account != null ? Account.parse(data.account) : null;
 	let isSaving = $state(false);
+	let isShowingDeleteModal = $state(false);
 
 	if (form?.error) {
 		toast.create({
 			description: $_(form.error),
 			type: 'error'
 		});
-	}
-
-	function showDeleteModal(event: Event): void {
-		event.preventDefault();
-
-		const component: ModalComponent = { ref: DeleteModal };
-
-		const modal: ModalSettings = {
-			type: 'component',
-			component: component,
-			title: $_('deleteAccount.title'),
-			body: $_('deleteAccount.body'),
-			buttonTextSubmit: $_('button.delete'),
-			buttonTextCancel: $_('button.cancel')
-		};
-
-		modalStore.trigger(modal);
 	}
 </script>
 
@@ -81,12 +61,7 @@
 		>
 
 		{#if account != null}
-			<button
-				formnovalidate={true}
-				disabled={isSaving}
-				class="preset-filled btn basis-1/4"
-				onclick={showDeleteModal}>{$_('button.delete')}</button
-			>
+			<DeleteModal open={isShowingDeleteModal} title={$_('deleteAccount.title')} body={$_('deleteAccount.body')}></DeleteModal>
 		{/if}
 	</div>
 </form>
