@@ -1,7 +1,7 @@
 <script lang="ts">
 	import TextField from '$lib/components/TextField.svelte';
 	import { Expense } from '$lib/models/Expense.js';
-	import type { ToastContext } from '@skeletonlabs/skeleton-svelte';
+	import { type ToastContext  } from '@skeletonlabs/skeleton-svelte';
 	import { Combobox } from '@skeletonlabs/skeleton-svelte';
 	import PaymentDatePicker from '$lib/components/PaymentDatePicker.svelte';
 	import { PaymentDate } from '$lib/models/PaymentDate.js';
@@ -12,6 +12,7 @@
 	import type { SelectOption } from '$lib/components/types/SelectOption.js';
 	import { getContext } from 'svelte';
 	import DeleteModal from '$lib/components/DeleteModal.svelte';
+	import Checkbox from '$lib/components/Checkbox.svelte';
 
 	export const toast: ToastContext = getContext('toast');
 
@@ -99,12 +100,12 @@
 			disabled={isSaving}
 		/>
 
-		<Switch
+		<Checkbox
 			disabled={isSaving}
 			name="isEnabled"
-			active="bg-primary-500"
-			checked={expense?.isEnabled ?? true}>{$_('expense.isEnabled')}</Switch
-		>
+			label={$_('expense.isEnabled')}
+			value={expense?.isEnabled ?? true}
+			/>
 	</div>
 
 	<div class="card space-y-2 bg-white p-4">
