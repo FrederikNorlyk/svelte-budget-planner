@@ -22,7 +22,7 @@
 		editHref = undefined
 	}: Props = $props();
 
-	let drawerState = $state(true);
+	let drawerState = $state(false);
 
 	function drawerClose() {
 		drawerState = false;
