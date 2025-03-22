@@ -4,9 +4,9 @@
 	import { enhance } from '$app/forms';
 
 	interface Props {
-		open: boolean
-		title: string
-		body: string
+		open: boolean;
+		title: string;
+		body: string;
 	}
 
 	let { open, title, body }: Props = $props();
@@ -34,17 +34,24 @@
 			<p>{body}</p>
 		</article>
 		<footer class="flex justify-end gap-4">
-			<form method="post" action="?/delete"
-						use:enhance={() => {
-							isSubmitting = true;
+			<form
+				method="post"
+				action="?/delete"
+				use:enhance={() => {
+					isSubmitting = true;
 
-							return async ({ update }) => {
-								await update();
-								isSubmitting = false;
-							};
-						}}>
-				<button type="button" class="btn preset-tonal" disabled={isSubmitting} onclick={onCancel}>{$_('button.cancel')}</button>
-				<button type="submit" class="btn preset-filled" disabled={isSubmitting}>{$_('button.delete')}</button>
+					return async ({ update }) => {
+						await update();
+						isSubmitting = false;
+					};
+				}}
+			>
+				<button type="button" class="btn preset-tonal" disabled={isSubmitting} onclick={onCancel}
+					>{$_('button.cancel')}</button
+				>
+				<button type="submit" class="btn preset-filled" disabled={isSubmitting}
+					>{$_('button.delete')}</button
+				>
 			</form>
 		</footer>
 	{/snippet}

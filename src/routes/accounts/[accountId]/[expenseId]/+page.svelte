@@ -1,7 +1,7 @@
 <script lang="ts">
 	import TextField from '$lib/components/TextField.svelte';
 	import { Expense } from '$lib/models/Expense.js';
-	import { type ToastContext  } from '@skeletonlabs/skeleton-svelte';
+	import { type ToastContext } from '@skeletonlabs/skeleton-svelte';
 	import { Combobox } from '@skeletonlabs/skeleton-svelte';
 	import PaymentDatePicker from '$lib/components/PaymentDatePicker.svelte';
 	import { PaymentDate } from '$lib/models/PaymentDate.js';
@@ -105,7 +105,7 @@
 			name="isEnabled"
 			label={$_('expense.isEnabled')}
 			value={expense?.isEnabled ?? true}
-			/>
+		/>
 	</div>
 
 	<div class="card space-y-2 bg-white p-4">
@@ -118,7 +118,11 @@
 		>
 
 		{#if expense != null}
-			<DeleteModal open={isShowingDeleteModal} title={$_('deleteExpense.title')} body={$_('deleteExpense.body')} />
+			<DeleteModal
+				open={isShowingDeleteModal}
+				title={$_('deleteExpense.title')}
+				body={$_('deleteExpense.body')}
+			/>
 		{/if}
 	</div>
 </form>

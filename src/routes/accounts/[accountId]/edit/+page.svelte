@@ -61,7 +61,11 @@
 		>
 
 		{#if account != null}
-			<DeleteModal open={isShowingDeleteModal} title={$_('deleteAccount.title')} body={$_('deleteAccount.body')}></DeleteModal>
+			<DeleteModal
+				open={isShowingDeleteModal}
+				title={$_('deleteAccount.title')}
+				body={$_('deleteAccount.body')}
+			></DeleteModal>
 		{/if}
 	</div>
 </form>
