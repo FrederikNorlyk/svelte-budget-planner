@@ -59,5 +59,7 @@
 	"errorDeleteAccountHasExpenses": "This account can not be deleted, as it has expenses",
 	"settings.saved": "The settings were saved",
 	"tagView.details": "These expenses belong to the same group",
-	"searchField.placeholder": "Search (ctrl+k)"
+	"searchField.placeholder": "Search (ctrl+k)",
+	"navigationMenu.title": "Navigation",
+	"navigationMenu.closeButton": "Close"
 }

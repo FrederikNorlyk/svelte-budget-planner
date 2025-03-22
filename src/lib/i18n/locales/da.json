@@ -59,5 +59,7 @@
 	"errorDeleteAccountHasExpenses": "Denne konto kan ikke slettes da den har udgifter",
 	"settings.saved": "Indstillingerne blev gemt",
 	"tagView.details": "Disse udgifter hører under samme gruppe",
-	"searchField.placeholder": "Søg (ctrl+k)"
+	"searchField.placeholder": "Søg (ctrl+k)",
+	"navigationMenu.title": "Navigation",
+	"navigationMenu.closeButton": "Luk"
 }
