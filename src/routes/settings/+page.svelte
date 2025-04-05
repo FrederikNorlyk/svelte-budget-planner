@@ -3,7 +3,7 @@
 	import { Settings } from '$lib/models/Settings.js';
 	import { enhance } from '$app/forms';
 	import { _ } from 'svelte-i18n';
-	import { type ToastContext	} from '@skeletonlabs/skeleton-svelte';
+	import { type ToastContext } from '@skeletonlabs/skeleton-svelte';
 	import { getContext } from 'svelte';
 
 	export const toast: ToastContext = getContext('toast');
@@ -14,13 +14,6 @@
 </script>
 
 <div class="card mt-5 space-y-3 bg-white p-10">
-	<div class="flex">
-		<div class="grow">
-			<label class="label" for="light-switch">Dark mode</label>
-			<LightSwitch disabled={isSaving} class="mt-1" id="light-switch" />
-		</div>
-	</div>
-
 	<form
 		class="space-y-8"
 		method="post"
