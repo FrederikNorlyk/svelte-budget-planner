@@ -1,10 +1,7 @@
 <script lang="ts">
 	import { beforeNavigate, afterNavigate } from '$app/navigation';
-	interface Props {
-		children?: import('svelte').Snippet;
-	}
 
-	let { children }: Props = $props();
+	let { children } = $props();
 
 	let scrollPositions = new Map();
 

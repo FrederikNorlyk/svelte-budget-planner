@@ -5,6 +5,7 @@
 	import { _ } from 'svelte-i18n';
 	import { type ToastContext } from '@skeletonlabs/skeleton-svelte';
 	import { getContext } from 'svelte';
+	import { signOut } from '@auth/sveltekit/client';
 
 	export const toast: ToastContext = getContext('toast');
 
@@ -40,8 +41,16 @@
 			value={settings.income}
 		/>
 
-		<button disabled={isSaving} class="preset-filled btn bg-primary-500 w-full basis-1/4 sm:w-auto"
+		<button disabled={isSaving} class="preset-filled btn bg-success-500 w-full basis-1/4 sm:w-auto"
 			>{$_('button.save')}</button
 		>
 	</form>
+
+	<button
+		onclick={() => signOut()}
+		disabled={isSaving}
+		class="preset-filled btn w-full basis-1/4 bg-neutral-500 sm:w-auto"
+	>
+		{$_('signOut')}
+	</button>
 </div>
