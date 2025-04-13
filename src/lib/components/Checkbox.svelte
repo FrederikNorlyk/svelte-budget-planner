@@ -11,5 +11,5 @@
 
 <label class="flex items-center space-x-2">
 	<input class="checkbox" type="checkbox" {name} bind:checked={value} {disabled} />
-	<p>{label}</p>
+	<span>{label}</span>
 </label>
