@@ -1,7 +1,6 @@
 <script lang="ts">
 	import '../app.css';
 	import { page } from '$app/state';
-	import { ToastProvider } from '@skeletonlabs/skeleton-svelte';
 	import Header from '$lib/components/Header.svelte';
 	import SearchBar from '$lib/components/SearchBar.svelte';
 	import Sidebar from '$lib/components/Sidebar.svelte';
@@ -10,6 +9,8 @@
 	import Landmark from 'lucide-svelte/icons/landmark';
 	import Settings from 'lucide-svelte/icons/settings';
 	import Scale from 'lucide-svelte/icons/scale';
+	import { Toaster } from '@skeletonlabs/skeleton-svelte';
+	import { toaster } from '$lib/util/toaster';
 
 	let { children } = $props();
 </script>
@@ -32,30 +33,29 @@
 	>
 {/snippet}
 
-<ToastProvider>
-	<Sidebar {links}>
-		<main class="p-5 pb-8 sm:pr-16 sm:pb-16 sm:pl-16 md:pr-20 md:pl-20 2xl:pr-36 2xl:pl-36">
-			<Header
-				title={page.data.title}
-				titleParams={page.data.titleParams}
-				details={page.data.details}
-				backHref={page.data.backHref}
-				editHref={page.data.editHref}
-			/>
+<Toaster {toaster}></Toaster>
+<Sidebar {links}>
+	<main class="p-5 pb-8 sm:pr-16 sm:pb-16 sm:pl-16 md:pr-20 md:pl-20 2xl:pr-36 2xl:pl-36">
+		<Header
+			title={page.data.title}
+			titleParams={page.data.titleParams}
+			details={page.data.details}
+			backHref={page.data.backHref}
+			editHref={page.data.editHref}
+		/>
 
-			<div class="mt-2">
-				<SearchBar />
-			</div>
+		<div class="mt-2">
+			<SearchBar />
+		</div>
 
-			<div class="mt-3">
-				{@render children?.()}
-			</div>
-		</main>
-	</Sidebar>
+		<div class="mt-3">
+			{@render children?.()}
+		</div>
+	</main>
+</Sidebar>
 
-	<div class="fixed bottom-0 w-full sm:hidden">
-		<Navigation.Bar>
-			{@render links?.()}
-		</Navigation.Bar>
-	</div>
-</ToastProvider>
+<div class="fixed bottom-0 w-full sm:hidden">
+	<Navigation.Bar>
+		{@render links?.()}
+	</Navigation.Bar>
+</div>

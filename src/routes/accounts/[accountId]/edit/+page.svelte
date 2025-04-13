@@ -3,12 +3,9 @@
 	import DeleteModal from '$lib/components/DeleteModal.svelte';
 	import TextField from '$lib/components/TextField.svelte';
 	import { Account } from '$lib/models/Account';
-	import type { ToastContext } from '@skeletonlabs/skeleton-svelte';
 	import { enhance } from '$app/forms';
 	import Checkbox from '$lib/components/Checkbox.svelte';
-	import { getContext } from 'svelte';
-
-	export const toast: ToastContext = getContext('toast');
+	import { toaster } from '$lib/util/toaster';
 
 	let { data, form } = $props();
 
@@ -17,9 +14,8 @@
 	let isShowingDeleteModal = $state(false);
 
 	if (form?.error) {
-		toast.create({
-			description: $_(form.error),
-			type: 'error'
+		toaster.error({
+			title: $_(form.error)
 		});
 	}
 </script>

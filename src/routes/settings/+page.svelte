@@ -3,11 +3,8 @@
 	import { Settings } from '$lib/models/Settings.js';
 	import { enhance } from '$app/forms';
 	import { _ } from 'svelte-i18n';
-	import { type ToastContext } from '@skeletonlabs/skeleton-svelte';
-	import { getContext } from 'svelte';
 	import { signOut } from '@auth/sveltekit/client';
-
-	export const toast: ToastContext = getContext('toast');
+	import { toaster } from '$lib/util/toaster';
 
 	let { data } = $props();
 	let isSaving = $state(false);
@@ -26,9 +23,8 @@
 				await update();
 				isSaving = false;
 
-				toast.create({
-					description: $_('settings.saved'),
-					type: 'success'
+				toaster.success({
+					title: $_('settings.saved')
 				});
 			};
 		}}

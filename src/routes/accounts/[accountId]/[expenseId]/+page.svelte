@@ -1,7 +1,6 @@
 <script lang="ts">
 	import TextField from '$lib/components/TextField.svelte';
 	import { Expense } from '$lib/models/Expense.js';
-	import { type ToastContext } from '@skeletonlabs/skeleton-svelte';
 	import { Combobox } from '@skeletonlabs/skeleton-svelte';
 	import PaymentDatePicker from '$lib/components/PaymentDatePicker.svelte';
 	import { PaymentDate } from '$lib/models/PaymentDate.js';
@@ -10,11 +9,9 @@
 	import { enhance } from '$app/forms';
 	import SelectField from '$lib/components/SelectField.svelte';
 	import type { SelectOption } from '$lib/components/types/SelectOption.js';
-	import { getContext } from 'svelte';
 	import DeleteModal from '$lib/components/DeleteModal.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
-
-	export const toast: ToastContext = getContext('toast');
+	import { toaster } from '$lib/util/toaster';
 
 	let { form, data } = $props();
 	const expense = data.expense != null ? Expense.parse(data.expense) : null;
@@ -30,9 +27,8 @@
 
 	$effect(() => {
 		if (form?.error) {
-			toast.create({
-				description: $_(form.error),
-				type: 'error'
+			toaster.error({
+				title: $_(form.error)
 			});
 		}
 	});
