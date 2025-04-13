@@ -52,10 +52,10 @@
 </script>
 
 <button onclick={() => input.focus()} class="w-full cursor-text">
-	<div class="input-group grid-cols-[auto_1fr_auto]">
-		<div>
+	<span class="input-group grid-cols-[auto_1fr_auto]">
+		<span class="ig-cell">
 			<Search size="23" class="text-gray-500" />
-		</div>
+		</span>
 
 		<input
 			onkeyup={onKeyUp}
@@ -64,6 +64,7 @@
 			bind:value
 			type="search"
 			placeholder={$_('searchField.placeholder')}
+			class="ig-input"
 		/>
-	</div>
+	</span>
 </button>
