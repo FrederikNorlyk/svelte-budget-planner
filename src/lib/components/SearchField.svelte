@@ -51,20 +51,21 @@
 	}
 </script>
 
-<button onclick={() => input.focus()} class="w-full cursor-text">
-	<span class="input-group grid-cols-[auto_1fr_auto]">
-		<span class="ig-cell">
-			<Search size="23" class="text-gray-500" />
-		</span>
-
-		<input
-			onkeyup={onKeyUp}
-			oninput={onInput}
-			bind:this={input}
-			bind:value
-			type="search"
-			placeholder={$_('searchField.placeholder')}
-			class="ig-input"
-		/>
+<button
+	onclick={() => input.focus()}
+	class="input-group w-full cursor-text grid-cols-[auto_1fr_auto]"
+>
+	<span class="ig-cell">
+		<Search size="23" class="text-gray-500" />
 	</span>
+
+	<input
+		onkeyup={onKeyUp}
+		oninput={onInput}
+		bind:this={input}
+		bind:value
+		type="search"
+		placeholder={$_('searchField.placeholder')}
+		class="ig-input"
+	/>
 </button>
