@@ -51,7 +51,6 @@ export const actions = {
 		const data = await request.formData();
 		const name = data.get('name')?.toString();
 		const amount = +(data.get('amount')?.toString() || '');
-		const tag = data.get('tag')?.toString();
 		const isEnabled = !!data.get('isEnabled');
 		const isShared = data.get('isShared') == 'true';
 		const monthNumbers: number[] = data.getAll('month').map(Number);
@@ -77,6 +76,11 @@ export const actions = {
 			if (partnerId != null) {
 				userIds.push(partnerId);
 			}
+		}
+
+		let tag = data.get('tag')?.toString().trim();
+		if (!tag) {
+			tag = undefined;
 		}
 
 		const expenseClient = new ExpenseClient(session.user.id);
