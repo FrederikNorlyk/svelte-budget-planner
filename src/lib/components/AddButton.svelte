@@ -10,7 +10,7 @@
 </script>
 
 <a
-	class="card bg-surface-100 flex items-center justify-center rounded-md border-4 border-dashed p-10"
+	class="card bg-surface-100 flex items-center justify-center rounded-md border-4 border-dashed border-surface-200 p-10"
 	{href}
 	aria-label={ariaLabel}
 >
