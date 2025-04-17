@@ -16,7 +16,7 @@
 </script>
 
 <a
-	class="card group rounded-md bg-white p-10"
+	class="card group bg-surface-100 rounded-md p-10"
 	href="/balance/{account.id}"
 	aria-label="Open the balance overview of the account {account.name}"
 >

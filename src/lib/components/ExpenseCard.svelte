@@ -42,7 +42,7 @@
 </script>
 
 <a
-	class="card grid grid-cols-2 space-y-2 bg-white p-4 {expense.isEnabled ? '' : 'opacity-60'}"
+	class="card bg-surface-100 grid grid-cols-2 space-y-2 p-4 {expense.isEnabled ? '' : 'opacity-60'}"
 	href="/accounts/{account.id}/{expense.id}"
 >
 	<div>

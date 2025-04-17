@@ -9,11 +9,16 @@
 	let { data } = $props();
 	let isSaving = $state(false);
 	const settings = $derived(Settings.parse(data.settings));
+
+	function signOutButtonPressed(event: MouseEvent) {
+		event.preventDefault();
+		signOut();
+	}
 </script>
 
-<div class="card mt-5 space-y-3 bg-white p-10">
+<div class="card bg-surface-100 mt-5 space-y-3 p-10">
 	<form
-		class="space-y-8"
+		class="space-y-5"
 		method="post"
 		action="?/save"
 		use:enhance={() => {
@@ -37,16 +42,18 @@
 			value={settings.income}
 		/>
 
-		<button disabled={isSaving} class="preset-filled btn bg-success-500 w-full basis-1/4 sm:w-auto"
-			>{$_('button.save')}</button
-		>
-	</form>
+		<div class="space-y-1">
+			<button disabled={isSaving} class="btn-primary w-full sm:block sm:w-auto"
+				>{$_('button.save')}</button
+			>
 
-	<button
-		onclick={() => signOut()}
-		disabled={isSaving}
-		class="preset-filled btn w-full basis-1/4 bg-neutral-500 sm:w-auto"
-	>
-		{$_('signOut')}
-	</button>
+			<button
+				onclick={signOutButtonPressed}
+				disabled={isSaving}
+				class="btn-neutral w-full sm:block sm:w-auto"
+			>
+				{$_('signOut')}
+			</button>
+		</div>
+	</form>
 </div>

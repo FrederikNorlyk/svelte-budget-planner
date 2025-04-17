@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 @import '@skeletonlabs/skeleton';
 @import '@skeletonlabs/skeleton/optional/presets';
-@import '@skeletonlabs/skeleton/themes/modern';
+@import '@skeletonlabs/skeleton/themes/nouveau';
 
 @source "../node_modules/@skeletonlabs/skeleton-svelte/dist";
 
@@ -10,4 +10,14 @@
 html,
 body {
 	@apply h-full;
+}
+
+@layer components {
+	.btn-primary {
+		@apply preset-filled btn bg-primary-500;
+	}
+
+	.btn-neutral {
+		@apply preset-filled btn bg-neutral-500;
+	}
 }
