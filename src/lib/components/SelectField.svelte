@@ -24,7 +24,7 @@
 <label class="label">
 	<span class="label-text">{label}</span>
 
-	<select {name} {disabled} {value} {required} class="input" size="1">
+	<select {name} {disabled} {value} {required} class="input bg-surface-50" size="1">
 		{#each options as option (option.value)}
 			<option value={option.value}>{option.label}</option>
 		{/each}

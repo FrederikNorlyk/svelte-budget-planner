@@ -12,6 +12,11 @@ body {
 	@apply h-full;
 }
 
+/* Skeleton UI combobox */
+input[role='combobox'] {
+	@apply bg-surface-50;
+}
+
 @layer components {
 	.btn-primary {
 		@apply preset-filled btn bg-primary-500;
