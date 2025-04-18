@@ -1,4 +1,4 @@
-## Svelte budget planner
+## Svelte budget planner TEST
 
 Simple budget planning application, built using SvelteKit.
 
