@@ -54,7 +54,6 @@
 		"@auth/sveltekit": "^1.7.4",
 		"@floating-ui/dom": "^1.6.13",
 		"@tailwindcss/vite": "^4.1.4",
-		"@vercel/postgres": "^0.10.0",
 		"@vercel/postgres-kysely": "^0.10.0",
 		"kysely": "^0.27.5",
 		"kysely-plugin-prefix": "^1.2.2",
