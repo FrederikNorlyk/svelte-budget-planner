@@ -45,7 +45,7 @@
 
 <Toaster {toaster}></Toaster>
 <Sidebar {links}>
-	<main class="mb-20 p-5 sm:mb-0 sm:pr-16 sm:pl-16 md:pr-20 md:pl-20 2xl:pr-36 2xl:pl-36">
+	<main class="mb-24 p-5 sm:mb-0 sm:pr-16 sm:pl-16 md:pr-20 md:pl-20 2xl:pr-36 2xl:pl-36">
 		<Header
 			title={page.data.title}
 			titleParams={page.data.titleParams}
