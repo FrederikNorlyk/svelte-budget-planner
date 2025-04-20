@@ -10,7 +10,7 @@ declare module '@auth/sveltekit' {
 	}
 }
 
-export const { handle } = SvelteKitAuth({
+export const { handle, signOut } = SvelteKitAuth({
 	providers: [
 		GitHub,
 		Credentials({
