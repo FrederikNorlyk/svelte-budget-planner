@@ -16,7 +16,7 @@
 </script>
 
 <a
-	class="group card rounded-md bg-white p-10"
+	class="card group bg-surface-100-900 rounded-md p-10"
 	href="/balance/{account.id}"
 	aria-label="Open the balance overview of the account {account.name}"
 >
@@ -26,7 +26,7 @@
 		<CircleArrowRight class="ml-2 h-8 w-8 flex-none text-slate-300 group-hover:text-slate-400" />
 	</div>
 	<div class="flex">
-		<p class="flex-grow text-4xl font-bold">
+		<p class="grow text-4xl font-bold">
 			{AmountUtil.localizeInteger(accountBalanceUtil.getCurrentAmount(account))}
 		</p>
 		{#if nextPaymentDate != null}

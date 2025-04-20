@@ -34,9 +34,15 @@
 	}
 
 	function onKeyUp(currentIndex: number, event: KeyboardEvent) {
+		if (event.key === 'Tab') {
+			// Preserve browser behaviour
+			return;
+		}
+
 		// Some characters should be interpreted as a new search
 		const searchCharacters = ['Backspace', '-', ',', '.'];
 
+		// If you type a letter, a number, or any of searchCharacters, then auto-jump the user into the search field and type the key there.
 		if (/^[a-zA-Z0-9]$/.test(event.key) || searchCharacters.includes(event.key)) {
 			event.preventDefault();
 			setSearchFieldAsFocus(event.key);
@@ -68,8 +74,8 @@
 	}
 </script>
 
-<nav class="card list-nav bg-white p-2 shadow-2xl">
-	<ul>
+<nav class="card bg-surface-50-950 p-2 shadow-2xl">
+	<ul class="m-1 space-y-2">
 		{#each results as result, index}
 			{@const SvelteComponent = getResultIcon(result)}
 			<li>
@@ -81,11 +87,10 @@
 					onkeyup={(e) => onKeyUp(index, e)}
 					href={result.url}
 					data-sveltekit-reload
+					class="grid grid-cols-[auto_1fr] space-x-2"
 				>
-					<span class="badge">
-						<SvelteComponent size="20" />
-					</span>
-					<span class="flex-auto">{result.name}</span>
+					<SvelteComponent size="20" class="m-1" />
+					<span>{result.name}</span>
 				</a>
 			</li>
 		{/each}

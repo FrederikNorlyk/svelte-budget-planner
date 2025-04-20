@@ -1,27 +1,24 @@
 <script lang="ts">
-	import { LightSwitch } from '@skeletonlabs/skeleton';
 	import NumberField from '$lib/components/NumberField.svelte';
 	import { Settings } from '$lib/models/Settings.js';
 	import { enhance } from '$app/forms';
-	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { _ } from 'svelte-i18n';
+	import { signOut } from '@auth/sveltekit/client';
+	import { toaster } from '$lib/util/toaster';
 
-	const toastStore = getToastStore();
 	let { data } = $props();
 	let isSaving = $state(false);
 	const settings = $derived(Settings.parse(data.settings));
+
+	function signOutButtonPressed(event: MouseEvent) {
+		event.preventDefault();
+		signOut();
+	}
 </script>
 
-<div class="card mt-5 space-y-3 bg-white p-10">
-	<div class="flex">
-		<div class="flex-grow">
-			<label class="label" for="light-switch">Dark mode</label>
-			<LightSwitch disabled={isSaving} class="mt-1" id="light-switch" />
-		</div>
-	</div>
-
+<div class="card bg-surface-100-900 mt-5 space-y-3 p-10">
 	<form
-		class="space-y-8"
+		class="space-y-5"
 		method="post"
 		action="?/save"
 		use:enhance={() => {
@@ -31,11 +28,8 @@
 				await update();
 				isSaving = false;
 
-				toastStore.trigger({
-					message: $_('settings.saved'),
-					background: 'variant-filled-primary',
-					classes: 'text-white',
-					hideDismiss: true
+				toaster.success({
+					title: $_('settings.saved')
 				});
 			};
 		}}
@@ -48,8 +42,18 @@
 			value={settings.income}
 		/>
 
-		<button disabled={isSaving} class="variant-filled btn w-full basis-1/4 bg-primary-500 sm:w-auto"
-			>{$_('button.save')}</button
-		>
+		<div class="space-y-1">
+			<button disabled={isSaving} class="btn-primary w-full sm:block sm:w-auto"
+				>{$_('button.save')}</button
+			>
+
+			<button
+				onclick={signOutButtonPressed}
+				disabled={isSaving}
+				class="btn-neutral w-full sm:block sm:w-auto"
+			>
+				{$_('signOut')}
+			</button>
+		</div>
 	</form>
 </div>

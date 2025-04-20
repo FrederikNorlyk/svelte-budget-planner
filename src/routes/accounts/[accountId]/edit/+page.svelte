@@ -3,42 +3,20 @@
 	import DeleteModal from '$lib/components/DeleteModal.svelte';
 	import TextField from '$lib/components/TextField.svelte';
 	import { Account } from '$lib/models/Account';
-	import { type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { enhance } from '$app/forms';
 	import Checkbox from '$lib/components/Checkbox.svelte';
-	import { getModalStore } from '@skeletonlabs/skeleton';
-	import { getToastStore } from '@skeletonlabs/skeleton';
-
-	const toastStore = getToastStore();
-	const modalStore = getModalStore();
+	import { toaster } from '$lib/util/toaster';
 
 	let { data, form } = $props();
 
 	let account = data.account != null ? Account.parse(data.account) : null;
 	let isSaving = $state(false);
+	let isShowingDeleteModal = $state(false);
 
 	if (form?.error) {
-		toastStore.trigger({
-			message: $_(form.error),
-			background: 'variant-filled-error'
+		toaster.error({
+			title: $_(form.error)
 		});
-	}
-
-	function showDeleteModal(event: Event): void {
-		event.preventDefault();
-
-		const component: ModalComponent = { ref: DeleteModal };
-
-		const modal: ModalSettings = {
-			type: 'component',
-			component: component,
-			title: $_('deleteAccount.title'),
-			body: $_('deleteAccount.body'),
-			buttonTextSubmit: $_('button.delete'),
-			buttonTextCancel: $_('button.cancel')
-		};
-
-		modalStore.trigger(modal);
 	}
 </script>
 
@@ -55,7 +33,7 @@
 		};
 	}}
 >
-	<div class="card space-y-4 bg-white p-4">
+	<div class="card bg-surface-100-900 space-y-4 p-4">
 		<TextField
 			name="name"
 			label={$_('account.name')}
@@ -74,17 +52,14 @@
 	</div>
 
 	<div class="flex space-x-2">
-		<button disabled={isSaving} class="variant-filled btn basis-1/4 bg-primary-500"
-			>{$_('button.save')}</button
-		>
+		<button disabled={isSaving} class="btn-primary basis-1/4">{$_('button.save')}</button>
 
 		{#if account != null}
-			<button
-				formnovalidate={true}
-				disabled={isSaving}
-				class="variant-filled btn basis-1/4"
-				onclick={showDeleteModal}>{$_('button.delete')}</button
-			>
+			<DeleteModal
+				open={isShowingDeleteModal}
+				title={$_('deleteAccount.title')}
+				body={$_('deleteAccount.body')}
+			></DeleteModal>
 		{/if}
 	</div>
 </form>

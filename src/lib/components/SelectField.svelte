@@ -22,11 +22,11 @@
 </script>
 
 <label class="label">
-	<span>{label}</span>
+	<span class="label-text">{label}</span>
 
-	<select {name} {disabled} {value} {required} class="input bg-secondary-50" size="1">
+	<select {name} {disabled} {value} {required} class="input bg-surface-50-950" size="1">
 		{#each options as option (option.value)}
-			<option value={option.value}>{option.text}</option>
+			<option value={option.value}>{option.label}</option>
 		{/each}
 	</select>
 </label>

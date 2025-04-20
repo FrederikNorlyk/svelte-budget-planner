@@ -1,0 +1,28 @@
+@import 'tailwindcss';
+@import '@skeletonlabs/skeleton';
+@import '@skeletonlabs/skeleton/optional/presets';
+@import '@skeletonlabs/skeleton/themes/nouveau';
+
+@source "../node_modules/@skeletonlabs/skeleton-svelte/dist";
+
+@plugin '@tailwindcss/forms';
+
+html,
+body {
+	@apply h-full;
+}
+
+/* Skeleton UI combobox */
+input[role='combobox'] {
+	@apply bg-surface-50-950;
+}
+
+@layer components {
+	.btn-primary {
+		@apply preset-filled btn bg-primary-500;
+	}
+
+	.btn-neutral {
+		@apply preset-filled btn bg-neutral-500;
+	}
+}
