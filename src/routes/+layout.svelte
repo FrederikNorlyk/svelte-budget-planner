@@ -45,7 +45,7 @@
 
 <Toaster {toaster}></Toaster>
 <Sidebar {links}>
-	<main class="mb-24 p-5 sm:mb-0 sm:pr-16 sm:pl-16 md:pr-20 md:pl-20 2xl:pr-36 2xl:pl-36">
+	<main class="mb-28 p-5 sm:mb-0 sm:pr-16 sm:pl-16 md:pr-20 md:pl-20 2xl:pr-36 2xl:pl-36">
 		<Header
 			title={page.data.title}
 			titleParams={page.data.titleParams}
@@ -64,7 +64,11 @@
 	</main>
 </Sidebar>
 
-<div class="{isPWA ? 'bg-surface-100-900 p-4' : ''} fixed bottom-0 w-full sm:hidden">
+<div
+	class="{isPWA
+		? 'bg-surface-100-900 p-4'
+		: ''} border-t-surface-200-800 fixed bottom-0 w-full border-t-1 sm:hidden"
+>
 	<Navigation.Bar>
 		{@render links?.()}
 	</Navigation.Bar>
