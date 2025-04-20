@@ -4,12 +4,8 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
-      day: 'sunday'
-    ignore:
-      - dependency-name: 'tailwindcss'
+      day: 'saturday'
     groups:
       all:
         patterns:
           - '*'
-        exclude-patterns:
-          - 'tailwindcss'
