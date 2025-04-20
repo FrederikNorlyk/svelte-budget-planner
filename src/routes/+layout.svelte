@@ -66,7 +66,7 @@
 
 <div
 	class="{isPWA
-		? 'bg-surface-100-900 p-4'
+		? 'bg-surface-100-900 pr-4 pb-4 pl-4'
 		: ''} border-t-surface-200-800 fixed bottom-0 w-full border-t-1 sm:hidden"
 >
 	<Navigation.Bar>
