@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test';
+import { type Page } from '@playwright/test';
 
 export class LoginPage {
 	readonly page: Page;
@@ -11,7 +11,11 @@ export class LoginPage {
 		await this.page.goto('auth/signin');
 	}
 
-	async clickSignInWithADemoUser() {
-		await this.page.getByRole('button', { name: 'Sign in with a demo user' }).click();
+	getSignInWithADemoUserButton() {
+		return this.page.getByRole('button', { name: 'Sign in with a demo user' });
+	}
+
+	getSignInWithAGitHubButton() {
+		return this.page.getByRole('button', { name: 'Sign in with GitHub' });
 	}
 }
