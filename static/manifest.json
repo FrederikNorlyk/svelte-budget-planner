@@ -9,9 +9,9 @@
 			"sizes": "512x512"
 		}
 	],
-	"background_color": "#e4e6ee",
+	"background_color": "#fbf7fe",
 	"display": "standalone",
 	"scope": "/",
-	"theme_color": "#e4e6ee",
+	"theme_color": "#fbf7fe",
 	"description": "Personal finance budgeting application."
 }
