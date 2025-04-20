@@ -14,7 +14,7 @@ body {
 
 /* Skeleton UI combobox */
 input[role='combobox'] {
-	@apply bg-surface-50;
+	@apply bg-surface-50-950;
 }
 
 @layer components {

@@ -58,7 +58,7 @@
 		};
 	}}
 >
-	<div class="card bg-surface-100 space-y-2 p-4">
+	<div class="card bg-surface-100-900 space-y-2 p-4">
 		<TextField
 			name="name"
 			label={$_('expense.name')}
@@ -109,14 +109,12 @@
 		/>
 	</div>
 
-	<div class="card bg-surface-100 space-y-2 p-4">
+	<div class="card bg-surface-100-900 space-y-2 p-4">
 		<PaymentDatePicker {paymentDates} disabled={isSaving} />
 	</div>
 
 	<div class="flex space-x-2 p-4">
-		<button disabled={isSaving} class="preset-filled btn bg-surface-1000 basis-1/4"
-			>{$_('button.save')}</button
-		>
+		<button disabled={isSaving} class="btn-primary basis-1/4">{$_('button.save')}</button>
 
 		{#if expense != null}
 			<DeleteModal

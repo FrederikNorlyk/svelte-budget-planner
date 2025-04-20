@@ -26,7 +26,7 @@
 		{required}
 		{disabled}
 		maxlength={100}
-		class="input bg-surface-50"
+		class="input bg-surface-50-950"
 		{autofocus}
 		type="text"
 		value={value ?? ''}

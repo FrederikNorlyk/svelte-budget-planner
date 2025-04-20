@@ -34,8 +34,8 @@
 	}
 
 	function onKeyUp(currentIndex: number, event: KeyboardEvent) {
-		// Preserve browser behaviour
 		if (event.key === 'Tab') {
+			// Preserve browser behaviour
 			return;
 		}
 
@@ -74,7 +74,7 @@
 	}
 </script>
 
-<nav class="card bg-white p-2 shadow-2xl">
+<nav class="card bg-surface-50-950 p-2 shadow-2xl">
 	<ul class="m-1 space-y-2">
 		{#each results as result, index}
 			{@const SvelteComponent = getResultIcon(result)}

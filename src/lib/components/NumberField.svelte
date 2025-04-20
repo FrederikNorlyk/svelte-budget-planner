@@ -25,7 +25,7 @@
 		{name}
 		{required}
 		{disabled}
-		class="input bg-surface-50"
+		class="input bg-surface-50-950"
 		{autofocus}
 		type="number"
 		step="0.01"
