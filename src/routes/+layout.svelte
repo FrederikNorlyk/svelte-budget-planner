@@ -13,24 +13,34 @@
 	import { toaster } from '$lib/util/toaster';
 
 	let { children } = $props();
+
+	// Detect if the app is running as a progressive web app
+	let isPWA =
+		typeof window !== 'undefined' && window.matchMedia('(display-mode: standalone)').matches;
 </script>
 
 {#snippet links()}
 	<Navigation.Tile
 		href="/accounts"
 		label={$_('accounts.title')}
-		selected={page.url.pathname.startsWith('/accounts')}><Landmark /></Navigation.Tile
+		selected={page.url.pathname.startsWith('/accounts')}
 	>
+		<Landmark />
+	</Navigation.Tile>
 	<Navigation.Tile
 		href="/balance"
 		label={$_('currentAmount.title')}
-		selected={page.url.pathname.startsWith('/balance')}><Scale /></Navigation.Tile
+		selected={page.url.pathname.startsWith('/balance')}
 	>
+		<Scale />
+	</Navigation.Tile>
 	<Navigation.Tile
 		href="/settings"
 		label={$_('settings.title')}
-		selected={page.url.pathname.startsWith('/settings')}><Settings /></Navigation.Tile
+		selected={page.url.pathname.startsWith('/settings')}
 	>
+		<Settings />
+	</Navigation.Tile>
 {/snippet}
 
 <Toaster {toaster}></Toaster>
@@ -58,4 +68,8 @@
 	<Navigation.Bar>
 		{@render links?.()}
 	</Navigation.Bar>
+	{#if isPWA}
+		<!-- Add padding -->
+		<div class="bg-surface-100-900 h-4 w-full"></div>
+	{/if}
 </div>
