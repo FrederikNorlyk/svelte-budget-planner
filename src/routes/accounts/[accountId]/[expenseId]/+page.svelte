@@ -92,7 +92,7 @@
 			name="tag"
 			label={$_('expense.group')}
 			value={expense?.tag ? [expense.tag] : undefined}
-			inputValue={expense?.tag ?? undefined}
+			defaultInputValue={expense?.tag ?? undefined}
 			data={tagOptions}
 			disabled={isSaving}
 			allowCustomValue={true}
