@@ -76,7 +76,7 @@
 
 <nav class="card bg-surface-50-950 p-2 shadow-2xl">
 	<ul class="m-1 space-y-2">
-		{#each results as result, index}
+		{#each results as result, index (index)}
 			{@const SvelteComponent = getResultIcon(result)}
 			<li>
 				<a
