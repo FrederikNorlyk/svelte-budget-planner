@@ -1,4 +1,4 @@
-<script lang="ts" generics="T extends Object">
+<script lang="ts" generics="T extends object">
 	import type { SelectOption } from './types/SelectOption';
 
 	interface Props {
@@ -6,9 +6,8 @@
 		label: string;
 		required?: boolean | undefined;
 		disabled?: boolean;
-		// Eslint undefined type warning, has been disabled as it does not recognize the svelte syntax: generics="T"
-		value?: T | undefined; // eslint-disable-line no-undef
-		options: SelectOption<T>[]; // eslint-disable-line no-undef
+		value?: T | undefined;
+		options: SelectOption<T>[];
 	}
 
 	let {

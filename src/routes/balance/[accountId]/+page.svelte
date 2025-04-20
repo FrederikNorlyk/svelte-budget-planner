@@ -35,7 +35,7 @@
 </script>
 
 <div class="space-y-3">
-	{#each dates as date, index}
+	{#each dates as date, index (index)}
 		{@const expenses = accountBalanceUtil.getExpensesIn(account, date.getMonth())}
 
 		<div class="card bg-surface-100-900 space-y-2 p-4">
