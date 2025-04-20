@@ -64,12 +64,8 @@
 	</main>
 </Sidebar>
 
-<div class="fixed bottom-0 w-full sm:hidden">
+<div class="{isPWA ? 'bg-surface-100-900 p-4' : ''} fixed bottom-0 w-full sm:hidden">
 	<Navigation.Bar>
 		{@render links?.()}
 	</Navigation.Bar>
-	{#if isPWA}
-		<!-- Add padding -->
-		<div class="bg-surface-100-900 h-4 w-full"></div>
-	{/if}
 </div>
