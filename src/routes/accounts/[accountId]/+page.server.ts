@@ -31,7 +31,7 @@ export async function load(event) {
 
 	return {
 		session: session,
-		account: account.serialize(),
-		expenses: expenses.map((e) => e.serialize())
+		account: account,
+		expenses: expenses
 	};
 }

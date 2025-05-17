@@ -1,14 +1,12 @@
 <script lang="ts">
-	import { Account } from '$lib/models/Account.js';
 	import NoEntries from '$lib/components/NoEntries.svelte';
 	import AddButton from '$lib/components/AddButton.svelte';
-	import { Settings } from '$lib/models/Settings.js';
 	import AmountCard from '$lib/components/AmountCard.svelte';
 	import AccountCard from '$lib/components/AccountCard.svelte';
 
 	let { data } = $props();
-	const accounts = data.accounts.map((account) => Account.parse(account));
-	const settings = Settings.parse(data.settings);
+	const accounts = data.accounts;
+	const settings = data.settings;
 
 	let totalMonthlyAmount = $state(0);
 	accounts.map((account) => (totalMonthlyAmount += account.monthlyAmount));

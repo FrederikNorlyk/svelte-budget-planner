@@ -4,7 +4,7 @@ import type { SettingsRecord } from '$lib/server/tables/SettingsTable';
  * A record for storing user settings.
  */
 export class Settings {
-	private record: SettingsRecord;
+	private readonly record: SettingsRecord;
 
 	constructor(record: SettingsRecord) {
 		this.record = record;
@@ -31,27 +31,5 @@ export class Settings {
 
 	public get userId() {
 		return this.record.userId;
-	}
-
-	public serialize() {
-		return JSON.stringify({
-			id: this.id,
-			userId: this.userId,
-			locale: this.locale,
-			income: this.income,
-			partnerId: this.partnerId
-		});
-	}
-
-	public static parse(json: string) {
-		const parsed = JSON.parse(json);
-
-		return new Settings({
-			userId: parsed.userId,
-			id: parsed.id,
-			locale: parsed.locale,
-			income: parsed.income,
-			partnerId: parsed.partnerId
-		});
 	}
 }

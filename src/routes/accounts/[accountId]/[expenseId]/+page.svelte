@@ -1,9 +1,7 @@
 <script lang="ts">
 	import TextField from '$lib/components/TextField.svelte';
-	import { Expense } from '$lib/models/Expense.js';
 	import { Combobox } from '@skeletonlabs/skeleton-svelte';
 	import PaymentDatePicker from '$lib/components/PaymentDatePicker.svelte';
-	import { PaymentDate } from '$lib/models/PaymentDate.js';
 	import { _ } from 'svelte-i18n';
 	import NumberField from '$lib/components/NumberField.svelte';
 	import { enhance } from '$app/forms';
@@ -14,8 +12,8 @@
 	import { toaster } from '$lib/util/toaster';
 
 	let { form, data } = $props();
-	const expense = data.expense != null ? Expense.parse(data.expense) : null;
-	const paymentDates = data.paymentDates.map((d) => PaymentDate.parse(d));
+	const expense = data.expense;
+	const paymentDates = data.paymentDates;
 
 	let isSaving = $state(false);
 	let isShowingDeleteModal = $state(false);

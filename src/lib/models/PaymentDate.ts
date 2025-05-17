@@ -1,7 +1,7 @@
 import type { PaymentDateRecord } from '$lib/server/tables/PaymentDatesTable';
 
 export class PaymentDate {
-	private record: PaymentDateRecord;
+	private readonly record: PaymentDateRecord;
 
 	constructor(record: PaymentDateRecord) {
 		this.record = record;
@@ -21,25 +21,5 @@ export class PaymentDate {
 
 	public get userIds() {
 		return this.record.userId;
-	}
-
-	public serialize() {
-		return JSON.stringify({
-			id: this.id,
-			expenseId: this.expenseId,
-			month: this.month,
-			userIds: this.userIds
-		});
-	}
-
-	public static parse(json: string) {
-		const parsed = JSON.parse(json);
-
-		return new PaymentDate({
-			id: parsed.id,
-			expenseId: parsed.expenseId,
-			month: parsed.month,
-			userId: parsed.userIds
-		});
 	}
 }
