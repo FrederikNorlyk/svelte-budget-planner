@@ -1,6 +1,5 @@
 <script lang="ts">
 	import NumberField from '$lib/components/NumberField.svelte';
-	import { Settings } from '$lib/models/Settings.js';
 	import { enhance } from '$app/forms';
 	import { _ } from 'svelte-i18n';
 	import { signOut } from '@auth/sveltekit/client';
@@ -8,7 +7,7 @@
 
 	let { data } = $props();
 	let isSaving = $state(false);
-	const settings = $derived(Settings.parse(data.settings));
+	const settings = $derived(data.settings);
 
 	function signOutButtonPressed(event: MouseEvent) {
 		event.preventDefault();

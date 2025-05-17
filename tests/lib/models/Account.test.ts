@@ -24,31 +24,6 @@ describe('Tests for the Account model', () => {
 			expect(account.monthlyAmount).toBe(0);
 		});
 	});
-
-	test('Test for serialize and parse', () => {
-		const account = new Account({ id: 1, name: 'Test', userId: ['user1'] }, [
-			createExpense(600, [Month.JANUARY, Month.JULY])
-		]);
-
-		const serialized = account.serialize();
-		const parsed = Account.parse(serialized);
-
-		expect(parsed.expenses).toBeInstanceOf(Array);
-		expect(parsed.expenses.length).toBe(1);
-		const expense = parsed.expenses[0];
-		expect(expense).toBeInstanceOf(Expense);
-		expect(expense.amount).toBe(600);
-		expect(expense.paymentDates.length).toBe(2);
-
-		expect(parsed.id).toBe(1);
-		expect(parsed.name).toBe('Test');
-		expect(parsed.userIds.length).toBe(1);
-
-		expect(parsed.userIds).toBeInstanceOf(Array);
-		expect(parsed.userIds.length).toBe(1);
-		const userId = parsed.userIds[0];
-		expect(userId).toBe('user1');
-	});
 });
 
 function createExpense(amount: number, months: Month[], isEnabled: boolean = true) {

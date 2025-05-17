@@ -104,36 +104,6 @@ describe('Tests for the Expense model', () => {
 		expense = createQuarterlyExpense();
 		expect(expense.isMonthlyExpense).toBe(false);
 	});
-
-	test('Test for serialize and parse', () => {
-		const expense = createYearlyExpense();
-		const serialized = expense.serialize();
-		const parsed = Expense.parse(serialized);
-
-		expect(parsed.paymentDates).toBeInstanceOf(Array);
-		expect(parsed.paymentDates.length).toBe(1);
-		const paymentDate = parsed.paymentDates[0];
-		expect(paymentDate).toBeInstanceOf(PaymentDate);
-		expect(paymentDate.expenseId).toBe(0);
-		expect(paymentDate.id).toBe(0);
-		expect(paymentDate.month).toBe(Month.JANUARY);
-		expect(paymentDate.userIds).toBeInstanceOf(Array);
-		let userId = paymentDate.userIds[0];
-		expect(userId).toBe('user2');
-
-		expect(parsed.accountId).toBe(1);
-		expect(parsed.amount).toBe(1200);
-		expect(parsed.id).toBe(2);
-		expect(parsed.isEnabled).toBe(true);
-		expect(parsed.isShared).toBe(false);
-		expect(parsed.name).toBe('A name');
-		expect(parsed.tag).toBe('A tag');
-
-		expect(parsed.userIds).toBeInstanceOf(Array);
-		expect(parsed.userIds.length).toBe(1);
-		userId = parsed.userIds[0];
-		expect(userId).toBe('user1');
-	});
 });
 
 function createMonthlyExpenseExplicit() {

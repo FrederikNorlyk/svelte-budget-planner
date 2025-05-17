@@ -1,10 +1,8 @@
 <script lang="ts">
-	import { Account } from '$lib/models/Account.js';
 	import BalanceCard from '$lib/components/AccountBalanceCard.svelte';
 
-	let { data } = $props();
-
-	const accounts = data.accounts.map((account) => Account.parse(account));
+	const { data } = $props();
+	const accounts = data.accounts;
 </script>
 
 <div class="grid grid-cols-1 gap-3 lg:grid-cols-2 2xl:grid-cols-3">

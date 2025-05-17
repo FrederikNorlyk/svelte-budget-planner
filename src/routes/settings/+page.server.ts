@@ -14,7 +14,7 @@ export const load: PageServerLoad = async (event) => {
 
 	return {
 		session: session,
-		settings: settings.serialize()
+		settings: settings
 	};
 };
 

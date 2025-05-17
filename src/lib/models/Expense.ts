@@ -2,7 +2,7 @@ import type { ExpenseRecord } from '$lib/server/tables/ExpensesTable';
 import { PaymentDate } from './PaymentDate';
 
 export class Expense {
-	private record: ExpenseRecord;
+	private readonly record: ExpenseRecord;
 	private _paymentDates: PaymentDate[];
 
 	constructor(record: ExpenseRecord, paymentDates: PaymentDate[]) {
@@ -80,37 +80,5 @@ export class Expense {
 
 	public get userIds() {
 		return this.record.userId;
-	}
-
-	public serialize() {
-		return JSON.stringify({
-			id: this.id,
-			name: this.name,
-			amount: this.amount,
-			tag: this.tag,
-			accountId: this.accountId,
-			enabled: this.isEnabled,
-			shared: this.isShared,
-			paymentDates: this.paymentDates.map((paymentDate) => paymentDate.serialize()),
-			userIds: this.userIds
-		});
-	}
-
-	public static parse(json: string) {
-		const parsed = JSON.parse(json);
-
-		return new Expense(
-			{
-				id: parsed.id,
-				name: parsed.name,
-				amount: parsed.amount,
-				tag: parsed.tag,
-				accountId: parsed.accountId,
-				isEnabled: parsed.enabled,
-				isShared: parsed.shared,
-				userId: parsed.userIds
-			},
-			parsed.paymentDates.map((paymentDate: string) => PaymentDate.parse(paymentDate))
-		);
 	}
 }

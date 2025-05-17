@@ -18,7 +18,7 @@ export const load: PageServerLoad = async (event) => {
 
 	return {
 		session: session,
-		accounts: accounts.map((account) => account.serialize()),
-		settings: settings.serialize()
+		accounts: accounts,
+		settings: settings
 	};
 };

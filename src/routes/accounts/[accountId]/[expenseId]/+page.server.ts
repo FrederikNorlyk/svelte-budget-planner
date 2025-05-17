@@ -34,9 +34,9 @@ export async function load(event) {
 
 	return {
 		session: session,
-		expense: expense?.serialize(),
+		expense: expense,
 		tags: await expenseClient.listAllTags(),
-		paymentDates: paymentDates.map((d) => d.serialize())
+		paymentDates: paymentDates
 	};
 }
 

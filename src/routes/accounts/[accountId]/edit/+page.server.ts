@@ -19,7 +19,7 @@ export async function load(event) {
 
 	return {
 		session: session,
-		account: account?.serialize()
+		account: account
 	};
 }
 

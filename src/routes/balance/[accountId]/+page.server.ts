@@ -33,6 +33,6 @@ export const load: PageServerLoad = async (event) => {
 
 	return {
 		session: session,
-		account: account.serialize()
+		account: account
 	};
 };

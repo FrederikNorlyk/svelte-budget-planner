@@ -1,13 +1,12 @@
 <script lang="ts">
 	import { Month } from '$lib/enums/Month.js';
-	import { Account } from '$lib/models/Account.js';
 	import { AmountUtil } from '$lib/util/AmountUtil';
 	import { AccountBalanceUtil } from '$lib/util/AccountBalanceUtil.js';
 	import { DateUtil } from '$lib/util/DateUtil.js';
 	import { _ } from 'svelte-i18n';
 
-	let { data } = $props();
-	const account = Account.parse(data.account);
+	const { data } = $props();
+	const account = data.account;
 	const accountBalanceUtil = new AccountBalanceUtil();
 
 	const dates = [new Date()];
