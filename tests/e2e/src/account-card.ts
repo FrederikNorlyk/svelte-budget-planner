@@ -11,7 +11,7 @@ export class AccountCard {
 		this.card = aTag;
 		this.header = aTag.locator('h2');
 		this.arrowIcon = aTag.locator('svg');
-		this.amountParagraph = aTag.locator('p', { hasText: new RegExp('^.*kr.$') });
+		this.amountParagraph = aTag.locator('p', { hasText: /^.*kr.$/ });
 		this.monthParagraph = aTag.locator('p', { hasText: '/month' });
 	}
 

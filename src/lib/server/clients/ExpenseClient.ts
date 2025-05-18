@@ -139,7 +139,7 @@ export class ExpenseClient extends DatabaseClient {
 			.execute();
 
 		const tags = records.map((record) => record.tag);
-		return tags.filter((tag) => tag != null) as string[];
+		return tags.filter((tag) => tag != null);
 	}
 
 	/**
@@ -157,7 +157,7 @@ export class ExpenseClient extends DatabaseClient {
 			.execute();
 
 		const tags = records.map((record) => record.tag);
-		return tags.filter((tag) => tag != null) as string[];
+		return tags.filter((tag) => tag != null);
 	}
 
 	/**

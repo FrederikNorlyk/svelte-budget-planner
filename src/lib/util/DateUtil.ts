@@ -1,5 +1,5 @@
 export class DateUtil {
-	private static numericFormat = Intl.DateTimeFormat('da-DK', {
+	private static readonly numericFormat = Intl.DateTimeFormat('da-DK', {
 		year: 'numeric',
 		month: 'numeric',
 		day: 'numeric',
@@ -7,7 +7,7 @@ export class DateUtil {
 		second: undefined
 	});
 
-	private static longFormat = Intl.DateTimeFormat('da-DK', {
+	private static readonly longFormat = Intl.DateTimeFormat('da-DK', {
 		year: undefined,
 		month: 'long',
 		day: undefined,
@@ -15,7 +15,7 @@ export class DateUtil {
 		second: undefined
 	});
 
-	private static monthNameFormat = Intl.DateTimeFormat('da-DK', {
+	private static readonly monthNameFormat = Intl.DateTimeFormat('da-DK', {
 		year: undefined,
 		month: 'long',
 		day: undefined,
