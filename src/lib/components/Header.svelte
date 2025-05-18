@@ -11,7 +11,7 @@
 		editHref?: string | undefined;
 	}
 
-	let {
+	const {
 		title,
 		titleParams = undefined,
 		details,

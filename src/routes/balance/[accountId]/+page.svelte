@@ -14,7 +14,7 @@
 	while (dates.length < 12) {
 		const previousDate = dates[dates.length - 1];
 
-		let newDate = new Date();
+		const newDate = new Date();
 		newDate.setDate(1);
 
 		if (previousDate.getMonth() == Month.DECEMBER) {

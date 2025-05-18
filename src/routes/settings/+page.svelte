@@ -5,7 +5,7 @@
 	import { signOut } from '@auth/sveltekit/client';
 	import { toaster } from '$lib/util/toaster';
 
-	let { data } = $props();
+	const { data } = $props();
 	let isSaving = $state(false);
 	const settings = $derived(data.settings);
 

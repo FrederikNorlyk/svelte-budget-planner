@@ -10,7 +10,7 @@
 		options: SelectOption<T>[];
 	}
 
-	let {
+	const {
 		name,
 		label,
 		required = undefined,

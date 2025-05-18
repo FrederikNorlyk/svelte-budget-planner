@@ -8,7 +8,7 @@
 		disabled?: boolean;
 	}
 
-	let {
+	const {
 		label,
 		name,
 		required = false,

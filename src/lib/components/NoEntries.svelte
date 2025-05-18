@@ -7,7 +7,7 @@
 		question: string;
 	}
 
-	let { question }: Props = $props();
+	const { question }: Props = $props();
 </script>
 
 <div class="space-y-6">

@@ -10,7 +10,7 @@
 		account: Account;
 	}
 
-	let { account }: Props = $props();
+	const { account }: Props = $props();
 	const accountBalanceUtil = new AccountBalanceUtil();
 	const nextPaymentDate = accountBalanceUtil.getNextPaymentDate(account);
 </script>

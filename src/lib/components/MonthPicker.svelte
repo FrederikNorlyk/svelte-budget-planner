@@ -12,7 +12,7 @@
 		onInputRemoved: (paymentDate: PaymentDate) => void;
 	}
 
-	let { paymentDate, disabled = false, onInputRemoved }: Props = $props();
+	const { paymentDate, disabled = false, onInputRemoved }: Props = $props();
 	let self: HTMLDivElement | undefined = $state();
 
 	const months: SelectOption<number>[] = [];

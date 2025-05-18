@@ -19,9 +19,14 @@ export default ts.config(
 			globals: { ...globals.browser, ...globals.node }
 		},
 		rules: {
-			// typescript-eslint strongly recommend that you do not use the no-undef lint rule on TypeScript projects.
+			// typescript-eslint strongly recommends that you do not use the no-undef lint rule on TypeScript projects.
 			// see: https://typescript-eslint.io/troubleshooting/faqs/eslint/#i-get-errors-from-the-no-undef-rule-about-global-variables-not-being-defined-even-though-there-are-no-typescript-errors
-			'no-undef': 'off'
+			'no-undef': 'off',
+			// Require let or const instead of var.
+			'no-var': 'error',
+			// Require const declarations for variables that are never reassigned after declared.
+			// Ignores Svelte reactive values such as $derived and $props.
+			'svelte/prefer-const': 'error'
 		}
 	},
 	{

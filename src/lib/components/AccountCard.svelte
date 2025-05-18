@@ -8,7 +8,7 @@
 		account: Account;
 	}
 
-	let { account }: Props = $props();
+	const { account }: Props = $props();
 </script>
 
 <a

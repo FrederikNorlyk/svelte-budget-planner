@@ -11,7 +11,7 @@
 		account: Account;
 	}
 
-	let { expense, account }: Props = $props();
+	const { expense, account }: Props = $props();
 
 	const accountBalanceUtil = new AccountBalanceUtil();
 	const nextPaymentDate = accountBalanceUtil.getNextPaymentDateForExpense(expense);

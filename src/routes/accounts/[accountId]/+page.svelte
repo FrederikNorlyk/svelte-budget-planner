@@ -3,7 +3,7 @@
 	import AddButton from '$lib/components/AddButton.svelte';
 	import ExpenseCard from '$lib/components/ExpenseCard.svelte';
 
-	let { data } = $props();
+	const { data } = $props();
 	const account = data.account;
 	const expenses = data.expenses;
 </script>

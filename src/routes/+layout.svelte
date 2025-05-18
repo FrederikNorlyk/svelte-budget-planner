@@ -12,10 +12,10 @@
 	import { Toaster } from '@skeletonlabs/skeleton-svelte';
 	import { toaster } from '$lib/util/toaster';
 
-	let { children } = $props();
+	const { children } = $props();
 
 	// Detect if the app is running as a progressive web app
-	let isPWA =
+	const isPWA =
 		typeof window !== 'undefined' && window.matchMedia('(display-mode: standalone)').matches;
 </script>
 

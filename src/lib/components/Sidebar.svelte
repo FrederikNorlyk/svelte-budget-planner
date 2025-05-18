@@ -6,7 +6,7 @@
 		links?: import('svelte').Snippet;
 	}
 
-	let { children, links }: Props = $props();
+	const { children, links }: Props = $props();
 
 	let value = $state('accounts');
 </script>

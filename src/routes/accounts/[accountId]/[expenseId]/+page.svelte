@@ -11,14 +11,14 @@
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import { toaster } from '$lib/util/toaster';
 
-	let { form, data } = $props();
+	const { form, data } = $props();
 	const expense = data.expense;
 	const paymentDates = data.paymentDates;
 
 	let isSaving = $state(false);
-	let isShowingDeleteModal = $state(false);
+	const isShowingDeleteModal = $state(false);
 
-	let tagOptions: SelectOption<string>[] = [];
+	const tagOptions: SelectOption<string>[] = [];
 	data.tags.forEach((tag) => {
 		tagOptions.push({ label: tag, value: tag });
 	});
@@ -31,7 +31,7 @@
 		}
 	});
 
-	let shareOptions: SelectOption<boolean>[] = [
+	const shareOptions: SelectOption<boolean>[] = [
 		{
 			value: false,
 			label: $_('expense.notShared')

@@ -6,11 +6,11 @@
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import { toaster } from '$lib/util/toaster';
 
-	let { data, form } = $props();
+	const { data, form } = $props();
 
-	let account = data.account;
+	const account = data.account;
 	let isSaving = $state(false);
-	let isShowingDeleteModal = $state(false);
+	const isShowingDeleteModal = $state(false);
 
 	if (form?.error) {
 		toaster.error({

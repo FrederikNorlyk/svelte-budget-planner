@@ -6,7 +6,7 @@
 		ariaLabel: string;
 	}
 
-	let { href, ariaLabel }: Props = $props();
+	const { href, ariaLabel }: Props = $props();
 </script>
 
 <a
