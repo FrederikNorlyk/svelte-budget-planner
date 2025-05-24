@@ -12,7 +12,7 @@
 
 <div class="space-y-6">
 	<div class="dm:mr-60 relative mt-5 mr-20 md:ml-20">
-		<p class="rounded-xl bg-slate-400 p-5 pl-10 text-white shadow-lg">
+		<p class="bg-surface-200-800 text-surface-contrast-200-800 rounded-xl p-5 pl-10 shadow-lg">
 			{$_(question)}
 		</p>
 	</div>
@@ -20,7 +20,7 @@
 		<span class="absolute -top-3 -left-3 h-10 w-10 rounded-full bg-white p-2">
 			<MessageCircleMore />
 		</span>
-		<p class="bg-tertiary-500 rounded-xl p-5 pl-10 text-white shadow-lg">
+		<p class="rounded-xl bg-blue-600 p-5 pl-10 text-white shadow-lg">
 			{$_('chat.howToAdd')}
 		</p>
 	</div>
