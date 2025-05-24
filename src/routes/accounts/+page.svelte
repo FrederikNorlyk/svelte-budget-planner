@@ -25,9 +25,7 @@
 		<AddButton href="/accounts/0/edit" ariaLabel="New account" />
 	</div>
 
-	<div
-		class="card bg-surface-100-900 mt-9 grid grid-cols-1 gap-3 p-10 md:grid-cols-2 md:p-0 xl:grid-cols-3"
-	>
+	<div class="card-primary mt-9 grid grid-cols-1 gap-3 p-10 md:grid-cols-2 md:p-0 xl:grid-cols-3">
 		<AmountCard text="total" amount={totalMonthlyAmount} />
 		<div class="hidden xl:block"></div>
 		<AmountCard text="remainderAfterExpenses" amount={remainder} />

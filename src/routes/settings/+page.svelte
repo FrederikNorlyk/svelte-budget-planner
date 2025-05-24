@@ -15,7 +15,7 @@
 	}
 </script>
 
-<div class="card bg-surface-100-900 mt-5 space-y-3 p-10">
+<div class="card-primary p-10">
 	<form
 		class="space-y-5"
 		method="post"

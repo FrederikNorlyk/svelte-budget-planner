@@ -12,7 +12,7 @@
 </script>
 
 <a
-	class="card group bg-surface-100-900 rounded-md p-10"
+	class="card-primary group p-10"
 	href="/accounts/{account.id}"
 	aria-label="Open the account {account.name}"
 >

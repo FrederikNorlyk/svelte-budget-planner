@@ -32,7 +32,7 @@
 		};
 	}}
 >
-	<div class="card bg-surface-100-900 space-y-4 p-4">
+	<div class="card-primary space-y-4 p-5">
 		<TextField
 			name="name"
 			label={$_('account.name')}

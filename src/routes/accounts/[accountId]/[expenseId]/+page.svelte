@@ -56,7 +56,7 @@
 		};
 	}}
 >
-	<div class="card bg-surface-100-900 space-y-2 p-4">
+	<div class="card-primary space-y-2 p-5">
 		<TextField
 			name="name"
 			label={$_('expense.name')}
@@ -107,11 +107,11 @@
 		/>
 	</div>
 
-	<div class="card bg-surface-100-900 space-y-2 p-4">
+	<div class="card-primary space-y-2 p-5">
 		<PaymentDatePicker {paymentDates} disabled={isSaving} />
 	</div>
 
-	<div class="flex space-x-2 p-4">
+	<div class="flex space-x-2">
 		<button disabled={isSaving} class="btn-primary basis-1/4">{$_('button.save')}</button>
 
 		{#if expense != null}

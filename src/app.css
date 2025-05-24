@@ -25,4 +25,8 @@ input[role='combobox'] {
 	.btn-neutral {
 		@apply preset-filled btn bg-neutral-500;
 	}
+
+	.card-primary {
+		@apply card bg-surface-100-900;
+	}
 }
