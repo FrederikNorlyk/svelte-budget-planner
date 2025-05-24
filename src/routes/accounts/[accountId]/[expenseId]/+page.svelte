@@ -10,6 +10,7 @@
 	import DeleteModal from '$lib/components/DeleteModal.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import { toaster } from '$lib/util/toaster';
+	import ButtonGroup from '$lib/components/ButtonGroup.svelte';
 
 	const { form, data } = $props();
 	const expense = data.expense;
@@ -111,7 +112,7 @@
 		<PaymentDatePicker {paymentDates} disabled={isSaving} />
 	</div>
 
-	<div class="flex space-x-2">
+	<ButtonGroup>
 		<button disabled={isSaving} class="btn-primary basis-1/4">{$_('button.save')}</button>
 
 		{#if expense != null}
@@ -121,5 +122,5 @@
 				body={$_('deleteExpense.body')}
 			/>
 		{/if}
-	</div>
+	</ButtonGroup>
 </form>
