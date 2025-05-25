@@ -16,21 +16,23 @@
 </script>
 
 <a
-	class="group card-primary p-10"
+	class="group card-primary clickable p-10"
 	href="/balance/{account.id}"
 	aria-label="Open the balance overview of the account {account.name}"
 >
 	<div class="flex">
 		<h2 class="grow text-2xl">{account.name}</h2>
 
-		<CircleArrowRight class="ml-2 h-8 w-8 flex-none text-slate-300 group-hover:text-slate-400" />
+		<CircleArrowRight
+			class="text-primary-400-600 group-hover:text-primary-600-400 ml-2 h-8 w-8 flex-none"
+		/>
 	</div>
 	<div class="flex">
 		<p class="grow text-4xl font-bold">
 			{AmountUtil.localizeInteger(accountBalanceUtil.getCurrentAmount(account))}
 		</p>
 		{#if nextPaymentDate != null}
-			<p class="text-end text-slate-500">
+			<p class="text-neutral text-end">
 				{$_('nextPayment')}: {DateUtil.localizeLongerFormat(nextPaymentDate)}
 			</p>
 		{/if}

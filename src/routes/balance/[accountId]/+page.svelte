@@ -51,7 +51,7 @@
 					</div>
 				{/each}
 
-				<div class="flex space-x-1 text-slate-400">
+				<div class="text-shadow-surface-contrast-400-600 flex space-x-1 opacity-40">
 					<p>
 						+{AmountUtil.localizeDecimal(
 							accountBalanceUtil.getMonthlyBudgetTransferAmount(account)

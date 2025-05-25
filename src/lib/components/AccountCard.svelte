@@ -12,20 +12,22 @@
 </script>
 
 <a
-	class="card-primary group p-10"
+	class="card-primary clickable group p-10"
 	href="/accounts/{account.id}"
 	aria-label="Open the account {account.name}"
 >
 	<div class="flex">
 		<h2 class="text-surface-contrast-100-900 grow text-2xl">{account.name}</h2>
 
-		<CircleArrowRight class="ml-2 h-8 w-8 flex-none text-slate-300 group-hover:text-slate-400" />
+		<CircleArrowRight
+			class="text-primary-400-600 group-hover:text-primary-600-400 ml-2 h-8 w-8 flex-none"
+		/>
 	</div>
 
 	<div class="flex flex-wrap">
 		<p class="text-surface-contrast-100-900 text-4xl font-bold">
 			{AmountUtil.localizeInteger(account.monthlyAmount)}
 		</p>
-		<p class="mt-auto text-slate-500">/{$_('month')}</p>
+		<p class="text-neutral mt-auto">/{$_('month')}</p>
 	</div>
 </a>

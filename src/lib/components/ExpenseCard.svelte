@@ -42,14 +42,16 @@
 </script>
 
 <a
-	class="card-primary grid grid-cols-2 space-y-2 p-5 {expense.isEnabled ? '' : 'opacity-60'}"
+	class="card-primary clickable grid grid-cols-2 space-y-2 p-5 {expense.isEnabled
+		? ''
+		: 'opacity-60'}"
 	href="/accounts/{account.id}/{expense.id}"
 >
 	<div>
-		<h2 class="text-surface-contrast-100-900 text-xl">{expense.name}</h2>
-		<small class="text-slate-500">{expense.tag}</small>
+		<h2 class="text-xl">{expense.name}</h2>
+		<small class="text-neutral">{expense.tag}</small>
 	</div>
-	<div class="text-right text-slate-500">
+	<div class="text-neutral text-right">
 		{#if !expense.isEnabled}
 			{$_('expense.inactive')}
 		{:else if nextPaymentDate != null}
@@ -57,14 +59,12 @@
 		{/if}
 	</div>
 	<div>
-		<h1 class="text-surface-contrast-100-900 inline-block text-2xl">{getAmount(expense)}</h1>
+		<h1 class="inline-block text-2xl">{getAmount(expense)}</h1>
 		{#if expense.isMonthlyExpense}
-			<small class="text-slate-500">/{$_('month')}</small>
+			<small class="text-neutral">/{$_('month')}</small>
 		{:else}
-			<small class="text-slate-500"
-				>{AmountUtil.localizeDecimal(monthlyAmount)}/{$_('month')}
-			</small>
+			<small class="text-neutral">{AmountUtil.localizeDecimal(monthlyAmount)}/{$_('month')} </small>
 		{/if}
 	</div>
-	<div class="text-right text-slate-500">{localizePaymentFrequency(expense)}</div>
+	<div class="text-neutral text-right">{localizePaymentFrequency(expense)}</div>
 </a>

@@ -24,7 +24,7 @@
 	<div class="flex grow">
 		{#if backHref}
 			<a class="mt-2 mr-2" href={backHref}>
-				<button type="button" class="btn-secondary btn-icon" aria-label="Back button">
+				<button type="button" class="btn-primary btn-icon" aria-label="Back button">
 					<ArrowLeft />
 				</button>
 			</a>

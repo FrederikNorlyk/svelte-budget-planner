@@ -19,18 +19,34 @@ input[role='combobox'] {
 
 @layer components {
 	.btn-primary {
-		@apply preset-filled btn bg-primary-500;
+		@apply preset-filled btn bg-primary-400-600;
 	}
 
 	.btn-neutral {
-		@apply preset-filled btn bg-neutral-500;
+		@apply preset-filled btn bg-neutral-400;
 	}
 
 	.btn-secondary {
-		@apply preset-filled btn bg-secondary-500;
+		@apply preset-filled btn bg-secondary-400-600;
+	}
+
+	.btn-tertiary {
+		@apply preset-filled btn bg-tertiary-400-600;
+	}
+
+	.btn-error {
+		@apply btn preset-filled bg-error-400-600;
 	}
 
 	.card-primary {
 		@apply card bg-surface-100-900;
+	}
+
+	.card-primary.clickable {
+		@apply hover:bg-primary-200-800 transition-colors duration-200;
+	}
+
+	.text-neutral {
+		@apply text-surface-contrast-100-900 opacity-60;
 	}
 }

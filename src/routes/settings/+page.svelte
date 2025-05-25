@@ -41,15 +41,17 @@
 			value={settings.income}
 		/>
 
-		<div class="space-y-1">
+		<div class="space-y-12">
 			<button disabled={isSaving} class="btn-primary w-full sm:block sm:w-auto"
 				>{$_('button.save')}</button
 			>
 
+			<hr />
+
 			<button
 				onclick={signOutButtonPressed}
 				disabled={isSaving}
-				class="btn-neutral w-full sm:block sm:w-auto"
+				class="btn-tertiary w-full sm:block sm:w-auto"
 			>
 				{$_('signOut')}
 			</button>

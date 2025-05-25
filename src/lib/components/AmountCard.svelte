@@ -14,6 +14,6 @@
 	<h2 class="text-xl">{$_(text)}</h2>
 	<div class="flex flex-wrap">
 		<h1 class="text-2xl">{AmountUtil.localizeDecimal(amount)}</h1>
-		<p class="mt-auto text-slate-500">/{$_('month')}</p>
+		<p class="text-neutral mt-auto">/{$_('month')}</p>
 	</div>
 </div>
