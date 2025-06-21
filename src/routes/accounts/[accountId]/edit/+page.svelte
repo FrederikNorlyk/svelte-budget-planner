@@ -33,6 +33,8 @@
 	}}
 >
 	<div class="card bg-surface-100-900 space-y-4 p-4">
+		<input type="hidden" value={account?.id ?? 0} />
+
 		<TextField
 			name="name"
 			label={$_('account.name')}
