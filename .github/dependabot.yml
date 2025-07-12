@@ -13,6 +13,6 @@ updates:
     ignore:
       # Ignore specific versions that break peer dependencies
       - dependency-name: '@neondatabase/serverless'
-        versions: ['1.0.1'] # breaks with kysely-neon
+        versions: ['<=1.0.1'] # breaks with kysely-neon
       - dependency-name: 'kysely'
-        versions: ['0.28.2'] # breaks with kysely-neon
+        versions: ['<=0.28.2'] # breaks with kysely-neon
