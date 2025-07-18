@@ -1,5 +1,5 @@
-import { AccountClient } from '$lib/clients/AccountClient.js';
-import { ExpenseClient } from '$lib/clients/ExpenseClient.js';
+import { AccountClient } from '$lib/server/clients/AccountClient.js';
+import { ExpenseClient } from '$lib/server/clients/ExpenseClient.js';
 import { redirect } from '@sveltejs/kit';
 
 export async function load(event) {
@@ -31,7 +31,7 @@ export async function load(event) {
 
 	return {
 		session: session,
-		account: account.serialize(),
-		expenses: expenses.map((e) => e.serialize())
+		account: account,
+		expenses: expenses
 	};
 }

@@ -1,13 +1,12 @@
 <script lang="ts">
 	import { Month } from '$lib/enums/Month.js';
-	import { Account } from '$lib/models/Account.js';
 	import { AmountUtil } from '$lib/util/AmountUtil';
 	import { AccountBalanceUtil } from '$lib/util/AccountBalanceUtil.js';
 	import { DateUtil } from '$lib/util/DateUtil.js';
 	import { _ } from 'svelte-i18n';
 
-	let { data } = $props();
-	const account = Account.parse(data.account);
+	const { data } = $props();
+	const account = data.account;
 	const accountBalanceUtil = new AccountBalanceUtil();
 
 	const dates = [new Date()];
@@ -15,7 +14,7 @@
 	while (dates.length < 12) {
 		const previousDate = dates[dates.length - 1];
 
-		let newDate = new Date();
+		const newDate = new Date();
 		newDate.setDate(1);
 
 		if (previousDate.getMonth() == Month.DECEMBER) {
@@ -35,10 +34,10 @@
 </script>
 
 <div class="space-y-3">
-	{#each dates as date, index}
+	{#each dates as date, index (index)}
 		{@const expenses = accountBalanceUtil.getExpensesIn(account, date.getMonth())}
 
-		<div class="card space-y-2 bg-white p-4">
+		<div class="card bg-surface-100-900 space-y-2 p-4">
 			<div class="flex">
 				<h1 class="grow text-xl capitalize">{DateUtil.getMonthName(date.getMonth())}</h1>
 				<h1 class="text-xl">{AmountUtil.localizeDecimal(monthAmounts[index])}</h1>

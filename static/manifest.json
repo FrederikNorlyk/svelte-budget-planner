@@ -1,6 +1,6 @@
 {
 	"short_name": "Budget",
-	"name": "Svelte budget planner",
+	"name": "Budget planner",
 	"start_url": "/",
 	"icons": [
 		{
@@ -9,9 +9,7 @@
 			"sizes": "512x512"
 		}
 	],
-	"background_color": "#e4e6ee",
 	"display": "standalone",
 	"scope": "/",
-	"theme_color": "#e4e6ee",
 	"description": "Personal finance budgeting application."
 }

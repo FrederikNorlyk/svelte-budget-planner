@@ -7,7 +7,7 @@
 		amount: number;
 	}
 
-	let { text, amount }: Props = $props();
+	const { text, amount }: Props = $props();
 </script>
 
 <div class="md:p-10">

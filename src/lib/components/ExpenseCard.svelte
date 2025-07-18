@@ -11,7 +11,7 @@
 		account: Account;
 	}
 
-	let { expense, account }: Props = $props();
+	const { expense, account }: Props = $props();
 
 	const accountBalanceUtil = new AccountBalanceUtil();
 	const nextPaymentDate = accountBalanceUtil.getNextPaymentDateForExpense(expense);
@@ -42,11 +42,13 @@
 </script>
 
 <a
-	class="card grid grid-cols-2 space-y-2 bg-white p-4 {expense.isEnabled ? '' : 'opacity-60'}"
+	class="card bg-surface-100-900 grid grid-cols-2 space-y-2 p-4 {expense.isEnabled
+		? ''
+		: 'opacity-60'}"
 	href="/accounts/{account.id}/{expense.id}"
 >
 	<div>
-		<h2 class="text-xl">{expense.name}</h2>
+		<h2 class="text-surface-contrast-100-900 text-xl">{expense.name}</h2>
 		<small class="text-slate-500">{expense.tag}</small>
 	</div>
 	<div class="text-right text-slate-500">
@@ -57,7 +59,7 @@
 		{/if}
 	</div>
 	<div>
-		<h1 class="inline-block text-2xl">{getAmount(expense)}</h1>
+		<h1 class="text-surface-contrast-100-900 inline-block text-2xl">{getAmount(expense)}</h1>
 		{#if expense.isMonthlyExpense}
 			<small class="text-slate-500">/{$_('month')}</small>
 		{:else}

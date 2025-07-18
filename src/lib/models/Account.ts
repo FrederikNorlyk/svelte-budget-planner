@@ -1,8 +1,8 @@
-import type { AccountRecord } from '$lib/tables/AccountsTable';
+import type { AccountRecord } from '$lib/server/tables/AccountsTable';
 import { Expense } from './Expense';
 
 export class Account {
-	private record: AccountRecord;
+	private readonly record: AccountRecord;
 	private _expenses: Expense[];
 
 	constructor(record: AccountRecord, expenses: Expense[]) {
@@ -41,27 +41,5 @@ export class Account {
 		});
 
 		return amount;
-	}
-
-	public serialize() {
-		return JSON.stringify({
-			id: this.id,
-			name: this.name,
-			userIds: this.userIds,
-			expenses: this.expenses.map((expense) => expense.serialize())
-		});
-	}
-
-	public static parse(json: string): Account {
-		const parsed = JSON.parse(json);
-
-		return new Account(
-			{
-				id: parsed.id,
-				name: parsed.name,
-				userId: parsed.userIds
-			},
-			parsed.expenses.map((expense: string) => Expense.parse(expense))
-		);
 	}
 }

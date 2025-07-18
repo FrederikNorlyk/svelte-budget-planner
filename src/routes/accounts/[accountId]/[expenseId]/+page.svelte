@@ -1,74 +1,46 @@
 <script lang="ts">
 	import TextField from '$lib/components/TextField.svelte';
-	import { Expense } from '$lib/models/Expense.js';
-	import {
-		SlideToggle,
-		type AutocompleteOption,
-		type ModalComponent,
-		type ModalSettings
-	} from '@skeletonlabs/skeleton';
-	import AutoCompletingTextField from '$lib/components/AutoCompletingTextField.svelte';
+	import { Combobox } from '@skeletonlabs/skeleton-svelte';
 	import PaymentDatePicker from '$lib/components/PaymentDatePicker.svelte';
-	import { PaymentDate } from '$lib/models/PaymentDate.js';
-	import DeleteModal from '$lib/components/DeleteModal.svelte';
 	import { _ } from 'svelte-i18n';
 	import NumberField from '$lib/components/NumberField.svelte';
 	import { enhance } from '$app/forms';
 	import SelectField from '$lib/components/SelectField.svelte';
 	import type { SelectOption } from '$lib/components/types/SelectOption.js';
-	import { getModalStore } from '@skeletonlabs/skeleton';
-	import { getToastStore } from '@skeletonlabs/skeleton';
+	import DeleteModal from '$lib/components/DeleteModal.svelte';
+	import Checkbox from '$lib/components/Checkbox.svelte';
+	import { toaster } from '$lib/util/toaster';
 
-	const toastStore = getToastStore();
-	const modalStore = getModalStore();
-
-	let { form, data } = $props();
-	const expense = data.expense != null ? Expense.parse(data.expense) : null;
-	const paymentDates = data.paymentDates.map((d) => PaymentDate.parse(d));
+	const { form, data } = $props();
+	const expense = data.expense;
+	const paymentDates = data.paymentDates;
 
 	let isSaving = $state(false);
+	const isShowingDeleteModal = $state(false);
 
-	let tagOptions: AutocompleteOption[] = [];
+	const tagOptions: SelectOption<string>[] = [];
 	data.tags.forEach((tag) => {
 		tagOptions.push({ label: tag, value: tag });
 	});
 
 	$effect(() => {
 		if (form?.error) {
-			toastStore.trigger({
-				message: $_(form.error),
-				background: 'variant-filled-error'
+			toaster.error({
+				title: $_(form.error)
 			});
 		}
 	});
 
-	let shareOptions: SelectOption<boolean>[] = [
+	const shareOptions: SelectOption<boolean>[] = [
 		{
 			value: false,
-			text: $_('expense.notShared')
+			label: $_('expense.notShared')
 		},
 		{
 			value: true,
-			text: $_('expense.isShared')
+			label: $_('expense.isShared')
 		}
 	];
-
-	function showDeleteModal(event: MouseEvent): void {
-		event.preventDefault();
-
-		const component: ModalComponent = { ref: DeleteModal };
-
-		const modal: ModalSettings = {
-			type: 'component',
-			component: component,
-			title: $_('deleteExpense.title'),
-			body: $_('deleteExpense.body'),
-			buttonTextSubmit: $_('button.delete'),
-			buttonTextCancel: $_('button.cancel')
-		};
-
-		modalStore.trigger(modal);
-	}
 </script>
 
 <form
@@ -84,7 +56,7 @@
 		};
 	}}
 >
-	<div class="card space-y-2 bg-white p-4">
+	<div class="card bg-surface-100-900 space-y-2 p-4">
 		<TextField
 			name="name"
 			label={$_('expense.name')}
@@ -114,38 +86,40 @@
 			/>
 		</div>
 
-		<AutoCompletingTextField
+		<Combobox
 			name="tag"
 			label={$_('expense.group')}
-			value={expense?.tag}
-			options={tagOptions}
+			value={expense?.tag ? [expense.tag] : undefined}
+			defaultInputValue={expense?.tag ?? undefined}
+			data={tagOptions}
 			disabled={isSaving}
+			allowCustomValue={true}
 		/>
 
-		<SlideToggle
+		<!-- Spacing -->
+		<div></div>
+
+		<Checkbox
 			disabled={isSaving}
 			name="isEnabled"
-			active="bg-primary-500"
-			checked={expense?.isEnabled ?? true}>{$_('expense.isEnabled')}</SlideToggle
-		>
+			label={$_('expense.isEnabled')}
+			value={expense?.isEnabled ?? true}
+		/>
 	</div>
 
-	<div class="card space-y-2 bg-white p-4">
+	<div class="card bg-surface-100-900 space-y-2 p-4">
 		<PaymentDatePicker {paymentDates} disabled={isSaving} />
 	</div>
 
 	<div class="flex space-x-2 p-4">
-		<button disabled={isSaving} class="variant-filled btn basis-1/4 bg-primary-500"
-			>{$_('button.save')}</button
-		>
+		<button disabled={isSaving} class="btn-primary basis-1/4">{$_('button.save')}</button>
 
 		{#if expense != null}
-			<button
-				formnovalidate={true}
-				disabled={isSaving}
-				class="variant-filled btn basis-1/4"
-				onclick={showDeleteModal}>{$_('button.delete')}</button
-			>
+			<DeleteModal
+				open={isShowingDeleteModal}
+				title={$_('deleteExpense.title')}
+				body={$_('deleteExpense.body')}
+			/>
 		{/if}
 	</div>
 </form>

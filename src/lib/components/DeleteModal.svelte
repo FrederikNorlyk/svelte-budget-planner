@@ -1,33 +1,58 @@
 <script lang="ts">
-	import type { SvelteComponent } from 'svelte';
-	import { getModalStore } from '@skeletonlabs/skeleton';
+	import { Modal } from '@skeletonlabs/skeleton-svelte';
+	import { _ } from 'svelte-i18n';
+	import { enhance } from '$app/forms';
 
 	interface Props {
-		parent: SvelteComponent;
+		open: boolean;
+		title: string;
+		body: string;
 	}
 
-	let { parent }: Props = $props();
+	let { open, title, body }: Props = $props();
 
-	const modalStore = getModalStore();
+	let isSubmitting = $state(false);
 
-	function cancelButtonPressed(event: Event) {
-		event.preventDefault();
-		parent.onClose();
+	function onCancel() {
+		open = false;
 	}
 </script>
 
-{#if $modalStore[0]}
-	<div class="modal-example-form card w-modal space-y-4 bg-white p-4 shadow-xl">
-		<header class="text-2xl font-bold">{$modalStore[0].title ?? '(title missing)'}</header>
-		<article>{$modalStore[0].body ?? '(body missing)'}</article>
+<Modal
+	{open}
+	onOpenChange={(e) => (open = e.open)}
+	triggerBase="btn-neutral"
+	contentBase="card bg-surface-100-900 p-4 space-y-4 shadow-xl max-w-screen-sm"
+	backdropClasses="backdrop-blur-sm"
+>
+	{#snippet trigger()}{$_('button.delete')}{/snippet}
+	{#snippet content()}
+		<header class="flex justify-between">
+			<h2 class="h2">{title}</h2>
+		</header>
+		<article>
+			<p>{body}</p>
+		</article>
+		<footer class="flex justify-end gap-4">
+			<form
+				method="post"
+				action="?/delete"
+				use:enhance={() => {
+					isSubmitting = true;
 
-		<footer class="modal-footer {parent.regionFooter}">
-			<form method="post" action="?/delete">
-				<button class="btn {parent.buttonNeutral}" onclick={cancelButtonPressed}
-					>{parent.buttonTextCancel}</button
+					return async ({ update }) => {
+						await update();
+						isSubmitting = false;
+					};
+				}}
+			>
+				<button type="button" class="btn preset-tonal" disabled={isSubmitting} onclick={onCancel}
+					>{$_('button.cancel')}</button
 				>
-				<button class="btn {parent.buttonPositive}">{parent.buttonTextSubmit}</button>
+				<button type="submit" class="btn preset-filled" disabled={isSubmitting}
+					>{$_('button.delete')}</button
+				>
 			</form>
 		</footer>
-	</div>
-{/if}
+	{/snippet}
+</Modal>

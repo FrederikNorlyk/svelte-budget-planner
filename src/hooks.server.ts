@@ -18,7 +18,7 @@ async function authorizationHandle({ event, resolve }: HandleParams) {
 async function localizationHandle({ event, resolve }: HandleParams) {
 	const lang = event.request.headers.get('accept-language')?.split(',')[0];
 	if (lang) {
-		void locale.set(lang);
+		locale.set(lang);
 	}
 	return resolve(event);
 }

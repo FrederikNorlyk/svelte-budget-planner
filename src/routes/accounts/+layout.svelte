@@ -1,12 +1,9 @@
 <script lang="ts">
 	import { beforeNavigate, afterNavigate } from '$app/navigation';
-	interface Props {
-		children?: import('svelte').Snippet;
-	}
 
-	let { children }: Props = $props();
+	const { children } = $props();
 
-	let scrollPositions = new Map();
+	const scrollPositions = new Map();
 
 	beforeNavigate((nav) => {
 		if (nav.from?.url.pathname) {

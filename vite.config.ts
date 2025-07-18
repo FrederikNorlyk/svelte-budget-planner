@@ -1,4 +1,5 @@
 import { sveltekit } from '@sveltejs/kit/vite';
+import tailwindcss from '@tailwindcss/vite';
 import dotenvExpand from 'dotenv-expand';
 import { loadEnv } from 'vite';
 import { defineConfig } from 'vitest/config';
@@ -10,7 +11,7 @@ export default defineConfig(({ mode }) => {
 	}
 
 	return {
-		plugins: [sveltekit()],
+		plugins: [tailwindcss(), sveltekit()],
 		test: {
 			include: ['tests/lib/**/*.{test,spec}.{js,ts}'],
 			coverage: {

@@ -12,14 +12,14 @@
 		onInputRemoved: (paymentDate: PaymentDate) => void;
 	}
 
-	let { paymentDate, disabled = false, onInputRemoved }: Props = $props();
+	const { paymentDate, disabled = false, onInputRemoved }: Props = $props();
 	let self: HTMLDivElement | undefined = $state();
 
 	const months: SelectOption<number>[] = [];
 	for (let i = 0; i < 12; i++) {
 		months.push({
 			value: i,
-			text: DateUtil.getMonthName(i)
+			label: DateUtil.getMonthName(i)
 		});
 	}
 
@@ -48,7 +48,7 @@
 			{disabled}
 			onclick={removeSelf}
 			type="button"
-			class="variant-filled btn-icon mt-6 bg-error-600"
+			class="preset-filled btn-icon bg-error-600 mt-6"
 		>
 			<X />
 		</button>

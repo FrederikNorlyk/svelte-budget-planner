@@ -8,7 +8,7 @@
 		disabled?: boolean;
 	}
 
-	let {
+	const {
 		label,
 		name,
 		required = false,
@@ -19,14 +19,14 @@
 </script>
 
 <label class="label">
-	<span>{label}</span>
+	<span class="label-text">{label}</span>
 	<!-- svelte-ignore a11y_autofocus -->
 	<input
 		{name}
 		{required}
 		{disabled}
 		maxlength={100}
-		class="input bg-secondary-50"
+		class="input bg-surface-50-950"
 		{autofocus}
 		type="text"
 		value={value ?? ''}

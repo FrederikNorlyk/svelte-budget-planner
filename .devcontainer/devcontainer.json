@@ -2,8 +2,8 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
 {
 	"name": "Node.js & TypeScript",
-	"image": "mcr.microsoft.com/devcontainers/typescript-node:0-20",
-	"postCreateCommand": "npm install && npx vercel link && npx vercel env pull .env",
+	"image": "mcr.microsoft.com/devcontainers/typescript-node:dev-22",
+	"postCreateCommand": "npm install && npx playwright install",
 	"customizations": {
 		"vscode": {
 			"extensions": [

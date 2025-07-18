@@ -1,39 +1,75 @@
 <script lang="ts">
-	import '../app.postcss';
-	import { page } from '$app/stores';
-	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
-	import { storePopup } from '@skeletonlabs/skeleton';
-	import { Toast, Modal, initializeStores } from '@skeletonlabs/skeleton';
+	import '../app.css';
+	import { page } from '$app/state';
 	import Header from '$lib/components/Header.svelte';
 	import SearchBar from '$lib/components/SearchBar.svelte';
-	interface Props {
-		children?: import('svelte').Snippet;
-	}
+	import Sidebar from '$lib/components/Sidebar.svelte';
+	import { Navigation } from '@skeletonlabs/skeleton-svelte';
+	import { _ } from 'svelte-i18n';
+	import Landmark from 'lucide-svelte/icons/landmark';
+	import Settings from 'lucide-svelte/icons/settings';
+	import Scale from 'lucide-svelte/icons/scale';
+	import { Toaster } from '@skeletonlabs/skeleton-svelte';
+	import { toaster } from '$lib/util/toaster';
 
-	let { children }: Props = $props();
+	const { children } = $props();
 
-	initializeStores();
-
-	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
+	// Detect if the app is running as a progressive web app
+	const isPWA =
+		typeof window !== 'undefined' && window.matchMedia('(display-mode: standalone)').matches;
 </script>
 
-<Modal />
-<Toast />
+{#snippet links()}
+	<Navigation.Tile
+		href="/accounts"
+		label={$_('accounts.title')}
+		selected={page.url.pathname.startsWith('/accounts')}
+	>
+		<Landmark />
+	</Navigation.Tile>
+	<Navigation.Tile
+		href="/balance"
+		label={$_('currentAmount.title')}
+		selected={page.url.pathname.startsWith('/balance')}
+	>
+		<Scale />
+	</Navigation.Tile>
+	<Navigation.Tile
+		href="/settings"
+		label={$_('settings.title')}
+		selected={page.url.pathname.startsWith('/settings')}
+	>
+		<Settings />
+	</Navigation.Tile>
+{/snippet}
 
-<main class="p-5 pb-8 sm:pb-16 sm:pl-16 sm:pr-16 md:pl-20 md:pr-20 2xl:pl-36 2xl:pr-36">
-	<Header
-		title={$page.data.title}
-		titleParams={$page.data.titleParams}
-		details={$page.data.details}
-		backHref={$page.data.backHref}
-		editHref={$page.data.editHref}
-	/>
+<Toaster {toaster}></Toaster>
+<Sidebar {links}>
+	<main class="mb-28 p-5 sm:mb-0 sm:pr-16 sm:pl-16 md:pr-20 md:pl-20 2xl:pr-36 2xl:pl-36">
+		<Header
+			title={page.data.title}
+			titleParams={page.data.titleParams}
+			details={page.data.details}
+			backHref={page.data.backHref}
+			editHref={page.data.editHref}
+		/>
 
-	<div class="mt-2">
-		<SearchBar />
-	</div>
+		<div class="mt-2">
+			<SearchBar />
+		</div>
 
-	<div class="mt-3">
-		{@render children?.()}
-	</div>
-</main>
+		<div class="mt-3">
+			{@render children?.()}
+		</div>
+	</main>
+</Sidebar>
+
+<div
+	class="{isPWA
+		? 'bg-surface-100-900 pr-4 pb-4 pl-4'
+		: ''} border-t-surface-200-800 fixed bottom-0 w-full border-t-1 sm:hidden"
+>
+	<Navigation.Bar>
+		{@render links?.()}
+	</Navigation.Bar>
+</div>

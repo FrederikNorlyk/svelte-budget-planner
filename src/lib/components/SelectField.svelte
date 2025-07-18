@@ -1,4 +1,4 @@
-<script lang="ts" generics="T extends Object">
+<script lang="ts" generics="T extends object">
 	import type { SelectOption } from './types/SelectOption';
 
 	interface Props {
@@ -6,12 +6,11 @@
 		label: string;
 		required?: boolean | undefined;
 		disabled?: boolean;
-		// Eslint undefined type warning, has been disabled as it does not recognize the svelte syntax: generics="T"
-		value?: T | undefined; // eslint-disable-line no-undef
-		options: SelectOption<T>[]; // eslint-disable-line no-undef
+		value?: T | undefined;
+		options: SelectOption<T>[];
 	}
 
-	let {
+	const {
 		name,
 		label,
 		required = undefined,
@@ -22,11 +21,11 @@
 </script>
 
 <label class="label">
-	<span>{label}</span>
+	<span class="label-text">{label}</span>
 
-	<select {name} {disabled} {value} {required} class="input bg-secondary-50" size="1">
+	<select {name} {disabled} {value} {required} class="input bg-surface-50-950" size="1">
 		{#each options as option (option.value)}
-			<option value={option.value}>{option.text}</option>
+			<option value={option.value}>{option.label}</option>
 		{/each}
 	</select>
 </label>

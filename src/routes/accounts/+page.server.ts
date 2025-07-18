@@ -1,5 +1,5 @@
-import { AccountClient } from '$lib/clients/AccountClient';
-import { SettingsClient } from '$lib/clients/SettingsClient';
+import { AccountClient } from '$lib/server/clients/AccountClient';
+import { SettingsClient } from '$lib/server/clients/SettingsClient';
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
@@ -18,7 +18,7 @@ export const load: PageServerLoad = async (event) => {
 
 	return {
 		session: session,
-		accounts: accounts.map((account) => account.serialize()),
-		settings: settings.serialize()
+		accounts: accounts,
+		settings: settings
 	};
 };

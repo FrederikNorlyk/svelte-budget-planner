@@ -14,7 +14,7 @@ export class ExpenseCard {
 		this.header = aTag.locator('div > h2');
 		this.tag = aTag.locator('div > small', { hasNotText: '/month' });
 		this.nextPaymentDate = aTag.locator('div', { hasText: 'Next payment: ' });
-		this.amountParagraph = aTag.locator('h1', { hasText: new RegExp('^.*kr.$') });
+		this.amountParagraph = aTag.locator('h1', { hasText: /^.*kr.$/ });
 		this.monthParagraph = aTag.locator('p', { hasText: '/month' });
 		this.paymentFrequency = aTag.locator('p', { hasText: 'Paid ' });
 	}

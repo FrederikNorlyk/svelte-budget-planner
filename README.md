@@ -27,17 +27,26 @@ I'm hosting the app [here on Vercel](https://svelte-budget-planner.vercel.app/).
 
 If you want to run it yourself you can follow these instructions.
 
-To link the application with your Vercel PostgreSQL database, run the following commands:
-[Read more](https://vercel.com/docs/cli)
+To link the application with your Vercel PostgreSQL database, run this command
+([Read more](https://vercel.com/docs/cli)):
 
 ```bash
 npx vercel link
+```
+
+Then create an `.env` file by running:
+
+```bash
 npx vercel env pull .env
 ```
 
 ### Environment variables
 
+The following environment variables are need.
+
 #### Auth.js
+
+The app is only set up to work with Github so these variables are required.
 
 ```
 AUTH_GITHUB_ID=

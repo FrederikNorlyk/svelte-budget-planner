@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { Expense } from '$lib/models/Expense';
-	import { Account } from '$lib/models/Account';
 	import ExpenseCard from '$lib/components/ExpenseCard.svelte';
 	import AmountCard from '$lib/components/AmountCard.svelte';
 
-	let { data } = $props();
-	const accounts: Account[] = data.accounts.map((a) => Account.parse(a));
-	const expenses: Expense[] = data.expenses.map((e) => Expense.parse(e));
+	const { data } = $props();
+	const accounts = data.accounts;
+	const expenses = data.expenses;
 
 	function getAccount(expense: Expense) {
 		return accounts.find((a) => a.id == expense.accountId)!;
@@ -26,7 +25,7 @@
 		<ExpenseCard {expense} account={getAccount(expense)} />
 	{/each}
 
-	<div class="card mt-2 bg-white p-4 xl:col-span-2">
+	<div class="card bg-surface-100-900 mt-2 p-4 xl:col-span-2">
 		<AmountCard text="total" amount={totalMonthlyAmount} />
 	</div>
 </div>

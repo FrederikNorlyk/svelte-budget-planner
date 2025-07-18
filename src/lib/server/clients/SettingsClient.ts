@@ -1,10 +1,10 @@
-import { DatabaseClient } from '$lib/clients/DatabaseClient';
 import { Settings } from '$lib/models/Settings';
+import { DatabaseClient } from '$lib/server/clients/DatabaseClient';
 import type {
 	InsertableSettingsRecord,
 	SettingsRecord,
 	UpdatableSettingsRecord
-} from '$lib/tables/SettingsTable';
+} from '$lib/server/tables/SettingsTable';
 
 /**
  * Client for querying payment dates in the database.

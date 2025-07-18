@@ -1,10 +1,10 @@
 export class AmountUtil {
-	private static decimalFormatter = Intl.NumberFormat('da-DK', {
+	private static readonly decimalFormatter = Intl.NumberFormat('da-DK', {
 		style: 'currency',
 		currency: 'DKK'
 	});
 
-	private static integerFormatter = Intl.NumberFormat('da-DK', {
+	private static readonly integerFormatter = Intl.NumberFormat('da-DK', {
 		style: 'currency',
 		currency: 'DKK',
 		maximumFractionDigits: 0

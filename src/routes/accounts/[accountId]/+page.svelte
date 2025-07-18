@@ -1,13 +1,11 @@
 <script lang="ts">
-	import { Expense } from '$lib/models/Expense';
 	import NoEntries from '$lib/components/NoEntries.svelte';
 	import AddButton from '$lib/components/AddButton.svelte';
-	import { Account } from '$lib/models/Account';
 	import ExpenseCard from '$lib/components/ExpenseCard.svelte';
 
-	let { data } = $props();
-	const account = Account.parse(data.account);
-	const expenses: Expense[] = data.expenses.map((e) => Expense.parse(e));
+	const { data } = $props();
+	const account = data.account;
+	const expenses = data.expenses;
 </script>
 
 {#if expenses.length === 0}
