@@ -30,7 +30,7 @@ jobs:
         if: always()
         uses: actions/upload-pages-artifact@v3
         with:
-          path: playwright-report/
+          path: playwright-report
 
   deploy-report:
     needs: test
@@ -46,3 +46,7 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Add Pages link to summary
+        if: always()
+        run: echo "[View Playwright Report](${{ steps.deployment.outputs.page_url }})" >> $GITHUB_STEP_SUMMARY
