@@ -1,3 +1,4 @@
+import { resolve } from '$app/paths';
 import { AccountClient } from '$lib/server/clients/AccountClient.js';
 
 export const load = async (event) => {
@@ -25,6 +26,6 @@ export const load = async (event) => {
 		title: account.name,
 		details: 'account.details',
 		backHref: '.',
-		editHref: `/accounts/${account.id}/edit`
+		editHref: resolve('/accounts/[accountId]/edit', { accountId: String(account.id) })
 	};
 };

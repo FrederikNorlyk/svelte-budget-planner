@@ -79,6 +79,8 @@
 		{#each results as result, index (index)}
 			{@const SvelteComponent = getResultIcon(result)}
 			<li>
+				<!-- eslint-disable svelte/no-navigation-without-resolve -->
+				<!-- ESLint does not accept that result.url is of type ResolvedPathname -->
 				<a
 					bind:this={listElements[index]}
 					onclick={() => {
@@ -92,6 +94,7 @@
 					<SvelteComponent size="20" class="m-1" />
 					<span>{result.name}</span>
 				</a>
+				<!-- eslint-enable svelte/no-navigation-without-resolve -->
 			</li>
 		{/each}
 	</ul>

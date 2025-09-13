@@ -1,8 +1,9 @@
 <script lang="ts">
 	import Plus from 'lucide-svelte/icons/plus';
+	import type { ResolvedPathname } from '$app/types';
 
 	interface Props {
-		href: string;
+		href: ResolvedPathname;
 		ariaLabel: string;
 	}
 

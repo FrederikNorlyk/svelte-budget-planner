@@ -3,6 +3,7 @@
 	import AddButton from '$lib/components/AddButton.svelte';
 	import AmountCard from '$lib/components/AmountCard.svelte';
 	import AccountCard from '$lib/components/AccountCard.svelte';
+	import { resolve } from '$app/paths';
 
 	const { data } = $props();
 	const accounts = data.accounts;
@@ -11,10 +12,12 @@
 	let totalMonthlyAmount = $state(0);
 	accounts.map((account) => (totalMonthlyAmount += account.monthlyAmount));
 	const remainder = $derived(settings.income - totalMonthlyAmount);
+
+	const newAccountUrl = resolve('/accounts/[accountId]/edit', { accountId: '0' });
 </script>
 
 {#if accounts.length === 0}
-	<AddButton href="/accounts/0/edit" ariaLabel="New account" />
+	<AddButton href={newAccountUrl} ariaLabel="New account" />
 	<NoEntries question="chat.noAccounts" />
 {:else}
 	<div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
@@ -22,7 +25,7 @@
 			<AccountCard {account} />
 		{/each}
 
-		<AddButton href="/accounts/0/edit" ariaLabel="New account" />
+		<AddButton href={newAccountUrl} ariaLabel="New account" />
 	</div>
 
 	<div
