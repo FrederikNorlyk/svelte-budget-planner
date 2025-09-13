@@ -1,3 +1,4 @@
+import { resolve } from '$app/paths';
 import { Account } from '$lib/models/Account';
 import type { Expense } from '$lib/models/Expense';
 import type SearchResult from '$lib/models/SearchResult';
@@ -41,17 +42,24 @@ export const GET = async (request: RequestEvent) => {
 };
 
 function accountToSearchResult(account: Account): SearchResult {
-	return { name: account.name, url: `/accounts/${account.id}`, recordType: RecordType.ACCOUNT };
+	const url = resolve('/accounts/[accountId]', { accountId: String(account.id) });
+	return { name: account.name, url: url, recordType: RecordType.ACCOUNT };
 }
 
 function expenseToSearchResult(expense: Expense): SearchResult {
+	const url = resolve('/accounts/[accountId]/[expenseId]', {
+		accountId: String(expense.accountId),
+		expenseId: String(expense.id)
+	});
+
 	return {
 		name: expense.name,
-		url: `/accounts/${expense.accountId}/${expense.id}`,
+		url: url,
 		recordType: RecordType.EXPENSE
 	};
 }
 
 function tagToSearchResult(tag: string): SearchResult {
-	return { name: tag, url: `/tags/${tag}`, recordType: RecordType.TAG };
+	const url = resolve('/tags/[name]', { name: tag });
+	return { name: tag, url: url, recordType: RecordType.TAG };
 }

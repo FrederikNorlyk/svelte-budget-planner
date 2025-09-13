@@ -5,6 +5,7 @@
 	import { AccountBalanceUtil } from '$lib/util/AccountBalanceUtil';
 	import { DateUtil } from '$lib/util/DateUtil';
 	import { _ } from 'svelte-i18n';
+	import { resolve } from '$app/paths';
 
 	interface Props {
 		account: Account;
@@ -17,7 +18,7 @@
 
 <a
 	class="card group bg-surface-100-900 rounded-md p-10"
-	href="/balance/{account.id}"
+	href={resolve('/balance/[accountId]', { accountId: String(account.id) })}
 	aria-label="Open the balance overview of the account {account.name}"
 >
 	<div class="flex">
