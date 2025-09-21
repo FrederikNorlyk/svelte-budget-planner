@@ -12,10 +12,10 @@ export class LoginPage {
 	}
 
 	getSignInWithADemoUserButton() {
-		return this.page.getByRole('button', { name: 'Sign in with a demo user' }).waitFor();
+		return this.page.getByRole('button', { name: 'Sign in with a demo user' });
 	}
 
 	getSignInWithGitHubButton() {
-		return this.page.getByRole('button', { name: 'Sign in with GitHub' }).waitFor();
+		return this.page.getByRole('button', { name: 'Sign in with GitHub' });
 	}
 }
