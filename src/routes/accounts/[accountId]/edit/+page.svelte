@@ -45,7 +45,7 @@
 		<Checkbox
 			name="shared"
 			label={$_('account.shared')}
-			value={(account?.userIds.length ?? 0) > 1}
+			value={account?.isShared ?? false}
 			disabled={isSaving}
 		/>
 	</div>
