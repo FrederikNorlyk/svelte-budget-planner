@@ -35,11 +35,11 @@ export class Account {
 	}
 
 	public get monthlyAmount(): number {
-		return this.calculateMonthlyAmount(false);
+		return this.calculateMonthlyAmount(true);
 	}
 
 	public get monthlyAmountWithTotalShared(): number {
-		return this.calculateMonthlyAmount(true);
+		return this.calculateMonthlyAmount(false);
 	}
 
 	private calculateMonthlyAmount(divideShared: boolean) {

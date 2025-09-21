@@ -28,10 +28,10 @@
 	<div
 		class="card bg-surface-100-900 mt-9 grid grid-cols-1 gap-3 p-10 md:grid-cols-2 md:p-0 xl:grid-cols-3"
 	>
-		<AmountCard text="total" amount={account.monthlyAmount} />
+		<AmountCard text="total" amount={account.monthlyAmountWithTotalShared} />
 		<div class="hidden xl:block"></div>
 		{#if account.isShared}
-			<AmountCard text="yourBudgetTransfer" amount={account.monthlyAmountWithTotalShared} />
+			<AmountCard text="yourBudgetTransfer" amount={account.monthlyAmount} />
 		{:else}
 			<div id="not-shared-div" class="hidden xl:block"></div>
 		{/if}
