@@ -92,6 +92,33 @@ export class AccountClient extends DatabaseClient {
 	}
 
 	/**
+	 * Get the account with the given id. The account will be expanded, which
+	 * means that it will contain a list of all its expenses, including the
+	 * expenses' payment dates.
+	 *
+	 * @param id the id of the account
+	 * @returns account with expenses and payment dates
+	 */
+	public async getByIdExpanded(id: number): Promise<Account | null> {
+		const account = await this.getById(id);
+
+		if (!account) {
+			return null;
+		}
+
+		const expenseClient = new ExpenseClient(this.getUserId());
+		let expenses = await expenseClient.listAll({ accountId: id });
+
+		if (expenses.length > 0) {
+			expenses = await expenseClient.addPaymentDatesTo(expenses);
+		}
+
+		account.expenses = expenses;
+
+		return account;
+	}
+
+	/**
 	 * List all accounts belonging to the current user.
 	 * @returns the user's accounts
 	 */

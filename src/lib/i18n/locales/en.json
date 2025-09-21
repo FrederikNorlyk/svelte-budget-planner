@@ -49,6 +49,7 @@
 	"expense.notShared": "Just for me",
 	"expense.isShared": "Shared with someone",
 	"budgetTransfer": "Budget transfer",
+	"yourBudgetTransfer": "Your budget transfer",
 	"accountBalance.title": "Balance for {account}",
 	"accountBalance.details": "This page gives you an overview of the coming expenses",
 	"user.income": "Income",

@@ -1,5 +1,4 @@
 import { AccountClient } from '$lib/server/clients/AccountClient.js';
-import { ExpenseClient } from '$lib/server/clients/ExpenseClient.js';
 import { redirect } from '@sveltejs/kit';
 
 export async function load(event) {
@@ -9,7 +8,6 @@ export async function load(event) {
 	}
 
 	const accountClient = new AccountClient(session.user.id);
-	const expenseClient = new ExpenseClient(session.user.id);
 
 	const id = +event.params.accountId;
 
@@ -17,21 +15,14 @@ export async function load(event) {
 		redirect(303, '/accounts');
 	}
 
-	const account = await accountClient.getById(id);
+	const account = await accountClient.getByIdExpanded(id);
 
 	if (!account) {
 		redirect(303, '/accounts');
 	}
 
-	let expenses = await expenseClient.listAll({ accountId: account.id });
-
-	if (expenses.length > 0) {
-		expenses = await expenseClient.addPaymentDatesTo(expenses);
-	}
-
 	return {
 		session: session,
-		account: account,
-		expenses: expenses
+		account: account
 	};
 }

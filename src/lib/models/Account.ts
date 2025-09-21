@@ -22,6 +22,10 @@ export class Account {
 		return this.record.userId;
 	}
 
+	public get isShared() {
+		return this.userIds.length > 1;
+	}
+
 	public get expenses() {
 		return this._expenses;
 	}
@@ -31,13 +35,26 @@ export class Account {
 	}
 
 	public get monthlyAmount(): number {
+		return this.calculateMonthlyAmount(false);
+	}
+
+	public get monthlyAmountWithTotalShared(): number {
+		return this.calculateMonthlyAmount(true);
+	}
+
+	private calculateMonthlyAmount(divideShared: boolean) {
 		let amount = 0;
 
 		this.expenses.forEach((expense) => {
 			if (!expense.isEnabled) {
 				return;
 			}
-			amount += expense.monthlyAmount;
+
+			if (divideShared) {
+				amount += expense.monthlyAmount;
+			} else {
+				amount += expense.monthlyAmountWithTotalShared;
+			}
 		});
 
 		return amount;
