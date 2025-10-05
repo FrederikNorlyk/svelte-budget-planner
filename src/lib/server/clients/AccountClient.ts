@@ -2,11 +2,6 @@ import type { DatabaseError } from '$lib/errors/DatabaseError';
 import { Account } from '$lib/models/Account';
 import { QueryResult } from '$lib/models/QueryResult';
 import { DatabaseClient } from '$lib/server/clients/DatabaseClient';
-import type {
-	InsertableAccountRecord,
-	UpdateableAccountRecord
-} from '$lib/server/tables/AccountsTable';
-import { sql } from 'kysely';
 import { ExpenseClient } from './ExpenseClient';
 import { PaymentDateClient } from './PaymentDateClient';
 
@@ -22,7 +17,7 @@ export class AccountClient extends DatabaseClient {
 	 * @param account the account to insert
 	 * @returns the newly created account
 	 */
-	public async create(account: InsertableAccountRecord): Promise<Account> {
+	public async create(account: Account): Promise<Account> {
 		const record = await this.getDatabase()
 			.insertInto('accounts')
 			.values(account)

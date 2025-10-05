@@ -1,8 +1,7 @@
-import { DB_TABLE_PREFIX, POSTGRES_URL } from '$env/static/private';
-import { type Database } from '$lib/server/tables/Database';
-import { CamelCasePlugin, Kysely } from 'kysely';
-import { NeonDialect } from 'kysely-neon';
-import { TablePrefixPlugin } from 'kysely-plugin-prefix';
+import { env } from '$env/dynamic/private';
+import * as schema from '$lib/server/db/schema';
+import { neon } from '@neondatabase/serverless';
+import { drizzle } from 'drizzle-orm/neon-http';
 
 /**
  * Abstract class for clients used to query the database.
@@ -17,14 +16,9 @@ export abstract class DatabaseClient {
 	 * @param userId id of the current user
 	 */
 	constructor(userId: string) {
-		this.database = new Kysely<Database>({
-			dialect: new NeonDialect({
-				connectionString: POSTGRES_URL
-			})
-		})
-			.withPlugin(new CamelCasePlugin())
-			.withPlugin(new TablePrefixPlugin({ prefix: DB_TABLE_PREFIX }));
+		const client = neon(env.NEON_DATABASE_URL);
 
+		this.database = drizzle(client, { schema });
 		this.userId = userId;
 	}
 
