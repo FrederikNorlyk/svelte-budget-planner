@@ -11,14 +11,16 @@ import {
 export const paymentDates = pgTable(
 	'payment_dates',
 	{
-		id: integer().primaryKey().generatedAlwaysAsIdentity({
-			name: 'public.budget_payment_dates_id_seq',
-			startWith: 1,
-			increment: 1,
-			minValue: 1,
-			maxValue: 2147483647,
-			cache: 1
-		}),
+		id: integer()
+			.primaryKey()
+			.generatedAlwaysAsIdentity({
+				name: 'public.budget_payment_dates_id_seq',
+				startWith: 1,
+				increment: 1,
+				minValue: 1,
+				maxValue: 2147483647,
+				cache: 1
+			}),
 		userIds: varchar('user_ids', { length: 255 }).array().notNull(),
 		expenseId: integer('expense_id').notNull(),
 		month: integer().notNull()
@@ -52,14 +54,16 @@ export const settings = pgTable(
 );
 
 export const accounts = pgTable('accounts', {
-	id: integer().primaryKey().generatedAlwaysAsIdentity({
-		name: 'public.budget_accounts_id_seq',
-		startWith: 1,
-		increment: 1,
-		minValue: 1,
-		maxValue: 2147483647,
-		cache: 1
-	}),
+	id: integer()
+		.primaryKey()
+		.generatedAlwaysAsIdentity({
+			name: 'public.budget_accounts_id_seq',
+			startWith: 1,
+			increment: 1,
+			minValue: 1,
+			maxValue: 2147483647,
+			cache: 1
+		}),
 	userIds: varchar('user_ids', { length: 255 }).array().notNull(),
 	name: varchar({ length: 255 }).notNull()
 });
@@ -67,14 +71,16 @@ export const accounts = pgTable('accounts', {
 export const expenses = pgTable(
 	'expenses',
 	{
-		id: integer().primaryKey().generatedAlwaysAsIdentity({
-			name: 'public.budget_expenses_id_seq',
-			startWith: 1,
-			increment: 1,
-			minValue: 1,
-			maxValue: 2147483647,
-			cache: 1
-		}),
+		id: integer()
+			.primaryKey()
+			.generatedAlwaysAsIdentity({
+				name: 'public.budget_expenses_id_seq',
+				startWith: 1,
+				increment: 1,
+				minValue: 1,
+				maxValue: 2147483647,
+				cache: 1
+			}),
 		userIds: varchar('user_ids', { length: 255 }).array().notNull(),
 		name: varchar({ length: 255 }).notNull(),
 		amount: numeric({ precision: 10, scale: 2 }).notNull(),
