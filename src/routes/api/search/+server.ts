@@ -1,5 +1,5 @@
 import { resolve } from '$app/paths';
-import { Account } from '$lib/models/Account';
+import type { Account } from '$lib/models/Account';
 import type { Expense } from '$lib/models/Expense';
 import type SearchResult from '$lib/models/SearchResult';
 import { RecordType } from '$lib/models/SearchResult';

@@ -10,13 +10,16 @@
 
 	const account = data.account;
 	let isSaving = $state(false);
-	const isShowingDeleteModal = $state(false);
+	let isShowingDeleteModal = $state(false);
 
-	if (form?.error) {
-		toaster.error({
-			title: $_(form.error)
-		});
-	}
+	$effect(() => {
+		if (form?.error) {
+			isShowingDeleteModal = false;
+			toaster.error({
+				title: $_(form.error)
+			});
+		}
+	});
 </script>
 
 <form

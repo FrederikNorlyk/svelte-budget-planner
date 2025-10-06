@@ -1,11 +1,8 @@
 import { Expense } from '$lib/models/Expense';
 import { QueryResult } from '$lib/models/QueryResult';
 import { DatabaseClient } from '$lib/server/clients/DatabaseClient';
-import type {
-	InsertableExpenseRecord,
-	UpdateableExpenseRecord
-} from '$lib/server/tables/ExpensesTable';
-import { sql } from 'kysely';
+import { expenses } from '$lib/server/db/schema';
+import { and, eq, type InferInsertModel, like, sql } from 'drizzle-orm';
 import { PaymentDateClient } from './PaymentDateClient';
 
 type SearchCriteria = { accountId?: number; isEnabled?: boolean; tag?: string };
@@ -20,14 +17,10 @@ export class ExpenseClient extends DatabaseClient {
 	 * @param expense the expense to create
 	 * @returns the newly created expense
 	 */
-	public async create(expense: InsertableExpenseRecord): Promise<Expense> {
-		const record = await this.getDatabase()
-			.insertInto('expenses')
-			.values(expense)
-			.returningAll()
-			.executeTakeFirstOrThrow();
+	public async create(expense: InferInsertModel<typeof expenses>): Promise<Expense> {
+		const returned = await this.getDatabase().insert(expenses).values(expense).returning();
 
-		return new Expense(record, []);
+		return new Expense(returned[0]);
 	}
 
 	/**
@@ -37,15 +30,14 @@ export class ExpenseClient extends DatabaseClient {
 	 * @param expense the expense values to update
 	 * @returns the updated expense
 	 */
-	public async update(id: number, expense: UpdateableExpenseRecord): Promise<Expense> {
-		const record = await this.getDatabase()
-			.updateTable('expenses')
+	public async update(id: number, expense: InferInsertModel<typeof expenses>): Promise<Expense> {
+		const returned = await this.getDatabase()
+			.update(expenses)
 			.set(expense)
-			.where('id', '=', id)
-			.returningAll()
-			.executeTakeFirstOrThrow();
+			.where(and(eq(expenses.id, id), this.isUserIn(expenses.userIds)))
+			.returning();
 
-		return new Expense(record, []);
+		return new Expense(returned[0]);
 	}
 
 	/**
@@ -55,14 +47,9 @@ export class ExpenseClient extends DatabaseClient {
 	 * @returns result of the delete operation
 	 */
 	public async delete(id: number) {
-		const result = await this.getDatabase()
-			.deleteFrom('expenses')
-			.where('id', '=', id)
-			.executeTakeFirst();
-
-		if (result.numDeletedRows == BigInt(0)) {
-			return QueryResult.asErrorResult('Unknown error'); // TODO: Better error handling?
-		}
+		await this.getDatabase()
+			.delete(expenses)
+			.where(and(eq(expenses.id, id), this.isUserIn(expenses.userIds)));
 
 		return QueryResult.asEmptySuccessResult();
 	}
@@ -74,17 +61,16 @@ export class ExpenseClient extends DatabaseClient {
 	 * @returns the expense or null
 	 */
 	public async getById(id: number): Promise<Expense | null> {
-		const record = await this.getDatabase()
-			.selectFrom('expenses')
-			.selectAll()
-			.where('id', '=', id)
-			.executeTakeFirstOrThrow();
+		const records = await this.getDatabase()
+			.select()
+			.from(expenses)
+			.where(and(eq(expenses.id, id), this.isUserIn(expenses.userIds)));
 
-		if (!record) {
+		if (records.length === 0) {
 			return null;
 		}
 
-		return new Expense(record, []);
+		return new Expense(records[0]);
 	}
 
 	/**
@@ -93,50 +79,55 @@ export class ExpenseClient extends DatabaseClient {
 	 * @param [criteria=null] search criteria
 	 * @returns the current user's expenses
 	 */
-	public async listAll(criteria: SearchCriteria | null = null) {
-		let query = this.getDatabase()
-			.selectFrom('expenses')
-			.selectAll()
-			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')))
-			.orderBy('tag')
-			.orderBy('name');
+	public async listAll(criteria: SearchCriteria | null = null): Promise<Expense[]> {
+		const conditions = [this.isUserIn(expenses.userIds)];
 
 		if (criteria?.accountId) {
-			query = query.where('accountId', '=', criteria.accountId);
+			conditions.push(eq(expenses.accountId, criteria.accountId));
 		}
 
 		if (criteria?.isEnabled !== undefined) {
-			query = query.where('isEnabled', '=', criteria.isEnabled);
+			conditions.push(eq(expenses.isEnabled, criteria.isEnabled));
 		}
 
 		if (criteria?.tag) {
-			query = query.where('tag', '=', criteria.tag);
+			conditions.push(eq(expenses.tag, criteria.tag));
 		}
 
-		const records = await query.execute();
+		const records = await this.getDatabase()
+			.select()
+			.from(expenses)
+			.where(sql.join(conditions, sql` AND `))
+			.orderBy(expenses.tag, expenses.name);
 
-		return records.map((record) => new Expense(record, []));
+		return records.map((record) => new Expense(record));
 	}
 
-	public async search(query: string) {
+	public async search(query: string): Promise<Expense[]> {
 		const records = await this.getDatabase()
-			.selectFrom('expenses')
-			.selectAll()
-			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')))
-			.where(sql`LOWER(name)`, 'like', `%${query.toLowerCase()}%`)
-			.execute();
+			.select()
+			.from(expenses)
+			.where(
+				and(
+					this.isUserIn(expenses.userIds),
+					like(sql`LOWER(${expenses.name})`, `%${query.toLowerCase()}%`)
+				)
+			);
 
-		return records.map((record) => new Expense(record, []));
+		return records.map((record) => new Expense(record));
 	}
 
 	public async searchTags(query: string) {
 		const records = await this.getDatabase()
-			.selectFrom('expenses')
-			.select('tag')
-			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')))
-			.where(sql`LOWER(tag)`, 'like', `%${query.toLowerCase()}%`)
-			.groupBy('tag')
-			.execute();
+			.select({ tag: expenses.tag })
+			.from(expenses)
+			.where(
+				and(
+					this.isUserIn(expenses.userIds),
+					like(sql`LOWER(${expenses.tag})`, `%${query.toLowerCase()}%`)
+				)
+			)
+			.groupBy(expenses.tag);
 
 		const tags = records.map((record) => record.tag);
 		return tags.filter((tag) => tag != null);
@@ -149,11 +140,11 @@ export class ExpenseClient extends DatabaseClient {
 	 */
 	public async listAllTags(): Promise<string[]> {
 		const records = await this.getDatabase()
-			.selectFrom('expenses')
-			.select('tag')
-			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')))
-			.groupBy('tag')
-			.orderBy('tag')
+			.select({ tag: expenses.tag })
+			.from(expenses)
+			.where(this.isUserIn(expenses.userIds))
+			.groupBy(expenses.tag)
+			.orderBy(expenses.tag)
 			.execute();
 
 		const tags = records.map((record) => record.tag);

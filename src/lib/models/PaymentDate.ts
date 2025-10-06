@@ -1,9 +1,10 @@
-import type { PaymentDateRecord } from '$lib/server/tables/PaymentDatesTable';
+import type { paymentDates } from '$lib/server/db/schema';
+import type { InferSelectModel } from 'drizzle-orm';
 
 export class PaymentDate {
-	private readonly record: PaymentDateRecord;
+	private readonly record: InferSelectModel<typeof paymentDates>;
 
-	constructor(record: PaymentDateRecord) {
+	constructor(record: InferSelectModel<typeof paymentDates>) {
 		this.record = record;
 	}
 
@@ -20,6 +21,6 @@ export class PaymentDate {
 	}
 
 	public get userIds() {
-		return this.record.userId;
+		return this.record.userIds;
 	}
 }

@@ -1,11 +1,12 @@
-import type { AccountRecord } from '$lib/server/tables/AccountsTable';
-import { Expense } from './Expense';
+import type { accounts } from '$lib/server/db/schema';
+import type { InferSelectModel } from 'drizzle-orm';
+import type { Expense } from './Expense';
 
 export class Account {
-	private readonly record: AccountRecord;
+	private readonly record: InferSelectModel<typeof accounts>;
 	private _expenses: Expense[];
 
-	constructor(record: AccountRecord, expenses: Expense[]) {
+	constructor(record: InferSelectModel<typeof accounts>, expenses: Expense[] = []) {
 		this.record = record;
 		this._expenses = expenses;
 	}
@@ -19,7 +20,7 @@ export class Account {
 	}
 
 	public get userIds() {
-		return this.record.userId;
+		return this.record.userIds;
 	}
 
 	public get isShared() {

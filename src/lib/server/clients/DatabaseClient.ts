@@ -1,7 +1,9 @@
 import { env } from '$env/dynamic/private';
 import * as schema from '$lib/server/db/schema';
 import { neon } from '@neondatabase/serverless';
+import { sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/neon-http';
+import type { AnyPgColumn } from 'drizzle-orm/pg-core';
 
 /**
  * Abstract class for clients used to query the database.
@@ -38,5 +40,15 @@ export abstract class DatabaseClient {
 	 */
 	protected getUserId() {
 		return this.userId;
+	}
+
+	/**
+	 * Creates a sql WHERE condition used to assert that the current user belongs to the queried row.
+	 *
+	 * @param column
+	 * @protected
+	 */
+	protected isUserIn(column: AnyPgColumn) {
+		return sql`${this.getUserId()} = ANY(${column})`;
 	}
 }

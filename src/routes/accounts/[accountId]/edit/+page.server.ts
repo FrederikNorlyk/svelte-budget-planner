@@ -56,9 +56,9 @@ export const actions = {
 		}
 
 		if (id == 0) {
-			await client.create({ name: name, userId: userIds });
+			await client.create({ name: name, userIds: userIds });
 		} else {
-			await client.update(id, { name: name, userId: userIds });
+			await client.update(id, { name: name, userIds: userIds });
 		}
 
 		redirect(303, '/accounts');

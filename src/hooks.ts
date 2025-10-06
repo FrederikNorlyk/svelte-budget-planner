@@ -8,8 +8,8 @@ export const transport: Transport = {
 	Account: {
 		encode: (account) =>
 			account instanceof Account && [account.id, account.userIds, account.name, account.expenses],
-		decode: ([id, userId, name, expenses]) =>
-			new Account({ id: id, userId: userId, name: name }, expenses)
+		decode: ([id, userIds, name, expenses]) =>
+			new Account({ id: id, userIds: userIds, name: name }, expenses)
 	},
 	Expense: {
 		encode: (expense) =>
@@ -34,7 +34,7 @@ export const transport: Transport = {
 					accountId: accountId,
 					isEnabled: isEnabled,
 					isShared: isShared,
-					userId: userIds
+					userIds: userIds
 				},
 				paymentDates
 			)
@@ -50,7 +50,7 @@ export const transport: Transport = {
 		decode: ([id, userId, expenseId, month]) =>
 			new PaymentDate({
 				id: id,
-				userId: userId,
+				userIds: userId,
 				expenseId: expenseId,
 				month: month
 			})

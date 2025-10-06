@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Expense } from '$lib/models/Expense';
+	import type { Expense } from '$lib/models/Expense';
 	import ExpenseCard from '$lib/components/ExpenseCard.svelte';
 	import AmountCard from '$lib/components/AmountCard.svelte';
 

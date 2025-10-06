@@ -38,7 +38,7 @@ export const actions = {
 		const client = new SettingsClient(session.user.id);
 		const settings = await client.getForCurrentUser();
 
-		await client.update(settings.id, { income: income });
+		await client.update(settings.id, { income: income, userId: session.user.id });
 
 		redirect(303, '/settings');
 	}

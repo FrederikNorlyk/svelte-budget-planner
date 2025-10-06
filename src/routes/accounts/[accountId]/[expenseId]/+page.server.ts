@@ -1,4 +1,4 @@
-import { Month } from '$lib/enums/Month.js';
+import type { Month } from '$lib/enums/Month.js';
 import type { Expense } from '$lib/models/Expense.js';
 import type { PaymentDate } from '$lib/models/PaymentDate.js';
 import { ExpenseClient } from '$lib/server/clients/ExpenseClient';
@@ -78,17 +78,14 @@ export const actions = {
 			}
 		}
 
-		let tag = data.get('tag')?.toString().trim();
-		if (!tag) {
-			tag = undefined;
-		}
+		const tag = data.get('tag')?.toString().trim() ?? null;
 
 		const expenseClient = new ExpenseClient(session.user.id);
 
 		let newExpense: Expense;
 		if (id == 0) {
 			newExpense = await expenseClient.create({
-				userId: userIds,
+				userIds: userIds,
 				name: name,
 				amount: amount,
 				accountId: accountId,
@@ -98,7 +95,7 @@ export const actions = {
 			});
 		} else {
 			newExpense = await expenseClient.update(id, {
-				userId: userIds,
+				userIds: userIds,
 				name: name,
 				amount: amount,
 				accountId: accountId,
@@ -116,7 +113,7 @@ export const actions = {
 
 		for (const month of months) {
 			const createdPaymentDate = await paymentDateClient.create({
-				userId: userIds,
+				userIds: userIds,
 				expenseId: newExpense.id,
 				month: +month
 			});

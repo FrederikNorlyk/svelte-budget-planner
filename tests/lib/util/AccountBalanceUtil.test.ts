@@ -14,27 +14,25 @@ beforeAll(() => {
 
 describe('Tests for getCurrentAmount', () => {
 	test('Disabled expenses are not included', () => {
-		const account = new Account({ id: 1, name: 'Test', userId: userIds }, []);
-		const expense = new Expense(
-			{
-				id: 1,
-				name: 'Test',
-				amount: 100,
-				tag: 'Test',
-				accountId: account.id,
-				isEnabled: false,
-				isShared: false,
-				userId: userIds
-			},
-			[]
-		);
+		const account = new Account({ id: 1, name: 'Test', userIds: userIds });
+
+		const expense = new Expense({
+			id: 1,
+			name: 'Test',
+			amount: 100,
+			tag: 'Test',
+			accountId: account.id,
+			isEnabled: false,
+			isShared: false,
+			userIds: userIds
+		});
 
 		expense.paymentDates = [
 			new PaymentDate({
 				id: 1,
 				expenseId: expense.id,
 				month: Month.FEBRUARY,
-				userId: userIds
+				userIds: userIds
 			})
 		];
 
@@ -47,22 +45,19 @@ describe('Tests for getCurrentAmount', () => {
 	});
 
 	test('Expenses without payment dates are not included', () => {
-		const account = new Account({ id: 1, name: 'Test', userId: userIds }, []);
+		const account = new Account({ id: 1, name: 'Test', userIds: userIds });
 
 		account.expenses = [
-			new Expense(
-				{
-					id: 1,
-					name: 'Test',
-					amount: 100,
-					tag: 'Test',
-					accountId: account.id,
-					isEnabled: true,
-					isShared: false,
-					userId: userIds
-				},
-				[]
-			)
+			new Expense({
+				id: 1,
+				name: 'Test',
+				amount: 100,
+				tag: 'Test',
+				accountId: account.id,
+				isEnabled: true,
+				isShared: false,
+				userIds: userIds
+			})
 		];
 
 		const util = new AccountBalanceUtil();
@@ -120,9 +115,9 @@ describe('Tests for getCurrentAmount', () => {
 				id: 1,
 				expenseId: 1,
 				month: Month.JANUARY,
-				userId: userIds
+				userIds: userIds
 			}),
-			new PaymentDate({ id: 2, expenseId: 1, month: Month.JULY, userId: userIds })
+			new PaymentDate({ id: 2, expenseId: 1, month: Month.JULY, userIds: userIds })
 		];
 
 		const account = createAccountWithPaymentDates(600, paymentDates);
@@ -155,11 +150,11 @@ describe('Tests for getCurrentAmount', () => {
 				id: 1,
 				expenseId: 1,
 				month: Month.JANUARY,
-				userId: userIds
+				userIds: userIds
 			}),
-			new PaymentDate({ id: 1, expenseId: 1, month: Month.APRIL, userId: userIds }),
-			new PaymentDate({ id: 2, expenseId: 1, month: Month.JULY, userId: userIds }),
-			new PaymentDate({ id: 2, expenseId: 1, month: Month.OCTOBER, userId: userIds })
+			new PaymentDate({ id: 1, expenseId: 1, month: Month.APRIL, userIds: userIds }),
+			new PaymentDate({ id: 2, expenseId: 1, month: Month.JULY, userIds: userIds }),
+			new PaymentDate({ id: 2, expenseId: 1, month: Month.OCTOBER, userIds: userIds })
 		];
 
 		const account = createAccountWithPaymentDates(500, paymentDates);
@@ -179,40 +174,36 @@ describe('Tests for getCurrentAmount', () => {
 	});
 
 	test('Multiple expenses', () => {
-		const account = new Account({ id: 1, name: 'Test', userId: userIds }, []);
-		const expense1 = new Expense(
-			{
-				id: 1,
-				name: 'Test',
-				amount: 1200,
-				tag: 'Test',
-				accountId: account.id,
-				isEnabled: true,
-				isShared: false,
-				userId: userIds
-			},
-			[]
-		);
-		const expense2 = new Expense(
-			{
-				id: 2,
-				name: 'Test',
-				amount: 600,
-				tag: 'Test',
-				accountId: account.id,
-				isEnabled: true,
-				isShared: false,
-				userId: userIds
-			},
-			[]
-		);
+		const account = new Account({ id: 1, name: 'Test', userIds: userIds });
+
+		const expense1 = new Expense({
+			id: 1,
+			name: 'Test',
+			amount: 1200,
+			tag: 'Test',
+			accountId: account.id,
+			isEnabled: true,
+			isShared: false,
+			userIds: userIds
+		});
+
+		const expense2 = new Expense({
+			id: 2,
+			name: 'Test',
+			amount: 600,
+			tag: 'Test',
+			accountId: account.id,
+			isEnabled: true,
+			isShared: false,
+			userIds: userIds
+		});
 
 		expense1.paymentDates = [
 			new PaymentDate({
 				id: 1,
 				expenseId: expense1.id,
 				month: Month.OCTOBER,
-				userId: userIds
+				userIds: userIds
 			})
 		];
 
@@ -221,13 +212,13 @@ describe('Tests for getCurrentAmount', () => {
 				id: 2,
 				expenseId: expense2.id,
 				month: Month.MARCH,
-				userId: userIds
+				userIds: userIds
 			}),
 			new PaymentDate({
 				id: 3,
 				expenseId: expense2.id,
 				month: Month.SEPTEMBER,
-				userId: userIds
+				userIds: userIds
 			})
 		];
 
@@ -287,31 +278,26 @@ describe('Tests for getCurrentAmount', () => {
 	test('Shared expenses and own expenses are handled the same way', () => {
 		vi.setSystemTime(new Date(2023, Month.JANUARY, 1));
 		const util = new AccountBalanceUtil();
-		const account = new Account({ id: 1, name: 'Test', userId: userIds }, []);
+		const account = new Account({ id: 1, name: 'Test', userIds: userIds });
 
-		/*
-         Own expense
-         */
-		let expense = new Expense(
-			{
-				id: 1,
-				name: 'Test',
-				amount: 1200,
-				tag: 'Tag',
-				accountId: account.id,
-				isEnabled: true,
-				isShared: false,
-				userId: userIds
-			},
-			[]
-		);
+		// Own expense
+		let expense = new Expense({
+			id: 1,
+			name: 'Test',
+			amount: 1200,
+			tag: 'Tag',
+			accountId: account.id,
+			isEnabled: true,
+			isShared: false,
+			userIds: userIds
+		});
 
 		expense.paymentDates = [
 			new PaymentDate({
 				id: 1,
 				expenseId: expense.id,
 				month: Month.APRIL,
-				userId: userIds
+				userIds: userIds
 			})
 		];
 
@@ -320,29 +306,24 @@ describe('Tests for getCurrentAmount', () => {
 		let amount = util.getCurrentAmount(account);
 		expect(amount).toBe(900);
 
-		/*
-         Shared expense
-         */
-		expense = new Expense(
-			{
-				id: 1,
-				name: 'Test',
-				amount: 1200,
-				tag: 'Tag',
-				accountId: account.id,
-				isEnabled: true,
-				isShared: true,
-				userId: userIds
-			},
-			[]
-		);
+		// Shared expense
+		expense = new Expense({
+			id: 1,
+			name: 'Test',
+			amount: 1200,
+			tag: 'Tag',
+			accountId: account.id,
+			isEnabled: true,
+			isShared: true,
+			userIds: userIds
+		});
 
 		expense.paymentDates = [
 			new PaymentDate({
 				id: 1,
 				expenseId: expense.id,
 				month: Month.APRIL,
-				userId: userIds
+				userIds: userIds
 			})
 		];
 
@@ -355,35 +336,33 @@ describe('Tests for getCurrentAmount', () => {
 
 describe('Tests for getNextPaymentDate', () => {
 	test('An account with no expenses', () => {
-		const account = new Account({ id: 1, name: 'Test', userId: userIds }, []);
-
+		const account = new Account({ id: 1, name: 'Test', userIds: userIds });
 		const util = new AccountBalanceUtil();
 		const paymentDate = util.getNextPaymentDate(account);
+
 		expect(paymentDate).toBe(null);
 	});
 
 	test('Disabled expenses are not included', () => {
-		const account = new Account({ id: 1, name: 'Test', userId: userIds }, []);
-		const expense = new Expense(
-			{
-				id: 1,
-				name: 'Test',
-				amount: 100,
-				tag: 'Tag',
-				accountId: account.id,
-				isEnabled: false,
-				isShared: false,
-				userId: userIds
-			},
-			[]
-		);
+		const account = new Account({ id: 1, name: 'Test', userIds: userIds });
+
+		const expense = new Expense({
+			id: 1,
+			name: 'Test',
+			amount: 100,
+			tag: 'Tag',
+			accountId: account.id,
+			isEnabled: false,
+			isShared: false,
+			userIds: userIds
+		});
 
 		expense.paymentDates = [
 			new PaymentDate({
 				id: 1,
 				expenseId: expense.id,
 				month: Month.FEBRUARY,
-				userId: userIds
+				userIds: userIds
 			})
 		];
 
@@ -396,22 +375,19 @@ describe('Tests for getNextPaymentDate', () => {
 	});
 
 	test('Monthly expense', () => {
-		const account = new Account({ id: 1, name: 'Test', userId: userIds }, []);
+		const account = new Account({ id: 1, name: 'Test', userIds: userIds });
 
 		account.expenses = [
-			new Expense(
-				{
-					id: 1,
-					name: 'Test',
-					amount: 100,
-					tag: 'Tag',
-					accountId: account.id,
-					isEnabled: true,
-					isShared: false,
-					userId: userIds
-				},
-				[]
-			)
+			new Expense({
+				id: 1,
+				name: 'Test',
+				amount: 100,
+				tag: 'Tag',
+				accountId: account.id,
+				isEnabled: true,
+				isShared: false,
+				userIds: userIds
+			})
 		];
 
 		vi.setSystemTime(new Date(2023, Month.JUNE, 1));
@@ -427,40 +403,36 @@ describe('Tests for getNextPaymentDate', () => {
 	});
 
 	test('Two expenses, only one is enabled', () => {
-		const account = new Account({ id: 1, name: 'Test', userId: userIds }, []);
-		const expense1 = new Expense(
-			{
-				id: 1,
-				name: 'Test',
-				amount: 100,
-				tag: 'Tag',
-				accountId: account.id,
-				isEnabled: true,
-				isShared: false,
-				userId: userIds
-			},
-			[]
-		);
-		const expense2 = new Expense(
-			{
-				id: 2,
-				name: 'Test',
-				amount: 100,
-				tag: 'Tag',
-				accountId: account.id,
-				isEnabled: false,
-				isShared: false,
-				userId: userIds
-			},
-			[]
-		);
+		const account = new Account({ id: 1, name: 'Test', userIds: userIds });
+
+		const expense1 = new Expense({
+			id: 1,
+			name: 'Test',
+			amount: 100,
+			tag: 'Tag',
+			accountId: account.id,
+			isEnabled: true,
+			isShared: false,
+			userIds: userIds
+		});
+
+		const expense2 = new Expense({
+			id: 2,
+			name: 'Test',
+			amount: 100,
+			tag: 'Tag',
+			accountId: account.id,
+			isEnabled: false,
+			isShared: false,
+			userIds: userIds
+		});
 
 		expense1.paymentDates = [
 			new PaymentDate({
 				id: 1,
 				expenseId: expense1.id,
 				month: Month.MARCH,
-				userId: userIds
+				userIds: userIds
 			})
 		];
 
@@ -469,7 +441,7 @@ describe('Tests for getNextPaymentDate', () => {
 				id: 1,
 				expenseId: expense2.id,
 				month: Month.FEBRUARY,
-				userId: userIds
+				userIds: userIds
 			})
 		];
 
@@ -488,40 +460,36 @@ describe('Tests for getNextPaymentDate', () => {
 	});
 
 	test('Two expenses', () => {
-		const account = new Account({ id: 1, name: 'Test', userId: userIds }, []);
-		const expense1 = new Expense(
-			{
-				id: 1,
-				name: 'Test',
-				amount: 100,
-				tag: 'Tag',
-				accountId: account.id,
-				isEnabled: true,
-				isShared: false,
-				userId: userIds
-			},
-			[]
-		);
-		const expense2 = new Expense(
-			{
-				id: 2,
-				name: 'Test',
-				amount: 100,
-				tag: 'Tag',
-				accountId: account.id,
-				isEnabled: true,
-				isShared: false,
-				userId: userIds
-			},
-			[]
-		);
+		const account = new Account({ id: 1, name: 'Test', userIds: userIds });
+
+		const expense1 = new Expense({
+			id: 1,
+			name: 'Test',
+			amount: 100,
+			tag: 'Tag',
+			accountId: account.id,
+			isEnabled: true,
+			isShared: false,
+			userIds: userIds
+		});
+
+		const expense2 = new Expense({
+			id: 2,
+			name: 'Test',
+			amount: 100,
+			tag: 'Tag',
+			accountId: account.id,
+			isEnabled: true,
+			isShared: false,
+			userIds: userIds
+		});
 
 		expense1.paymentDates = [
 			new PaymentDate({
 				id: 1,
 				expenseId: expense1.id,
 				month: Month.MARCH,
-				userId: userIds
+				userIds: userIds
 			})
 		];
 
@@ -530,7 +498,7 @@ describe('Tests for getNextPaymentDate', () => {
 				id: 1,
 				expenseId: expense2.id,
 				month: Month.FEBRUARY,
-				userId: userIds
+				userIds: userIds
 			})
 		];
 
@@ -549,40 +517,36 @@ describe('Tests for getNextPaymentDate', () => {
 	});
 
 	test('Two expenses, one is next year', () => {
-		const account = new Account({ id: 1, name: 'Test', userId: userIds }, []);
-		const expense1 = new Expense(
-			{
-				id: 1,
-				name: 'Test',
-				amount: 100,
-				tag: 'Tag',
-				accountId: account.id,
-				isEnabled: true,
-				isShared: false,
-				userId: userIds
-			},
-			[]
-		);
-		const expense2 = new Expense(
-			{
-				id: 2,
-				name: 'Test',
-				amount: 100,
-				tag: 'Tag',
-				accountId: account.id,
-				isEnabled: true,
-				isShared: false,
-				userId: userIds
-			},
-			[]
-		);
+		const account = new Account({ id: 1, name: 'Test', userIds: userIds });
+
+		const expense1 = new Expense({
+			id: 1,
+			name: 'Test',
+			amount: 100,
+			tag: 'Tag',
+			accountId: account.id,
+			isEnabled: true,
+			isShared: false,
+			userIds: userIds
+		});
+
+		const expense2 = new Expense({
+			id: 2,
+			name: 'Test',
+			amount: 100,
+			tag: 'Tag',
+			accountId: account.id,
+			isEnabled: true,
+			isShared: false,
+			userIds: userIds
+		});
 
 		expense1.paymentDates = [
 			new PaymentDate({
 				id: 1,
 				expenseId: expense1.id,
 				month: Month.APRIL,
-				userId: userIds
+				userIds: userIds
 			})
 		];
 
@@ -591,7 +555,7 @@ describe('Tests for getNextPaymentDate', () => {
 				id: 1,
 				expenseId: expense2.id,
 				month: Month.JANUARY,
-				userId: userIds
+				userIds: userIds
 			})
 		];
 
@@ -612,19 +576,16 @@ describe('Tests for getNextPaymentDate', () => {
 
 describe('Tests for getNextPaymentDateForExpense', () => {
 	test('Monthly expense', () => {
-		const expense = new Expense(
-			{
-				id: 1,
-				name: 'Test',
-				amount: 100,
-				tag: 'Tag',
-				accountId: 1,
-				isEnabled: true,
-				isShared: false,
-				userId: userIds
-			},
-			[]
-		);
+		const expense = new Expense({
+			id: 1,
+			name: 'Test',
+			amount: 100,
+			tag: 'Tag',
+			accountId: 1,
+			isEnabled: true,
+			isShared: false,
+			userIds: userIds
+		});
 
 		const util = new AccountBalanceUtil();
 		vi.setSystemTime(new Date(2023, Month.JUNE, 1));
@@ -639,19 +600,16 @@ describe('Tests for getNextPaymentDateForExpense', () => {
 	});
 
 	test('Monthly expense in december', () => {
-		const expense = new Expense(
-			{
-				id: 1,
-				name: 'Test',
-				amount: 100,
-				tag: 'Tag',
-				accountId: 1,
-				isEnabled: true,
-				isShared: false,
-				userId: userIds
-			},
-			[]
-		);
+		const expense = new Expense({
+			id: 1,
+			name: 'Test',
+			amount: 100,
+			tag: 'Tag',
+			accountId: 1,
+			isEnabled: true,
+			isShared: false,
+			userIds: userIds
+		});
 
 		const util = new AccountBalanceUtil();
 		vi.setSystemTime(new Date(2023, Month.DECEMBER, 1));
@@ -666,26 +624,23 @@ describe('Tests for getNextPaymentDateForExpense', () => {
 	});
 
 	test('Yearly expense', () => {
-		const expense = new Expense(
-			{
-				id: 1,
-				name: 'Test',
-				amount: 100,
-				tag: 'Tag',
-				accountId: 1,
-				isEnabled: true,
-				isShared: false,
-				userId: userIds
-			},
-			[]
-		);
+		const expense = new Expense({
+			id: 1,
+			name: 'Test',
+			amount: 100,
+			tag: 'Tag',
+			accountId: 1,
+			isEnabled: true,
+			isShared: false,
+			userIds: userIds
+		});
 
 		expense.paymentDates = [
 			new PaymentDate({
 				id: 1,
 				expenseId: expense.id,
 				month: Month.MAY,
-				userId: userIds
+				userIds: userIds
 			})
 		];
 
@@ -702,26 +657,23 @@ describe('Tests for getNextPaymentDateForExpense', () => {
 	});
 
 	test('Yearly expense, next year', () => {
-		const expense = new Expense(
-			{
-				id: 1,
-				name: 'Test',
-				amount: 100,
-				tag: 'Tag',
-				accountId: 1,
-				isEnabled: true,
-				isShared: false,
-				userId: userIds
-			},
-			[]
-		);
+		const expense = new Expense({
+			id: 1,
+			name: 'Test',
+			amount: 100,
+			tag: 'Tag',
+			accountId: 1,
+			isEnabled: true,
+			isShared: false,
+			userIds: userIds
+		});
 
 		expense.paymentDates = [
 			new PaymentDate({
 				id: 1,
 				expenseId: expense.id,
 				month: Month.MAY,
-				userId: userIds
+				userIds: userIds
 			})
 		];
 
@@ -747,20 +699,20 @@ describe('Tests for getNextPaymentDateForExpense', () => {
 				accountId: 1,
 				isEnabled: true,
 				isShared: false,
-				userId: userIds
+				userIds: userIds
 			},
 			[
 				new PaymentDate({
 					id: 1,
 					expenseId: 1,
 					month: Month.MAY,
-					userId: userIds
+					userIds: userIds
 				}),
 				new PaymentDate({
 					id: 2,
 					expenseId: 1,
 					month: Month.JULY,
-					userId: userIds
+					userIds: userIds
 				})
 			]
 		);
@@ -780,19 +732,16 @@ describe('Tests for getNextPaymentDateForExpense', () => {
 
 describe('Test for getNextPaymentDateForExpenseAfter', () => {
 	test('Monthly expense', () => {
-		const expense = new Expense(
-			{
-				id: 1,
-				name: 'Test',
-				amount: 100,
-				tag: 'Tag',
-				accountId: 1,
-				isEnabled: true,
-				isShared: false,
-				userId: userIds
-			},
-			[]
-		);
+		const expense = new Expense({
+			id: 1,
+			name: 'Test',
+			amount: 100,
+			tag: 'Tag',
+			accountId: 1,
+			isEnabled: true,
+			isShared: false,
+			userIds: userIds
+		});
 
 		const util = new AccountBalanceUtil();
 		const date = new Date(2023, Month.JUNE, 1);
@@ -810,7 +759,7 @@ describe('Test for getNextPaymentDateForExpenseAfter', () => {
 
 describe('Test for getAccountBalanceOn', () => {
 	test('Monthly expense', () => {
-		const account = new Account({ id: 0, name: 'name', userId: userIds }, []);
+		const account = new Account({ id: 0, name: 'name', userIds: userIds });
 
 		account.expenses = [
 			createExpenseOn(100, []),
@@ -860,7 +809,7 @@ describe('Test for getAccountBalanceOn', () => {
 
 describe('Test for getExpensesIn', () => {
 	test('Various months', () => {
-		const account = new Account({ id: 1, name: 'Test', userId: userIds }, [
+		const account = new Account({ id: 1, name: 'Test', userIds: userIds }, [
 			createExpenseOn(1, []),
 			createExpenseOn(2, [Month.JANUARY]),
 			createExpenseOn(3, [Month.JANUARY, Month.JULY]),
@@ -883,7 +832,7 @@ describe('Test for getExpensesIn', () => {
 	});
 
 	test('Disabled expenses are not included', () => {
-		const account = new Account({ id: 1, name: 'Test', userId: userIds }, [
+		const account = new Account({ id: 1, name: 'Test', userIds: userIds }, [
 			createExpenseOn(1, [Month.JULY]),
 			createExpenseOn(2, [Month.JULY], false)
 		]);
@@ -895,7 +844,9 @@ describe('Test for getExpensesIn', () => {
 	});
 
 	test('Monthly expenses are not included', () => {
-		const account = new Account({ id: 1, name: 'Test', userId: userIds }, [createExpenseOn(1, [])]);
+		const account = new Account({ id: 1, name: 'Test', userIds: userIds }, [
+			createExpenseOn(1, [])
+		]);
 
 		const util = new AccountBalanceUtil();
 		const expenses = util.getExpensesIn(account, Month.JULY);
@@ -905,7 +856,7 @@ describe('Test for getExpensesIn', () => {
 
 describe('Test for getMonthlyBudgetTransferAmount', () => {
 	test('Various months', () => {
-		const account = new Account({ id: 1, name: 'Test', userId: userIds }, [
+		const account = new Account({ id: 1, name: 'Test', userIds: userIds }, [
 			createExpenseOn(1200, [Month.JANUARY]),
 			createExpenseOn(600, [Month.JANUARY, Month.JULY]),
 			createExpenseOn(1200, [Month.JULY])
@@ -917,7 +868,7 @@ describe('Test for getMonthlyBudgetTransferAmount', () => {
 	});
 
 	test('Disabled expenses are not included', () => {
-		const account = new Account({ id: 1, name: 'Test', userId: userIds }, [
+		const account = new Account({ id: 1, name: 'Test', userIds: userIds }, [
 			createExpenseOn(1200, [Month.JULY], false)
 		]);
 
@@ -927,7 +878,7 @@ describe('Test for getMonthlyBudgetTransferAmount', () => {
 	});
 
 	test('Monthly expenses are not included', () => {
-		const account = new Account({ id: 1, name: 'Test', userId: userIds }, [
+		const account = new Account({ id: 1, name: 'Test', userIds: userIds }, [
 			createExpenseOn(100, [])
 		]);
 
@@ -938,19 +889,16 @@ describe('Test for getMonthlyBudgetTransferAmount', () => {
 });
 
 function createExpenseOn(amount: number, months: Month[], isEnabled: boolean = true) {
-	const expense = new Expense(
-		{
-			id: 0,
-			name: 'Test',
-			amount: amount,
-			tag: 'tag',
-			accountId: 0,
-			isEnabled: isEnabled,
-			isShared: false,
-			userId: userIds
-		},
-		[]
-	);
+	const expense = new Expense({
+		id: 0,
+		name: 'Test',
+		amount: amount,
+		tag: 'tag',
+		accountId: 0,
+		isEnabled: isEnabled,
+		isShared: false,
+		userIds: userIds
+	});
 
 	for (let i = 0; i < months.length; i++) {
 		expense.addPaymentDate(
@@ -958,7 +906,7 @@ function createExpenseOn(amount: number, months: Month[], isEnabled: boolean = t
 				id: 0,
 				expenseId: expense.id,
 				month: months[i],
-				userId: userIds
+				userIds: userIds
 			})
 		);
 	}
@@ -967,27 +915,25 @@ function createExpenseOn(amount: number, months: Month[], isEnabled: boolean = t
 }
 
 function createAccountWithSinglePaymentExpense(month: Month) {
-	const account = new Account({ id: 1, name: 'Test', userId: userIds }, []);
-	const expense = new Expense(
-		{
-			id: 1,
-			name: 'Test',
-			amount: 1200,
-			tag: 'Test',
-			accountId: account.id,
-			isEnabled: true,
-			isShared: false,
-			userId: userIds
-		},
-		[]
-	);
+	const account = new Account({ id: 1, name: 'Test', userIds: userIds });
+
+	const expense = new Expense({
+		id: 1,
+		name: 'Test',
+		amount: 1200,
+		tag: 'Test',
+		accountId: account.id,
+		isEnabled: true,
+		isShared: false,
+		userIds: userIds
+	});
 
 	expense.paymentDates = [
 		new PaymentDate({
 			id: 1,
 			expenseId: expense.id,
 			month: month,
-			userId: userIds
+			userIds: userIds
 		})
 	];
 
@@ -997,21 +943,18 @@ function createAccountWithSinglePaymentExpense(month: Month) {
 }
 
 function createAccountWithPaymentDates(amount: number, paymentDates: PaymentDate[]) {
-	const account = new Account({ id: 1, name: 'Test', userId: userIds }, []);
+	const account = new Account({ id: 1, name: 'Test', userIds: userIds });
 
-	const expense = new Expense(
-		{
-			id: 1,
-			name: 'Test',
-			amount: amount,
-			tag: 'Test',
-			accountId: account.id,
-			isEnabled: true,
-			isShared: false,
-			userId: userIds
-		},
-		[]
-	);
+	const expense = new Expense({
+		id: 1,
+		name: 'Test',
+		amount: amount,
+		tag: 'Test',
+		accountId: account.id,
+		isEnabled: true,
+		isShared: false,
+		userIds: userIds
+	});
 
 	expense.paymentDates = paymentDates;
 	account.expenses = [expense];
