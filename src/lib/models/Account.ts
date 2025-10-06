@@ -1,14 +1,16 @@
-import type { accounts } from '$lib/server/db/schema';
+import type { accounts, expenses } from '$lib/server/db/schema';
 import type { InferSelectModel } from 'drizzle-orm';
-import type { Expense } from './Expense';
+import { Expense } from './Expense';
 
 export class Account {
 	private readonly record: InferSelectModel<typeof accounts>;
 	private _expenses: Expense[];
 
-	constructor(record: InferSelectModel<typeof accounts>, expenses: Expense[] = []) {
+	constructor(
+		record: InferSelectModel<typeof accounts> & { expenses?: InferSelectModel<typeof expenses>[] }
+	) {
 		this.record = record;
-		this._expenses = expenses;
+		this._expenses = record.expenses?.map((expense) => new Expense(expense)) ?? [];
 	}
 
 	public get id() {

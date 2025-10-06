@@ -7,6 +7,7 @@ import {
 	unique,
 	varchar
 } from 'drizzle-orm/pg-core';
+import { relations } from 'drizzle-orm/relations';
 
 export const accounts = pgTable('accounts', {
 	id: integer().primaryKey().generatedAlwaysAsIdentity({
@@ -91,3 +92,22 @@ export const settings = pgTable(
 	},
 	(table) => [unique('settings_user_id_key').on(table.userId)]
 );
+
+export const paymentDatesRelations = relations(paymentDates, ({ one }) => ({
+	expense: one(expenses, {
+		fields: [paymentDates.expenseId],
+		references: [expenses.id]
+	})
+}));
+
+export const expensesRelations = relations(expenses, ({ one, many }) => ({
+	paymentDates: many(paymentDates),
+	account: one(accounts, {
+		fields: [expenses.accountId],
+		references: [accounts.id]
+	})
+}));
+
+export const accountsRelations = relations(accounts, ({ many }) => ({
+	expenses: many(expenses)
+}));

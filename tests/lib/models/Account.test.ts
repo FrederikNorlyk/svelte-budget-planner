@@ -7,19 +7,27 @@ import { describe, expect, test } from 'vitest';
 describe('Tests for the Account model', () => {
 	describe('Test for monthlyAmount', () => {
 		test('Various expenses', () => {
-			const account = new Account({ id: 1, name: 'Test', userIds: ['user1'] }, [
-				createExpense(100, []),
-				createExpense(1200, [Month.MARCH]),
-				createExpense(600, [Month.JANUARY, Month.JULY])
-			]);
+			const account = new Account({
+				id: 1,
+				name: 'Test',
+				userIds: ['user1'],
+				expenses: [
+					createExpense(100, []),
+					createExpense(1200, [Month.MARCH]),
+					createExpense(600, [Month.JANUARY, Month.JULY])
+				]
+			});
 
 			expect(account.monthlyAmount).toBe(300);
 		});
 
 		test('Disabled expenses are not included', () => {
-			const account = new Account({ id: 1, name: 'Test', userIds: ['user1'] }, [
-				createExpense(100, [], false)
-			]);
+			const account = new Account({
+				id: 1,
+				name: 'Test',
+				userIds: ['user1'],
+				expenses: [createExpense(100, [], false)]
+			});
 
 			expect(account.monthlyAmount).toBe(0);
 		});

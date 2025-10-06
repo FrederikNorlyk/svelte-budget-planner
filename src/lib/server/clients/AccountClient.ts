@@ -5,7 +5,6 @@ import { accounts } from '$lib/server/db/schema';
 import { NeonDbError } from '@neondatabase/serverless';
 import { and, eq, inArray, type InferInsertModel, like, sql } from 'drizzle-orm';
 import { ExpenseClient } from './ExpenseClient';
-import { PaymentDateClient } from './PaymentDateClient';
 
 type SearchCriteria = { ids?: number[] };
 
@@ -154,33 +153,13 @@ export class AccountClient extends DatabaseClient {
 	 * @returns accounts with expenses
 	 */
 	public async listAllExpanded(): Promise<Account[]> {
-		const expenseClient = new ExpenseClient(this.getUserId());
-		const paymentDateClient = new PaymentDateClient(this.getUserId());
+		const records = await this.getDatabase()
+			.query.accounts.findMany({
+				where: this.isUserIn(accounts.userIds),
+				with: { expenses: { with: { paymentDates: true } } }
+			})
+			.execute();
 
-		const [accounts, expenses, paymentDates] = await Promise.all([
-			this.listAll(),
-			expenseClient.listAll(),
-			paymentDateClient.listAll()
-		]);
-
-		accounts.forEach((account) => {
-			expenses.forEach((expense) => {
-				if (expense.accountId !== account.id) {
-					return;
-				}
-
-				paymentDates.forEach((paymentDate) => {
-					if (paymentDate.expenseId !== expense.id) {
-						return;
-					}
-
-					expense.paymentDates = [...expense.paymentDates, paymentDate];
-				});
-
-				account.expenses = [...account.expenses, expense];
-			});
-		});
-
-		return accounts;
+		return records.map((record) => new Account(record));
 	}
 }

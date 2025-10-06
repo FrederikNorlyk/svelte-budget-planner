@@ -1,14 +1,19 @@
-import type { expenses } from '$lib/server/db/schema';
+import type { expenses, paymentDates } from '$lib/server/db/schema';
 import type { InferSelectModel } from 'drizzle-orm';
-import type { PaymentDate } from './PaymentDate';
+import { PaymentDate } from './PaymentDate';
 
 export class Expense {
 	private readonly record: InferSelectModel<typeof expenses>;
 	private _paymentDates: PaymentDate[];
 
-	constructor(record: InferSelectModel<typeof expenses>, paymentDates: PaymentDate[] = []) {
+	constructor(
+		record: InferSelectModel<typeof expenses> & {
+			paymentDates?: InferSelectModel<typeof paymentDates>[];
+		}
+	) {
 		this.record = record;
-		this._paymentDates = paymentDates;
+		this._paymentDates =
+			record.paymentDates?.map((paymentDate) => new PaymentDate(paymentDate)) ?? [];
 	}
 
 	public get id() {
