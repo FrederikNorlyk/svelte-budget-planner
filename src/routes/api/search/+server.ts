@@ -31,11 +31,7 @@ export const GET = async (request: RequestEvent) => {
 	const tagResults: SearchResult[] = tags.map((tag) => tagToSearchResult(tag));
 
 	// Gather the results
-	const results: SearchResult[] = [];
-	results.push(...accountResults);
-	results.push(...expenseResults);
-	results.push(...tagResults);
-
+	const results: SearchResult[] = [...accountResults, ...expenseResults, ...tagResults];
 	results.sort((r1, r2) => r1.name.localeCompare(r2.name));
 
 	return json(results);

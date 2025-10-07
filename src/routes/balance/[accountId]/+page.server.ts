@@ -11,7 +11,7 @@ export const load: PageServerLoad = async (event) => {
 	const accountClient = new AccountClient(session.user.id);
 
 	const id = +event.params.accountId;
-	if (isNaN(id)) {
+	if (Number.isNaN(id)) {
 		redirect(303, '/balance');
 	}
 

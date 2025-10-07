@@ -48,9 +48,9 @@ export class Account {
 	private calculateMonthlyAmount(divideShared: boolean) {
 		let amount = 0;
 
-		this.expenses.forEach((expense) => {
+		for (const expense of this.expenses) {
 			if (!expense.isEnabled) {
-				return;
+				continue;
 			}
 
 			if (divideShared) {
@@ -58,7 +58,7 @@ export class Account {
 			} else {
 				amount += expense.monthlyAmountWithTotalShared;
 			}
-		});
+		}
 
 		return amount;
 	}

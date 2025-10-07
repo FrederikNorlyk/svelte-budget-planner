@@ -16,7 +16,7 @@ export async function load(event) {
 	const expenseClient = new ExpenseClient(session.user.id);
 	const id = +event.params.expenseId;
 
-	if (isNaN(id)) {
+	if (Number.isNaN(id)) {
 		redirect(303, '/accounts/' + event.params.accountId);
 	}
 
@@ -55,7 +55,7 @@ export const actions = {
 		const monthNumbers: number[] = data.getAll('month').map(Number);
 		const months: Month[] = monthNumbers.map((month) => month as Month);
 
-		if (name == null || amount == 0 || isNaN(amount)) {
+		if (name == null || amount == 0 || Number.isNaN(amount)) {
 			return fail(400, { error: 'expense.error.requiredFields' });
 		}
 

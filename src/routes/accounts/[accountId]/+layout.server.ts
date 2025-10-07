@@ -4,13 +4,13 @@ import { AccountClient } from '$lib/server/clients/AccountClient.js';
 export const load = async (event) => {
 	const session = await event.locals.auth();
 	if (session == null) {
-		throw Error('Invalid session');
+		throw new Error('Invalid session');
 	}
 
 	const accountClient = new AccountClient(session.user.id);
 
 	const id = +event.params.accountId;
-	if (id === 0 || isNaN(id)) {
+	if (id === 0 || Number.isNaN(id)) {
 		return {
 			title: '',
 			details: ''
@@ -20,7 +20,7 @@ export const load = async (event) => {
 	const accounts = await accountClient.listAllExpanded({ ids: [id] });
 
 	if (accounts.length === 0) {
-		throw Error('No account found with id: ' + id);
+		throw new Error('No account found with id: ' + id);
 	}
 
 	const account = accounts[0];

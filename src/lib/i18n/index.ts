@@ -8,5 +8,5 @@ register('da', () => import('./locales/da.json'));
 
 init({
 	fallbackLocale: defaultLocale,
-	initialLocale: browser ? window.navigator.language : defaultLocale
+	initialLocale: browser ? globalThis.navigator.language : defaultLocale
 });

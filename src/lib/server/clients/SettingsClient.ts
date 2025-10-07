@@ -49,7 +49,7 @@ export class SettingsClient extends DatabaseClient {
 		}
 
 		if (record == null) {
-			throw Error('Something went wrong');
+			throw new Error('Something went wrong');
 		}
 
 		return new Settings(record);
