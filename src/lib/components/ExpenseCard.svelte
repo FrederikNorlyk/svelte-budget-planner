@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { Account } from '$lib/models/Account';
 	import type { Expense } from '$lib/models/Expense';
 	import { AmountUtil } from '$lib/util/AmountUtil';
 	import { AccountBalanceUtil } from '$lib/util/AccountBalanceUtil';
@@ -9,10 +8,9 @@
 
 	interface Props {
 		expense: Expense;
-		account: Account;
 	}
 
-	const { expense, account }: Props = $props();
+	const { expense }: Props = $props();
 
 	const accountBalanceUtil = new AccountBalanceUtil();
 	const nextPaymentDate = accountBalanceUtil.getNextPaymentDateForExpense(expense);
@@ -47,7 +45,7 @@
 		? ''
 		: 'opacity-60'}"
 	href={resolve('/accounts/[accountId]/[expenseId]', {
-		accountId: String(account.id),
+		accountId: String(expense.accountId),
 		expenseId: String(expense.id)
 	})}
 >

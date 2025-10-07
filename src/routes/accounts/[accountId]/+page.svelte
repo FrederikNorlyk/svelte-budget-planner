@@ -6,7 +6,7 @@
 	import AmountCard from '$lib/components/AmountCard.svelte';
 
 	const { data } = $props();
-	const account = data.account;
+	const account = data.account!;
 
 	const newExpenseUrl = resolve('/accounts/[accountId]/[expenseId]', {
 		accountId: String(account.id),
@@ -20,7 +20,7 @@
 {:else}
 	<div class="grid grid-cols-1 gap-3 xl:grid-cols-2">
 		{#each account.expenses as expense (expense.id)}
-			<ExpenseCard {expense} {account} />
+			<ExpenseCard {expense} />
 		{/each}
 		<AddButton href={newExpenseUrl} ariaLabel="Add new expense" />
 	</div>

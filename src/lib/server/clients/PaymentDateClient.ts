@@ -1,9 +1,7 @@
 import { PaymentDate } from '$lib/models/PaymentDate';
 import { DatabaseClient } from '$lib/server/clients/DatabaseClient';
 import { paymentDates } from '$lib/server/db/schema';
-import { and, eq, inArray, type InferInsertModel, sql } from 'drizzle-orm';
-
-type SearchCriteria = { expenseIds?: number[]; expenseId?: number };
+import { and, eq, type InferInsertModel } from 'drizzle-orm';
 
 /**
  * Client for querying payment dates in the database.
@@ -19,31 +17,6 @@ export class PaymentDateClient extends DatabaseClient {
 		const returned = await this.getDatabase().insert(paymentDates).values(paymentDate).returning();
 
 		return new PaymentDate(returned[0]);
-	}
-
-	/**
-	 * List all of the current user's payment dates.
-	 *
-	 * @param [criteria=null] search criteria
-	 * @returns all payment dates for the given user
-	 */
-	public async listAll(criteria: SearchCriteria | null = null): Promise<PaymentDate[]> {
-		const conditions = [this.isUserIn(paymentDates.userIds)];
-
-		if (criteria?.expenseId) {
-			conditions.push(eq(paymentDates.expenseId, criteria.expenseId));
-		}
-
-		if (criteria?.expenseIds) {
-			conditions.push(inArray(paymentDates.expenseId, criteria.expenseIds));
-		}
-
-		const records = await this.getDatabase()
-			.select()
-			.from(paymentDates)
-			.where(sql.join(conditions, sql` AND `));
-
-		return records.map((record) => new PaymentDate(record));
 	}
 
 	/**

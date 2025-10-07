@@ -17,15 +17,19 @@ export const load = async (event) => {
 		};
 	}
 
-	const account = await accountClient.getById(id);
-	if (account == null) {
-		throw Error('Could not get account #' + id);
+	const accounts = await accountClient.listAllExpanded({ ids: [id] });
+
+	if (accounts.length === 0) {
+		throw Error('No account found with id: ' + id);
 	}
 
+	const account = accounts[0];
+
 	return {
+		account: account,
 		title: account.name,
 		details: 'account.details',
 		backHref: '.',
-		editHref: resolve('/accounts/[accountId]/edit', { accountId: String(account.id) })
+		editHref: resolve('/accounts/[accountId]/edit', { accountId: event.params.accountId })
 	};
 };

@@ -1,12 +1,11 @@
 import { Account } from '$lib/models/Account';
 import { QueryResult } from '$lib/models/QueryResult';
 import { DatabaseClient } from '$lib/server/clients/DatabaseClient';
-import { accounts } from '$lib/server/db/schema';
+import { accounts, expenses } from '$lib/server/db/schema';
 import { NeonDbError } from '@neondatabase/serverless';
 import { and, eq, inArray, type InferInsertModel, like, sql } from 'drizzle-orm';
-import { ExpenseClient } from './ExpenseClient';
 
-type SearchCriteria = { ids?: number[] };
+type SearchCriteria = { ids?: number[]; expense?: { isEnabled?: boolean } };
 
 /**
  * See https://www.postgresql.org/docs/current/errcodes-appendix.html
@@ -85,53 +84,6 @@ export class AccountClient extends DatabaseClient {
 		return new Account(records[0]);
 	}
 
-	/**
-	 * Get the account with the given id. The account will be expanded, which
-	 * means that it will contain a list of all its expenses, including the
-	 * expenses' payment dates.
-	 *
-	 * @param id the id of the account
-	 * @returns account with expenses and payment dates
-	 */
-	public async getByIdExpanded(id: number): Promise<Account | null> {
-		const account = await this.getById(id);
-
-		if (!account) {
-			return null;
-		}
-
-		const expenseClient = new ExpenseClient(this.getUserId());
-		let expenses = await expenseClient.listAll({ accountId: id });
-
-		if (expenses.length > 0) {
-			expenses = await expenseClient.addPaymentDatesTo(expenses);
-		}
-
-		account.expenses = expenses;
-
-		return account;
-	}
-
-	/**
-	 * List all accounts belonging to the current user.
-	 * @returns the user's accounts
-	 */
-	public async listAll(criteria: SearchCriteria | null = null): Promise<Account[]> {
-		const conditions = [this.isUserIn(accounts.userIds)];
-
-		if (criteria?.ids) {
-			conditions.push(inArray(accounts.id, criteria.ids));
-		}
-
-		const records = await this.getDatabase()
-			.select()
-			.from(accounts)
-			.where(sql.join(conditions, sql` AND `))
-			.orderBy(accounts.name);
-
-		return records.map((record) => new Account(record));
-	}
-
 	public async search(query: string): Promise<Account[]> {
 		const records = await this.getDatabase()
 			.select()
@@ -152,11 +104,22 @@ export class AccountClient extends DatabaseClient {
 	 *
 	 * @returns accounts with expenses
 	 */
-	public async listAllExpanded(): Promise<Account[]> {
+	public async listAllExpanded(criteria: SearchCriteria | null = null): Promise<Account[]> {
+		const conditions = [this.isUserIn(accounts.userIds)];
+
+		if (criteria?.ids) {
+			conditions.push(inArray(accounts.id, criteria.ids));
+		}
+
+		let expenseConditions = undefined;
+		if (criteria?.expense?.isEnabled !== undefined) {
+			expenseConditions = eq(expenses.isEnabled, criteria.expense.isEnabled);
+		}
+
 		const records = await this.getDatabase()
 			.query.accounts.findMany({
-				where: this.isUserIn(accounts.userIds),
-				with: { expenses: { with: { paymentDates: true } } }
+				where: sql.join(conditions, sql` AND `),
+				with: { expenses: { where: expenseConditions, with: { paymentDates: true } } }
 			})
 			.execute();
 

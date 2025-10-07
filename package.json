@@ -12,7 +12,7 @@
 		"test": "vitest",
 		"test:e2e": "playwright test",
 		"coverage": "vitest run --coverage",
-		"lint": "prettier --plugin=prettier-plugin-svelte --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports . --check . && eslint .",
+		"lint": "prettier --plugin=prettier-plugin-svelte --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports . --check . && eslint . && npm run check",
 		"format": "prettier --plugin=prettier-plugin-svelte --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports . --write .",
 		"prepare": "husky",
 		"db:push": "drizzle-kit push",

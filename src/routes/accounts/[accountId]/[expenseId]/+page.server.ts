@@ -1,6 +1,5 @@
 import type { Month } from '$lib/enums/Month.js';
 import type { Expense } from '$lib/models/Expense.js';
-import type { PaymentDate } from '$lib/models/PaymentDate.js';
 import { ExpenseClient } from '$lib/server/clients/ExpenseClient';
 import { PaymentDateClient } from '$lib/server/clients/PaymentDateClient.js';
 import { SettingsClient } from '$lib/server/clients/SettingsClient';
@@ -17,26 +16,26 @@ export async function load(event) {
 	const expenseClient = new ExpenseClient(session.user.id);
 	const id = +event.params.expenseId;
 
-	let expense: Expense | null = null;
-	if (id != 0 && !isNaN(id)) {
-		expense = await expenseClient.getById(id);
-
-		if (expense == null) {
-			redirect(303, '/accounts/' + event.params.accountId);
-		}
+	if (isNaN(id)) {
+		redirect(303, '/accounts/' + event.params.accountId);
 	}
 
-	const paymentDateClient = new PaymentDateClient(session.user.id);
-	let paymentDates: PaymentDate[] = [];
-	if (expense != null) {
-		paymentDates = await paymentDateClient.listAll({ expenseId: expense.id });
+	let expense: Expense | null = null;
+
+	if (id !== 0) {
+		const expenses = await expenseClient.listAllExpanded({ ids: [id] });
+
+		if (expenses.length === 0) {
+			redirect(303, '/accounts/' + event.params.accountId);
+		}
+
+		expense = expenses[0];
 	}
 
 	return {
 		session: session,
 		expense: expense,
-		tags: await expenseClient.listAllTags(),
-		paymentDates: paymentDates
+		tags: await expenseClient.listAllTags()
 	};
 }
 

@@ -1,8 +1,10 @@
-export const load = async () => {
+export const load = async (event) => {
+	const id = +event.params.accountId;
+
 	return {
 		title: 'editAccount.title',
 		details: 'editAccount.details',
 		editHref: undefined,
-		backHref: '.'
+		backHref: id === 0 ? '/' : '.'
 	};
 };

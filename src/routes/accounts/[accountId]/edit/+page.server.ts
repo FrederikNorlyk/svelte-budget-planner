@@ -8,17 +8,16 @@ export async function load(event) {
 		redirect(303, '/');
 	}
 
-	const accountClient = new AccountClient(session.user.id);
-
 	const id = +event.params.accountId;
-
 	let account = null;
-	if (id != 0) {
+
+	if (id !== 0) {
+		const accountClient = new AccountClient(session.user.id);
+
 		account = await accountClient.getById(id);
 	}
 
 	return {
-		session: session,
 		account: account
 	};
 }
