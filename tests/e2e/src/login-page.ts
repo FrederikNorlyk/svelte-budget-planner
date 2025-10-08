@@ -15,7 +15,7 @@ export class LoginPage {
 		return this.page.getByRole('button', { name: 'Sign in with a demo user' });
 	}
 
-	getSignInWithAGitHubButton() {
+	getSignInWithGitHubButton() {
 		return this.page.getByRole('button', { name: 'Sign in with GitHub' });
 	}
 }

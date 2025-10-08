@@ -3,6 +3,7 @@
 	import type { Account } from '$lib/models/Account';
 	import { AmountUtil } from '$lib/util/AmountUtil';
 	import { _ } from 'svelte-i18n';
+	import { resolve } from '$app/paths';
 
 	interface Props {
 		account: Account;
@@ -13,7 +14,7 @@
 
 <a
 	class="card group bg-surface-100-900 rounded-md p-10"
-	href="/accounts/{account.id}"
+	href={resolve('/accounts/[accountId]', { accountId: String(account.id) })}
 	aria-label="Open the account {account.name}"
 >
 	<div class="flex">

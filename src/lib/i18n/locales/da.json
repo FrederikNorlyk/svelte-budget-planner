@@ -49,6 +49,7 @@
 	"expense.notShared": "Min egen",
 	"expense.isShared": "Delt med en anden",
 	"budgetTransfer": "Budgetoverførsel",
+	"yourBudgetTransfer": "Din budgetoverførsel",
 	"accountBalance.title": "Saldo for {account}",
 	"accountBalance.details": "Denne side giver dig et overblik over de kommende udgifter",
 	"user.income": "Indkomst",

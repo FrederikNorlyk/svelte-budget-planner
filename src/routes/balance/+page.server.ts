@@ -10,11 +10,11 @@ export const load: PageServerLoad = async (event) => {
 	}
 
 	const accountClient = new AccountClient(session.user.id);
-	let accounts = await accountClient.listAllExpanded();
+	let accounts = await accountClient.listAllExpanded({ expense: { isEnabled: true } });
 
 	// Don't include accounts that only have monthly expenses
 	accounts = accounts.filter((account) =>
-		account.expenses.find((expense) => expense.isEnabled && !expense.isMonthlyExpense)
+		account.expenses.find((expense) => !expense.isMonthlyExpense)
 	);
 
 	return {

@@ -8,17 +8,16 @@ export async function load(event) {
 		redirect(303, '/');
 	}
 
-	const accountClient = new AccountClient(session.user.id);
-
 	const id = +event.params.accountId;
-
 	let account = null;
-	if (id != 0) {
+
+	if (id !== 0) {
+		const accountClient = new AccountClient(session.user.id);
+
 		account = await accountClient.getById(id);
 	}
 
 	return {
-		session: session,
 		account: account
 	};
 }
@@ -56,9 +55,9 @@ export const actions = {
 		}
 
 		if (id == 0) {
-			await client.create({ name: name, userId: userIds });
+			await client.create({ name: name, userIds: userIds });
 		} else {
-			await client.update(id, { name: name, userId: userIds });
+			await client.update(id, { name: name, userIds: userIds });
 		}
 
 		redirect(303, '/accounts');

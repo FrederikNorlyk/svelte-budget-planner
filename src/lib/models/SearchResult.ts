@@ -1,5 +1,7 @@
+import type { ResolvedPathname } from '$app/types';
+
 export default interface SearchResult {
-	url: string;
+	url: ResolvedPathname;
 	name: string;
 	recordType: RecordType;
 }

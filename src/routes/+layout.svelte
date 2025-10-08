@@ -11,6 +11,7 @@
 	import Scale from 'lucide-svelte/icons/scale';
 	import { Toaster } from '@skeletonlabs/skeleton-svelte';
 	import { toaster } from '$lib/util/toaster';
+	import { resolve } from '$app/paths';
 
 	const { children } = $props();
 
@@ -21,21 +22,21 @@
 
 {#snippet links()}
 	<Navigation.Tile
-		href="/accounts"
+		href={resolve('/accounts')}
 		label={$_('accounts.title')}
 		selected={page.url.pathname.startsWith('/accounts')}
 	>
 		<Landmark />
 	</Navigation.Tile>
 	<Navigation.Tile
-		href="/balance"
+		href={resolve('/balance')}
 		label={$_('currentAmount.title')}
 		selected={page.url.pathname.startsWith('/balance')}
 	>
 		<Scale />
 	</Navigation.Tile>
 	<Navigation.Tile
-		href="/settings"
+		href={resolve('/settings')}
 		label={$_('settings.title')}
 		selected={page.url.pathname.startsWith('/settings')}
 	>

@@ -13,7 +13,6 @@
 
 	const { form, data } = $props();
 	const expense = data.expense;
-	const paymentDates = data.paymentDates;
 
 	let isSaving = $state(false);
 	const isShowingDeleteModal = $state(false);
@@ -108,7 +107,7 @@
 	</div>
 
 	<div class="card bg-surface-100-900 space-y-2 p-4">
-		<PaymentDatePicker {paymentDates} disabled={isSaving} />
+		<PaymentDatePicker paymentDates={expense?.paymentDates ?? []} disabled={isSaving} />
 	</div>
 
 	<div class="flex space-x-2 p-4">

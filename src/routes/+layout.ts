@@ -5,7 +5,7 @@ import type { LayoutLoad } from './$types';
 
 export const load: LayoutLoad = async () => {
 	if (browser) {
-		void locale.set(window.navigator.language);
+		void locale.set(globalThis.navigator.language);
 	}
 	await waitLocale();
 };

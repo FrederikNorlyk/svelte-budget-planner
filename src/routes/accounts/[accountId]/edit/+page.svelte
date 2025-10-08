@@ -10,13 +10,16 @@
 
 	const account = data.account;
 	let isSaving = $state(false);
-	const isShowingDeleteModal = $state(false);
+	let isShowingDeleteModal = $state(false);
 
-	if (form?.error) {
-		toaster.error({
-			title: $_(form.error)
-		});
-	}
+	$effect(() => {
+		if (form?.error) {
+			isShowingDeleteModal = false;
+			toaster.error({
+				title: $_(form.error)
+			});
+		}
+	});
 </script>
 
 <form
@@ -47,7 +50,7 @@
 		<Checkbox
 			name="shared"
 			label={$_('account.shared')}
-			value={(account?.userIds.length ?? 0) > 1}
+			value={account?.isShared ?? false}
 			disabled={isSaving}
 		/>
 	</div>

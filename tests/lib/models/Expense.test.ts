@@ -148,21 +148,18 @@ function createQuarterlyExpense() {
 	return expense;
 }
 function createExpense() {
-	return new Expense(
-		{
-			id: 2,
-			name: 'A name',
-			amount: 1200,
-			tag: 'A tag',
-			accountId: 1,
-			isEnabled: true,
-			isShared: false,
-			userId: ['user1']
-		},
-		[]
-	);
+	return new Expense({
+		id: 2,
+		name: 'A name',
+		amount: 1200,
+		tag: 'A tag',
+		accountId: 1,
+		isEnabled: true,
+		isShared: false,
+		userIds: ['user1']
+	});
 }
 
 function createPaymentDate(month: Month) {
-	return new PaymentDate({ id: 0, userId: ['user2'], expenseId: 0, month: month });
+	return new PaymentDate({ id: 0, userIds: ['user2'], expenseId: 0, month: month });
 }

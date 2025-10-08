@@ -25,7 +25,7 @@ export class ExpensesPage extends AppPage {
 	}
 
 	async clickNewExpenseButton() {
-		await this.page.getByLabel('Add new expense').click();
+		await this.page.getByRole('link', { name: 'Add new expense' }).click();
 		return new EditExpensePage(this.page);
 	}
 }

@@ -12,7 +12,5 @@ export class App {
 		const loginPage = new LoginPage(page);
 		await loginPage.goto();
 		await loginPage.getSignInWithADemoUserButton().click();
-
-		await page.goto('');
 	}
 }

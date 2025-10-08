@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { beforeNavigate, afterNavigate } from '$app/navigation';
+	import { SvelteMap } from 'svelte/reactivity';
 
 	const { children } = $props();
 
-	const scrollPositions = new Map();
+	const scrollPositions = new SvelteMap<string, number>();
 
 	beforeNavigate((nav) => {
 		if (nav.from?.url.pathname) {

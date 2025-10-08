@@ -4,17 +4,18 @@
 	import { AccountBalanceUtil } from '$lib/util/AccountBalanceUtil.js';
 	import { DateUtil } from '$lib/util/DateUtil.js';
 	import { _ } from 'svelte-i18n';
+	import { SvelteDate } from 'svelte/reactivity';
 
 	const { data } = $props();
 	const account = data.account;
 	const accountBalanceUtil = new AccountBalanceUtil();
 
-	const dates = [new Date()];
-	let year = new Date().getFullYear();
+	const dates = [new SvelteDate()];
+	let year = new SvelteDate().getFullYear();
 	while (dates.length < 12) {
 		const previousDate = dates[dates.length - 1];
 
-		const newDate = new Date();
+		const newDate = new SvelteDate();
 		newDate.setDate(1);
 
 		if (previousDate.getMonth() == Month.DECEMBER) {

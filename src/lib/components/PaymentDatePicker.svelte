@@ -25,7 +25,7 @@
 			id: Math.random(),
 			expenseId: 0,
 			month: Month.JANUARY,
-			userId: []
+			userIds: []
 		});
 
 		paymentDates = [...paymentDates, newPaymentDate];

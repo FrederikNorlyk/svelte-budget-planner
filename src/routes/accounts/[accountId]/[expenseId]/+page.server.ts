@@ -1,6 +1,5 @@
-import { Month } from '$lib/enums/Month.js';
+import type { Month } from '$lib/enums/Month.js';
 import type { Expense } from '$lib/models/Expense.js';
-import type { PaymentDate } from '$lib/models/PaymentDate.js';
 import { ExpenseClient } from '$lib/server/clients/ExpenseClient';
 import { PaymentDateClient } from '$lib/server/clients/PaymentDateClient.js';
 import { SettingsClient } from '$lib/server/clients/SettingsClient';
@@ -17,26 +16,26 @@ export async function load(event) {
 	const expenseClient = new ExpenseClient(session.user.id);
 	const id = +event.params.expenseId;
 
-	let expense: Expense | null = null;
-	if (id != 0 && !isNaN(id)) {
-		expense = await expenseClient.getById(id);
-
-		if (expense == null) {
-			redirect(303, '/accounts/' + event.params.accountId);
-		}
+	if (Number.isNaN(id)) {
+		redirect(303, '/accounts/' + event.params.accountId);
 	}
 
-	const paymentDateClient = new PaymentDateClient(session.user.id);
-	let paymentDates: PaymentDate[] = [];
-	if (expense != null) {
-		paymentDates = await paymentDateClient.listAll({ expenseId: expense.id });
+	let expense: Expense | null = null;
+
+	if (id !== 0) {
+		const expenses = await expenseClient.listAllExpanded({ ids: [id] });
+
+		if (expenses.length === 0) {
+			redirect(303, '/accounts/' + event.params.accountId);
+		}
+
+		expense = expenses[0];
 	}
 
 	return {
 		session: session,
 		expense: expense,
-		tags: await expenseClient.listAllTags(),
-		paymentDates: paymentDates
+		tags: await expenseClient.listAllTags()
 	};
 }
 
@@ -56,7 +55,7 @@ export const actions = {
 		const monthNumbers: number[] = data.getAll('month').map(Number);
 		const months: Month[] = monthNumbers.map((month) => month as Month);
 
-		if (name == null || amount == 0 || isNaN(amount)) {
+		if (name == null || amount == 0 || Number.isNaN(amount)) {
 			return fail(400, { error: 'expense.error.requiredFields' });
 		}
 
@@ -78,17 +77,14 @@ export const actions = {
 			}
 		}
 
-		let tag = data.get('tag')?.toString().trim();
-		if (!tag) {
-			tag = undefined;
-		}
+		const tag = data.get('tag')?.toString().trim() ?? null;
 
 		const expenseClient = new ExpenseClient(session.user.id);
 
 		let newExpense: Expense;
 		if (id == 0) {
 			newExpense = await expenseClient.create({
-				userId: userIds,
+				userIds: userIds,
 				name: name,
 				amount: amount,
 				accountId: accountId,
@@ -98,7 +94,7 @@ export const actions = {
 			});
 		} else {
 			newExpense = await expenseClient.update(id, {
-				userId: userIds,
+				userIds: userIds,
 				name: name,
 				amount: amount,
 				accountId: accountId,
@@ -116,7 +112,7 @@ export const actions = {
 
 		for (const month of months) {
 			const createdPaymentDate = await paymentDateClient.create({
-				userId: userIds,
+				userIds: userIds,
 				expenseId: newExpense.id,
 				month: +month
 			});

@@ -1,5 +1,4 @@
 import { AccountClient } from '$lib/server/clients/AccountClient';
-import { ExpenseClient } from '$lib/server/clients/ExpenseClient';
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
@@ -10,29 +9,20 @@ export const load: PageServerLoad = async (event) => {
 	}
 
 	const accountClient = new AccountClient(session.user.id);
-	const expenseClient = new ExpenseClient(session.user.id);
 
 	const id = +event.params.accountId;
-	if (isNaN(id)) {
+	if (Number.isNaN(id)) {
 		redirect(303, '/balance');
 	}
 
-	const account = await accountClient.getById(id);
+	const accounts = await accountClient.listAllExpanded({ ids: [id], expense: { isEnabled: true } });
 
-	if (!account) {
+	if (accounts.length === 0) {
 		redirect(303, '/balance');
 	}
-
-	let expenses = await expenseClient.listAll({ accountId: account.id, isEnabled: true });
-
-	if (expenses.length > 0) {
-		expenses = await expenseClient.addPaymentDatesTo(expenses);
-	}
-
-	account.expenses = expenses;
 
 	return {
 		session: session,
-		account: account
+		account: accounts[0]
 	};
 };
