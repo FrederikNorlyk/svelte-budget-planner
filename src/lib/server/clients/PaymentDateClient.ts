@@ -1,8 +1,7 @@
 import { PaymentDate } from '$lib/models/PaymentDate';
 import { DatabaseClient } from '$lib/server/clients/DatabaseClient';
-import type { InsertablePaymentDateRecord } from '$lib/server/tables/PaymentDatesTable';
-
-type SearchCriteria = { expenseIds?: number[]; expenseId?: number };
+import { paymentDates } from '$lib/server/db/schema';
+import { and, eq, type InferInsertModel } from 'drizzle-orm';
 
 /**
  * Client for querying payment dates in the database.
@@ -14,39 +13,10 @@ export class PaymentDateClient extends DatabaseClient {
 	 * @param paymentDate the payment date to create
 	 * @returns the newly created payment date
 	 */
-	public async create(paymentDate: InsertablePaymentDateRecord): Promise<PaymentDate> {
-		const record = await this.getDatabase()
-			.insertInto('paymentDates')
-			.values(paymentDate)
-			.returningAll()
-			.executeTakeFirstOrThrow();
+	public async create(paymentDate: InferInsertModel<typeof paymentDates>): Promise<PaymentDate> {
+		const returned = await this.getDatabase().insert(paymentDates).values(paymentDate).returning();
 
-		return new PaymentDate(record);
-	}
-
-	/**
-	 * List all of the current user's payment dates.
-	 *
-	 * @param [criteria=null] search criteria
-	 * @returns all payment dates for the given user
-	 */
-	public async listAll(criteria: SearchCriteria | null = null): Promise<PaymentDate[]> {
-		let query = this.getDatabase()
-			.selectFrom('paymentDates')
-			.selectAll()
-			.where((eb) => eb(eb.val(this.getUserId()), '=', eb.fn.any('userId')));
-
-		if (criteria?.expenseId) {
-			query = query.where('expenseId', '=', criteria.expenseId);
-		}
-
-		if (criteria?.expenseIds) {
-			query = query.where('expenseId', 'in', criteria.expenseIds);
-		}
-
-		const records = await query.execute();
-
-		return records.map((record) => new PaymentDate(record));
+		return new PaymentDate(returned[0]);
 	}
 
 	/**
@@ -55,6 +25,8 @@ export class PaymentDateClient extends DatabaseClient {
 	 * @param id the id of the expense to remove payment dates from
 	 */
 	public async deleteAllBelongingTo(id: number) {
-		await this.getDatabase().deleteFrom('paymentDates').where('expenseId', '=', id).execute();
+		await this.getDatabase()
+			.delete(paymentDates)
+			.where(and(eq(paymentDates.expenseId, id), this.isUserIn(paymentDates.userIds)));
 	}
 }

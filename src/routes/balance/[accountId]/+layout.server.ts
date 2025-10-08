@@ -3,13 +3,13 @@ import { AccountClient } from '$lib/server/clients/AccountClient.js';
 export const load = async (event) => {
 	const session = await event.locals.auth();
 	if (session == null) {
-		throw Error('Invalid session');
+		throw new Error('Invalid session');
 	}
 
 	const accountClient = new AccountClient(session.user.id);
 
 	const id = +event.params.accountId;
-	if (id === 0 || isNaN(id)) {
+	if (id === 0 || Number.isNaN(id)) {
 		return {
 			title: '',
 			details: ''
@@ -18,7 +18,7 @@ export const load = async (event) => {
 
 	const account = await accountClient.getById(id);
 	if (account == null) {
-		throw Error('Could not get account #' + id);
+		throw new Error('Could not get account #' + id);
 	}
 
 	return {

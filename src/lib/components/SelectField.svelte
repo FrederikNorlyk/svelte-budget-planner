@@ -1,4 +1,4 @@
-<script lang="ts" generics="T extends object">
+<script lang="ts" generics="T">
 	import type { SelectOption } from './types/SelectOption';
 
 	interface Props {

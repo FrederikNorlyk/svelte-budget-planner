@@ -1,5 +1,5 @@
 import { resolve } from '$app/paths';
-import { Account } from '$lib/models/Account';
+import type { Account } from '$lib/models/Account';
 import type { Expense } from '$lib/models/Expense';
 import type SearchResult from '$lib/models/SearchResult';
 import { RecordType } from '$lib/models/SearchResult';
@@ -31,11 +31,7 @@ export const GET = async (request: RequestEvent) => {
 	const tagResults: SearchResult[] = tags.map((tag) => tagToSearchResult(tag));
 
 	// Gather the results
-	const results: SearchResult[] = [];
-	results.push(...accountResults);
-	results.push(...expenseResults);
-	results.push(...tagResults);
-
+	const results: SearchResult[] = [...accountResults, ...expenseResults, ...tagResults];
 	results.sort((r1, r2) => r1.name.localeCompare(r2.name));
 
 	return json(results);

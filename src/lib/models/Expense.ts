@@ -1,14 +1,19 @@
-import type { ExpenseRecord } from '$lib/server/tables/ExpensesTable';
+import type { expenses, paymentDates } from '$lib/server/db/schema';
+import type { InferSelectModel } from 'drizzle-orm';
 import { PaymentDate } from './PaymentDate';
 
 export class Expense {
-	private readonly record: ExpenseRecord;
+	private readonly record: InferSelectModel<typeof expenses>;
 	private _paymentDates: PaymentDate[];
 
-	constructor(record: ExpenseRecord, paymentDates: PaymentDate[]) {
+	constructor(
+		record: InferSelectModel<typeof expenses> & {
+			paymentDates?: InferSelectModel<typeof paymentDates>[];
+		}
+	) {
 		this.record = record;
-		this.record.amount = +this.record.amount;
-		this._paymentDates = paymentDates;
+		this._paymentDates =
+			record.paymentDates?.map((paymentDate) => new PaymentDate(paymentDate)) ?? [];
 	}
 
 	public get id() {
@@ -20,7 +25,7 @@ export class Expense {
 	}
 
 	public get amount() {
-		return this.record.amount;
+		return +this.record.amount;
 	}
 
 	public get monthlyAmount() {
@@ -79,6 +84,6 @@ export class Expense {
 	}
 
 	public get userIds() {
-		return this.record.userId;
+		return this.record.userIds;
 	}
 }

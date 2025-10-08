@@ -1,16 +1,14 @@
-import type { SettingsRecord } from '$lib/server/tables/SettingsTable';
+import type { settings } from '$lib/server/db/schema';
+import type { InferSelectModel } from 'drizzle-orm';
 
 /**
  * A record for storing user settings.
  */
 export class Settings {
-	private readonly record: SettingsRecord;
+	private readonly record: InferSelectModel<typeof settings>;
 
-	constructor(record: SettingsRecord) {
+	constructor(record: InferSelectModel<typeof settings>) {
 		this.record = record;
-		if (this.record.income != null) {
-			this.record.income = +this.record.income;
-		}
 	}
 
 	public get id() {
@@ -18,7 +16,11 @@ export class Settings {
 	}
 
 	public get income() {
-		return this.record.income;
+		return +this.record.income;
+	}
+
+	public set income(value: number) {
+		this.record.income = value;
 	}
 
 	public get locale() {

@@ -1,13 +1,16 @@
-import type { AccountRecord } from '$lib/server/tables/AccountsTable';
+import type { accounts, expenses } from '$lib/server/db/schema';
+import type { InferSelectModel } from 'drizzle-orm';
 import { Expense } from './Expense';
 
 export class Account {
-	private readonly record: AccountRecord;
+	private readonly record: InferSelectModel<typeof accounts>;
 	private _expenses: Expense[];
 
-	constructor(record: AccountRecord, expenses: Expense[]) {
+	constructor(
+		record: InferSelectModel<typeof accounts> & { expenses?: InferSelectModel<typeof expenses>[] }
+	) {
 		this.record = record;
-		this._expenses = expenses;
+		this._expenses = record.expenses?.map((expense) => new Expense(expense)) ?? [];
 	}
 
 	public get id() {
@@ -19,7 +22,7 @@ export class Account {
 	}
 
 	public get userIds() {
-		return this.record.userId;
+		return this.record.userIds;
 	}
 
 	public get isShared() {
@@ -45,9 +48,9 @@ export class Account {
 	private calculateMonthlyAmount(divideShared: boolean) {
 		let amount = 0;
 
-		this.expenses.forEach((expense) => {
+		for (const expense of this.expenses) {
 			if (!expense.isEnabled) {
-				return;
+				continue;
 			}
 
 			if (divideShared) {
@@ -55,7 +58,7 @@ export class Account {
 			} else {
 				amount += expense.monthlyAmountWithTotalShared;
 			}
-		});
+		}
 
 		return amount;
 	}

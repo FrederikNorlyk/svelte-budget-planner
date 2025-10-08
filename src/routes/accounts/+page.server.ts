@@ -11,14 +11,11 @@ export const load: PageServerLoad = async (event) => {
 	}
 
 	const accountClient = new AccountClient(session.user.id);
-	const accounts = await accountClient.listAllExpanded();
-
 	const settingsClient = new SettingsClient(session.user.id);
-	const settings = await settingsClient.getForCurrentUser();
 
 	return {
 		session: session,
-		accounts: accounts,
-		settings: settings
+		accounts: await accountClient.listAllExpanded(),
+		settings: await settingsClient.getForCurrentUser()
 	};
 };
