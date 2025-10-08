@@ -19,11 +19,12 @@ const config = {
 			},
 			instrumentation: {
 				server: true
-			},
-			compilerOptions: {
-				experimental: { async: true }
 			}
 		}
+	},
+
+	compilerOptions: {
+		experimental: { async: true }
 	}
 };
 
