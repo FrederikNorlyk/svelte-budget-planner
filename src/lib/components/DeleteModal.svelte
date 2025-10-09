@@ -1,17 +1,15 @@
 <script lang="ts">
 	import { Modal } from '@skeletonlabs/skeleton-svelte';
 	import { _ } from 'svelte-i18n';
-	import { enhance } from '$app/forms';
 
 	interface Props {
-		open: boolean;
+		open?: boolean;
 		title: string;
 		body: string;
+		onSubmit: () => void;
 	}
 
-	let { open, title, body }: Props = $props();
-
-	let isSubmitting = $state(false);
+	let { open = false, title, body, onSubmit }: Props = $props();
 
 	function onCancel() {
 		open = false;
@@ -34,25 +32,8 @@
 			<p>{body}</p>
 		</article>
 		<footer class="flex justify-end gap-4">
-			<form
-				method="post"
-				action="?/delete"
-				use:enhance={() => {
-					isSubmitting = true;
-
-					return async ({ update }) => {
-						await update();
-						isSubmitting = false;
-					};
-				}}
-			>
-				<button type="button" class="btn preset-tonal" disabled={isSubmitting} onclick={onCancel}
-					>{$_('button.cancel')}</button
-				>
-				<button type="submit" class="btn preset-filled" disabled={isSubmitting}
-					>{$_('button.delete')}</button
-				>
-			</form>
+			<button class="btn preset-tonal" onclick={onCancel}>{$_('button.cancel')}</button>
+			<button class="btn preset-filled" onclick={onSubmit}>{$_('button.delete')}</button>
 		</footer>
 	{/snippet}
 </Modal>
