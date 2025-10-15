@@ -1,12 +1,4 @@
 export class DateUtil {
-	private static readonly numericFormat = Intl.DateTimeFormat('da-DK', {
-		year: 'numeric',
-		month: 'numeric',
-		day: 'numeric',
-		minute: undefined,
-		second: undefined
-	});
-
 	private static readonly longFormat = Intl.DateTimeFormat('da-DK', {
 		year: undefined,
 		month: 'long',
@@ -22,10 +14,6 @@ export class DateUtil {
 		minute: undefined,
 		second: undefined
 	});
-
-	public static localize(date: Date) {
-		return DateUtil.numericFormat.format(date);
-	}
 
 	public static localizeLongerFormat(date: Date) {
 		return DateUtil.longFormat.format(date);

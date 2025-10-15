@@ -16,15 +16,10 @@
 			name: account.name,
 			isShared: account.isShared
 		});
-	} else {
-		upsertAccount.fields.set({
-			name: '',
-			isShared: false
-		});
 	}
 </script>
 
-<form class="space-y-4" {...upsertAccount}>
+<form class="space-y-4" {...upsertAccount.enhance(({ submit }) => submit())}>
 	<div class="card bg-surface-100-900 space-y-4 p-4">
 		{#if upsertAccount.fields.allIssues()}
 			{#each upsertAccount.fields.allIssues() ?? [] as issue, index (index)}
@@ -34,6 +29,7 @@
 
 		<TextField
 			{...upsertAccount.fields.name.as('text')}
+			value={account?.name ?? ''}
 			label={$_('account.name')}
 			autofocus={account == null}
 			required={true}
@@ -42,6 +38,7 @@
 
 		<Checkbox
 			{...upsertAccount.fields.isShared.as('checkbox')}
+			checked={account?.isShared ?? false}
 			label={$_('account.shared')}
 			disabled={!!upsertAccount.pending}
 		/>

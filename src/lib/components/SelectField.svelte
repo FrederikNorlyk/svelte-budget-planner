@@ -16,14 +16,15 @@
 		required = undefined,
 		disabled = false,
 		value = undefined,
-		options
+		options,
+		...rest
 	}: Props = $props();
 </script>
 
 <label class="label">
 	<span class="label-text">{label}</span>
 
-	<select {name} {disabled} {value} {required} class="input bg-surface-50-950" size="1">
+	<select {name} {disabled} {value} {required} {...rest} class="input bg-surface-50-950" size="1">
 		{#each options as option (option.value)}
 			<option value={option.value}>{option.label}</option>
 		{/each}

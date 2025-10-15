@@ -1,30 +1,25 @@
 <script lang="ts">
 	import { PaymentDate } from '$lib/models/PaymentDate';
-	import MonthPicker from '$lib/components/MonthPicker.svelte';
 	import { _ } from 'svelte-i18n';
 	import { Month } from '$lib/enums/Month';
 	import MessageCircleMore from 'lucide-svelte/icons/message-circle-more';
+	import type { Snippet } from 'svelte';
 
 	interface Props {
 		paymentDates: PaymentDate[];
 		disabled?: boolean;
+		children: Snippet;
 	}
 
-	let { paymentDates = $bindable(), disabled = false }: Props = $props();
+	let { paymentDates = $bindable(), disabled = false, children }: Props = $props();
 
 	paymentDates.sort((d1, d2) => d1.month - d2.month);
-
-	function onInputRemoved(paymentDate: PaymentDate) {
-		paymentDates = paymentDates.filter((p) => {
-			return p.id != paymentDate.id;
-		});
-	}
 
 	function addInput() {
 		const newPaymentDate = new PaymentDate({
 			id: Math.random(),
 			expenseId: 0,
-			month: Month.JANUARY,
+			month: Month.JANUARY + paymentDates.length,
 			userIds: []
 		});
 
@@ -34,14 +29,14 @@
 
 <div class="flex space-x-3">
 	<p class="text-xl">{$_('paymentDates')}</p>
-	<button {disabled} onclick={addInput} type="button" class="preset-filled btn btn-sm">
-		{$_('addDate')}
-	</button>
+	{#if paymentDates.length < 12}
+		<button {disabled} onclick={addInput} type="button" class="preset-filled btn btn-sm">
+			{$_('addDate')}
+		</button>
+	{/if}
 </div>
 
-{#each paymentDates as paymentDate (paymentDate.id)}
-	<MonthPicker {paymentDate} {disabled} {onInputRemoved} />
-{/each}
+{@render children()}
 
 {#if paymentDates.length === 0}
 	<div class="flex">

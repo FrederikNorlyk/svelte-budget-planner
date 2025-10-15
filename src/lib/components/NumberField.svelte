@@ -3,7 +3,7 @@
 		label: string;
 		name: string;
 		required?: boolean;
-		value: number | undefined;
+		value: string | number;
 		autofocus?: boolean;
 		disabled?: boolean;
 	}
@@ -14,7 +14,8 @@
 		required = false,
 		value,
 		autofocus = false,
-		disabled = false
+		disabled = false,
+		...rest
 	}: Props = $props();
 </script>
 
@@ -31,5 +32,6 @@
 		step="0.01"
 		min="0"
 		value={value ?? ''}
+		{...rest}
 	/>
 </label>

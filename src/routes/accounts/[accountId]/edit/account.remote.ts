@@ -51,7 +51,7 @@ export const deleteAccount = command(v.number(), async (id) => {
 	const session = await locals.auth();
 
 	if (!session) {
-		redirect(303, '/');
+		throw new Error('User not authorized');
 	}
 
 	const client = new AccountClient(session.user.id);

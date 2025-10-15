@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { Navigation } from '@skeletonlabs/skeleton-svelte';
+	import type { Snippet } from 'svelte';
 
 	interface Props {
-		children?: import('svelte').Snippet;
-		links?: import('svelte').Snippet;
+		children?: Snippet;
+		links?: Snippet;
 	}
 
 	const { children, links }: Props = $props();
