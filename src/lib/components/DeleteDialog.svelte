@@ -12,10 +12,6 @@
 	let { open, title, body }: Props = $props();
 
 	let isSubmitting = $state(false);
-
-	function onCancel() {
-		open = false;
-	}
 </script>
 
 <Dialog {open} onOpenChange={(e) => (open = e.open)}>
@@ -39,13 +35,10 @@
 						};
 					}}
 				>
-					<Dialog.CloseTrigger
-						class="btn preset-tonal"
-						type="button"
-						onclick={onCancel}
-						disabled={isSubmitting}>{$_('button.delete')}</Dialog.CloseTrigger
-					>
 					<Dialog.CloseTrigger class="btn preset-tonal" type="submit" disabled={isSubmitting}
+						>{$_('button.delete')}</Dialog.CloseTrigger
+					>
+					<Dialog.CloseTrigger class="btn preset-tonal" type="button" disabled={isSubmitting}
 						>{$_('button.cancel')}</Dialog.CloseTrigger
 					>
 				</form>

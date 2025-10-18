@@ -62,6 +62,10 @@ export class AccountClient extends DatabaseClient {
 				if (error.code === FOREIGN_KEY_VIOLATION) {
 					message = 'errorDeleteAccountHasExpenses';
 				}
+			} else if (error instanceof Error && error.cause instanceof NeonDbError) {
+				if (error.cause.code === FOREIGN_KEY_VIOLATION) {
+					message = 'errorDeleteAccountHasExpenses';
+				}
 			}
 			return QueryResult.asErrorResult(message);
 		}
