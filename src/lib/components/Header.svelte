@@ -27,7 +27,7 @@
 			<!-- eslint-disable svelte/no-navigation-without-resolve -->
 			<!-- ESLint does not accept that result.url is of type ResolvedPathname -->
 			<a class="mt-2 mr-2" href={backHref}>
-				<button type="button" class="preset-filled btn-icon" aria-label="Back button">
+				<button type="button" class="btn-primary btn-icon" aria-label="Back button">
 					<ArrowLeft />
 				</button>
 			</a>

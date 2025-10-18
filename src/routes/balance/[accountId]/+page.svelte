@@ -38,7 +38,7 @@
 	{#each dates as date, index (index)}
 		{@const expenses = accountBalanceUtil.getExpensesIn(account, date.getMonth())}
 
-		<div class="card bg-surface-100-900 space-y-2 p-4">
+		<div class="card-primary space-y-2 p-5">
 			<div class="flex">
 				<h1 class="grow text-xl capitalize">{DateUtil.getMonthName(date.getMonth())}</h1>
 				<h1 class="text-xl">{AmountUtil.localizeDecimal(monthAmounts[index])}</h1>
@@ -52,7 +52,7 @@
 					</div>
 				{/each}
 
-				<div class="flex space-x-1 text-slate-400">
+				<div class="text-shadow-surface-contrast-400-600 flex space-x-1 opacity-40">
 					<p>
 						+{AmountUtil.localizeDecimal(
 							accountBalanceUtil.getMonthlyBudgetTransferAmount(account)

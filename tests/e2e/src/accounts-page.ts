@@ -18,7 +18,7 @@ export class AccountsPage extends AppPage {
 	}
 
 	async getAccountCardWithTitle(title: string) {
-		const header = this.page.locator('a.card > div > h2', { hasText: title });
+		const header = this.page.locator('a.card-primary > div > h2', { hasText: title });
 		const aTag = header.locator('..').locator('..');
 
 		return new AccountCard(aTag);

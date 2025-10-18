@@ -11,9 +11,9 @@
 </script>
 
 <a
-	class="card bg-surface-100-900 border-surface-200-800 flex items-center justify-center rounded-md border-4 border-dashed p-10"
+	class="group card-primary clickable border-surface-200-800 hover:border-surface-300-700 flex items-center justify-center border-4 border-dashed p-10"
 	{href}
 	aria-label={ariaLabel}
 >
-	<Plus size="55" class="text-slate-300" />
+	<Plus size="55" class="text-primary-400-600 group-hover:text-primary-600-400" />
 </a>

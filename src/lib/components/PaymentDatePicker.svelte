@@ -34,7 +34,7 @@
 
 <div class="flex space-x-3">
 	<p class="text-xl">{$_('paymentDates')}</p>
-	<button {disabled} onclick={addInput} type="button" class="preset-filled btn btn-sm">
+	<button {disabled} onclick={addInput} type="button" class="btn-secondary btn-sm">
 		{$_('addDate')}
 	</button>
 </div>

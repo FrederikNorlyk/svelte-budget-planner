@@ -19,7 +19,7 @@
 		<ExpenseCard {expense} />
 	{/each}
 
-	<div class="card bg-surface-100-900 mt-2 p-4 xl:col-span-2">
+	<div class="card-primary mt-9 p-5 xl:col-span-2">
 		<AmountCard text="total" amount={totalMonthlyAmount} />
 	</div>
 </div>

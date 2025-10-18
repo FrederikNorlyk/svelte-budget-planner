@@ -1,20 +1,21 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import DeleteModal from '$lib/components/DeleteModal.svelte';
+	import DeleteDialog from '$lib/components/DeleteDialog.svelte';
 	import TextField from '$lib/components/TextField.svelte';
 	import { enhance } from '$app/forms';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import { toaster } from '$lib/util/toaster';
+	import ButtonGroup from '$lib/components/ButtonGroup.svelte';
 
 	const { data, form } = $props();
 
 	const account = data.account;
 	let isSaving = $state(false);
-	let isShowingDeleteModal = $state(false);
+	let isShowingDeleteDialog = $state(false);
 
 	$effect(() => {
 		if (form?.error) {
-			isShowingDeleteModal = false;
+			isShowingDeleteDialog = false;
 			toaster.error({
 				title: $_(form.error)
 			});
@@ -35,7 +36,7 @@
 		};
 	}}
 >
-	<div class="card bg-surface-100-900 space-y-4 p-4">
+	<div class="card-primary space-y-4 p-5">
 		<TextField
 			name="name"
 			label={$_('account.name')}
@@ -53,15 +54,15 @@
 		/>
 	</div>
 
-	<div class="flex space-x-2">
+	<ButtonGroup>
 		<button disabled={isSaving} class="btn-primary basis-1/4">{$_('button.save')}</button>
 
 		{#if account != null}
-			<DeleteModal
-				open={isShowingDeleteModal}
+			<DeleteDialog
+				open={isShowingDeleteDialog}
 				title={$_('deleteAccount.title')}
 				body={$_('deleteAccount.body')}
-			></DeleteModal>
+			></DeleteDialog>
 		{/if}
-	</div>
+	</ButtonGroup>
 </form>
