@@ -58,6 +58,8 @@
 	{onOpenChange}
 	{onInputValueChange}
 	{allowCustomValue}
+	inputBehavior="autohighlight"
+	openOnClick={true}
 >
 	<Combobox.Label>{label}</Combobox.Label>
 	<Combobox.Control>
