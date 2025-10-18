@@ -15,11 +15,11 @@
 </script>
 
 <Dialog {open} onOpenChange={(e) => (open = e.open)}>
-	<Dialog.Trigger class="btn preset-filled">{$_('button.delete')}</Dialog.Trigger>
+	<Dialog.Trigger class="btn-neutral">{$_('button.delete')}</Dialog.Trigger>
 	<Portal>
 		<Dialog.Backdrop class="bg-surface-50-950/50 fixed inset-0 z-50" />
 		<Dialog.Positioner class="fixed inset-0 z-50 flex items-center justify-center">
-			<Dialog.Content class="card bg-surface-100-900 w-md space-y-2 p-4 shadow-xl">
+			<Dialog.Content class="card-primary max-w-screen-sm space-y-4 p-9 shadow-xl">
 				<Dialog.Title class="text-2xl font-bold">{title}</Dialog.Title>
 				<Dialog.Description>{body}</Dialog.Description>
 
@@ -35,11 +35,11 @@
 						};
 					}}
 				>
-					<Dialog.CloseTrigger class="btn preset-tonal" type="submit" disabled={isSubmitting}
-						>{$_('button.delete')}</Dialog.CloseTrigger
-					>
-					<Dialog.CloseTrigger class="btn preset-tonal" type="button" disabled={isSubmitting}
+					<Dialog.CloseTrigger class="btn-neutral" type="button" disabled={isSubmitting}
 						>{$_('button.cancel')}</Dialog.CloseTrigger
+					>
+					<Dialog.CloseTrigger class="btn-error" type="submit" disabled={isSubmitting}
+						>{$_('button.delete')}</Dialog.CloseTrigger
 					>
 				</form>
 			</Dialog.Content>
