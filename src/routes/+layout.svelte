@@ -3,10 +3,10 @@
 	import { page } from '$app/state';
 	import Header from '$lib/components/Header.svelte';
 	import SearchBar from '$lib/components/SearchBar.svelte';
-	import { Toast, createToaster } from '@skeletonlabs/skeleton-svelte';
+	import { Toast } from '@skeletonlabs/skeleton-svelte';
 	import Navigation from '$lib/components/Navigation.svelte';
 
-	const toaster = createToaster({});
+	import { toaster } from '$lib/util/toaster';
 	const { children } = $props();
 </script>
 
