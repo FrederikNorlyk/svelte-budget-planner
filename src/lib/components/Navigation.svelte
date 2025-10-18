@@ -16,7 +16,7 @@
 	const { children, currentUrl }: Props = $props();
 
 	const buttonClasses = 'btn hover:preset-tonal';
-	const anchorRail = `${buttonClasses} aspect-square w-full max-w-[84px] flex flex-col items-center gap-0.5`;
+	const anchorRail = `${buttonClasses} aspect-square w-full max-w-[84px] items-center`;
 	const anchorSidebar = `${buttonClasses} justify-start px-2 w-full`;
 	const anchorBar = 'btn hover:preset-tonal flex-col items-center gap-1';
 
@@ -53,7 +53,7 @@
 <div class="h-screen sm:grid sm:grid-cols-[auto_1fr]">
 	<Navigation
 		layout={isRailLayout ? 'rail' : 'sidebar'}
-		class="hidden h-screen sm:flex {isRailLayout ? '' : 'grid grid-rows-[1fr_auto] gap-4'}"
+		class="hidden h-screen grid-rows-[1fr] gap-4 sm:grid {!isRailLayout && ''}"
 	>
 		<Navigation.Content>
 			<Navigation.Menu>
@@ -62,7 +62,7 @@
 
 					<a href={link.href} class={getButtonClass(link.href, true)}>
 						<Icon class={isRailLayout ? 'size-5' : 'size-4'} />
-						<span class={isRailLayout ? 'text-[10px]' : ''}>{$_(link.label)}</span>
+						{#if !isRailLayout}<span>{$_(link.label)}</span>{/if}
 					</a>
 				{/each}
 			</Navigation.Menu>
@@ -74,7 +74,7 @@
 				onclick={toggleLayout}
 			>
 				<ArrowLeftRightIcon class={isRailLayout ? 'size-5' : 'size-4'} />
-				{#if !isRailLayout}<span>Resize</span>{/if}
+				{#if !isRailLayout}<span>{$_('navigator.resize')}</span>{/if}
 			</button>
 		</Navigation.Footer>
 	</Navigation>
