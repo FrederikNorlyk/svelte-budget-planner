@@ -5,6 +5,7 @@
 	import { enhance } from '$app/forms';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import { toaster } from '$lib/util/toaster';
+	import ButtonGroup from '$lib/components/ButtonGroup.svelte';
 
 	const { data, form } = $props();
 
@@ -35,7 +36,7 @@
 		};
 	}}
 >
-	<div class="card bg-surface-100-900 space-y-4 p-4">
+	<div class="card-primary space-y-4 p-5">
 		<TextField
 			name="name"
 			label={$_('account.name')}
@@ -53,7 +54,7 @@
 		/>
 	</div>
 
-	<div class="flex space-x-2">
+	<ButtonGroup>
 		<button disabled={isSaving} class="btn-primary basis-1/4">{$_('button.save')}</button>
 
 		{#if account != null}
@@ -63,5 +64,5 @@
 				body={$_('deleteAccount.body')}
 			></DeleteDialog>
 		{/if}
-	</div>
+	</ButtonGroup>
 </form>

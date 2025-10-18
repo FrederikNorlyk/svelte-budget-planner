@@ -44,12 +44,7 @@
 		/>
 	</span>
 	<div>
-		<button
-			{disabled}
-			onclick={removeSelf}
-			type="button"
-			class="preset-filled btn-icon bg-error-600 mt-6"
-		>
+		<button {disabled} onclick={removeSelf} type="button" class="btn-error btn-icon mt-6">
 			<X />
 		</button>
 	</div>

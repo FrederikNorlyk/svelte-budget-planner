@@ -10,6 +10,7 @@
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import { toaster } from '$lib/util/toaster';
 	import Combobox from '$lib/components/Combobox.svelte';
+	import ButtonGroup from '$lib/components/ButtonGroup.svelte';
 
 	const { form, data } = $props();
 	const expense = data.expense;
@@ -55,7 +56,7 @@
 		};
 	}}
 >
-	<div class="card bg-surface-100-900 space-y-2 p-4">
+	<div class="card-primary space-y-2 p-5">
 		<TextField
 			name="name"
 			label={$_('expense.name')}
@@ -105,11 +106,11 @@
 		/>
 	</div>
 
-	<div class="card bg-surface-100-900 space-y-2 p-4">
+	<div class="card-primary space-y-2 p-5">
 		<PaymentDatePicker paymentDates={expense?.paymentDates ?? []} disabled={isSaving} />
 	</div>
 
-	<div class="flex space-x-2 p-4">
+	<ButtonGroup>
 		<button disabled={isSaving} class="btn-primary basis-1/4">{$_('button.save')}</button>
 
 		{#if expense != null}
@@ -119,5 +120,5 @@
 				body={$_('deleteExpense.body')}
 			/>
 		{/if}
-	</div>
+	</ButtonGroup>
 </form>

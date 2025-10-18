@@ -15,7 +15,7 @@
 	}
 </script>
 
-<div class="card bg-surface-100-900 mt-5 space-y-3 p-10">
+<div class="card-primary p-10">
 	<form
 		class="space-y-5"
 		method="post"
@@ -41,15 +41,17 @@
 			value={settings.income}
 		/>
 
-		<div class="space-y-1">
+		<div class="space-y-12">
 			<button disabled={isSaving} class="btn-primary w-full sm:block sm:w-auto"
 				>{$_('button.save')}</button
 			>
 
+			<hr />
+
 			<button
 				onclick={signOutButtonPressed}
 				disabled={isSaving}
-				class="btn-neutral w-full sm:block sm:w-auto"
+				class="btn-tertiary w-full sm:block sm:w-auto"
 			>
 				{$_('signOut')}
 			</button>
