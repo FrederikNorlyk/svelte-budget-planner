@@ -30,7 +30,7 @@
 <div class="flex space-x-3">
 	<p class="text-xl">{$_('paymentDates')}</p>
 	{#if paymentDates.length < 12}
-		<button {disabled} onclick={addInput} type="button" class="preset-filled btn btn-sm">
+		<button {disabled} onclick={addInput} type="button" class="btn-secondary btn-sm">
 			{$_('addDate')}
 		</button>
 	{/if}

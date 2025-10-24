@@ -14,6 +14,7 @@
 	import { monthOptions, shareOptions } from './options';
 	import MonthPicker from '$lib/components/MonthPicker.svelte';
 	import PaymentDatePicker from '$lib/components/PaymentDatePicker.svelte';
+	import ButtonGroup from '$lib/components/ButtonGroup.svelte';
 
 	const { data } = $props();
 	const expense = data.expense;
@@ -96,7 +97,7 @@
 		/>
 	</div>
 
-	<div class="card bg-surface-100-900 space-y-2 p-4">
+	<div class="card-primary space-y-2 p-4">
 		<PaymentDatePicker bind:paymentDates disabled={!!upsertExpense.pending}>
 			{#each paymentDates as paymentDate, index (paymentDate.id)}
 				<MonthPicker bind:paymentDates {paymentDate} disabled={!!upsertExpense.pending}>
@@ -112,7 +113,7 @@
 		</PaymentDatePicker>
 	</div>
 
-	<div class="flex space-x-2 p-4">
+	<ButtonGroup>
 		<button disabled={!!upsertExpense.pending} class="btn-primary basis-1/4"
 			>{$_('button.save')}</button
 		>
@@ -134,5 +135,5 @@
 				}}
 			/>
 		{/if}
-	</div>
+	</ButtonGroup>
 </form>

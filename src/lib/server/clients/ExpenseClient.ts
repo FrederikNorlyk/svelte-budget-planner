@@ -2,7 +2,7 @@ import { Expense } from '$lib/models/Expense';
 import { QueryResult } from '$lib/models/QueryResult';
 import { DatabaseClient } from '$lib/server/clients/DatabaseClient';
 import { expenses } from '$lib/server/db/schema';
-import { and, eq, inArray, type InferInsertModel, like, sql } from 'drizzle-orm';
+import { and, eq, inArray, type InferInsertModel, isNotNull, like, ne, sql } from 'drizzle-orm';
 
 type SearchCriteria = { accountId?: number; ids?: number[]; isEnabled?: boolean; tag?: string };
 
@@ -89,7 +89,12 @@ export class ExpenseClient extends DatabaseClient {
 			.where(
 				and(
 					this.isUserIn(expenses.userIds),
-					like(sql`LOWER(${expenses.name})`, `%${query.toLowerCase()}%`)
+					like(
+						sql`LOWER(
+          ${expenses.name}
+          )`,
+						`%${query.toLowerCase()}%`
+					)
 				)
 			);
 
@@ -103,7 +108,12 @@ export class ExpenseClient extends DatabaseClient {
 			.where(
 				and(
 					this.isUserIn(expenses.userIds),
-					like(sql`LOWER(${expenses.tag})`, `%${query.toLowerCase()}%`)
+					like(
+						sql`LOWER(
+          ${expenses.tag}
+          )`,
+						`%${query.toLowerCase()}%`
+					)
 				)
 			)
 			.groupBy(expenses.tag);
@@ -121,7 +131,7 @@ export class ExpenseClient extends DatabaseClient {
 		const records = await this.getDatabase()
 			.select({ tag: expenses.tag })
 			.from(expenses)
-			.where(this.isUserIn(expenses.userIds))
+			.where(and(this.isUserIn(expenses.userIds), isNotNull(expenses.tag), ne(expenses.tag, '')))
 			.groupBy(expenses.tag)
 			.orderBy(expenses.tag)
 			.execute();

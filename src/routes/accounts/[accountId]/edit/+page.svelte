@@ -7,6 +7,7 @@
 	import { resolve } from '$app/paths';
 	import { deleteAccount, upsertAccount } from './account.remote';
 	import { toaster } from '$lib/util/toaster';
+	import ButtonGroup from '$lib/components/ButtonGroup.svelte';
 
 	const { data } = $props();
 
@@ -20,7 +21,7 @@
 </script>
 
 <form class="space-y-4" {...upsertAccount.enhance(({ submit }) => submit())}>
-	<div class="card bg-surface-100-900 space-y-4 p-4">
+	<div class="card-primary space-y-4 p-4">
 		{#if upsertAccount.fields.allIssues()}
 			{#each upsertAccount.fields.allIssues() ?? [] as issue, index (index)}
 				<p>{issue.message}</p>
@@ -44,7 +45,7 @@
 		/>
 	</div>
 
-	<div class="flex space-x-2">
+	<ButtonGroup>
 		<button disabled={!!upsertAccount.pending} class="btn-primary basis-1/4"
 			>{$_('button.save')}</button
 		>
@@ -65,5 +66,5 @@
 				}}
 			></DeleteModal>
 		{/if}
-	</div>
+	</ButtonGroup>
 </form>

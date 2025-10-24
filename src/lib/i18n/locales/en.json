@@ -2,6 +2,7 @@
 	"accounts.title": "Accounts",
 	"currentAmount.title": "Balance",
 	"signOut": "Sign out",
+	"navigator.resize": "Collapse",
 	"accounts.details": "Create and maintain your accounts. Accounts should contain expenses of a similar kind.",
 	"newAccount": "New account",
 	"paid.yearly": "Paid yearly",

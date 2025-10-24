@@ -2,6 +2,7 @@
 	"accounts.title": "Konti",
 	"currentAmount.title": "Saldo",
 	"signOut": "Log ud",
+	"navigator.resize": "Kollaps",
 	"accounts.details": "Opret og vedligehold dine konti. Hver konto bør indeholde udgifter af samme slags.",
 	"newAccount": "Opret en ny konto",
 	"paid.yearly": "Betalt årligt",
