@@ -22,7 +22,7 @@ export class EditExpensePage extends AppPage {
 	}
 
 	get groupTextbox() {
-		return this.page.getByLabel('Group');
+		return this.page.getByRole('combobox', { name: 'Group' });
 	}
 
 	get isActiveCheckbox() {

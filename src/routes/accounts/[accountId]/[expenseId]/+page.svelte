@@ -1,21 +1,22 @@
 <script lang="ts">
 	import TextField from '$lib/components/TextField.svelte';
-	import { Combobox } from '@skeletonlabs/skeleton-svelte';
 	import PaymentDatePicker from '$lib/components/PaymentDatePicker.svelte';
 	import { _ } from 'svelte-i18n';
 	import NumberField from '$lib/components/NumberField.svelte';
 	import { enhance } from '$app/forms';
 	import SelectField from '$lib/components/SelectField.svelte';
 	import type { SelectOption } from '$lib/components/types/SelectOption.js';
-	import DeleteModal from '$lib/components/DeleteModal.svelte';
+	import DeleteDialog from '$lib/components/DeleteDialog.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import { toaster } from '$lib/util/toaster';
+	import Combobox from '$lib/components/Combobox.svelte';
+	import ButtonGroup from '$lib/components/ButtonGroup.svelte';
 
 	const { form, data } = $props();
 	const expense = data.expense;
 
 	let isSaving = $state(false);
-	const isShowingDeleteModal = $state(false);
+	const isShowingDeleteDialog = $state(false);
 
 	const tagOptions: SelectOption<string>[] = [];
 	data.tags.forEach((tag) => {
@@ -55,7 +56,7 @@
 		};
 	}}
 >
-	<div class="card bg-surface-100-900 space-y-2 p-4">
+	<div class="card-primary space-y-2 p-5">
 		<TextField
 			name="name"
 			label={$_('expense.name')}
@@ -88,9 +89,8 @@
 		<Combobox
 			name="tag"
 			label={$_('expense.group')}
-			value={expense?.tag ? [expense.tag] : undefined}
-			defaultInputValue={expense?.tag ?? undefined}
-			data={tagOptions}
+			value={expense?.tag ?? undefined}
+			options={tagOptions}
 			disabled={isSaving}
 			allowCustomValue={true}
 		/>
@@ -106,19 +106,19 @@
 		/>
 	</div>
 
-	<div class="card bg-surface-100-900 space-y-2 p-4">
+	<div class="card-primary space-y-2 p-5">
 		<PaymentDatePicker paymentDates={expense?.paymentDates ?? []} disabled={isSaving} />
 	</div>
 
-	<div class="flex space-x-2 p-4">
+	<ButtonGroup>
 		<button disabled={isSaving} class="btn-primary basis-1/4">{$_('button.save')}</button>
 
 		{#if expense != null}
-			<DeleteModal
-				open={isShowingDeleteModal}
+			<DeleteDialog
+				open={isShowingDeleteDialog}
 				title={$_('deleteExpense.title')}
 				body={$_('deleteExpense.body')}
 			/>
 		{/if}
-	</div>
+	</ButtonGroup>
 </form>
