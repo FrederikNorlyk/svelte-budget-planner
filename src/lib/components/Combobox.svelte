@@ -52,7 +52,7 @@
 </script>
 
 <Combobox
-	class="w-full max-w-md"
+	class="w-full"
 	placeholder="Search..."
 	{collection}
 	{onOpenChange}
