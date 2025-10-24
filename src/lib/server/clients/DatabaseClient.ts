@@ -18,7 +18,7 @@ export abstract class DatabaseClient {
 	 * @param userId id of the current user
 	 */
 	constructor(userId: string) {
-		const client = neon(env.NEON_DATABASE_URL);
+		const client = neon(env.DATABASE_URL);
 
 		this.database = drizzle(client, { schema });
 		this.userId = userId;

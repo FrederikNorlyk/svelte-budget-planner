@@ -68,5 +68,5 @@ PLAYWRIGHT_BASE_URL=https://svelte-budget-planner.vercel.app
 The Neon PostgreSQL database connection requires:
 
 ```
-NEON_DATABASE_URL=
+DATABASE_URL=
 ```
