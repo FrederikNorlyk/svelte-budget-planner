@@ -3,7 +3,7 @@
 {
 	"name": "Node.js & TypeScript",
 	"image": "mcr.microsoft.com/devcontainers/typescript-node:dev-22",
-	"postCreateCommand": "npm install && npx playwright install",
+	"postCreateCommand": "npm install && npx playwright install && apt-get install neovim -y",
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -15,7 +15,8 @@
 				"PKief.material-icon-theme",
 				"github.vscode-github-actions",
 				"ms-playwright.playwright",
-				"GitHub.codespaces"
+				"GitHub.codespaces",
+				"asvetliakov.vscode-neovim"
 			]
 		}
 	}
