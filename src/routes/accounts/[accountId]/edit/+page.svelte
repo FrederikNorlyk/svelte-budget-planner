@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import DeleteModal from '$lib/components/DeleteModal.svelte';
 	import TextField from '$lib/components/TextField.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import { goto } from '$app/navigation';
@@ -8,6 +7,8 @@
 	import { deleteAccount, upsertAccount } from './account.remote';
 	import { toaster } from '$lib/util/toaster';
 	import ButtonGroup from '$lib/components/ButtonGroup.svelte';
+	import DeleteDialog from '$lib/components/DeleteDialog.svelte';
+	import FormIssues from '$lib/components/FormIssues.svelte';
 
 	const { data } = $props();
 
@@ -22,11 +23,7 @@
 
 <form class="space-y-4" {...upsertAccount.enhance(({ submit }) => submit())}>
 	<div class="card-primary space-y-4 p-4">
-		{#if upsertAccount.fields.allIssues()}
-			{#each upsertAccount.fields.allIssues() ?? [] as issue, index (index)}
-				<p>{issue.message}</p>
-			{/each}
-		{/if}
+		<FormIssues issues={upsertAccount.fields.allIssues()} />
 
 		<TextField
 			{...upsertAccount.fields.name.as('text')}
@@ -51,20 +48,19 @@
 		>
 
 		{#if account != null}
-			<DeleteModal
+			<DeleteDialog
 				title={$_('deleteAccount.title')}
 				body={$_('deleteAccount.body')}
-				onSubmit={() => {
-					deleteAccount(account.id).then((result) => {
-						if (result.error) {
-							toaster.error({ title: $_(result.error) });
-							return;
-						}
+				onSubmit={async () => {
+					const result = await deleteAccount(account.id);
+					if (result.error) {
+						toaster.error({ title: $_(result.error) });
+						return;
+					}
 
-						goto(resolve('/accounts'));
-					});
+					await goto(resolve('/accounts'));
 				}}
-			></DeleteModal>
+			/>
 		{/if}
 	</ButtonGroup>
 </form>

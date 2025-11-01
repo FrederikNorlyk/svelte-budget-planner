@@ -1,20 +1,19 @@
 <script lang="ts">
 	import { Dialog, Portal } from '@skeletonlabs/skeleton-svelte';
 	import { _ } from 'svelte-i18n';
-	import { enhance } from '$app/forms';
 
 	interface Props {
-		open: boolean;
 		title: string;
 		body: string;
+		onSubmit: () => Promise<void>;
 	}
 
-	let { open, title, body }: Props = $props();
+	const { title, body, onSubmit }: Props = $props();
 
 	let isSubmitting = $state(false);
 </script>
 
-<Dialog {open} onOpenChange={(e) => (open = e.open)}>
+<Dialog>
 	<Dialog.Trigger class="btn-neutral">{$_('button.delete')}</Dialog.Trigger>
 	<Portal>
 		<Dialog.Backdrop class="bg-surface-50-950/50 fixed inset-0 z-50" />
@@ -23,25 +22,21 @@
 				<Dialog.Title class="text-2xl font-bold">{title}</Dialog.Title>
 				<Dialog.Description>{body}</Dialog.Description>
 
-				<form
-					method="post"
-					action="?/delete"
-					use:enhance={() => {
+				<Dialog.CloseTrigger class="btn-neutral" type="button" disabled={isSubmitting}
+					>{$_('button.cancel')}</Dialog.CloseTrigger
+				>
+				<Dialog.CloseTrigger
+					class="btn-error"
+					type="submit"
+					disabled={isSubmitting}
+					onclick={() => {
 						isSubmitting = true;
 
-						return async ({ update }) => {
-							await update();
+						onSubmit().then(() => {
 							isSubmitting = false;
-						};
-					}}
+						});
+					}}>{$_('button.delete')}</Dialog.CloseTrigger
 				>
-					<Dialog.CloseTrigger class="btn-neutral" type="button" disabled={isSubmitting}
-						>{$_('button.cancel')}</Dialog.CloseTrigger
-					>
-					<Dialog.CloseTrigger class="btn-error" type="submit" disabled={isSubmitting}
-						>{$_('button.delete')}</Dialog.CloseTrigger
-					>
-				</form>
 			</Dialog.Content>
 		</Dialog.Positioner>
 	</Portal>

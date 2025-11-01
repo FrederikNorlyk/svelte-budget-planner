@@ -1,11 +1,9 @@
 <script lang="ts">
 	import TextField from '$lib/components/TextField.svelte';
 	import { _ } from 'svelte-i18n';
-	import { Combobox } from '@skeletonlabs/skeleton-svelte';
 	import NumberField from '$lib/components/NumberField.svelte';
 	import SelectField from '$lib/components/SelectField.svelte';
 	import type { SelectOption } from '$lib/components/types/SelectOption.js';
-	import DeleteModal from '$lib/components/DeleteModal.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import { toaster } from '$lib/util/toaster';
 	import { deleteExpense, upsertExpense } from './expense.remote';
@@ -15,11 +13,12 @@
 	import MonthPicker from '$lib/components/MonthPicker.svelte';
 	import PaymentDatePicker from '$lib/components/PaymentDatePicker.svelte';
 	import ButtonGroup from '$lib/components/ButtonGroup.svelte';
+	import Combobox from '$lib/components/Combobox.svelte';
+	import DeleteDialog from '$lib/components/DeleteDialog.svelte';
+	import FormIssues from '$lib/components/FormIssues.svelte';
 
 	const { data } = $props();
 	const expense = data.expense;
-
-	const isShowingDeleteModal = $state(false);
 
 	const tagOptions: SelectOption<string>[] = [];
 	data.tags.forEach((tag) => {
@@ -41,13 +40,9 @@
 </script>
 
 <form class="space-y-4" {...upsertExpense.enhance(({ submit }) => submit())}>
-	{#if upsertExpense.fields.allIssues()}
-		{#each upsertExpense.fields.allIssues() ?? [] as issue, index (index)}
-			<p>{issue.message}</p>
-		{/each}
-	{/if}
+	<FormIssues issues={upsertExpense.fields.allIssues()} />
 
-	<div class="card bg-surface-100-900 space-y-2 p-4">
+	<div class="card-primary space-y-2 p-4">
 		<TextField
 			{...upsertExpense.fields.name.as('text')}
 			value={expense?.name ?? ''}
@@ -70,7 +65,7 @@
 
 			<SelectField
 				{...upsertExpense.fields.isShared.as('select')}
-				value={expense?.isShared ?? 'false'}
+				value={expense?.isShared ? 'true' : 'false'}
 				label={$_('expense.shared.label')}
 				options={shareOptions}
 				disabled={!!upsertExpense.pending}
@@ -80,9 +75,8 @@
 		<Combobox
 			name="tag"
 			label={$_('expense.group')}
-			value={expense?.tag ? [expense.tag] : undefined}
-			defaultInputValue={expense?.tag ?? undefined}
-			data={tagOptions}
+			value={expense?.tag ?? undefined}
+			options={tagOptions}
 			disabled={!!upsertExpense.pending}
 			allowCustomValue={true}
 		/>
@@ -119,19 +113,18 @@
 		>
 
 		{#if expense != null}
-			<DeleteModal
-				open={isShowingDeleteModal}
+			<DeleteDialog
 				title={$_('deleteExpense.title')}
 				body={$_('deleteExpense.body')}
-				onSubmit={() => {
-					deleteExpense(expense.id).then((result) => {
-						if (result.error) {
-							toaster.error({ title: $_(result.error) });
-							return;
-						}
+				onSubmit={async () => {
+					const result = await deleteExpense(expense.id);
 
-						goto(resolve('/accounts/[accountId]', { accountId: String(expense.accountId) }));
-					});
+					if (result.error) {
+						toaster.error({ title: $_(result.error) });
+						return;
+					}
+
+					await goto(resolve('/accounts/[accountId]', { accountId: String(expense.accountId) }));
 				}}
 			/>
 		{/if}
