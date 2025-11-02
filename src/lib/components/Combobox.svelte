@@ -53,29 +53,32 @@
 
 <Combobox
 	class="w-full"
-	placeholder="Search..."
 	{collection}
 	{onOpenChange}
 	{onInputValueChange}
 	{allowCustomValue}
 	inputBehavior="autohighlight"
-	openOnClick={true}
+	openOnClick={options.length > 0}
 >
 	<Combobox.Label>{label}</Combobox.Label>
 	<Combobox.Control>
 		<Combobox.Input {name} {value} {disabled} />
-		<Combobox.Trigger />
+		{#if options.length > 0}
+			<Combobox.Trigger />
+		{/if}
 	</Combobox.Control>
-	<Portal>
-		<Combobox.Positioner class="z-[1]!">
-			<Combobox.Content>
-				{#each items as item (item.value)}
-					<Combobox.Item {item}>
-						<Combobox.ItemText>{item.label}</Combobox.ItemText>
-						<Combobox.ItemIndicator />
-					</Combobox.Item>
-				{/each}
-			</Combobox.Content>
-		</Combobox.Positioner>
-	</Portal>
+	{#if options.length > 0}
+		<Portal>
+			<Combobox.Positioner class="z-[1]!">
+				<Combobox.Content>
+					{#each items as item (item.value)}
+						<Combobox.Item {item}>
+							<Combobox.ItemText>{item.label}</Combobox.ItemText>
+							<Combobox.ItemIndicator />
+						</Combobox.Item>
+					{/each}
+				</Combobox.Content>
+			</Combobox.Positioner>
+		</Portal>
+	{/if}
 </Combobox>
