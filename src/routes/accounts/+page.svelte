@@ -17,7 +17,7 @@
 </script>
 
 {#if accounts.length === 0}
-	<AddButton href={newAccountUrl} ariaLabel="New account" />
+	<AddButton href={newAccountUrl} aria-label="New account" />
 	<NoEntries question="chat.noAccounts" />
 {:else}
 	<div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
@@ -25,7 +25,7 @@
 			<AccountCard {account} />
 		{/each}
 
-		<AddButton href={newAccountUrl} ariaLabel="New account" />
+		<AddButton href={newAccountUrl} aria-label="New account" />
 	</div>
 
 	<div class="card-primary mt-9 grid grid-cols-1 gap-3 p-10 md:grid-cols-2 md:p-0 xl:grid-cols-3">

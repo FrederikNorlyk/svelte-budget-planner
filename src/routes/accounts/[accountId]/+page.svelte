@@ -15,14 +15,14 @@
 </script>
 
 {#if account.expenses.length === 0}
-	<AddButton href={newExpenseUrl} ariaLabel="Add new expense" />
+	<AddButton href={newExpenseUrl} aria-label="Add new expense" />
 	<NoEntries question="chat.noExpenses" />
 {:else}
 	<div class="grid grid-cols-1 gap-3 xl:grid-cols-2">
 		{#each account.expenses as expense (expense.id)}
 			<ExpenseCard {expense} />
 		{/each}
-		<AddButton href={newExpenseUrl} ariaLabel="Add new expense" />
+		<AddButton href={newExpenseUrl} aria-label="Add new expense" />
 	</div>
 
 	<div
