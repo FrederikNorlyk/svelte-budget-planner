@@ -1,16 +1,14 @@
 import { resolve } from '$app/paths';
-import { command, form, getRequestEvent } from '$app/server';
+import { command, form, getRequestEvent, query } from '$app/server';
 import type { Month } from '$lib/enums/Month';
 import type { Expense } from '$lib/models/Expense';
 import { ExpenseClient } from '$lib/server/clients/ExpenseClient';
 import { PaymentDateClient } from '$lib/server/clients/PaymentDateClient';
 import { SettingsClient } from '$lib/server/clients/SettingsClient';
 import PaymentDateValidationUtil from '$lib/util/PaymentDateValidationUtil';
-import { fail, redirect } from '@sveltejs/kit';
+import { error, fail, redirect } from '@sveltejs/kit';
 import * as v from 'valibot';
 import { monthOptions, shareOptions } from './options';
-
-const options = ['a'];
 
 export const upsertExpense = form(
 	v.object({
@@ -21,19 +19,22 @@ export const upsertExpense = form(
 			v.picklist(shareOptions.map((option) => option.value)),
 			v.transform((value) => value === 'true')
 		),
-		months: v.pipe(
-			v.array(
-				v.picklist(
-					monthOptions.map((option) => {
-						return option.value;
-					})
-				)
+		months: v.optional(
+			v.pipe(
+				v.array(
+					v.picklist(
+						monthOptions.map((option) => {
+							return option.value;
+						})
+					)
+				),
+				v.transform((values) => values.map((value) => Number(value) as Month))
 			),
-			v.transform((values) => values.map((value) => Number(value) as Month))
+			[]
 		),
-		tag: v.picklist(options)
+		tag: v.string()
 	}),
-	async ({ name, amount, isEnabled, isShared, months, tag }) => {
+	async ({ name, amount, isEnabled, isShared, months, tag }, invalid) => {
 		const { locals, params } = getRequestEvent();
 		const session = await locals.auth();
 
@@ -41,8 +42,11 @@ export const upsertExpense = form(
 			redirect(303, '/');
 		}
 
+		if (amount > 20) {
+			return fail(400, { error: 'Omg error!' });
+		}
 		if (!PaymentDateValidationUtil.validateCombination(months)) {
-			return fail(400, { error: 'expense.error.invalidCombinationOfMonths' });
+			invalid(invalid.months('expense.error.invalidCombinationOfMonths'));
 		}
 
 		const id = params.expenseId ? +params.expenseId : 0;
@@ -110,6 +114,30 @@ export const upsertExpense = form(
 		redirect(303, resolve('/accounts/[accountId]', { accountId: params.accountId }));
 	}
 );
+
+export const getExpense = query(v.number(), async (id) => {
+	const { locals } = getRequestEvent();
+	const session = await locals.auth();
+
+	if (!session) {
+		redirect(303, '/');
+	}
+
+	const expenseClient = new ExpenseClient(session.user.id);
+	let expense: Expense | null = null;
+
+	if (id !== 0) {
+		const expenses = await expenseClient.listAllExpanded({ ids: [id] });
+
+		if (expenses.length === 0) {
+			error(404, 'Expense not found');
+		}
+
+		expense = expenses[0];
+	}
+
+	return expense;
+});
 
 export const deleteExpense = command(v.number(), async (id) => {
 	const { locals } = getRequestEvent();

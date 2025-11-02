@@ -6,7 +6,7 @@
 	import type { SelectOption } from '$lib/components/types/SelectOption.js';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import { toaster } from '$lib/util/toaster';
-	import { deleteExpense, upsertExpense } from './expense.remote';
+	import { deleteExpense, getExpense, upsertExpense } from './expense.remote';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { monthOptions, shareOptions } from './options';
@@ -17,16 +17,18 @@
 	import DeleteDialog from '$lib/components/DeleteDialog.svelte';
 	import FormIssues from '$lib/components/FormIssues.svelte';
 
-	const { data } = $props();
-	const expense = data.expense;
+	const { data, params } = $props();
+	const expense = $derived(await getExpense(Number(params.expenseId)));
 
 	const tagOptions: SelectOption<string>[] = [];
 	data.tags.forEach((tag) => {
 		tagOptions.push({ label: tag, value: tag });
 	});
 
+	const expenseForm = upsertExpense.for(expense?.id ?? 0);
+
 	if (expense) {
-		upsertExpense.fields.set({
+		expenseForm.fields.set({
 			name: expense.name,
 			amount: expense.amount,
 			isEnabled: expense.isEnabled,
@@ -39,45 +41,57 @@
 	let paymentDates = $state(expense?.paymentDates ?? []);
 </script>
 
-<form class="space-y-4" {...upsertExpense.enhance(({ submit }) => submit())}>
-	<FormIssues issues={upsertExpense.fields.allIssues()} />
+<form
+	class="space-y-4"
+	{...expenseForm.enhance(async ({ submit }) => {
+		try {
+			submit();
+			if (!expenseForm.fields.allIssues()) {
+				toaster.success({ title: 'Saved!' });
+			}
+		} catch (e) {
+			toaster.error({ title: e });
+		}
+	})}
+>
+	<FormIssues issues={expenseForm.fields.allIssues()} />
 
 	<div class="card-primary space-y-2 p-4">
 		<TextField
-			{...upsertExpense.fields.name.as('text')}
+			{...expenseForm.fields.name.as('text')}
 			value={expense?.name ?? ''}
 			label={$_('expense.name')}
 			autofocus={expense == null}
 			required={true}
-			disabled={!!upsertExpense.pending}
+			disabled={!!expenseForm.pending}
 		/>
 
 		<div class="flex space-x-2">
 			<span class="grow">
 				<NumberField
-					{...upsertExpense.fields.amount.as('number')}
+					{...expenseForm.fields.amount.as('number')}
 					value={expense?.amount ?? ''}
 					label={$_('expense.amount')}
 					required={true}
-					disabled={!!upsertExpense.pending}
+					disabled={!!expenseForm.pending}
 				/>
 			</span>
 
 			<SelectField
-				{...upsertExpense.fields.isShared.as('select')}
+				{...expenseForm.fields.isShared.as('select')}
 				value={expense?.isShared ? 'true' : 'false'}
 				label={$_('expense.shared.label')}
 				options={shareOptions}
-				disabled={!!upsertExpense.pending}
+				disabled={!!expenseForm.pending}
 			/>
 		</div>
 
 		<Combobox
-			name="tag"
+			{...expenseForm.fields.tag.as('text')}
 			label={$_('expense.group')}
 			value={expense?.tag ?? undefined}
 			options={tagOptions}
-			disabled={!!upsertExpense.pending}
+			disabled={!!expenseForm.pending}
 			allowCustomValue={true}
 		/>
 
@@ -85,22 +99,22 @@
 		<div></div>
 
 		<Checkbox
-			{...upsertExpense.fields.isEnabled.as('checkbox')}
-			disabled={!!upsertExpense.pending}
+			{...expenseForm.fields.isEnabled.as('checkbox')}
+			disabled={!!expenseForm.pending}
 			label={$_('expense.isEnabled')}
 		/>
 	</div>
 
 	<div class="card-primary space-y-2 p-4">
-		<PaymentDatePicker bind:paymentDates disabled={!!upsertExpense.pending}>
+		<PaymentDatePicker bind:paymentDates disabled={!!expenseForm.pending}>
 			{#each paymentDates as paymentDate, index (paymentDate.id)}
-				<MonthPicker bind:paymentDates {paymentDate} disabled={!!upsertExpense.pending}>
+				<MonthPicker bind:paymentDates {paymentDate} disabled={!!expenseForm.pending}>
 					<SelectField
-						{...upsertExpense.fields.months[index].as('select')}
+						{...expenseForm.fields.months[index].as('select')}
 						label={$_('calendarDatePicker.month')}
 						required={true}
 						options={monthOptions}
-						disabled={!!upsertExpense.pending}
+						disabled={!!expenseForm.pending}
 					/>
 				</MonthPicker>
 			{/each}
@@ -108,7 +122,7 @@
 	</div>
 
 	<ButtonGroup>
-		<button disabled={!!upsertExpense.pending} class="btn-primary basis-1/4"
+		<button disabled={!!expenseForm.pending} class="btn-primary basis-1/4"
 			>{$_('button.save')}</button
 		>
 
