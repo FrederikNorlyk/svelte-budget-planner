@@ -11,41 +11,40 @@
 	import FormIssues from '$lib/components/FormIssues.svelte';
 
 	const { data } = $props();
-
 	const account = data.account;
+	const form = upsertAccount.for(account?.id ?? 0);
+
 	if (account) {
-		upsertAccount.fields.set({
+		form.fields.set({
 			name: account.name,
 			isShared: account.isShared
 		});
 	}
 </script>
 
-<form class="space-y-4" {...upsertAccount.enhance(({ submit }) => submit())}>
+<form class="space-y-4" {...form.enhance(({ submit }) => submit())}>
 	<div class="card-primary space-y-4 p-4">
-		<FormIssues issues={upsertAccount.fields.allIssues()} />
+		<FormIssues issues={form.fields.allIssues()} />
 
 		<TextField
-			{...upsertAccount.fields.name.as('text')}
+			{...form.fields.name.as('text')}
 			value={account?.name ?? ''}
 			label={$_('account.name')}
 			autofocus={account == null}
 			required={true}
-			disabled={!!upsertAccount.pending}
+			disabled={!!form.pending}
 		/>
 
 		<Checkbox
-			{...upsertAccount.fields.isShared.as('checkbox')}
+			{...form.fields.isShared.as('checkbox')}
 			checked={account?.isShared ?? false}
 			label={$_('account.shared')}
-			disabled={!!upsertAccount.pending}
+			disabled={!!form.pending}
 		/>
 	</div>
 
 	<ButtonGroup>
-		<button disabled={!!upsertAccount.pending} class="btn-primary basis-1/4"
-			>{$_('button.save')}</button
-		>
+		<button disabled={!!form.pending} class="btn-primary basis-1/4">{$_('button.save')}</button>
 
 		{#if account != null}
 			<DeleteDialog
