@@ -1,5 +1,6 @@
 <script lang="ts" generics="T extends string | number | boolean">
 	import type { SelectOption } from './types/SelectOption';
+	import { _ } from 'svelte-i18n';
 
 	interface Props {
 		name: string;
@@ -26,7 +27,7 @@
 
 	<select {name} {disabled} {value} {required} {...rest} class="input bg-surface-50-950" size="1">
 		{#each options as option (option.value)}
-			<option value={option.value}>{option.label}</option>
+			<option value={option.value}>{$_(option.label)}</option>
 		{/each}
 	</select>
 </label>
