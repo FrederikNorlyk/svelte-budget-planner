@@ -3,7 +3,7 @@
 {
 	"name": "Node.js & TypeScript",
 	"image": "mcr.microsoft.com/devcontainers/typescript-node:dev-22",
-	"postCreateCommand": "npm install && npx playwright install",
+	"postCreateCommand": "./.devcontainer/postCreate.sh",
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -12,10 +12,10 @@
 				"bradlc.vscode-tailwindcss",
 				"esbenp.prettier-vscode",
 				"vitest.explorer",
-				"PKief.material-icon-theme",
 				"github.vscode-github-actions",
 				"ms-playwright.playwright",
-				"GitHub.codespaces"
+				"GitHub.codespaces",
+				"asvetliakov.vscode-neovim"
 			]
 		}
 	}

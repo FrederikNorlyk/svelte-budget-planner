@@ -7,6 +7,8 @@
 		ariaLabel: string;
 	}
 
+	/* eslint-disable svelte/no-navigation-without-resolve */
+	/* ESLint does not accept that the href is of type ResolvedPathname */
 	const { href, ariaLabel }: Props = $props();
 </script>
 

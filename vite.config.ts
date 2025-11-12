@@ -15,17 +15,8 @@ export default defineConfig(({ mode }) => {
 		test: {
 			include: ['tests/lib/**/*.{test,spec}.{js,ts}'],
 			coverage: {
-				exclude: [
-					'playwright.config.ts',
-					'.svelte-kit/**',
-					'eslint.config.mjs',
-					'postcss.config.js',
-					'svelte.config.js',
-					'tailwind.config.cjs',
-					'vite.config.ts',
-					'tests/**',
-					'src/routes/**'
-				]
+				include: ['src/**'],
+				exclude: ['src/routes/**']
 			}
 		}
 	};
