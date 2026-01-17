@@ -103,10 +103,10 @@ export class AccountClient extends DatabaseClient {
 	}
 
 	/**
-	 * Lists all accounts for the current user. The accounts are expanded which means that they contain a list of all
-	 * their expenses, including the expenses' payment dates.
+	 * Lists all accounts for the current user. The accounts are expanded, which means that they
+	 * contain a list of all their expenses, including the expenses' payment dates.
 	 *
-	 * @returns accounts with expenses
+	 * @returns accounts with expenses and their payment dates
 	 */
 	public async listAllExpanded(criteria: SearchCriteria | null = null): Promise<Account[]> {
 		const conditions = [this.isUserIn(accounts.userIds)];
@@ -123,7 +123,14 @@ export class AccountClient extends DatabaseClient {
 		const records = await this.getDatabase()
 			.query.accounts.findMany({
 				where: sql.join(conditions, sql` AND `),
-				with: { expenses: { where: expenseConditions, with: { paymentDates: true } } }
+				orderBy: (accounts, { asc }) => [asc(accounts.name)],
+				with: {
+					expenses: {
+						where: expenseConditions,
+						orderBy: (expenses, { asc }) => [asc(expenses.name)],
+						with: { paymentDates: true }
+					}
+				}
 			})
 			.execute();
 
