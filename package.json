@@ -12,13 +12,16 @@
 		"test": "vitest",
 		"test:e2e": "playwright test",
 		"coverage": "vitest run --coverage",
-		"lint": "prettier --plugin=prettier-plugin-svelte --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports . --check . && eslint . && npm run check",
-		"format": "prettier --plugin=prettier-plugin-svelte --plugin=prettier-plugin-tailwindcss --plugin=prettier-plugin-organize-imports . --write .",
+		"lint": "prettier . --check . && eslint . && npm run check",
+		"format": "prettier . --write .",
 		"prepare": "husky",
 		"db:push": "drizzle-kit push",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
 		"db:studio": "drizzle-kit studio"
+	},
+	"lint-staged": {
+		"**/*": "prettier --write --ignore-unknown"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^2.0.2",
@@ -42,6 +45,7 @@
 		"eslint-plugin-svelte": "^3.14.0",
 		"globals": "^17.3.0",
 		"husky": "^9.1.7",
+		"lint-staged": "^16.2.7",
 		"prettier": "^3.8.1",
 		"prettier-plugin-organize-imports": "^4.3.0",
 		"prettier-plugin-svelte": "^3.4.1",
