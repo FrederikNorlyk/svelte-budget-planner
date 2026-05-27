@@ -29,16 +29,11 @@ account or as a demo user.
 
 If you want to run it yourself you can follow these instructions.
 
-I use the Vercel CLI to link the application with my project in Vercel ([Read more](https://vercel.com/docs/cli)).
+I use the Vercel CLI to link the application with my project in Vercel, and pull local environment
+variables ([Read more](https://vercel.com/docs/cli)).
 
 ```bash
 npx vercel link
-```
-
-After linking the project, create an `.env` file by running:
-
-```bash
-npx vercel env pull .env
 ```
 
 ### Environment variables

@@ -3,15 +3,14 @@
 	import AmountCard from '$lib/components/AmountCard.svelte';
 
 	const { data } = $props();
-	const expenses = data.expenses;
+	const expenses = $derived(data.expenses);
 
-	let totalMonthlyAmount = $state(0);
-	for (const expense of expenses) {
-		if (!expense.isEnabled) {
-			continue;
-		}
-		totalMonthlyAmount += expense.monthlyAmount;
-	}
+	const totalMonthlyAmount = $derived(
+		expenses.reduce((sum, expense) => {
+			const amount = expense.isEnabled ? expense.monthlyAmount : 0;
+			return sum + amount;
+		}, 0)
+	);
 </script>
 
 <div class="grid grid-cols-1 gap-3 xl:grid-cols-2">

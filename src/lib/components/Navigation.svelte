@@ -23,8 +23,6 @@
 	let isRailLayout = $state(true);
 	const currentAnchor = $derived(isRailLayout ? anchorRail : anchorSidebar);
 
-	/* eslint-disable svelte/no-navigation-without-resolve */
-	/* Even though the href is resolved here, eslint still complains below */
 	const links = [
 		{ label: 'accounts.title', href: resolve('/accounts'), icon: Landmark },
 		{ label: 'currentAmount.title', href: resolve('/balance'), icon: Scale },

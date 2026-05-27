@@ -13,15 +13,14 @@
 	import ButtonGroup from '$lib/components/ButtonGroup.svelte';
 
 	const { form, data } = $props();
-	const expense = data.expense;
+	const expense = $derived(data.expense);
 
 	let isSaving = $state(false);
 	const isShowingDeleteDialog = $state(false);
 
-	const tagOptions: SelectOption<string>[] = [];
-	data.tags.forEach((tag) => {
-		tagOptions.push({ label: tag, value: tag });
-	});
+	const tagOptions: SelectOption<string>[] = $derived(
+		data.tags.map((tag) => ({ label: tag, value: tag }))
+	);
 
 	$effect(() => {
 		if (form?.error) {

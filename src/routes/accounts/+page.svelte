@@ -6,11 +6,12 @@
 	import { resolve } from '$app/paths';
 
 	const { data } = $props();
-	const accounts = data.accounts;
-	const settings = data.settings;
+	const accounts = $derived(data.accounts);
+	const settings = $derived(data.settings);
 
-	let totalMonthlyAmount = $state(0);
-	accounts.map((account) => (totalMonthlyAmount += account.monthlyAmount));
+	const totalMonthlyAmount = $derived(
+		accounts.reduce((sum, account) => sum + account.monthlyAmount, 0)
+	);
 	const remainder = $derived(settings.income - totalMonthlyAmount);
 
 	const newAccountUrl = resolve('/accounts/[accountId]/edit', { accountId: '0' });

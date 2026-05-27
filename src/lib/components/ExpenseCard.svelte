@@ -13,15 +13,11 @@
 	const { expense }: Props = $props();
 
 	const accountBalanceUtil = new AccountBalanceUtil();
-	const nextPaymentDate = accountBalanceUtil.getNextPaymentDateForExpense(expense);
-	const monthlyAmount = expense.monthlyAmount;
+	const nextPaymentDate = $derived(accountBalanceUtil.getNextPaymentDateForExpense(expense));
+	const monthlyAmount = $derived(expense.monthlyAmount);
+	const amount = $derived(expense.isShared ? expense.amount / 2 : expense.amount);
 
-	function getAmount(expense: Expense) {
-		const amount = expense.isShared ? expense.amount / 2 : expense.amount;
-		return AmountUtil.localizeDecimal(amount);
-	}
-
-	function localizePaymentFrequency(expense: Expense) {
+	const paymentFrequency = $derived.by(() => {
 		const numberOfPaymentDates = expense.paymentDates.length;
 
 		switch (numberOfPaymentDates) {
@@ -37,36 +33,36 @@
 			default:
 				return $_('paid.custom', { values: { times: numberOfPaymentDates } });
 		}
-	}
+	});
 </script>
 
 <a
-	class="card-primary clickable grid grid-cols-2 space-y-2 p-5 {expense.isEnabled
-		? ''
-		: 'opacity-60'}"
+	class={[
+		'card-primary clickable grid grid-cols-2 gap-2 p-5',
+		{ 'opacity-60': !expense.isEnabled }
+	]}
 	href={resolve('/accounts/[accountId]/[expenseId]', {
 		accountId: String(expense.accountId),
 		expenseId: String(expense.id)
 	})}
 >
-	<div>
-		<h2 class="text-xl">{expense.name}</h2>
-		<small class="text-neutral">{expense.tag}</small>
-	</div>
+	<p class="text-xl">{expense.name}</p>
 	<div class="text-neutral text-right">
-		{#if !expense.isEnabled}
-			{$_('expense.inactive')}
-		{:else if nextPaymentDate != null}
-			{$_('nextPayment')}: {DateUtil.localizeLongerFormat(nextPaymentDate)}
-		{/if}
+		<p>{paymentFrequency}</p>
+		<p>
+			{#if !expense.isEnabled}
+				{$_('expense.inactive')}
+			{:else if nextPaymentDate != null}
+				{$_('nextPayment')}: {DateUtil.localizeLongerFormat(nextPaymentDate)}
+			{/if}
+		</p>
 	</div>
-	<div>
-		<h1 class="inline-block text-2xl">{getAmount(expense)}</h1>
+	<div class="col-span-2">
+		<p class="inline-block text-2xl">{AmountUtil.localizeDecimal(amount)}</p>
 		{#if expense.isMonthlyExpense}
 			<small class="text-neutral">/{$_('month')}</small>
 		{:else}
-			<small class="text-neutral">{AmountUtil.localizeDecimal(monthlyAmount)}/{$_('month')} </small>
+			<small class="text-neutral">{AmountUtil.localizeDecimal(monthlyAmount)}/{$_('month')}</small>
 		{/if}
 	</div>
-	<div class="text-neutral text-right">{localizePaymentFrequency(expense)}</div>
 </a>

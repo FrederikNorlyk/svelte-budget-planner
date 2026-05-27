@@ -10,7 +10,7 @@
 	"paid.quarterly": "Betalt kvartalsvis",
 	"paid.monthly": "Betalt månedligt",
 	"paid.custom": "Betales {times} gange om året",
-	"nextPayment": "Næste betaling",
+	"nextPayment": "Næste",
 	"month": "måned",
 	"expense.inactive": "Udgiften er inaktiv",
 	"account.details": "Få overblik over kontoens udgifter",
@@ -63,5 +63,6 @@
 	"tagView.details": "Disse udgifter hører under samme gruppe",
 	"searchField.placeholder": "Søg (ctrl+k)",
 	"navigationMenu.title": "Navigation",
-	"navigationMenu.closeButton": "Luk"
+	"navigationMenu.closeButton": "Luk",
+	"group.otherExpenses": "Andre udgifter"
 }

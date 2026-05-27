@@ -25,7 +25,7 @@
 		options
 	}: Props = $props();
 
-	let items = $state(options);
+	let items = $derived(options);
 
 	const collection = $derived(
 		useListCollection({
@@ -67,7 +67,7 @@
 		<Combobox.Trigger />
 	</Combobox.Control>
 	<Portal>
-		<Combobox.Positioner class="z-[1]!">
+		<Combobox.Positioner class="z-1!">
 			<Combobox.Content>
 				{#each items as item (item.value)}
 					<Combobox.Item {item}>

@@ -13,7 +13,7 @@
 
 	const { account }: Props = $props();
 	const accountBalanceUtil = new AccountBalanceUtil();
-	const nextPaymentDate = accountBalanceUtil.getNextPaymentDate(account);
+	const nextPaymentDate = $derived(accountBalanceUtil.getNextPaymentDate(account));
 </script>
 
 <a
