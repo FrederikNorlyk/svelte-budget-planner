@@ -2,7 +2,7 @@
 	import AccountBalanceCard from '$lib/components/AccountBalanceCard.svelte';
 
 	const { data } = $props();
-	const accounts = data.accounts;
+	const accounts = $derived(data.accounts);
 </script>
 
 <div class="grid grid-cols-1 gap-3 lg:grid-cols-2 2xl:grid-cols-3">

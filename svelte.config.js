@@ -7,6 +7,9 @@ const config = {
 
 	kit: {
 		adapter: adapter(),
+		paths: {
+			relative: false
+		},
 		experimental: {
 			tracing: {
 				server: true

@@ -9,7 +9,7 @@
 
 	const { data, form } = $props();
 
-	const account = data.account;
+	const account = $derived(data.account);
 	let isSaving = $state(false);
 	let isShowingDeleteDialog = $state(false);
 

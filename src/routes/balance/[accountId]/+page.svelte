@@ -7,7 +7,7 @@
 	import { SvelteDate } from 'svelte/reactivity';
 
 	const { data } = $props();
-	const account = data.account;
+	const account = $derived(data.account);
 	const accountBalanceUtil = new AccountBalanceUtil();
 
 	const dates = [new SvelteDate()];

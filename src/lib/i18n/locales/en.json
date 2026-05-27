@@ -10,7 +10,7 @@
 	"paid.quarterly": "Paid quarterly",
 	"paid.monthly": "Paid monthly",
 	"paid.custom": "Paid {times} times a year",
-	"nextPayment": "Next payment",
+	"nextPayment": "Next",
 	"month": "month",
 	"expense.inactive": "The expense is inactive",
 	"account.details": "Maintain the account's expenses",
@@ -63,5 +63,6 @@
 	"tagView.details": "These expenses belong to the same group",
 	"searchField.placeholder": "Search (ctrl+k)",
 	"navigationMenu.title": "Navigation",
-	"navigationMenu.closeButton": "Close"
+	"navigationMenu.closeButton": "Close",
+	"group.otherExpenses": "Other expenses"
 }
