@@ -75,7 +75,7 @@
 {/if}
 
 {#snippet expenseList(expenses: Expense[])}
-	<div class="w-full grid grid-cols-1 gap-3 xl:grid-cols-2 2xl:grid-cols-3">
+	<div class="grid w-full grid-cols-1 gap-3 xl:grid-cols-2 2xl:grid-cols-3">
 		{#each expenses as expense (expense.id)}
 			<ExpenseCard {expense} />
 		{/each}
