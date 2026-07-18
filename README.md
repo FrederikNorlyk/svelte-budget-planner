@@ -27,13 +27,17 @@ account or as a demo user.
 
 ### Installation
 
-If you want to run it yourself you can follow these instructions.
+If you want to run it yourself, you can follow these instructions.
 
-I use the Vercel CLI to link the application with my project in Vercel, and pull local environment
+I use the Vercel CLI to link the application with my project in Vercel and pull local environment
 variables ([Read more](https://vercel.com/docs/cli)).
 
 ```bash
 npx vercel link
+```
+
+```bash
+npx vercel env pull
 ```
 
 ### Environment variables
