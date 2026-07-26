@@ -12,7 +12,7 @@ updates:
         update-types:
           - 'version-update:semver-major'
 
-      # Wait for Typescript 7.1, which should expose an API allowing typescript-eslint to support Typescript 7
+      # Wait for TypeScript 7.1, which should expose an API allowing typescript-eslint to support TypeScript 7
       - dependency-name: 'typescript'
         versions:
           - '>=7.0.0 <7.1.0'
@@ -21,3 +21,14 @@ updates:
       all:
         patterns:
           - '*'
+
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      # Check for updates to GitHub Actions every week
+      interval: 'weekly'
+      day: 'saturday'
+      time: '06:00'
+
+    cooldown:
+      default-days: 7
