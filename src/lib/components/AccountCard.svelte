@@ -1,5 +1,5 @@
 <script lang="ts">
-	import CircleArrowRight from 'lucide-svelte/icons/circle-arrow-right';
+	import CircleArrowRight from '@lucide/svelte/icons/circle-arrow-right';
 	import type { Account } from '$lib/models/Account';
 	import { AmountUtil } from '$lib/util/AmountUtil';
 	import { _ } from 'svelte-i18n';

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Search from 'lucide-svelte/icons/search';
+	import Search from '@lucide/svelte/icons/search';
 	import { _ } from 'svelte-i18n';
 
 	interface Props {

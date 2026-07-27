@@ -18,7 +18,7 @@ Simple budget planning application, built using SvelteKit.
 ### What can it do?
 
 The budget planner allows you to manage your expenses in a simple user interface. The application keeps track of payment
-dates, which it uses to calculate the required account balances, to avoid overdrawing.
+dates, which it uses to calculate the required account balances to avoid overdrawing.
 
 ### Try it out 🚀
 
@@ -33,20 +33,20 @@ I use the Vercel CLI to link the application with my project in Vercel and pull 
 variables ([Read more](https://vercel.com/docs/cli)).
 
 ```bash
-npx vercel link
+pnpm dlx vercel link
 ```
 
 ```bash
-npx vercel env pull
+pnpm dlx vercel env pull
 ```
 
 ### Environment variables
 
-The following environment variables are need.
+The following environment variables are needed.
 
 #### Auth.js
 
-The app is only set up to work with GitHub so these variables are required.
+The app is only set up to work with GitHub, so these variables are required.
 
 ```
 AUTH_GITHUB_ID=
@@ -56,7 +56,7 @@ AUTH_SECRET=
 
 #### Playwright
 
-Playwright needs to know which site to navigate to, when testing.
+Playwright needs to know which site to navigate to when testing.
 
 ```
 PLAYWRIGHT_BASE_URL=https://svelte-budget-planner.vercel.app

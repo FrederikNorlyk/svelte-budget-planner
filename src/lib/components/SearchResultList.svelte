@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Tag from 'lucide-svelte/icons/tag';
-	import Banknote from 'lucide-svelte/icons/banknote';
-	import Landmark from 'lucide-svelte/icons/landmark';
+	import Tag from '@lucide/svelte/icons/tag';
+	import Banknote from '@lucide/svelte/icons/banknote';
+	import Landmark from '@lucide/svelte/icons/landmark';
 	import { RecordType } from '$lib/models/SearchResult';
 	import type SearchResult from '$lib/models/SearchResult';
 

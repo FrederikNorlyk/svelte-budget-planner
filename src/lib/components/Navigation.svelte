@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { Navigation } from '@skeletonlabs/skeleton-svelte';
-	import { ArrowLeftRightIcon } from 'lucide-svelte';
+	import { ArrowLeftRightIcon } from '@lucide/svelte';
 	import type { Snippet } from 'svelte';
 	import { resolve } from '$app/paths';
-	import Landmark from 'lucide-svelte/icons/landmark';
-	import Scale from 'lucide-svelte/icons/scale';
-	import Settings from 'lucide-svelte/icons/settings';
+	import Landmark from '@lucide/svelte/icons/landmark';
+	import Scale from '@lucide/svelte/icons/scale';
+	import Settings from '@lucide/svelte/icons/settings';
 	import { _ } from 'svelte-i18n';
 
 	interface Props {

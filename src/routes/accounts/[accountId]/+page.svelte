@@ -5,7 +5,7 @@
 	import { resolve } from '$app/paths';
 	import AmountCard from '$lib/components/AmountCard.svelte';
 	import { Collapsible } from '@skeletonlabs/skeleton-svelte';
-	import ArrowUpDownIcon from 'lucide-svelte/icons/arrow-up-down';
+	import ArrowUpDownIcon from '@lucide/svelte/icons/arrow-up-down';
 	import { _ } from 'svelte-i18n';
 	import type { Expense } from '$lib/models/Expense';
 
