@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MessageCircleMore from 'lucide-svelte/icons/message-circle-more';
+	import MessageCircleMore from '@lucide/svelte/icons/message-circle-more';
 
 	import { _ } from 'svelte-i18n';
 

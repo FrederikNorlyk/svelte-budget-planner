@@ -3,7 +3,7 @@
 	import MonthPicker from '$lib/components/MonthPicker.svelte';
 	import { _ } from 'svelte-i18n';
 	import { Month } from '$lib/enums/Month';
-	import MessageCircleMore from 'lucide-svelte/icons/message-circle-more';
+	import MessageCircleMore from '@lucide/svelte/icons/message-circle-more';
 
 	interface Props {
 		paymentDates: PaymentDate[];

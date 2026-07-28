@@ -1,6 +1,6 @@
 <script lang="ts">
-	import ArrowLeft from 'lucide-svelte/icons/arrow-left';
-	import PencilLine from 'lucide-svelte/icons/pencil-line';
+	import ArrowLeft from '@lucide/svelte/icons/arrow-left';
+	import PencilLine from '@lucide/svelte/icons/pencil-line';
 	import { _ } from 'svelte-i18n';
 	import type { ResolvedPathname } from '$app/types';
 
