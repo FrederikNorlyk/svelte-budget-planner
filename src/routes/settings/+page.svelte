@@ -4,14 +4,18 @@
 	import { _ } from 'svelte-i18n';
 	import { signOut } from '@auth/sveltekit/client';
 	import { toaster } from '$lib/util/toaster';
+	import { clearOfflineSnapshot } from '$lib/offlineSnapshot';
 
 	const { data } = $props();
 	let isSaving = $state(false);
 	const settings = $derived(data.settings);
 
-	function signOutButtonPressed(event: MouseEvent) {
+	async function signOutButtonPressed(event: MouseEvent) {
 		event.preventDefault();
-		signOut();
+		const userId = localStorage.getItem('budget-planner-last-user');
+		await signOut();
+		if (userId) await clearOfflineSnapshot(userId);
+		localStorage.removeItem('budget-planner-last-user');
 	}
 </script>
 

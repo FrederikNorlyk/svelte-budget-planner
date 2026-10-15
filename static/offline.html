@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#ffffff" />
+		<title>Budget planner · Offline</title>
+		<style>
+			body {
+				font:
+					16px system-ui,
+					sans-serif;
+				max-width: 960px;
+				margin: 2rem auto;
+				padding: 0 1rem;
+				color: #202124;
+			}
+			a {
+				color: #2457a7;
+			}
+			nav,
+			header,
+			.card {
+				padding: 1rem;
+				border: 1px solid #ddd;
+				border-radius: 0.5rem;
+				margin: 0.75rem 0;
+			}
+			nav {
+				display: flex;
+				gap: 1rem;
+				flex-wrap: wrap;
+			}
+			.muted {
+				color: #666;
+			}
+			.row {
+				display: flex;
+				justify-content: space-between;
+				padding: 0.5rem 0;
+				border-bottom: 1px solid #eee;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<strong>Budget planner</strong>
+			<div class="muted">Offline snapshot · read only</div>
+		</header>
+		<nav>
+			<a href="/accounts">Accounts</a><a href="/balance">Balance</a><a href="/settings">Settings</a
+			><a href="/">Search</a>
+		</nav>
+		<main id="app">Loading saved budget…</main>
+		<script>
+			(async () => {
+				const root = document.querySelector('#app');
+				const user = localStorage.getItem('budget-planner-last-user');
+				if (!user) {
+					root.textContent = 'No offline snapshot is available on this browser.';
+					return;
+				}
+				const db = await new Promise((ok, no) => {
+					const r = indexedDB.open('budget-planner-offline', 1);
+					r.onsuccess = () => ok(r.result);
+					r.onerror = () => no(r.error);
+				}).catch(() => null);
+				if (!db) {
+					root.textContent = 'No offline snapshot is available on this browser.';
+					return;
+				}
+				const snap = await new Promise((ok) => {
+					const r = db.transaction('snapshots').objectStore('snapshots').get(user);
+					r.onsuccess = () => ok(r.result);
+					r.onerror = () => ok(null);
+				});
+				if (!snap || !snap.complete) {
+					root.textContent = 'No complete offline snapshot is available.';
+					return;
+				}
+				const path = decodeURIComponent(location.pathname);
+				const money = (n) =>
+					new Intl.NumberFormat(undefined, { style: 'currency', currency: 'DKK' }).format(n || 0);
+				const el = (tag, text, parent = root) => {
+					const n = document.createElement(tag);
+					n.textContent = text;
+					parent.append(n);
+					return n;
+				};
+				const title = el('h1', 'Your budget');
+				if (path === '/settings') {
+					el('h2', 'Saved settings');
+					el('p', `Monthly income: ${money(snap.settings.income)}`);
+					el('p', `Language: ${snap.settings.locale}`);
+					return;
+				}
+				if (path === '/balance' || path.startsWith('/balance/')) {
+					el('h2', 'Monthly budget');
+					let totalMonthly = 0;
+					for (const a of snap.accounts) {
+						const total = (a.expenses || [])
+							.filter((e) => e.isEnabled)
+							.reduce((n, e) => {
+								const dates = e.paymentDates || [];
+								const amount =
+									Number(e.amount) / (!dates.length || dates.length === 12 ? 1 : 12 / dates.length);
+								return n + amount / (e.isShared ? 2 : 1);
+							}, 0);
+						totalMonthly += total;
+						el('p', `${a.name}: ${money(total)}`);
+					}
+					el('p', `Total monthly expenses: ${money(totalMonthly)}`);
+					el('p', `Remaining income: ${money(Number(snap.settings.income) - totalMonthly)}`);
+					return;
+				}
+				if (path.startsWith('/tags/')) {
+					const tag = path.split('/')[2];
+					el('h2', `Tag: ${tag}`);
+					for (const e of snap.expenses.filter((e) => e.tag === tag))
+						el('p', `${e.name} · ${money(e.amount)}`);
+					return;
+				}
+				const accountMatch = path.match(/^\/accounts\/(\d+)(?:\/(\d+))?/);
+				if (accountMatch) {
+					const account = snap.accounts.find((a) => a.id === Number(accountMatch[1]));
+					if (!account) {
+						el('p', 'Account not found in snapshot.');
+						return;
+					}
+					el('h2', account.name);
+					if (accountMatch[2]) {
+						const expense = snap.expenses.find((e) => e.id === Number(accountMatch[2]));
+						if (expense) {
+							el('h3', expense.name);
+							el('p', money(expense.amount));
+							el('p', `Tag: ${expense.tag || 'None'}`);
+							el(
+								'p',
+								`Payment months: ${(expense.paymentDates || []).map((d) => d.month).join(', ') || 'Monthly'}`
+							);
+						}
+						return;
+					}
+					for (const e of account.expenses || []) {
+						const a = el('a', `${e.name} · ${money(e.amount)}`);
+						a.href = `/accounts/${account.id}/${e.id}`;
+						el('div', '', root).append(a);
+					}
+				} else {
+					el('h2', 'Accounts');
+					for (const a of snap.accounts) {
+						const link = el('a', a.name);
+						link.href = `/accounts/${a.id}`;
+						el('div', '', root).append(link);
+					}
+					el('h2', 'Search snapshot');
+					const input = document.createElement('input');
+					input.placeholder = 'Search accounts, expenses, tags';
+					root.append(input);
+					const results = el('div', '');
+					input.oninput = () => {
+						results.replaceChildren();
+						const q = input.value.toLocaleLowerCase();
+						for (const x of [...snap.accounts, ...snap.expenses])
+							if (x.name.toLocaleLowerCase().includes(q)) {
+								const a = el('a', x.name, results);
+								a.href = x.accountId ? `/accounts/${x.accountId}/${x.id}` : `/accounts/${x.id}`;
+								el('br', '', results);
+							}
+						for (const tag of new Set(snap.expenses.map((e) => e.tag).filter(Boolean))) {
+							if (tag.toLocaleLowerCase().includes(q)) {
+								const link = el('a', tag, results);
+								link.href = `/tags/${encodeURIComponent(tag)}`;
+								el('br', '', results);
+							}
+						}
+					};
+				}
+			})();
+		</script>
+	</body>
+</html>
