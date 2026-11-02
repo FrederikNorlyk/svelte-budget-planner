@@ -1,17 +1,24 @@
 <script lang="ts">
 	import NumberField from '$lib/components/NumberField.svelte';
 	import { enhance } from '$app/forms';
+	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import { _ } from 'svelte-i18n';
-	import { signOut } from '@auth/sveltekit/client';
 	import { toaster } from '$lib/util/toaster';
 
 	const { data } = $props();
 	let isSaving = $state(false);
 	const settings = $derived(data.settings);
 
-	function signOutButtonPressed(event: MouseEvent) {
-		event.preventDefault();
-		signOut();
+	async function signOutButtonPressed() {
+		const response = await fetch('/auth/signout', { method: 'POST' });
+
+		if (!response.ok) {
+			toaster.error({ title: 'Unable to sign out.' });
+			return;
+		}
+
+		await goto(resolve('/auth/signin'));
 	}
 </script>
 
@@ -49,6 +56,7 @@
 			<hr />
 
 			<button
+				type="button"
 				onclick={signOutButtonPressed}
 				disabled={isSaving}
 				class="btn-tertiary w-full sm:block sm:w-auto"

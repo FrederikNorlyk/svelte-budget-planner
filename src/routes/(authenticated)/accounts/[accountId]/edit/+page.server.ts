@@ -18,7 +18,8 @@ export async function load(event) {
 	}
 
 	return {
-		account: account
+		account: account,
+		userId: session.user.id
 	};
 }
 

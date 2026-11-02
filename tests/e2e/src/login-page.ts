@@ -11,8 +11,13 @@ export class LoginPage {
 		await this.page.goto('auth/signin');
 	}
 
-	getSignInWithADemoUserButton() {
-		return this.page.getByRole('button', { name: 'Sign in with a demo user' });
+	async signInAsDemoUser() {
+		const actionUrl = new URL('?/demo', this.page.url()).toString();
+		const response = await this.page.request.post(actionUrl, { form: {} });
+
+		if (!response.ok()) {
+			throw new Error(`Demo sign-in failed with status ${response.status()}`);
+		}
 	}
 
 	getSignInWithGitHubButton() {
