@@ -5,7 +5,7 @@ import { sveltekitCookies } from 'better-auth/svelte-kit';
 
 export const auth = betterAuth({
 	// Without a database adapter, Better Auth keeps its session in stateless cookies.
-	secret: env.BETTER_AUTH_SECRET ?? env.AUTH_SECRET!,
+	secret: env.BETTER_AUTH_SECRET,
 	baseURL: env.BETTER_AUTH_URL,
 	account: {
 		// The app only needs the GitHub ID, not long-lived provider tokens.
