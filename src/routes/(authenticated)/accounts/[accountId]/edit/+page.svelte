@@ -10,7 +10,6 @@
 	const { data, form } = $props();
 
 	const account = $derived(data.account);
-	const userId = $derived(data.userId);
 	let isSaving = $state(false);
 	let isShowingDeleteDialog = $state(false);
 
@@ -24,7 +23,6 @@
 	});
 </script>
 
-<p>User: {userId}</p>
 <form
 	class="space-y-4"
 	method="post"
