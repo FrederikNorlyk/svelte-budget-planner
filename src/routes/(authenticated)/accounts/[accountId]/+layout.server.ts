@@ -30,6 +30,8 @@ export const load = async (event) => {
 		title: account.name,
 		details: 'account.details',
 		backHref: '.',
-		editHref: resolve('/accounts/[accountId]/edit', { accountId: event.params.accountId })
+		editHref: resolve('/(authenticated)/accounts/[accountId]/edit', {
+			accountId: event.params.accountId
+		})
 	};
 };

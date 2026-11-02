@@ -18,7 +18,7 @@
 
 <a
 	class="group card-primary clickable p-10"
-	href={resolve('/balance/[accountId]', { accountId: String(account.id) })}
+	href={resolve('/(authenticated)/balance/[accountId]', { accountId: String(account.id) })}
 	aria-label="Open the balance overview of the account {account.name}"
 >
 	<div class="flex">

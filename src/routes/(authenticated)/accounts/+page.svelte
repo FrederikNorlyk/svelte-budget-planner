@@ -14,7 +14,7 @@
 	);
 	const remainder = $derived(settings.income - totalMonthlyAmount);
 
-	const newAccountUrl = resolve('/accounts/[accountId]/edit', { accountId: '0' });
+	const newAccountUrl = resolve('/(authenticated)/accounts/[accountId]/edit', { accountId: '0' });
 </script>
 
 {#if accounts.length === 0}

@@ -38,12 +38,12 @@ export const GET = async (request: RequestEvent) => {
 };
 
 function accountToSearchResult(account: Account): SearchResult {
-	const url = resolve('/accounts/[accountId]', { accountId: String(account.id) });
+	const url = resolve('/(authenticated)/accounts/[accountId]', { accountId: String(account.id) });
 	return { name: account.name, url: url, recordType: RecordType.ACCOUNT };
 }
 
 function expenseToSearchResult(expense: Expense): SearchResult {
-	const url = resolve('/accounts/[accountId]/[expenseId]', {
+	const url = resolve('/(authenticated)/accounts/[accountId]/[expenseId]', {
 		accountId: String(expense.accountId),
 		expenseId: String(expense.id)
 	});
@@ -56,6 +56,6 @@ function expenseToSearchResult(expense: Expense): SearchResult {
 }
 
 function tagToSearchResult(tag: string): SearchResult {
-	const url = resolve('/tags/[name]', { name: tag });
+	const url = resolve('/(authenticated)/tags/[name]', { name: tag });
 	return { name: tag, url: url, recordType: RecordType.TAG };
 }
