@@ -55,8 +55,6 @@ BETTER_AUTH_SECRET=
 
 ```
 
-Use a random secret of at least 32 characters for `BETTER_AUTH_SECRET`. `BETTER_AUTH_URL` is optional; Better Auth infers the origin from the incoming request when it is unset. Setting it to the app's public origin makes OAuth redirects explicit.
-
 #### Playwright
 
 `PLAYWRIGHT_BASE_URL` is optional. It defaults to `http://localhost:3000`; set it only when running the end-to-end tests against another host.

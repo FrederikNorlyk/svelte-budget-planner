@@ -4,9 +4,12 @@ import { betterAuth } from 'better-auth';
 import { sveltekitCookies } from 'better-auth/svelte-kit';
 
 export const auth = betterAuth({
-	// Without a database adapter, Better Auth keeps its session in stateless cookies.
 	secret: env.BETTER_AUTH_SECRET,
-	baseURL: env.BETTER_AUTH_URL,
+	baseURL: {
+		allowedHosts: [
+			'*.vercel.app' // https://better-auth.com/docs/guides/dynamic-base-url#vercel-deployment
+		]
+	},
 	account: {
 		// The app only needs the GitHub ID, not long-lived provider tokens.
 		storeAccountCookie: false
