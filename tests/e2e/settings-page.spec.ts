@@ -10,5 +10,6 @@ test('Sign out', async ({ page }) => {
 	const loginPage = await settingsPage.clickSignOutButton();
 	expect(loginPage).toBeDefined();
 	await expect(loginPage.getSignInWithGitHubButton()).toBeVisible();
-	await expect(page.getByRole('button')).toHaveCount(1);
+	await expect(loginPage.getSignInAsDemoUserButton()).toBeVisible();
+	await expect(page.getByRole('button')).toHaveCount(2);
 });

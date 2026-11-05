@@ -39,4 +39,10 @@
 	>
 		Sign in with GitHub
 	</button>
+
+	<form method="POST" action="?/demo">
+		<button type="submit" class="btn-secondary btn-lg h-20 w-full" disabled={isSigningIn}>
+			Sign in as a demo user
+		</button>
+	</form>
 </section>
