@@ -16,6 +16,9 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - name: Create dummy .env file
+        run: cp .env.example .env
+
       - uses: pnpm/action-setup@v6
         with:
           run_install: false

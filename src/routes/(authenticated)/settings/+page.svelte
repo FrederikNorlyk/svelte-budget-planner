@@ -2,17 +2,11 @@
 	import NumberField from '$lib/components/NumberField.svelte';
 	import { enhance } from '$app/forms';
 	import { _ } from 'svelte-i18n';
-	import { signOut } from '@auth/sveltekit/client';
 	import { toaster } from '$lib/util/toaster';
 
 	const { data } = $props();
 	let isSaving = $state(false);
 	const settings = $derived(data.settings);
-
-	function signOutButtonPressed(event: MouseEvent) {
-		event.preventDefault();
-		signOut();
-	}
 </script>
 
 <div class="card-primary p-10">
@@ -41,20 +35,16 @@
 			value={settings.income}
 		/>
 
-		<div class="space-y-12">
-			<button disabled={isSaving} class="btn-primary w-full sm:block sm:w-auto"
-				>{$_('button.save')}</button
-			>
+		<button disabled={isSaving} class="btn-primary w-full sm:block sm:w-auto"
+			>{$_('button.save')}</button
+		>
+	</form>
 
-			<hr />
+	<hr class="my-12" />
 
-			<button
-				onclick={signOutButtonPressed}
-				disabled={isSaving}
-				class="btn-tertiary w-full sm:block sm:w-auto"
-			>
-				{$_('signOut')}
-			</button>
-		</div>
+	<form method="POST" action="/auth/signout">
+		<button disabled={isSaving} class="btn-tertiary w-full sm:block sm:w-auto">
+			{$_('signOut')}
+		</button>
 	</form>
 </div>

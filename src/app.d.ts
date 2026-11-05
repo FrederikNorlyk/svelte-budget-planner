@@ -7,6 +7,9 @@ declare global {
 		// interface Locals {}
 		// interface PageData {}
 		// interface Platform {}
+		interface Locals {
+			auth: () => Promise<{ user: { id: string } } | null>;
+		}
 	}
 }
 

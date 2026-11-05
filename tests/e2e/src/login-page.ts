@@ -11,11 +11,15 @@ export class LoginPage {
 		await this.page.goto('auth/signin');
 	}
 
-	getSignInWithADemoUserButton() {
-		return this.page.getByRole('button', { name: 'Sign in with a demo user' });
+	async signInAsDemoUser() {
+		await this.getSignInAsDemoUserButton().click();
 	}
 
 	getSignInWithGitHubButton() {
 		return this.page.getByRole('button', { name: 'Sign in with GitHub' });
+	}
+
+	getSignInAsDemoUserButton() {
+		return this.page.getByRole('button', { name: 'Sign in as a demo user' });
 	}
 }

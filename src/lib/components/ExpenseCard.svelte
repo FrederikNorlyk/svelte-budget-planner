@@ -41,7 +41,7 @@
 		'card-primary clickable grid grid-cols-2 gap-2 p-5',
 		{ 'opacity-60': !expense.isEnabled }
 	]}
-	href={resolve('/accounts/[accountId]/[expenseId]', {
+	href={resolve('/(authenticated)/accounts/[accountId]/[expenseId]', {
 		accountId: String(expense.accountId),
 		expenseId: String(expense.id)
 	})}

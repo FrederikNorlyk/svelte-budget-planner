@@ -11,6 +11,6 @@ export class App {
 	static async signIn(page: Page) {
 		const loginPage = new LoginPage(page);
 		await loginPage.goto();
-		await loginPage.getSignInWithADemoUserButton().click();
+		await loginPage.signInAsDemoUser();
 	}
 }

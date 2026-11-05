@@ -13,7 +13,7 @@
 	const account = $derived(data.account!);
 
 	const newExpenseUrl = $derived(
-		resolve('/accounts/[accountId]/[expenseId]', {
+		resolve('/(authenticated)/accounts/[accountId]/[expenseId]', {
 			accountId: String(account.id),
 			expenseId: '0'
 		})

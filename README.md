@@ -7,7 +7,7 @@ Simple budget planning application, built using SvelteKit.
 ### Tech stack
 
 - SvelteKit
-- Auth.js (OAuth 2.0)
+- Better Auth (GitHub OAuth)
 - Drizzle (PostgreSQL)
 - Skeleton UI
 - TypeScript
@@ -23,7 +23,7 @@ dates, which it uses to calculate the required account balances to avoid overdra
 ### Try it out 🚀
 
 I'm hosting the app [here on Vercel](https://svelte-budget-planner.vercel.app/). You can sign in using your GitHub
-account or as a demo user.
+account.
 
 ### Installation
 
@@ -44,22 +44,25 @@ pnpm dlx vercel env pull
 
 The following environment variables are needed.
 
-#### Auth.js
+#### Better Auth
 
-The app is only set up to work with GitHub, so these variables are required.
+The app supports GitHub sign-in.
 
-```
+``
 AUTH_GITHUB_ID=
 AUTH_GITHUB_SECRET=
-AUTH_SECRET=
+BETTER_AUTH_SECRET=
+
 ```
 
 #### Playwright
 
-Playwright needs to know which site to navigate to when testing.
+`PLAYWRIGHT_BASE_URL` is optional. It defaults to `http://localhost:3000`; set it only when running the end-to-end tests against another host.
 
 ```
+
 PLAYWRIGHT_BASE_URL=https://svelte-budget-planner.vercel.app
+
 ```
 
 #### PostgreSQL
@@ -67,5 +70,9 @@ PLAYWRIGHT_BASE_URL=https://svelte-budget-planner.vercel.app
 The Neon PostgreSQL database connection requires:
 
 ```
+
 DATABASE_URL=
+
+```
+
 ```

@@ -14,7 +14,7 @@
 
 <a
 	class="card-primary clickable group p-10"
-	href={resolve('/accounts/[accountId]', { accountId: String(account.id) })}
+	href={resolve('/(authenticated)/accounts/[accountId]', { accountId: String(account.id) })}
 	aria-label="Open the account {account.name}"
 >
 	<div class="flex">
