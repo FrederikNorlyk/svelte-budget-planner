@@ -1,3 +1,4 @@
+import { dev } from '$app/environment';
 import { getRequestEvent } from '$app/server';
 import { env } from '$env/dynamic/private';
 import { betterAuth } from 'better-auth';
@@ -7,7 +8,8 @@ export const auth = betterAuth({
 	secret: env.BETTER_AUTH_SECRET,
 	baseURL: {
 		allowedHosts: [
-			'*.vercel.app' // https://better-auth.com/docs/guides/dynamic-base-url#vercel-deployment
+			'*.vercel.app', // https://better-auth.com/docs/guides/dynamic-base-url#vercel-deployment
+			...(dev ? ['localhost*'] : [])
 		]
 	},
 	account: {
