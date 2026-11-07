@@ -1,6 +1,6 @@
-import { PaymentDate } from '$lib/models/PaymentDate';
-import { DatabaseClient } from '$lib/server/clients/DatabaseClient';
-import { paymentDates } from '$lib/server/db/schema';
+import { PaymentDate } from '#lib/models/PaymentDate.ts';
+import { DatabaseClient } from '#lib/server/clients/DatabaseClient.ts';
+import { paymentDates } from '#lib/server/db/schema.ts';
 import { and, eq, type InferInsertModel } from 'drizzle-orm';
 
 /**

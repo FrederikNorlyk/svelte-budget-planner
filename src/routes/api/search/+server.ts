@@ -1,11 +1,11 @@
+import type { Account } from '#lib/models/Account.ts';
+import type { Expense } from '#lib/models/Expense.ts';
+import type SearchResult from '#lib/models/SearchResult.ts';
+import { RecordType } from '#lib/models/SearchResult.ts';
+import { AccountClient } from '#lib/server/clients/AccountClient.ts';
+import { ExpenseClient } from '#lib/server/clients/ExpenseClient.ts';
 import { resolve } from '$app/paths';
-import type { Account } from '$lib/models/Account';
-import type { Expense } from '$lib/models/Expense';
-import type SearchResult from '$lib/models/SearchResult';
-import { RecordType } from '$lib/models/SearchResult';
-import { AccountClient } from '$lib/server/clients/AccountClient';
-import { ExpenseClient } from '$lib/server/clients/ExpenseClient.js';
-import { json, redirect, type RequestEvent } from '@sveltejs/kit';
+import { redirect, type RequestEvent } from '@sveltejs/kit';
 
 export const GET = async (request: RequestEvent) => {
 	const session = await request.locals.auth();
@@ -34,7 +34,7 @@ export const GET = async (request: RequestEvent) => {
 	const results: SearchResult[] = [...accountResults, ...expenseResults, ...tagResults];
 	results.sort((r1, r2) => r1.name.localeCompare(r2.name));
 
-	return json(results);
+	return Response.json(results);
 };
 
 function accountToSearchResult(account: Account): SearchResult {

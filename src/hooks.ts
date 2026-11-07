@@ -1,15 +1,14 @@
-import { Account } from '$lib/models/Account';
-import { Expense } from '$lib/models/Expense';
-import { PaymentDate } from '$lib/models/PaymentDate';
-import { Settings } from '$lib/models/Settings';
-import type { Transport } from '@sveltejs/kit';
+import { Account } from '#lib/models/Account.ts';
+import { Expense } from '#lib/models/Expense.ts';
+import { PaymentDate } from '#lib/models/PaymentDate.ts';
+import { Settings } from '#lib/models/Settings.ts';
+import type { Transport } from '@sveltejs/kit/hooks';
 
 export const transport: Transport = {
 	Account: {
 		encode: (account) =>
 			account instanceof Account && [account.id, account.userIds, account.name, account.expenses],
-		decode: ([id, userIds, name, expenses]) =>
-			new Account({ id: id, userIds: userIds, name: name, expenses: expenses })
+		decode: ([id, userIds, name, expenses]) => new Account({ id, userIds, name, expenses })
 	},
 	Expense: {
 		encode: (expense) =>
@@ -24,17 +23,18 @@ export const transport: Transport = {
 				expense.userIds,
 				expense.paymentDates
 			],
+
 		decode: ([id, name, amount, tag, accountId, isEnabled, isShared, userIds, paymentDates]) =>
 			new Expense({
-				id: id,
-				name: name,
-				amount: amount,
-				tag: tag,
-				accountId: accountId,
-				isEnabled: isEnabled,
-				isShared: isShared,
-				userIds: userIds,
-				paymentDates: paymentDates
+				id,
+				name,
+				amount,
+				tag,
+				accountId,
+				isEnabled,
+				isShared,
+				userIds,
+				paymentDates
 			})
 	},
 	PaymentDate: {
@@ -46,12 +46,7 @@ export const transport: Transport = {
 				paymentDate.month
 			],
 		decode: ([id, userId, expenseId, month]) =>
-			new PaymentDate({
-				id: id,
-				userIds: userId,
-				expenseId: expenseId,
-				month: month
-			})
+			new PaymentDate({ id, userIds: userId, expenseId, month })
 	},
 	Settings: {
 		encode: (settings) =>
@@ -63,12 +58,6 @@ export const transport: Transport = {
 				settings.partnerId
 			],
 		decode: ([id, userId, locale, income, partnerId]) =>
-			new Settings({
-				id: id,
-				userId: userId,
-				locale: locale,
-				income: income,
-				partnerId: partnerId
-			})
+			new Settings({ id, userId, locale, income, partnerId })
 	}
 };

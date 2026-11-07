@@ -1,4 +1,4 @@
-import { accounts, expenses } from '$lib/server/db/schema';
+import { accounts, expenses } from '#lib/server/db/schema.ts';
 import { DatabaseClient } from './DatabaseClient';
 
 /**

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AccountBalanceCard from '$lib/components/AccountBalanceCard.svelte';
+	import AccountBalanceCard from '#lib/components/AccountBalanceCard.svelte';
 
 	const { data } = $props();
 	const accounts = $derived(data.accounts);

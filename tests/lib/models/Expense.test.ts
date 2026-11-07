@@ -1,6 +1,6 @@
-import { Month } from '$lib/enums/Month';
-import { Expense } from '$lib/models/Expense';
-import { PaymentDate } from '$lib/models/PaymentDate';
+import { Month } from '#lib/enums/Month.ts';
+import { Expense } from '#lib/models/Expense.ts';
+import { PaymentDate } from '#lib/models/PaymentDate.ts';
 import { describe, expect, test } from 'vitest';
 
 describe('Tests for the Expense model', () => {

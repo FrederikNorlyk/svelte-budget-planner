@@ -1,16 +1,16 @@
 <script lang="ts">
-	import TextField from '$lib/components/TextField.svelte';
-	import PaymentDatePicker from '$lib/components/PaymentDatePicker.svelte';
+	import TextField from '#lib/components/TextField.svelte';
+	import PaymentDatePicker from '#lib/components/PaymentDatePicker.svelte';
 	import { _ } from 'svelte-i18n';
-	import NumberField from '$lib/components/NumberField.svelte';
+	import NumberField from '#lib/components/NumberField.svelte';
 	import { enhance } from '$app/forms';
-	import SelectField from '$lib/components/SelectField.svelte';
-	import type { SelectOption } from '$lib/components/types/SelectOption.js';
-	import DeleteDialog from '$lib/components/DeleteDialog.svelte';
-	import Checkbox from '$lib/components/Checkbox.svelte';
-	import { toaster } from '$lib/util/toaster';
-	import Combobox from '$lib/components/Combobox.svelte';
-	import ButtonGroup from '$lib/components/ButtonGroup.svelte';
+	import SelectField from '#lib/components/SelectField.svelte';
+	import type { SelectOption } from '#lib/components/types/SelectOption.ts';
+	import DeleteDialog from '#lib/components/DeleteDialog.svelte';
+	import Checkbox from '#lib/components/Checkbox.svelte';
+	import { toaster } from '#lib/util/toaster.ts';
+	import Combobox from '#lib/components/Combobox.svelte';
+	import ButtonGroup from '#lib/components/ButtonGroup.svelte';
 
 	const { form, data } = $props();
 	const expense = $derived(data.expense);

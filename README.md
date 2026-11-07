@@ -48,11 +48,10 @@ The following environment variables are needed.
 
 The app supports GitHub sign-in.
 
-``
+```
 AUTH_GITHUB_ID=
 AUTH_GITHUB_SECRET=
 BETTER_AUTH_SECRET=
-
 ```
 
 #### Playwright
@@ -60,9 +59,7 @@ BETTER_AUTH_SECRET=
 `PLAYWRIGHT_BASE_URL` is optional. It defaults to `http://localhost:3000`; set it only when running the end-to-end tests against another host.
 
 ```
-
 PLAYWRIGHT_BASE_URL=https://svelte-budget-planner.vercel.app
-
 ```
 
 #### PostgreSQL
@@ -70,9 +67,5 @@ PLAYWRIGHT_BASE_URL=https://svelte-budget-planner.vercel.app
 The Neon PostgreSQL database connection requires:
 
 ```
-
 DATABASE_URL=
-
-```
-
 ```

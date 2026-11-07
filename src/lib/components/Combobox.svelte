@@ -5,7 +5,7 @@
 		type ComboboxRootProps,
 		useListCollection
 	} from '@skeletonlabs/skeleton-svelte';
-	import type { SelectOption } from '$lib/components/types/SelectOption';
+	import type { SelectOption } from '#lib/components/types/SelectOption.ts';
 
 	interface Props {
 		name: string;

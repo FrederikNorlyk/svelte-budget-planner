@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { PaymentDate } from '$lib/models/PaymentDate';
-	import MonthPicker from '$lib/components/MonthPicker.svelte';
+	import { PaymentDate } from '#lib/models/PaymentDate.ts';
+	import MonthPicker from '#lib/components/MonthPicker.svelte';
 	import { _ } from 'svelte-i18n';
-	import { Month } from '$lib/enums/Month';
+	import { Month } from '#lib/enums/Month.ts';
 	import MessageCircleMore from '@lucide/svelte/icons/message-circle-more';
 
 	interface Props {

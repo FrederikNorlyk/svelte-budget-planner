@@ -1,10 +1,10 @@
 <script lang="ts">
-	import SelectField from '$lib/components/SelectField.svelte';
-	import type { SelectOption } from '$lib/components/types/SelectOption';
+	import SelectField from '#lib/components/SelectField.svelte';
+	import type { SelectOption } from '#lib/components/types/SelectOption.ts';
 	import X from '@lucide/svelte/icons/x';
 	import { _ } from 'svelte-i18n';
-	import type { PaymentDate } from '$lib/models/PaymentDate';
-	import { DateUtil } from '$lib/util/DateUtil';
+	import type { PaymentDate } from '#lib/models/PaymentDate.ts';
+	import { DateUtil } from '#lib/util/DateUtil.ts';
 
 	interface Props {
 		paymentDate: PaymentDate;

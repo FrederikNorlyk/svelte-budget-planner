@@ -1,4 +1,4 @@
-import { ResetClient } from '$lib/server/clients/ResetClient';
+import { ResetClient } from '#lib/server/clients/ResetClient.ts';
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 

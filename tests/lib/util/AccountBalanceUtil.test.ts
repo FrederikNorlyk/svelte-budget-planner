@@ -1,8 +1,8 @@
-import { Month } from '$lib/enums/Month';
-import { Account } from '$lib/models/Account';
-import { Expense } from '$lib/models/Expense';
-import { PaymentDate } from '$lib/models/PaymentDate';
-import { AccountBalanceUtil } from '$lib/util/AccountBalanceUtil';
+import { Month } from '#lib/enums/Month.ts';
+import { Account } from '#lib/models/Account.ts';
+import { Expense } from '#lib/models/Expense.ts';
+import { PaymentDate } from '#lib/models/PaymentDate.ts';
+import { AccountBalanceUtil } from '#lib/util/AccountBalanceUtil.ts';
 import { beforeAll, describe, expect, test, vi } from 'vitest';
 
 const userIds: string[] = [];

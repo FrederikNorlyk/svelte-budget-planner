@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import DeleteDialog from '$lib/components/DeleteDialog.svelte';
-	import TextField from '$lib/components/TextField.svelte';
+	import DeleteDialog from '#lib/components/DeleteDialog.svelte';
+	import TextField from '#lib/components/TextField.svelte';
 	import { enhance } from '$app/forms';
-	import Checkbox from '$lib/components/Checkbox.svelte';
-	import { toaster } from '$lib/util/toaster';
-	import ButtonGroup from '$lib/components/ButtonGroup.svelte';
+	import Checkbox from '#lib/components/Checkbox.svelte';
+	import { toaster } from '#lib/util/toaster.ts';
+	import ButtonGroup from '#lib/components/ButtonGroup.svelte';
 
 	const { data, form } = $props();
 
