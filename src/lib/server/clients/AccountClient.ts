@@ -1,7 +1,7 @@
-import { Account } from '$lib/models/Account';
-import { QueryResult } from '$lib/models/QueryResult';
-import { DatabaseClient } from '$lib/server/clients/DatabaseClient';
-import { accounts, expenses } from '$lib/server/db/schema';
+import { Account } from '#lib/models/Account.ts';
+import { QueryResult } from '#lib/models/QueryResult.ts';
+import { DatabaseClient } from '#lib/server/clients/DatabaseClient.ts';
+import { accounts, expenses } from '#lib/server/db/schema.ts';
 import { NeonDbError } from '@neondatabase/serverless';
 import { and, eq, inArray, type InferInsertModel, like, sql } from 'drizzle-orm';
 

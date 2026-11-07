@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { Expense } from '$lib/models/Expense';
-	import { AmountUtil } from '$lib/util/AmountUtil';
-	import { AccountBalanceUtil } from '$lib/util/AccountBalanceUtil';
-	import { DateUtil } from '$lib/util/DateUtil';
+	import type { Expense } from '#lib/models/Expense.ts';
+	import { AmountUtil } from '#lib/util/AmountUtil.ts';
+	import { AccountBalanceUtil } from '#lib/util/AccountBalanceUtil.ts';
+	import { DateUtil } from '#lib/util/DateUtil.ts';
 	import { _ } from 'svelte-i18n';
 	import { resolve } from '$app/paths';
 

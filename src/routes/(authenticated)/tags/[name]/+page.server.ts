@@ -1,4 +1,4 @@
-import { ExpenseClient } from '$lib/server/clients/ExpenseClient';
+import { ExpenseClient } from '#lib/server/clients/ExpenseClient.ts';
 import { redirect } from '@sveltejs/kit';
 
 export async function load(event) {

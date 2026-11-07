@@ -1,4 +1,4 @@
-import type { settings } from '$lib/server/db/schema';
+import type { settings } from '#lib/server/db/schema.ts';
 import type { InferSelectModel } from 'drizzle-orm';
 
 /**

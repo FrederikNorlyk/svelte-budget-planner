@@ -1,5 +1,5 @@
-import { Month } from '$lib/enums/Month';
-import PaymentDateValidationUtil from '$lib/util/PaymentDateValidationUtil';
+import { Month } from '#lib/enums/Month.ts';
+import PaymentDateValidationUtil from '#lib/util/PaymentDateValidationUtil.ts';
 import { describe, expect, test } from 'vitest';
 
 describe('Tests for PaymentDateValidationUtil', () => {

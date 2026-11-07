@@ -1,4 +1,4 @@
-import type { expenses, paymentDates } from '$lib/server/db/schema';
+import type { expenses, paymentDates } from '#lib/server/db/schema.ts';
 import type { InferSelectModel } from 'drizzle-orm';
 import { PaymentDate } from './PaymentDate';
 

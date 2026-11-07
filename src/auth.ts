@@ -1,11 +1,13 @@
-import { dev } from '$app/environment';
+import { dev } from '$app/env';
 import { getRequestEvent } from '$app/server';
-import { env } from '$env/dynamic/private';
+
+import { AUTH_GITHUB_ID, AUTH_GITHUB_SECRET, BETTER_AUTH_SECRET } from '$app/env/private';
+
 import { betterAuth } from 'better-auth';
 import { sveltekitCookies } from 'better-auth/svelte-kit';
 
 export const auth = betterAuth({
-	secret: env.BETTER_AUTH_SECRET,
+	secret: BETTER_AUTH_SECRET,
 	baseURL: {
 		allowedHosts: [
 			'*.vercel.app', // https://better-auth.com/docs/guides/dynamic-base-url#vercel-deployment
@@ -28,8 +30,8 @@ export const auth = betterAuth({
 	},
 	socialProviders: {
 		github: {
-			clientId: env.AUTH_GITHUB_ID ?? env.GITHUB_CLIENT_ID!,
-			clientSecret: env.AUTH_GITHUB_SECRET ?? env.GITHUB_CLIENT_SECRET!,
+			clientId: AUTH_GITHUB_ID,
+			clientSecret: AUTH_GITHUB_SECRET,
 			mapProfileToUser(profile) {
 				return {
 					email: profile.email ?? `${profile.id}@github.placeholder.invalid`,

@@ -1,6 +1,6 @@
-import { Settings } from '$lib/models/Settings';
-import { DatabaseClient } from '$lib/server/clients/DatabaseClient';
-import { settings } from '$lib/server/db/schema';
+import { Settings } from '#lib/models/Settings.ts';
+import { DatabaseClient } from '#lib/server/clients/DatabaseClient.ts';
+import { settings } from '#lib/server/db/schema.ts';
 import { and, eq, type InferInsertModel, type InferSelectModel } from 'drizzle-orm';
 
 /**

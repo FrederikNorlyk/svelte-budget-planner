@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { authClient } from '$lib/auth-client';
+	import { authClient } from '#lib/auth-client.ts';
 	import Landmark from '@lucide/svelte/icons/landmark';
 
 	let isSigningIn = $state(false);

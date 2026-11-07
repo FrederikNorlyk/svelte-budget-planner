@@ -7,6 +7,8 @@
 	const scrollPositions = new SvelteMap<string, number>();
 
 	beforeNavigate((nav) => {
+		if (nav.shallow && nav.type === 'goto') return;
+
 		if (nav.from?.url.pathname) {
 			// Store the scroll position for the current page
 			scrollPositions.set(nav.from.url.pathname, window.scrollY);
@@ -14,6 +16,8 @@
 	});
 
 	afterNavigate((nav) => {
+		if (nav.shallow && nav.type === 'goto') return;
+
 		if (nav.to?.url.pathname) {
 			// Restore the scroll position for the page if it exists
 			const savedPosition = scrollPositions.get(nav.to.url.pathname);

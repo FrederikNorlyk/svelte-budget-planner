@@ -1,8 +1,8 @@
 <script lang="ts">
-	import NumberField from '$lib/components/NumberField.svelte';
+	import NumberField from '#lib/components/NumberField.svelte';
 	import { enhance } from '$app/forms';
 	import { _ } from 'svelte-i18n';
-	import { toaster } from '$lib/util/toaster';
+	import { toaster } from '#lib/util/toaster.ts';
 
 	const { data } = $props();
 	let isSaving = $state(false);

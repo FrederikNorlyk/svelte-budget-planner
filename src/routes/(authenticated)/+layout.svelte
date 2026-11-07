@@ -1,11 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import Header from '$lib/components/Header.svelte';
-	import SearchBar from '$lib/components/SearchBar.svelte';
+	import Header from '#lib/components/Header.svelte';
+	import SearchBar from '#lib/components/SearchBar.svelte';
 	import { Toast } from '@skeletonlabs/skeleton-svelte';
-	import Navigation from '$lib/components/Navigation.svelte';
-
-	import { toaster } from '$lib/util/toaster';
+	import Navigation from '#lib/components/Navigation.svelte';
+	import { toaster } from '#lib/util/toaster.ts';
 
 	const { children } = $props();
 </script>

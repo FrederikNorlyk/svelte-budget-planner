@@ -1,7 +1,7 @@
-import { Expense } from '$lib/models/Expense';
-import { QueryResult } from '$lib/models/QueryResult';
-import { DatabaseClient } from '$lib/server/clients/DatabaseClient';
-import { expenses } from '$lib/server/db/schema';
+import { Expense } from '#lib/models/Expense.ts';
+import { QueryResult } from '#lib/models/QueryResult.ts';
+import { DatabaseClient } from '#lib/server/clients/DatabaseClient.ts';
+import { expenses } from '#lib/server/db/schema.ts';
 import { and, eq, inArray, type InferInsertModel, isNotNull, like, ne, sql } from 'drizzle-orm';
 
 type SearchCriteria = { accountId?: number; ids?: number[]; isEnabled?: boolean; tag?: string };

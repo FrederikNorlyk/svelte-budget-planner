@@ -1,6 +1,6 @@
-import type { Month } from '$lib/enums/Month';
-import type { Account } from '$lib/models/Account';
-import type { Expense } from '$lib/models/Expense';
+import type { Month } from '#lib/enums/Month.ts';
+import type { Account } from '#lib/models/Account.ts';
+import type { Expense } from '#lib/models/Expense.ts';
 import { DateUtil } from './DateUtil';
 
 /**

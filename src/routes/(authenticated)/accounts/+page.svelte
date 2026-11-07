@@ -1,8 +1,8 @@
 <script lang="ts">
-	import NoEntries from '$lib/components/NoEntries.svelte';
-	import AddButton from '$lib/components/AddButton.svelte';
-	import AmountCard from '$lib/components/AmountCard.svelte';
-	import AccountCard from '$lib/components/AccountCard.svelte';
+	import NoEntries from '#lib/components/NoEntries.svelte';
+	import AddButton from '#lib/components/AddButton.svelte';
+	import AmountCard from '#lib/components/AmountCard.svelte';
+	import AccountCard from '#lib/components/AccountCard.svelte';
 	import { resolve } from '$app/paths';
 
 	const { data } = $props();

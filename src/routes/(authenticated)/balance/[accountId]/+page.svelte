@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { Month } from '$lib/enums/Month.js';
-	import { AmountUtil } from '$lib/util/AmountUtil';
-	import { AccountBalanceUtil } from '$lib/util/AccountBalanceUtil.js';
-	import { DateUtil } from '$lib/util/DateUtil.js';
+	import { Month } from '#lib/enums/Month.ts';
+	import { AmountUtil } from '#lib/util/AmountUtil.ts';
+	import { AccountBalanceUtil } from '#lib/util/AccountBalanceUtil.ts';
+	import { DateUtil } from '#lib/util/DateUtil.ts';
 	import { _ } from 'svelte-i18n';
 	import { SvelteDate } from 'svelte/reactivity';
 

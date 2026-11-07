@@ -1,13 +1,13 @@
 <script lang="ts">
-	import NoEntries from '$lib/components/NoEntries.svelte';
-	import AddButton from '$lib/components/AddButton.svelte';
-	import ExpenseCard from '$lib/components/ExpenseCard.svelte';
+	import NoEntries from '#lib/components/NoEntries.svelte';
+	import AddButton from '#lib/components/AddButton.svelte';
+	import ExpenseCard from '#lib/components/ExpenseCard.svelte';
 	import { resolve } from '$app/paths';
-	import AmountCard from '$lib/components/AmountCard.svelte';
+	import AmountCard from '#lib/components/AmountCard.svelte';
 	import { Collapsible } from '@skeletonlabs/skeleton-svelte';
 	import ArrowUpDownIcon from '@lucide/svelte/icons/arrow-up-down';
 	import { _ } from 'svelte-i18n';
-	import type { Expense } from '$lib/models/Expense';
+	import type { Expense } from '#lib/models/Expense.ts';
 
 	const { data } = $props();
 	const account = $derived(data.account!);

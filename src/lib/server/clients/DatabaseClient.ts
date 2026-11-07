@@ -1,5 +1,5 @@
-import { env } from '$env/dynamic/private';
-import * as schema from '$lib/server/db/schema';
+import * as schema from '#lib/server/db/schema.ts';
+import { DATABASE_URL } from '$app/env/private';
 import { neon } from '@neondatabase/serverless';
 import { sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/neon-http';
@@ -18,7 +18,7 @@ export abstract class DatabaseClient {
 	 * @param userId id of the current user
 	 */
 	constructor(userId: string) {
-		const client = neon(env.DATABASE_URL!);
+		const client = neon(DATABASE_URL);
 
 		this.database = drizzle(client, { schema });
 		this.userId = userId;

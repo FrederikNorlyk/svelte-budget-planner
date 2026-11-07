@@ -1,4 +1,4 @@
-import type { Month } from '$lib/enums/Month';
+import type { Month } from '#lib/enums/Month.ts';
 
 export default class PaymentDateValidationUtil {
 	public static validateCombination(months: Month[]): boolean {

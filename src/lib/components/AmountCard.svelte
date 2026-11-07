@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import { AmountUtil } from '$lib/util/AmountUtil';
+	import { AmountUtil } from '#lib/util/AmountUtil.ts';
 
 	interface Props {
 		text: string;

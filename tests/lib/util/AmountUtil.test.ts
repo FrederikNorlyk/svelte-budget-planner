@@ -1,4 +1,4 @@
-import { AmountUtil } from '$lib/util/AmountUtil';
+import { AmountUtil } from '#lib/util/AmountUtil.ts';
 import { describe, expect, test } from 'vitest';
 
 describe('Tests for AmountUtil', () => {

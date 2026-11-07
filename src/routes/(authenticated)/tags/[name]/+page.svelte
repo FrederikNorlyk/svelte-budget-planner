@@ -1,6 +1,6 @@
 <script lang="ts">
-	import ExpenseCard from '$lib/components/ExpenseCard.svelte';
-	import AmountCard from '$lib/components/AmountCard.svelte';
+	import ExpenseCard from '#lib/components/ExpenseCard.svelte';
+	import AmountCard from '#lib/components/AmountCard.svelte';
 
 	const { data } = $props();
 	const expenses = $derived(data.expenses);

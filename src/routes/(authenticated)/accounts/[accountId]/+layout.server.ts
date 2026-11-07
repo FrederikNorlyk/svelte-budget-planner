@@ -1,5 +1,5 @@
+import { AccountClient } from '#lib/server/clients/AccountClient.ts';
 import { resolve } from '$app/paths';
-import { AccountClient } from '$lib/server/clients/AccountClient.js';
 
 export const load = async (event) => {
 	const session = await event.locals.auth();

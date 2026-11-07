@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type SearchResult from '$lib/models/SearchResult';
+	import type SearchResult from '#lib/models/SearchResult.ts';
 	import SearchField from './SearchField.svelte';
 	import SearchResultList from './SearchResultList.svelte';
 	import { onMount, onDestroy } from 'svelte';

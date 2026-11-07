@@ -24,9 +24,23 @@
 	const currentAnchor = $derived(isRailLayout ? anchorRail : anchorSidebar);
 
 	const links = [
-		{ label: 'accounts.title', href: resolve('/accounts'), icon: Landmark },
-		{ label: 'currentAmount.title', href: resolve('/balance'), icon: Scale },
-		{ label: 'settings.title', href: resolve('/settings'), icon: Settings }
+		{
+			label: 'accounts.title',
+			href: resolve('accounts'),
+			icon: Landmark
+		},
+
+		{
+			label: 'currentAmount.title',
+			href: resolve('balance'),
+			icon: Scale
+		},
+
+		{
+			label: 'settings.title',
+			href: resolve('settings'),
+			icon: Settings
+		}
 	];
 
 	// Detect if the app is running as a progressive web app
