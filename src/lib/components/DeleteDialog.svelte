@@ -35,12 +35,12 @@
 						};
 					}}
 				>
-					<Dialog.CloseTrigger class="btn-neutral" type="button" disabled={isSubmitting}
-						>{$_('button.cancel')}</Dialog.CloseTrigger
-					>
-					<Dialog.CloseTrigger class="btn-error" type="submit" disabled={isSubmitting}
-						>{$_('button.delete')}</Dialog.CloseTrigger
-					>
+					<Dialog.CloseTrigger class="btn-neutral" type="button" disabled={isSubmitting}>
+						{$_('button.cancel')}
+					</Dialog.CloseTrigger>
+					<Dialog.CloseTrigger class="btn-error" type="submit" disabled={isSubmitting}>
+						{$_('button.delete')}
+					</Dialog.CloseTrigger>
 				</form>
 			</Dialog.Content>
 		</Dialog.Positioner>

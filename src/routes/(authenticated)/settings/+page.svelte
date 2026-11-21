@@ -35,9 +35,9 @@
 			value={settings.income}
 		/>
 
-		<button disabled={isSaving} class="btn-primary w-full sm:block sm:w-auto"
-			>{$_('button.save')}</button
-		>
+		<button disabled={isSaving} class="btn-primary w-full sm:block sm:w-auto">
+			{$_('button.save')}
+		</button>
 	</form>
 
 	<hr class="my-12" />
